@@ -2274,6 +2274,7 @@ td:first-child{color:var(--ink);font-weight:700}
       <button class="modal-close" onclick="closeEditClient()">×</button>
     </div>
     <div class="form-grid">
+      <div style="grid-column:1 / -1"><label>Client name</label><input class="fi" id="ecNameInput" type="text"></div>
       <div><label>Country</label><input class="fi" id="ecCountry" type="text"></div>
       <div><label>VAT No.</label><input class="fi" id="ecVat" type="text"></div>
       <div><label>Mobile</label><input class="fi" id="ecMobile" type="text"></div>
@@ -2797,6 +2798,7 @@ function openEditClient(idx) {
   if (!c) return;
   editClientIdx = idx;
   document.getElementById('ecName').textContent = c.name;
+  document.getElementById('ecNameInput').value = c.name;
   document.getElementById('ecCountry').value = c.country || '';
   document.getElementById('ecVat').value = c.vat || '';
   document.getElementById('ecMobile').value = c.mobile || '';
@@ -2815,6 +2817,24 @@ function closeEditClient() {
 function saveEditClient() {
   const c = clientsList[editClientIdx];
   if (!c) return;
+
+  const oldName = c.name;
+  const newName = document.getElementById('ecNameInput').value.trim();
+  if (!newName) {
+    showToast('The client name cannot be empty.', 'error');
+    return;
+  }
+  if (newName !== oldName) {
+    if (clientsList.some(x => x.name === newName)) {
+      showToast('A client named "' + newName + '" already exists.', 'error');
+      return;
+    }
+    c.name = newName;
+    // Orders are linked to the client by name, so they are renamed too
+    packingOrders.forEach(o => { if (o.client === oldName) o.client = newName; });
+    if (activeReportState.clientName === oldName) activeReportState.clientName = newName;
+  }
+
   c.country = document.getElementById('ecCountry').value.trim();
   c.vat = document.getElementById('ecVat').value.trim();
   c.mobile = document.getElementById('ecMobile').value.trim();
@@ -2826,7 +2846,7 @@ function saveEditClient() {
   renderAllTables();
   updateDashboard();
   persistData();
-  showToast('Client updated: ' + c.name, 'success');
+  showToast(newName !== oldName ? 'Client renamed to ' + newName : 'Client updated: ' + c.name, 'success');
 }
 
 // ═══ PERMISSIONS ═══
