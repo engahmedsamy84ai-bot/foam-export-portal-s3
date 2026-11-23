@@ -1,0 +1,3977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<title>Foam Industries — Global Export Portal (S3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --ink:#090d16;
+  --ink-2:#1e293b;
+  --ink-3:#475569;
+  --ink-4:#64748b;
+  --glass-bg:rgba(255,255,255,0.80);
+  --glass-card:rgba(255,255,255,0.88);
+  --glass-strong:rgba(255,255,255,0.95);
+  --glass-border:rgba(255,255,255,0.94);
+  --line:rgba(15,23,42,0.09);
+  --royal:#1d4ed8;
+  --royal-hover:#1e40af;
+  --cyan:#0284c7;
+  --coral:#e11d48;
+  --coral-hover:#be123c;
+  --emerald:#059669;
+  --emerald-bg:#d1fae5;
+  --amber:#d97706;
+  --amber-bg:#fef3c7;
+  --violet:#7c3aed;
+  --violet-bg:#ede9fe;
+  --navy:#0A2240;
+  --sidebar:244px;
+}
+
+html,body{
+  height:100%;
+  width:100%;
+  max-width:100vw;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:#e2e8f0;
+}
+
+/* Global Bright Shipping & Container Logistics Backdrop */
+.global-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.global-backdrop img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:brightness(1.07) saturate(1.08);
+}
+.global-backdrop::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(248,250,252,0.74) 0%, rgba(224,242,254,0.65) 50%, rgba(241,245,249,0.78) 100%);
+}
+
+/* Toast Notification */
+.toast-wrap{
+  position:fixed;
+  top:14px;
+  right:14px;
+  left:14px;
+  z-index:2500;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+  pointer-events:none;
+}
+.toast{
+  pointer-events:auto;
+  max-width:420px;
+  width:100%;
+  background:rgba(255,255,255,0.97);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(15,23,42,0.1);
+  border-left:4px solid var(--emerald);
+  color:var(--ink);
+  padding:11px 14px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:600;
+  box-shadow:0 14px 34px rgba(15,23,42,0.16);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  animation:slideIn .25s ease;
+}
+.toast.error{border-left-color:var(--coral)}
+.toast.info{border-left-color:var(--royal)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ 1. TRANSPARENT GLASSMORPHIC LOGIN FRONT PAGE ═══ */
+#loginPage{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 16px calc(16px + env(safe-area-inset-bottom));
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+.login-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+.login-backdrop img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:brightness(1.08) contrast(1.02) saturate(1.08);
+}
+.login-backdrop::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 42%, rgba(255,255,255,0.20) 0%, rgba(241,245,249,0.56) 100%);
+}
+
+/* Top Bar inside Login Screen for Internet Connection LED Pill */
+.login-top-status{
+  position:relative;
+  z-index:3;
+  width:100%;
+  max-width:1280px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.net-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.95);
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--ink);
+  box-shadow:0 8px 22px rgba(15,23,42,0.1);
+  transition:all .25s ease;
+}
+.net-led{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  flex-shrink:0;
+  transition:all .25s ease;
+}
+.net-pill.online .net-led{
+  background:#10b981;
+  box-shadow:0 0 0 3px rgba(16,185,129,0.25), 0 0 12px #10b981;
+  animation:ledPulseGreen 1.8s infinite;
+}
+.net-pill.offline .net-led{
+  background:#ef4444;
+  box-shadow:0 0 0 3px rgba(239,68,68,0.25), 0 0 12px #ef4444;
+  animation:ledPulseRed 1.2s infinite;
+}
+@keyframes ledPulseGreen{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.75}}
+@keyframes ledPulseRed{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.22);opacity:.65}}
+
+.login-center-wrap{
+  position:relative;
+  z-index:2;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto 0;
+}
+
+.login-box{
+  position:relative;
+  width:100%;
+  max-width:420px;
+  background:rgba(255,255,255,0.62);
+  backdrop-filter:blur(22px) saturate(165%);
+  -webkit-backdrop-filter:blur(22px) saturate(165%);
+  border:1.5px solid rgba(255,255,255,0.92);
+  border-radius:26px;
+  padding:28px 28px 24px;
+  box-shadow:0 28px 70px rgba(10,34,64,0.18), inset 0 1px 0 rgba(255,255,255,0.95);
+  text-align:center;
+}
+.login-accent-bar{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:110px;
+  height:4px;
+  border-radius:0 0 8px 8px;
+  background:linear-gradient(90deg, var(--navy), var(--coral), var(--cyan));
+}
+.lb-logo{
+  width:165px;
+  margin:0 auto 6px;
+  filter:drop-shadow(0 4px 12px rgba(255,255,255,0.75));
+}
+.lb-name{
+  font-size:21px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-0.02em;
+  margin-bottom:6px;
+}
+/* Exact Title Case: Global Export Portal */
+.lb-sub{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:5px 15px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.82);
+  border:1px solid rgba(10,34,64,0.12);
+  font-size:12px;
+  font-weight:700;
+  color:var(--royal);
+  letter-spacing:.01em;
+  text-transform:none;
+  margin-bottom:20px;
+}
+.lb-sub .dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--coral);
+}
+
+.ff{margin-bottom:13px;text-align:left}
+.ff label{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:.03em;
+  margin-bottom:5px;
+}
+.iw{position:relative}
+.iw .ico{
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:16px;
+  color:var(--ink-3);
+  pointer-events:none;
+}
+.fi{
+  width:100%;
+  background:rgba(255,255,255,0.86);
+  border:1.5px solid rgba(15,23,42,0.14);
+  border-radius:12px;
+  padding:11px 38px 11px 38px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  outline:none;
+  transition:all .18s ease;
+}
+.fi::placeholder{color:var(--ink-4)}
+.fi:focus{
+  background:#ffffff;
+  border-color:var(--royal);
+  box-shadow:0 0 0 4px rgba(29,78,216,0.14);
+}
+.eye-btn{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  cursor:pointer;
+  color:var(--ink-3);
+  font-size:16px;
+  padding:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.eye-btn:hover{color:var(--ink)}
+
+.forgot-link{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:16px;
+}
+.rem-lbl{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-2);
+  cursor:pointer;
+}
+.rem-lbl input{accent-color:var(--royal);width:15px;height:15px}
+.forgot-link a{
+  font-size:12px;
+  font-weight:700;
+  color:var(--coral);
+  cursor:pointer;
+  text-decoration:none;
+}
+.forgot-link a:hover{text-decoration:underline;color:var(--coral-hover)}
+
+.btn-primary{
+  width:100%;
+  min-height:46px;
+  background:linear-gradient(135deg, var(--royal) 0%, var(--cyan) 100%);
+  border:none;
+  border-radius:12px;
+  padding:12px 16px;
+  font-size:14.5px;
+  font-weight:700;
+  color:#ffffff;
+  cursor:pointer;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:transform .15s, box-shadow .15s;
+  box-shadow:0 10px 24px rgba(29,78,216,0.32);
+}
+.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 28px rgba(29,78,216,0.4);
+}
+.btn-primary i{font-size:17px}
+
+.err-msg{
+  display:none;
+  align-items:center;
+  gap:8px;
+  background:rgba(254,226,226,0.95);
+  border:1px solid #fca5a5;
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:12px;
+  font-weight:600;
+  color:#991b1b;
+  margin-bottom:14px;
+  text-align:left;
+}
+.err-msg i{font-size:15px;flex-shrink:0}
+
+.drive-pill{
+  margin-top:16px;
+  padding-top:13px;
+  border-top:1px solid rgba(15,23,42,0.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-2);
+}
+.drive-pill i{color:var(--emerald);font-size:15px}
+
+/* Bottom-Left Developer Signature (Non-overlapping on Mobile & Desktop) */
+.login-bottom-bar{
+  position:relative;
+  z-index:3;
+  width:100%;
+  max-width:1280px;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  margin-top:14px;
+}
+.dev-signature{
+  background:rgba(255,255,255,0.78);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.95);
+  padding:7px 14px;
+  border-radius:999px;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--ink);
+  box-shadow:0 8px 24px rgba(15,23,42,0.12);
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+.dev-signature i{color:var(--coral);font-size:14px}
+.dev-signature strong{font-weight:800;color:var(--navy)}
+
+/* ═══ 2. APP SHELL (TRANSLUCENT GLOBAL LOGISTICS THEME) ═══ */
+#appShell{
+  display:none;
+  position:relative;
+  z-index:1;
+  height:100vh;
+  height:100dvh;
+  width:100%;
+  max-width:100vw;
+  overflow:hidden;
+  flex-direction:column;
+}
+
+.topbar{
+  height:62px;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(15,23,42,0.08);
+  display:flex;
+  align-items:center;
+  padding:0 16px;
+  gap:10px;
+  flex-shrink:0;
+  box-shadow:0 4px 20px rgba(15,23,42,0.04);
+}
+.topbar-logo{
+  width:42px;
+  height:38px;
+  border-radius:10px;
+  background:#ffffff;
+  border:1px solid rgba(15,23,42,0.08);
+  padding:3px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.topbar-title{
+  font-size:14px;
+  font-weight:800;
+  color:var(--ink);
+  flex:1;
+  min-width:0;
+  line-height:1.2;
+}
+.topbar-title .co-name{
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.topbar-title span.sub-portal{
+  font-size:11px;
+  color:var(--royal);
+  font-weight:700;
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+
+.topbar-user{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+}
+.topbar-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--royal), var(--cyan));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12.5px;
+  font-weight:800;
+  color:#fff;
+  box-shadow:0 4px 10px rgba(29,78,216,0.25);
+  flex-shrink:0;
+}
+.btn-logout{
+  background:rgba(255,255,255,0.95);
+  border:1px solid rgba(15,23,42,0.12);
+  border-radius:9px;
+  padding:7px 11px;
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--ink-2);
+  cursor:pointer;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  transition:all .15s;
+}
+.btn-logout:hover{
+  color:var(--coral);
+  border-color:#fecdd3;
+  background:#fff1f2;
+}
+.btn-logout i{font-size:15px}
+
+.body-row{
+  display:flex;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  position:relative;
+}
+
+/* Mobile Sidebar Backdrop */
+.sidebar-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.45);
+  backdrop-filter:blur(3px);
+  z-index:45;
+}
+.sidebar-overlay.open{display:block}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{
+  width:var(--sidebar);
+  flex-shrink:0;
+  background:rgba(255,255,255,0.84);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-right:1px solid rgba(15,23,42,0.08);
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+}
+.nav{padding:14px 12px;flex:1}
+.nav-section-lbl{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--ink-4);
+  padding:0 12px 8px;
+}
+.nav-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 13px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-2);
+  cursor:pointer;
+  margin-bottom:5px;
+  transition:all .16s ease;
+}
+.nav-item-left{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+.nav-item:hover{
+  background:rgba(255,255,255,0.9);
+  color:var(--ink);
+}
+.nav-item.active{
+  background:linear-gradient(135deg, var(--royal) 0%, var(--cyan) 100%);
+  color:#ffffff;
+  font-weight:700;
+  box-shadow:0 8px 20px rgba(29,78,216,0.28);
+}
+.nav-item i{font-size:18px;flex-shrink:0}
+.nav-badge{
+  background:var(--coral);
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  padding:2px 7px;
+  border-radius:999px;
+}
+.nav-item.active .nav-badge{
+  background:#ffffff;
+  color:var(--royal);
+}
+
+.drive-box{
+  margin:10px 12px;
+  padding:12px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(15,23,42,0.08);
+  box-shadow:0 4px 12px rgba(15,23,42,0.04);
+}
+.drive-box-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.drive-box-head i{color:var(--emerald);font-size:15px}
+.drive-path{
+  font-size:10px;
+  font-weight:600;
+  color:var(--ink-4);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-bottom:9px;
+}
+.sync-status{margin:8px 0 10px;font-size:11.5px;font-weight:600;color:var(--ink-4);line-height:1.45}
+.sync-status[data-state="ok"]{color:var(--emerald)}
+.sync-status[data-state="saving"]{color:var(--royal)}
+.sync-status[data-state="error"],.sync-status[data-state="offline"]{color:var(--coral)}
+.btn-sync-now{
+  width:100%;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid rgba(5,150,105,0.25);
+  background:#ecfdf5;
+  color:#065f46;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  transition:all .15s;
+}
+.btn-sync-now:hover{background:#d1fae5}
+
+.nav-footer{
+  padding:12px 16px;
+  border-top:1px solid rgba(15,23,42,0.08);
+  font-size:10.5px;
+  font-weight:600;
+  color:var(--ink-3);
+}
+.nav-footer strong{color:var(--navy);font-weight:800}
+
+/* ═══ MAIN CONTENT ═══ */
+.content{
+  flex:1;
+  min-width:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  background:transparent;
+}
+.page{
+  display:none;
+  padding:20px 22px 40px;
+  max-width:1380px;
+  width:100%;
+  margin:0 auto;
+}
+.page.active{display:block}
+.page-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.page-title{
+  font-size:19px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-0.02em;
+}
+.page-sub{
+  font-size:12px;
+  font-weight:500;
+  color:var(--ink-3);
+  margin-top:2px;
+}
+.header-btn-group{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* ═══ GLASS CARDS & KPIS ═══ */
+.card{
+  background:var(--glass-card);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 30px rgba(15,23,42,0.06);
+  min-width:0;
+}
+
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:16px;
+}
+.kpi{
+  background:var(--glass-strong);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:15px 16px;
+  box-shadow:0 10px 26px rgba(15,23,42,0.06);
+  position:relative;
+  overflow:hidden;
+  min-width:0;
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.kpi:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px rgba(15,23,42,0.1);
+}
+.kpi-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-bottom:8px;
+}
+.kpi-label{
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--ink-3);
+}
+.kpi-ico{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  flex-shrink:0;
+}
+.kpi-ico.blue{background:#dbeafe;color:var(--royal)}
+.kpi-ico.cyan{background:#e0f2fe;color:var(--cyan)}
+.kpi-ico.coral{background:#ffe4e6;color:var(--coral)}
+.kpi-ico.emerald{background:#d1fae5;color:var(--emerald)}
+
+.kpi-val{
+  font-size:23px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-0.03em;
+  line-height:1.15;
+  word-break:break-word;
+}
+.kpi-val.blue{color:var(--royal)}
+.kpi-val.emerald{color:var(--emerald)}
+.kpi-val.coral{color:var(--coral)}
+.kpi-unit{
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-4);
+  margin-top:4px;
+}
+
+/* Charts Row */
+.charts-row{
+  display:grid;
+  grid-template-columns:1.6fr 1fr;
+  gap:14px;
+  margin-bottom:18px;
+}
+.c-title{
+  font-size:13px;
+  color:var(--ink);
+  margin-bottom:12px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* Interactive Vibrant Bar Chart */
+.bars{
+  display:flex;
+  align-items:flex-end;
+  gap:5px;
+  height:125px;
+  padding-top:14px;
+}
+.bw{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  cursor:pointer;
+}
+.bw:hover .bar{filter:brightness(1.12)}
+.bar{
+  width:100%;
+  max-width:22px;
+  border-radius:4px 4px 2px 2px;
+  transition:height .38s cubic-bezier(0.22, 1, 0.36, 1), opacity .25s ease;
+}
+.bar.foam{background:linear-gradient(180deg, var(--royal) 0%, #3b82f6 100%)}
+.bar.plas{background:linear-gradient(180deg, #06b6d4 0%, #38bdf8 100%);margin-top:2px}
+.bar-lbl{font-size:9.5px;font-weight:700;color:var(--ink-3);margin-top:3px}
+.bar-legend{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:12px}
+.bl-group{display:flex;gap:14px}
+.bl-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.bl-dot{width:10px;height:10px;border-radius:3px}
+
+/* Interactive Vibrant Donut */
+.donut-area{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  min-height:130px;
+}
+.donut-svg{width:98px;height:98px;flex-shrink:0}
+.donut-svg circle{transition:stroke-dasharray .45s ease, stroke-dashoffset .45s ease}
+.donut-legend{display:flex;flex-direction:column;gap:7px}
+.dl-item{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--ink-2)}
+.dl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ═══ TABLES ═══ */
+.sec-title{
+  font-size:13.5px;
+  font-weight:800;
+  color:var(--ink);
+  margin-bottom:10px;
+}
+.tbl-wrap{
+  background:var(--glass-strong);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(15,23,42,0.06);
+  width:100%;
+}
+.tbl-head{
+  padding:12px 16px;
+  background:rgba(248,250,252,0.88);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.tbl-head-title{font-size:12.5px;font-weight:800;color:var(--ink)}
+.tbl-scroll{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th{
+  font-size:10.5px;
+  color:var(--ink-3);
+  text-align:left;
+  padding:11px 14px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  background:rgba(241,245,249,0.78);
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+td{
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--ink-2);
+  padding:11px 14px;
+  border-top:1px solid var(--line);
+  white-space:nowrap;
+}
+tr:hover td{background:rgba(241,245,249,0.6)}
+td:first-child{color:var(--ink);font-weight:700}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 9px;
+  border-radius:999px;
+  font-size:10.5px;
+  font-weight:700;
+}
+.ba{background:var(--emerald-bg);color:#065f46}
+.bp{background:var(--amber-bg);color:#92400e}
+.bi{background:#dbeafe;color:#1e40af}
+
+.icon-btn{
+  background:#ffffff;
+  border:1px solid rgba(15,23,42,0.12);
+  border-radius:8px;
+  width:30px;
+  height:30px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  margin-right:4px;
+  transition:all .15s;
+}
+.icon-btn i{font-size:14px;color:var(--ink-2)}
+.icon-btn:hover{border-color:var(--royal);background:#eff6ff}
+.icon-btn:hover i{color:var(--royal)}
+.icon-btn.del:hover{border-color:#fecdd3;background:#fff1f2}
+.icon-btn.del:hover i{color:var(--coral)}
+
+/* Search + Filter + Buttons */
+.sf-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.search-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,0.94);
+  border:1px solid rgba(15,23,42,0.12);
+  border-radius:10px;
+  padding:9px 12px;
+  flex:1;
+  min-width:180px;
+}
+.search-box i{font-size:15px;color:var(--ink-4)}
+.search-box input{
+  background:transparent;
+  border:none;
+  outline:none;
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  width:100%;
+}
+.search-box input::placeholder{color:var(--ink-4)}
+
+.sel-wrap{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255,255,255,0.94);
+  border:1px solid rgba(15,23,42,0.12);
+  border-radius:10px;
+  padding:8px 11px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink);
+}
+.sel-wrap i{font-size:14px;color:var(--royal);flex-shrink:0}
+.sel-wrap select{
+  background:transparent;
+  border:none;
+  outline:none;
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  cursor:pointer;
+  width:100%;
+}
+
+.btn-blue{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  background:linear-gradient(135deg, var(--royal), var(--cyan));
+  border:none;
+  border-radius:10px;
+  padding:9px 14px;
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  cursor:pointer;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  white-space:nowrap;
+  box-shadow:0 6px 16px rgba(29,78,216,0.25);
+  transition:transform .15s;
+}
+.btn-blue:hover{transform:translateY(-1px)}
+.btn-blue i{font-size:15px}
+
+.btn-outline{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  background:rgba(255,255,255,0.94);
+  border:1px solid rgba(15,23,42,0.14);
+  border-radius:10px;
+  padding:9px 13px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  cursor:pointer;
+  font-family:'Plus Jakarta Sans','Inter',sans-serif;
+  white-space:nowrap;
+  transition:all .15s;
+}
+.btn-outline:hover{
+  color:var(--royal);
+  border-color:var(--royal);
+  background:#ffffff;
+}
+.btn-outline i{font-size:15px}
+
+/* Client Report Document Card */
+.report-doc{
+  background:#ffffff;
+  border:1px solid rgba(15,23,42,0.1);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+  box-shadow:0 6px 20px rgba(15,23,42,0.05);
+}
+.doc-top{
+  background:linear-gradient(135deg, var(--navy) 0%, var(--royal) 100%);
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.doc-company{font-size:14px;font-weight:800;color:#ffffff}
+.doc-sub{font-size:10.5px;color:#bae6fd;margin-top:2px;font-weight:600}
+.doc-period{
+  font-size:11px;
+  font-weight:700;
+  color:#ffffff;
+  background:rgba(255,255,255,0.16);
+  padding:4px 11px;
+  border-radius:999px;
+}
+.doc-ci{
+  padding:11px 16px;
+  background:#f8fafc;
+  border-bottom:1px solid #e2e8f0;
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.dci{font-size:10.5px;color:var(--ink-4);font-weight:600}
+.dci strong{display:block;font-size:12px;color:var(--ink);font-weight:800;margin-bottom:1px}
+.doc-tbl{width:100%;border-collapse:collapse;min-width:480px}
+.doc-tbl th{background:#0f172a;color:#ffffff;font-size:10px;font-weight:700;padding:8px 14px;text-align:left}
+.doc-tbl td{font-size:11.5px;color:var(--ink);padding:8px 14px;border-bottom:1px solid #e2e8f0;font-weight:600}
+.doc-tbl tr:nth-child(even) td{background:#f8fafc}
+.doc-order{color:var(--royal);font-weight:800}
+.doc-totals{
+  background:#f1f5f9;
+  border-top:2px solid var(--navy);
+  padding:10px 16px;
+  display:flex;
+  gap:20px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+.dt-item{text-align:right}
+.dt-lbl{font-size:10px;font-weight:700;color:var(--ink-3)}
+.dt-val{font-size:14px;font-weight:800;color:var(--ink)}
+.doc-foot{
+  background:var(--navy);
+  padding:8px 16px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+  font-size:10px;
+  font-weight:600;
+  color:#cbd5e1;
+}
+
+/* Dedicated Print / PDF Styling Strictly for the Active Client Report */
+@media print{
+  body:not(.printing-all-clients){
+    background:#ffffff !important;
+    color:#090d16 !important;
+    overflow:visible !important;
+  }
+  body:not(.printing-all-clients) .global-backdrop,
+  body:not(.printing-all-clients) .login-backdrop,
+  body:not(.printing-all-clients) #loginPage,
+  body:not(.printing-all-clients) .topbar,
+  body:not(.printing-all-clients) .sidebar,
+  body:not(.printing-all-clients) .mobile-bottom-nav,
+  body:not(.printing-all-clients) .toast-wrap,
+  body:not(.printing-all-clients) .modal,
+  body:not(.printing-all-clients) #page-clients > .page-header,
+  body:not(.printing-all-clients) #page-clients > .card > .c-title,
+  body:not(.printing-all-clients) #page-clients > .card > .sf-row,
+  body:not(.printing-all-clients) #page-clients > .card > .rep-actions-bar,
+  body:not(.printing-all-clients) #page-clients > .sec-title,
+  body:not(.printing-all-clients) #page-clients > .tbl-wrap,
+  body:not(.printing-all-clients) .page:not(#page-clients){
+    display:none !important;
+  }
+  body:not(.printing-all-clients) #appShell,
+  body:not(.printing-all-clients) .body-row,
+  body:not(.printing-all-clients) .content,
+  body:not(.printing-all-clients) #page-clients.active,
+  body:not(.printing-all-clients) #page-clients > .card{
+    display:block !important;
+    position:static !important;
+    height:auto !important;
+    overflow:visible !important;
+    background:#ffffff !important;
+    box-shadow:none !important;
+    border:none !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+  body:not(.printing-all-clients) .report-doc{
+    margin:0 !important;
+    border:1.5px solid #0A2240 !important;
+    border-radius:12px !important;
+    box-shadow:none !important;
+    page-break-inside:avoid;
+  }
+
+  /* Dedicated Print / PDF Styling for All Clients Master Report */
+  body.printing-all-clients{
+    background:#ffffff !important;
+    color:#090d16 !important;
+    overflow:visible !important;
+  }
+  body.printing-all-clients .global-backdrop,
+  body.printing-all-clients .login-backdrop,
+  body.printing-all-clients #loginPage,
+  body.printing-all-clients .topbar,
+  body.printing-all-clients .sidebar,
+  body.printing-all-clients .mobile-bottom-nav,
+  body.printing-all-clients .toast-wrap,
+  body.printing-all-clients .modal,
+  body.printing-all-clients .page:not(#page-clients){
+    display:none !important;
+  }
+  body.printing-all-clients #appShell,
+  body.printing-all-clients .body-row,
+  body.printing-all-clients .content,
+  body.printing-all-clients #page-clients.active{
+    display:block !important;
+    position:static !important;
+    height:auto !important;
+    overflow:visible !important;
+    background:#ffffff !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+  body.printing-all-clients #page-clients > *:not(#allClientsPrintDoc){
+    display:none !important;
+  }
+  body.printing-all-clients #allClientsPrintDoc{
+    display:block !important;
+    margin:0 !important;
+    border:1.5px solid #0A2240 !important;
+    border-radius:12px !important;
+    box-shadow:none !important;
+  }
+  .doc-top,.doc-tbl th,.doc-foot,.doc-totals{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+}
+#allClientsPrintDoc{display:none}
+
+/* Messages & Audit Feed */
+.msg-card{
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:10px;
+  box-shadow:0 6px 18px rgba(15,23,42,0.04);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.msg-left{display:flex;align-items:flex-start;gap:12px;flex:1;min-width:220px}
+.msg-ico{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+.msg-ico.login{background:#dbeafe;color:var(--royal)}
+.msg-ico.action{background:var(--emerald-bg);color:var(--emerald)}
+.msg-ico.logout{background:#ffe4e6;color:var(--coral)}
+.msg-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.msg-desc{font-size:12px;color:var(--ink-2);line-height:1.45;margin-bottom:6px;word-break:break-word}
+.msg-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:10.5px;font-weight:600;color:var(--ink-4)}
+
+/* Permissions Table */
+.perm-table{
+  width:100%;
+  border-collapse:collapse;
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  min-width:360px;
+}
+.perm-table th{
+  background:#f1f5f9;
+  font-size:10.5px;
+  color:var(--ink-2);
+  padding:9px 10px;
+  font-weight:800;
+  text-align:center;
+}
+.perm-table th:first-child{text-align:left}
+.perm-table td{
+  padding:10px 10px;
+  border-top:1px solid var(--line);
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink);
+  text-align:center;
+}
+.perm-table td:first-child{text-align:left;display:flex;align-items:center;gap:8px}
+.perm-table td:first-child i{font-size:16px;color:var(--royal)}
+.perm-table input[type=radio]{accent-color:var(--royal);width:15px;height:15px;cursor:pointer}
+
+/* Order file upload field */
+.order-file-field{grid-column:1 / -1;display:flex;flex-direction:column;gap:6px}
+.order-upload-btn{width:100%;justify-content:center}
+.order-file-name{font-size:12px;color:var(--ink-4);font-weight:600;word-break:break-all}
+
+/* Form Grid */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.form-grid .fi{padding:10px 12px;font-size:13px;background:#f8fafc}
+.form-grid label{
+  font-size:10.5px;
+  font-weight:700;
+  color:var(--ink-2);
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:5px;
+}
+
+/* User Role Badges */
+.b-admin{background:var(--violet-bg);color:#5b21b6}
+.b-edit{background:var(--amber-bg);color:#92400e}
+.b-write{background:var(--emerald-bg);color:#065f46}
+.b-read{background:#dbeafe;color:#1e40af}
+
+/* Permission Legend */
+.perm-legend{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.pl-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  padding:11px 14px;
+  flex:1;
+  min-width:160px;
+  box-shadow:0 6px 18px rgba(15,23,42,0.04);
+}
+.pl-icon{
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.pl-icon i{font-size:16px}
+.pl-icon.read{background:#dbeafe} .pl-icon.read i{color:var(--royal)}
+.pl-icon.write{background:var(--emerald-bg)} .pl-icon.write i{color:var(--emerald)}
+.pl-icon.edit{background:var(--amber-bg)} .pl-icon.edit i{color:var(--amber)}
+.pl-text strong{display:block;font-size:12px;font-weight:800;color:var(--ink);margin-bottom:2px}
+.pl-text span{font-size:10.5px;color:var(--ink-3);line-height:1.4;font-weight:500}
+
+/* Progress Bar & Badges */
+.prog{height:6px;background:#e2e8f0;border-radius:999px;width:72px;display:inline-block;vertical-align:middle;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg, var(--royal), var(--emerald));border-radius:999px}
+.ord-no{font-size:11.5px;color:var(--royal);font-weight:800}
+.size-b{background:#e0f2fe;color:#0369a1;padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:700}
+
+/* Modals */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.52);
+  backdrop-filter:blur(6px);
+  z-index:1500;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+}
+.modal.open{display:flex}
+.modal-box{
+  background:#ffffff;
+  border:1px solid rgba(15,23,42,0.1);
+  border-radius:18px;
+  padding:20px;
+  width:100%;
+  max-width:520px;
+  max-height:90dvh;
+  overflow-y:auto;
+  box-shadow:0 24px 60px rgba(15,23,42,0.24);
+}
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.modal-title{font-size:15px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px}
+.modal-title i{color:var(--royal);font-size:18px}
+.modal-close{background:none;border:none;cursor:pointer;font-size:24px;color:var(--ink-3);line-height:1;padding:2px 6px}
+.modal-close:hover{color:var(--coral)}
+
+/* Mobile Bottom Navigation Bar */
+.mobile-bottom-nav{
+  display:none;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-top:1px solid rgba(15,23,42,0.1);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+  justify-content:space-around;
+  align-items:center;
+  flex-shrink:0;
+  z-index:40;
+}
+.mb-item{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  padding:4px 2px;
+  border-radius:10px;
+  font-size:9.5px;
+  font-weight:700;
+  color:var(--ink-3);
+  cursor:pointer;
+  position:relative;
+}
+.mb-item i{font-size:18px}
+.mb-item.active{
+  color:var(--royal);
+  background:#eff6ff;
+}
+.mb-badge{
+  position:absolute;
+  top:2px;
+  right:18%;
+  background:var(--coral);
+  color:#fff;
+  font-size:8.5px;
+  font-weight:800;
+  padding:1px 5px;
+  border-radius:999px;
+}
+
+/* ═══ RESPONSIVE BREAKPOINTS (TABLET & MOBILE) ═══ */
+@media(max-width:900px){
+  .kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .charts-row{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .sidebar.open{
+    display:flex;
+    position:fixed;
+    inset:0 auto 0 0;
+    z-index:60;
+    width:255px;
+    box-shadow:14px 0 36px rgba(15,23,42,0.22);
+  }
+  .menu-btn{display:flex!important}
+  .mobile-bottom-nav{display:flex}
+}
+
+@media(max-width:600px){
+  /* Login Page Mobile Adjustments */
+  #loginPage{padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
+  .login-top-status{justify-content:center;margin-bottom:10px}
+  .login-box{
+    padding:24px 20px 20px;
+    border-radius:22px;
+  }
+  .lb-logo{width:140px}
+  .lb-name{font-size:19px}
+  .lb-sub{font-size:11.5px;margin-bottom:16px}
+  .login-bottom-bar{justify-content:center;margin-top:12px}
+  .dev-signature{font-size:11px;padding:6px 13px}
+
+  /* App Topbar Mobile Adjustments */
+  .topbar{height:58px;padding:0 12px;gap:8px}
+  .topbar-logo{width:36px;height:34px}
+  .topbar-title{font-size:13px}
+  .topbar-title span.sub-portal{font-size:10px}
+  .net-pill .net-text-detail{display:none}
+  .net-pill{padding:5px 9px;font-size:10.5px;gap:5px}
+  .topbar-user .user-name-txt{display:none}
+  .btn-logout .logout-txt{display:none}
+  .btn-logout{padding:7px 9px}
+
+  /* Page Content & Grids on Mobile */
+  .page{padding:14px 12px 24px}
+  .page-header{flex-direction:column;align-items:stretch;gap:10px}
+  .page-title{font-size:17px}
+  .header-btn-group{width:100%}
+  .header-btn-group > button,
+  .header-btn-group > .sel-wrap{flex:1}
+
+  .kpi-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .kpi{padding:12px 12px;border-radius:14px}
+  .kpi-label{font-size:10.5px}
+  .kpi-ico{width:28px;height:28px;font-size:14px}
+  .kpi-val{font-size:18px}
+  .kpi-unit{font-size:10px}
+
+  /* Charts on Mobile */
+  .card{padding:13px;border-radius:14px}
+  .bars{gap:3px;height:105px}
+  .bar-lbl{font-size:8.5px}
+  .donut-area{flex-direction:column;gap:12px;padding:6px 0}
+  .donut-legend{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:10px}
+
+  /* Filters & Modals on Mobile */
+  .sf-row{flex-direction:column;gap:8px}
+  .search-box,.sel-wrap,.sf-row .btn-blue{width:100%}
+  .form-grid{grid-template-columns:1fr}
+  .doc-ci{gap:12px}
+  .doc-totals{justify-content:space-between}
+  .dt-item{text-align:left}
+}
+
+@media(min-width:901px){.menu-btn{display:none!important}}
+.menu-btn{
+  display:none;
+  background:rgba(255,255,255,0.9);
+  border:1px solid rgba(15,23,42,0.1);
+  border-radius:9px;
+  cursor:pointer;
+  color:var(--ink);
+  font-size:20px;
+  width:36px;
+  height:36px;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<!-- Toast Container -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- Global Clean Bright Shipping Backdrop (No Text on Ship) -->
+<div class="global-backdrop">
+  <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=85"
+       onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=85';"
+       alt="Global Container Shipping Logistics">
+</div>
+
+<!-- ═══════════ 1. TRANSPARENT GLASSMORPHIC LOGIN FRONT PAGE ═══════════ -->
+<div id="loginPage">
+  <div class="login-backdrop">
+    <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=85"
+         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=85';"
+         alt="Container Ship & International Trade">
+  </div>
+
+  <!-- Live Internet Connection LED Status Pill -->
+  <div class="login-top-status">
+    <div class="net-pill online" id="loginNetPill" title="Live Internet Connectivity Status">
+      <span class="net-led"></span>
+      <span id="loginNetLabel">Online — Connected</span>
+    </div>
+  </div>
+
+  <div class="login-center-wrap">
+    <div class="login-box">
+      <div class="login-accent-bar"></div>
+
+      <!-- Centered Top Exact Brand Logo -->
+      <div class="lb-logo" id="loginLogoContainer"></div>
+
+      <div class="lb-name">Foam Industries Co.</div>
+      <div class="lb-sub"><span class="dot"></span>Global Export Portal</div>
+
+      <div class="err-msg" id="loginErr">
+        <i class="ti ti-alert-circle"></i>
+        <span>Incorrect username or password.</span>
+      </div>
+
+      <div class="ff">
+        <label for="loginUser">Username</label>
+        <div class="iw">
+          <i class="ico ti ti-user"></i>
+          <input class="fi" id="loginUser" type="text" placeholder="Enter your username" autocomplete="username">
+        </div>
+      </div>
+
+      <div class="ff">
+        <label for="loginPass">Password</label>
+        <div class="iw">
+          <i class="ico ti ti-lock"></i>
+          <input class="fi" id="loginPass" type="password" placeholder="Enter your password" autocomplete="current-password">
+          <button class="eye-btn" onclick="togglePass()" type="button" aria-label="Show or hide password">
+            <i class="ti ti-eye" id="eyeIco"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="forgot-link">
+        <label class="rem-lbl">
+          <input type="checkbox" checked>
+          <span>Remember me</span>
+        </label>
+        <a href="#" onclick="openForgotModal(event)">Forgot password?</a>
+      </div>
+
+      <button class="btn-primary" onclick="doLogin()" type="button">
+        <i class="ti ti-login"></i>
+        <span>Sign in</span>
+      </button>
+
+      <button class="btn-outline" id="bioLoginBtn" onclick="bioLogin()" type="button" style="display:none;width:100%;margin-top:10px;justify-content:center">
+        <i class="ti ti-face-id"></i>
+        <span>Sign in with Fingerprint / Face ID</span>
+      </button>
+
+      <div class="drive-pill">
+        <i class="ti ti-brand-google-drive"></i>
+        <span>Synced with Google Drive &amp; Email Audit</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom-Left Developer Credit -->
+  <div class="login-bottom-bar">
+    <div class="dev-signature">
+      <i class="ti ti-code"></i>
+      <span>Developed By : <strong>AhmeD SamY</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 2. MAIN APP SHELL ═══════════ -->
+<div id="appShell">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu"><i class="ti ti-menu-2"></i></button>
+    <div class="topbar-logo" id="topbarLogoContainer"></div>
+    <div class="topbar-title">
+      <span class="co-name">Foam Industries Co.</span>
+      <span class="sub-portal">Global Export Portal</span>
+    </div>
+
+    <div class="topbar-actions">
+      <!-- Live Internet LED in Topbar -->
+      <div class="net-pill online" id="appNetPill" style="padding:5px 10px;font-size:11px">
+        <span class="net-led" style="width:8px;height:8px"></span>
+        <span id="appNetLabel">Online</span>
+      </div>
+
+      <div class="topbar-user">
+        <div class="topbar-avatar" id="avatarInitial">A</div>
+        <span class="user-name-txt" id="topbarUser">admin</span>
+        <button class="btn-logout" onclick="doLogout()" title="Logout">
+          <i class="ti ti-logout"></i>
+          <span class="logout-txt">Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <!-- Mobile Drawer Backdrop -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- SIDEBAR (6 Pages) -->
+    <div class="sidebar" id="sidebar">
+      <nav class="nav">
+        <div class="nav-section-lbl">Export Operations</div>
+        <div class="nav-item active" data-page="dashboard" onclick="goPage('dashboard')">
+          <div class="nav-item-left"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></div>
+        </div>
+        <div class="nav-item" data-page="clients" onclick="goPage('clients')">
+          <div class="nav-item-left"><i class="ti ti-users"></i><span>Clients data</span></div>
+        </div>
+        <div class="nav-item" data-page="orders" onclick="goPage('orders')">
+          <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
+        </div>
+        <div class="nav-item" data-page="packing" onclick="goPage('packing')">
+          <div class="nav-item-left"><i class="ti ti-clipboard-list"></i><span>Packing list</span></div>
+        </div>
+        <div class="nav-item" data-page="messages" onclick="goPage('messages')">
+          <div class="nav-item-left"><i class="ti ti-mail-bolt"></i><span>Messages</span></div>
+          <span class="nav-badge" id="msgNavBadge">1</span>
+        </div>
+        <div class="nav-item" data-page="users" onclick="goPage('users')">
+          <div class="nav-item-left"><i class="ti ti-shield-lock"></i><span>User management</span></div>
+        </div>
+      </nav>
+
+      <div class="drive-box">
+        <div class="drive-box-head">
+          <span>Google Drive Backup</span>
+          <i class="ti ti-brand-google-drive"></i>
+        </div>
+        <div class="drive-path">/FOAM_INDUSTRIES/Exports_2026</div>
+        <div class="sync-status" id="syncStatus" data-state="offline">Not connected</div>
+        <button class="btn-sync-now" type="button" onclick="syncDriveNow()">
+          <i class="ti ti-refresh" id="syncSpinIco"></i>
+          <span>Sync to Drive Now</span>
+        </button>
+      </div>
+
+      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong><br><span style="font-size:10px;opacity:.7">Build S3 · 2026-11-22</span></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ── PAGE 1: DASHBOARD (Interactive Charts & Filters) ── -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Dashboard</div>
+            <div class="page-sub">Interactive analytics for clients, exported Foam &amp; Plastic quantities (KG), and shipments.</div>
+          </div>
+          <div class="header-btn-group">
+            <div class="sel-wrap">
+              <i class="ti ti-users"></i>
+              <select id="dashClientFilter" onchange="updateDashboard()">
+                <option value="ALL">All clients</option>
+              </select>
+            </div>
+            <div class="sel-wrap">
+              <i class="ti ti-calendar"></i>
+              <select id="dashYearFilter" onchange="updateDashboard()">
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+                <option value="ALL">All years</option>
+              </select>
+            </div>
+            <div class="sel-wrap">
+              <i class="ti ti-calendar-month"></i>
+              <select id="dashMonthFilter" onchange="updateDashboard()">
+                <option value="ALL">All months</option>
+                <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+                <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+                <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+                <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">Total clients</span>
+              <div class="kpi-ico blue"><i class="ti ti-users"></i></div>
+            </div>
+            <div class="kpi-val blue" id="kpiClients">0</div>
+            <div class="kpi-unit" id="kpiClientsUnit">active export accounts</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">Foam shipped</span>
+              <div class="kpi-ico cyan"><i class="ti ti-package"></i></div>
+            </div>
+            <div class="kpi-val" id="kpiFoam">0</div>
+            <div class="kpi-unit">KG exported</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">Plastic shipped</span>
+              <div class="kpi-ico coral"><i class="ti ti-box"></i></div>
+            </div>
+            <div class="kpi-val coral" id="kpiPlastic">0</div>
+            <div class="kpi-unit">KG exported</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">Orders</span>
+              <div class="kpi-ico emerald"><i class="ti ti-file-invoice"></i></div>
+            </div>
+            <div class="kpi-val emerald" id="kpiOrders">0</div>
+            <div class="kpi-unit" id="kpiOrdersUnit">shipments in 2026</div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="card">
+            <div class="c-title">
+              <span id="barChartTitle">Monthly shipments — 2026 (Foam vs Plastic KG)</span>
+              <span class="badge ba" id="barChartScope">All Clients</span>
+            </div>
+            <div class="bars" id="monthlyBarsContainer"></div>
+            <div class="bar-legend">
+              <div class="bl-group">
+                <div class="bl-item"><div class="bl-dot" style="background:var(--royal)"></div>Foam KG</div>
+                <div class="bl-item"><div class="bl-dot" style="background:#06b6d4"></div>Plastic KG</div>
+              </div>
+              <span style="font-size:10.5px;font-weight:700;color:var(--ink-4)" id="barHoverReadout">Tap any month for details</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="c-title">
+              <span>Clients by region</span>
+              <span class="badge bi" id="regionScopeBadge">Global</span>
+            </div>
+            <div class="donut-area">
+              <svg class="donut-svg" viewBox="0 0 72 72">
+                <circle cx="36" cy="36" r="24" fill="none" stroke="#e2e8f0" stroke-width="11"/>
+                <circle id="donutArc1" cx="36" cy="36" r="24" fill="none" stroke="#1d4ed8" stroke-width="11" stroke-dasharray="62 89" stroke-dashoffset="20" stroke-linecap="round"/>
+                <circle id="donutArc2" cx="36" cy="36" r="24" fill="none" stroke="#06b6d4" stroke-width="11" stroke-dasharray="36 89" stroke-dashoffset="-42" stroke-linecap="round"/>
+                <circle id="donutArc3" cx="36" cy="36" r="24" fill="none" stroke="#10b981" stroke-width="11" stroke-dasharray="22 89" stroke-dashoffset="-78" stroke-linecap="round"/>
+                <circle id="donutArc4" cx="36" cy="36" r="24" fill="none" stroke="#f59e0b" stroke-width="11" stroke-dasharray="14 89" stroke-dashoffset="-100" stroke-linecap="round"/>
+                <text id="donutCenterNum" x="36" y="35" text-anchor="middle" font-size="14" font-weight="800" fill="#090d16">24</text>
+                <text id="donutCenterLbl" x="36" y="46" text-anchor="middle" font-size="8" font-weight="700" fill="#64748b">clients</text>
+              </svg>
+              <div class="donut-legend" id="donutLegendContainer"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-title">Clients export breakdown (KG)</div>
+        <div class="tbl-wrap">
+          <div class="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Country</th>
+                  <th>Contact</th>
+                  <th>Export Qty (KG)</th>
+                  <th>Last order</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dashRecentClientsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAGE 2: CLIENTS DATA ── -->
+      <div class="page" id="page-clients">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Clients data</div>
+            <div class="page-sub">Manage international client accounts, first registration dates, order statements, and Excel/PDF exports.</div>
+          </div>
+          <div class="header-btn-group">
+            <button class="btn-outline" type="button" onclick="exportAllClientsExcel()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
+            <button class="btn-outline" type="button" onclick="exportAllClientsPDF()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
+            <button class="btn-blue" type="button" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
+          </div>
+        </div>
+
+        <!-- Master All-Clients Report Container (Shown During PDF Print) -->
+        <div class="report-doc" id="allClientsPrintDoc">
+          <div class="doc-top">
+            <div>
+              <div class="doc-company">Foam Industries Co.</div>
+              <div class="doc-sub">Global Export Portal — Master All Clients Directory &amp; Registration Report</div>
+            </div>
+            <div class="doc-period" id="allClientsReportDateBadge">All Registered Clients</div>
+          </div>
+          <div class="doc-ci">
+            <div class="dci"><strong id="allClientsCountStat">0</strong>Total Registered Clients</div>
+            <div class="dci"><strong>2026 Export Ledger</strong>Report Scope</div>
+            <div class="dci"><strong>All Regions</strong>Coverage</div>
+            <div class="dci"><strong>Official Registry</strong>Document Status</div>
+          </div>
+          <div class="tbl-scroll">
+            <table class="doc-tbl">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Country</th>
+                  <th>First Registered</th>
+                  <th>VAT No.</th>
+                  <th>Mobile</th>
+                  <th>Contact</th>
+                  <th>Export Qty (KG)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="allClientsPrintTbody"></tbody>
+            </table>
+          </div>
+          <div class="doc-totals">
+            <div class="dt-item"><div class="dt-lbl">Registered clients</div><div class="dt-val" style="color:var(--royal)" id="allClientsTotalCount">0</div></div>
+            <div class="dt-item"><div class="dt-lbl">Total 2026 volume (KG)</div><div class="dt-val" style="color:var(--emerald)" id="allClientsTotalKg">0</div></div>
+          </div>
+          <div class="doc-foot">
+            <span>Foam Industries Co. · Global Export Portal · Developed By : AhmeD SamY</span>
+            <span>Master Clients Directory · Page 1 of 1</span>
+          </div>
+        </div>
+
+        <!-- Client Report Section -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="c-title" style="margin-bottom:10px">
+            <span>Client report</span>
+            <span style="font-size:11px;font-weight:600;color:var(--ink-4)">Statement Generator</span>
+          </div>
+          <div class="sf-row">
+            <div class="search-box" style="flex:1.5">
+              <i class="ti ti-search"></i>
+              <input type="text" id="reportClientSearch" list="clientReportSuggestions" placeholder="Type or select client name (e.g. AlphaFoam GmbH)…" oninput="onReportClientInputChange()">
+              <datalist id="clientReportSuggestions"></datalist>
+            </div>
+            <div class="sel-wrap">
+              <i class="ti ti-calendar"></i>
+              <select id="reportYearSel" onchange="generateClientReport(false)">
+                <option value="All years">All years</option>
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+            <div class="sel-wrap">
+              <i class="ti ti-calendar-month"></i>
+              <select id="reportMonthSel" onchange="generateClientReport(false)">
+                <option selected>All months</option><option>January</option><option>February</option><option>March</option>
+                <option>April</option><option>May</option><option>June</option><option>July</option>
+                <option>August</option><option>September</option><option>October</option>
+                <option>November</option><option>December</option>
+              </select>
+            </div>
+            <button class="btn-blue" type="button" onclick="generateClientReport(true)"><i class="ti ti-report-search"></i>Generate</button>
+          </div>
+
+          <div class="report-doc" id="clientReportDoc">
+            <div class="doc-top">
+              <div>
+                <div class="doc-company">Foam Industries Co.</div>
+                <div class="doc-sub">Global Export Portal — Official Client Orders Statement</div>
+              </div>
+              <div class="doc-period" id="repPeriodBadge">All months 2026</div>
+            </div>
+            <div class="doc-ci">
+              <div class="dci"><strong id="repCustName">—</strong>Customer</div>
+              <div class="dci"><strong id="repCustCountry">Germany</strong>Country</div>
+              <div class="dci"><strong id="repCustVat">—</strong>VAT No.</div>
+              <div class="dci"><strong id="repCustContact">—</strong>Contact</div>
+            </div>
+            <div class="tbl-scroll">
+              <table class="doc-tbl">
+                <thead>
+                  <tr>
+                    <th>Order No.</th>
+                    <th>Request date</th>
+                    <th>Export date</th>
+                    <th>Size / Status</th>
+                    <th>Foam KG</th>
+                    <th>Plastic KG</th>
+                  </tr>
+                </thead>
+                <tbody id="repOrdersTbody"></tbody>
+              </table>
+            </div>
+            <div class="doc-totals">
+              <div class="dt-item"><div class="dt-lbl">Total foam KG</div><div class="dt-val" style="color:var(--royal)" id="repTotalFoam">0</div></div>
+              <div class="dt-item"><div class="dt-lbl">Total plastic KG</div><div class="dt-val" style="color:var(--cyan)" id="repTotalPlastic">0</div></div>
+              <div class="dt-item"><div class="dt-lbl">Total weight KG</div><div class="dt-val" style="color:var(--emerald)" id="repTotalCombined">0</div></div>
+              <div class="dt-item"><div class="dt-lbl">Orders</div><div class="dt-val" id="repOrdersCount">0</div></div>
+            </div>
+            <div class="doc-foot">
+              <span>Foam Industries Co. · Global Export Portal · Developed By : AhmeD SamY</span>
+              <span id="repFootPeriod">Period: All months 2026 · Page 1 of 1</span>
+            </div>
+          </div>
+
+          <div class="rep-actions-bar" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn-outline" type="button" style="font-size:11px" onclick="printClientReport()"><i class="ti ti-file-type-pdf"></i>Download PDF</button>
+            <button class="btn-outline" type="button" style="font-size:11px" onclick="exportSingleClientReportExcel()"><i class="ti ti-file-spreadsheet"></i>Download Excel</button>
+          </div>
+        </div>
+
+        <!-- All Clients Table -->
+        <div class="sec-title">All clients</div>
+        <div class="tbl-wrap">
+          <div class="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Country</th>
+                  <th>First registered</th>
+                  <th>VAT No.</th>
+                  <th>Mobile</th>
+                  <th>Contact</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="allClientsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAGE 3: ORDERS ── -->
+      <div class="page" id="page-orders">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Orders</div>
+            <div class="page-sub">Manage export purchase orders, production status, and dispatch approvals.</div>
+          </div>
+          <div class="header-btn-group">
+            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+          </div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Total orders</span><div class="kpi-ico blue"><i class="ti ti-file-invoice"></i></div></div>
+            <div class="kpi-val blue" id="ordTotalKpi">0</div>
+            <div class="kpi-unit">registered in 2026</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">In production</span><div class="kpi-ico cyan"><i class="ti ti-settings"></i></div></div>
+            <div class="kpi-val" id="ordProdKpi">0</div>
+            <div class="kpi-unit">active factory lines</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Ready to ship</span><div class="kpi-ico coral"><i class="ti ti-container"></i></div></div>
+            <div class="kpi-val coral" id="ordReadyKpi">0</div>
+            <div class="kpi-unit">awaiting vessel</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Shipped</span><div class="kpi-ico emerald"><i class="ti ti-circle-check"></i></div></div>
+            <div class="kpi-val emerald" id="ordShippedKpi">0</div>
+            <div class="kpi-unit">completed exports</div>
+          </div>
+        </div>
+
+        <div class="sf-row">
+          <div class="search-box">
+            <i class="ti ti-search"></i>
+            <input type="text" id="ordersSearchInput" oninput="renderOrdersTable()" placeholder="Search order no. or client…">
+          </div>
+          <div class="sel-wrap">
+            <i class="ti ti-filter"></i>
+            <select id="ordersStatusFilter" onchange="renderOrdersTable()">
+              <option value="ALL">All statuses</option>
+              <option value="In Production">In Production</option>
+              <option value="Ready to Ship">Ready to Ship</option>
+              <option value="Shipped">Shipped</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <div class="tbl-head">
+            <span class="tbl-head-title">Export Purchase Orders</span>
+            <span class="badge bi">Auto-Email Audit Enabled</span>
+          </div>
+          <div class="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order No.</th>
+                  <th>Client</th>
+                  <th>Destination</th>
+                  <th>Export date</th>
+                  <th>Total Weight (KG)</th>
+                  <th>Status</th>
+                  <th>Update Status</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAGE 4: PACKING LIST ── -->
+      <div class="page" id="page-packing">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Packing list</div>
+            <div class="page-sub">Track container dimensions, net Foam &amp; Plastic weights (KG), and shipment dispatch schedules.</div>
+          </div>
+          <div class="header-btn-group">
+            <button class="btn-outline" onclick="exportPackingCSV()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
+            <button class="btn-outline" onclick="printClientReport()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
+            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+          </div>
+        </div>
+
+        <div class="kpi-row" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Latest order</span><div class="kpi-ico blue"><i class="ti ti-file-invoice"></i></div></div>
+            <div class="kpi-val blue" style="font-size:19px" id="pkLatestOrd">—</div>
+            <div class="kpi-unit">latest entry</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Total foam KG</span><div class="kpi-ico cyan"><i class="ti ti-package"></i></div></div>
+            <div class="kpi-val" id="packFoamTotal">0</div>
+            <div class="kpi-unit">all orders (KG)</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Total plastic KG</span><div class="kpi-ico coral"><i class="ti ti-box"></i></div></div>
+            <div class="kpi-val coral" id="packPlasticTotal">0</div>
+            <div class="kpi-unit">all orders (KG)</div>
+          </div>
+        </div>
+
+        <div class="sf-row">
+          <div class="search-box">
+            <i class="ti ti-search"></i>
+            <input type="text" id="packingSearchInput" oninput="renderPackingTable()" placeholder="Search by order no., client, date…">
+          </div>
+          <div class="sel-wrap">
+            <i class="ti ti-users"></i>
+            <select id="packingClientFilter" onchange="renderPackingTable()">
+              <option value="ALL">All clients</option>
+            </select>
+          </div>
+          <div class="sel-wrap">
+            <i class="ti ti-calendar"></i>
+            <select><option>2026</option><option>2025</option></select>
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <div class="tbl-head">
+            <span class="tbl-head-title" id="packingTotalTitle">Orders — 0 total</span>
+            <div style="font-size:11px;font-weight:700;color:var(--royal);display:flex;align-items:center;gap:5px">
+              <i class="ti ti-bell" style="font-size:14px"></i>Email notifications on
+            </div>
+          </div>
+          <div class="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order No.</th>
+                  <th>Client</th>
+                  <th>Request date</th>
+                  <th>Export date</th>
+                  <th>Foam KG</th>
+                  <th>Plastic KG</th>
+                  <th>Size</th>
+                  <th>Progress</th>
+                </tr>
+              </thead>
+              <tbody id="packingTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAGE 5: MESSAGES (Email Notification & Activity Log Center) ── -->
+      <div class="page" id="page-messages">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Messages &amp; Email Alerts</div>
+            <div class="page-sub">Real-time user login &amp; activity notifications dispatched to <strong>eng.ahmed.samy84.ai@gmail.com</strong></div>
+          </div>
+          <div class="header-btn-group">
+            <button class="btn-outline" onclick="sendSummaryEmailNow()"><i class="ti ti-mail-forward"></i>Send Full Log via Email</button>
+            <button class="btn-blue" onclick="triggerTestEmailAlert()"><i class="ti ti-send"></i>Test Email Alert</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="kpi-ico emerald" style="width:40px;height:40px"><i class="ti ti-mail-check" style="font-size:20px"></i></div>
+            <div>
+              <div style="font-size:13px;font-weight:800;color:var(--ink)">Automated Email Security Monitor</div>
+              <div style="font-size:11.5px;color:var(--ink-3);font-weight:500">Recipient: <strong style="color:var(--royal)">eng.ahmed.samy84.ai@gmail.com</strong> · Logs user name, login time, and actions</div>
+            </div>
+          </div>
+          <span class="badge ba"><i class="ti ti-check"></i> Active Dispatch</span>
+        </div>
+
+        <div id="messagesFeedContainer"></div>
+      </div>
+
+      <!-- ── PAGE 6: USER MANAGEMENT ── -->
+      <div class="page" id="page-users">
+        <div class="page-header">
+          <div>
+            <div class="page-title">User management</div>
+            <div class="page-sub">Control team access roles and page-level permissions across the export portal.</div>
+          </div>
+          <button class="btn-blue" onclick="document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
+        </div>
+
+        <div class="perm-legend">
+          <div class="pl-item">
+            <div class="pl-icon read"><i class="ti ti-eye"></i></div>
+            <div class="pl-text"><strong>Read only</strong><span>View data, download reports, add orders in Packing List</span></div>
+          </div>
+          <div class="pl-item">
+            <div class="pl-icon write"><i class="ti ti-pencil"></i></div>
+            <div class="pl-text"><strong>Read + write</strong><span>View, download, add orders and add new clients</span></div>
+          </div>
+          <div class="pl-item">
+            <div class="pl-icon edit"><i class="ti ti-shield-check"></i></div>
+            <div class="pl-text"><strong>Full edit</strong><span>All above + edit and delete existing data</span></div>
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <div class="tbl-head"><span class="tbl-head-title" id="usersCountTitle">Current users — 3</span></div>
+          <div class="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Mobile</th>
+                  <th>Job title</th>
+                  <th>Dashboard</th>
+                  <th>Clients</th>
+                  <th>Packing list</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /body-row -->
+
+  <!-- MOBILE BOTTOM NAVIGATION BAR (All 6 Pages Accessible with One Thumb) -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <div class="mb-item active" data-page="dashboard" onclick="goPage('dashboard')">
+      <i class="ti ti-layout-dashboard"></i>
+      <span>Home</span>
+    </div>
+    <div class="mb-item" data-page="clients" onclick="goPage('clients')">
+      <i class="ti ti-users"></i>
+      <span>Clients</span>
+    </div>
+    <div class="mb-item" data-page="orders" onclick="goPage('orders')">
+      <i class="ti ti-truck-delivery"></i>
+      <span>Orders</span>
+    </div>
+    <div class="mb-item" data-page="packing" onclick="goPage('packing')">
+      <i class="ti ti-clipboard-list"></i>
+      <span>Packing</span>
+    </div>
+    <div class="mb-item" data-page="messages" onclick="goPage('messages')">
+      <i class="ti ti-mail-bolt"></i>
+      <span>Messages</span>
+      <span class="mb-badge" id="mbMsgBadge">1</span>
+    </div>
+    <div class="mb-item" data-page="users" onclick="goPage('users')">
+      <i class="ti ti-shield-lock"></i>
+      <span>Users</span>
+    </div>
+  </nav>
+
+</div><!-- /appShell -->
+
+<!-- ═══ MODAL: Forgot Password ═══ -->
+<div class="modal" id="forgotModal">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-key"></i>Reset Password</div>
+      <button class="modal-close" onclick="closeForgotModal()">×</button>
+    </div>
+
+    <div id="forgotStep1">
+      <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
+        Enter your username. A 6-digit code will be sent to your email, and the admin will be notified.
+      </p>
+      <div class="ff">
+        <label>Username</label>
+        <input class="fi" id="forgotInput" style="padding-left:12px" type="text" placeholder="your username">
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn-outline" onclick="closeForgotModal()">Cancel</button>
+        <button class="btn-blue" onclick="submitForgotPassword()"><i class="ti ti-send"></i>Send code</button>
+      </div>
+    </div>
+
+    <div id="forgotStep2" style="display:none">
+      <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
+        Enter the code from the email, then choose a new password (at least 8 characters).
+      </p>
+      <div class="ff">
+        <label>Code</label>
+        <input class="fi" id="forgotCode" style="padding-left:12px" type="text" inputmode="numeric" placeholder="6-digit code">
+      </div>
+      <div class="ff" style="margin-top:10px">
+        <label>New password</label>
+        <input class="fi" id="forgotNewPass" style="padding-left:12px" type="password">
+      </div>
+      <div class="ff" style="margin-top:10px">
+        <label>Confirm new password</label>
+        <input class="fi" id="forgotNewPass2" style="padding-left:12px" type="password">
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn-outline" onclick="closeForgotModal()">Cancel</button>
+        <button class="btn-blue" onclick="confirmForgotPassword()"><i class="ti ti-check"></i>Change password</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Add Client ═══ -->
+<div class="modal" id="addClientModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-user-plus"></i>Add new client</div>
+      <button class="modal-close" onclick="document.getElementById('addClientModal').classList.remove('open')">×</button>
+    </div>
+    <div class="form-grid">
+      <div><label>Customer name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
+      <div><label>Country *</label><input class="fi" id="ncCountry" type="text" placeholder="e.g. Germany"></div>
+      <div>
+        <label>Region</label>
+        <select class="fi" id="ncRegion" style="padding-left:10px">
+          <option value="Europe">Europe</option>
+          <option value="Middle East">Middle East</option>
+          <option value="Africa">Africa</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div><label>VAT No.</label><input class="fi" id="ncVat" type="text" placeholder="e.g. DE123456789"></div>
+      <div><label>Mobile</label><input class="fi" id="ncMobile" type="text" placeholder="e.g. +49 171 000"></div>
+      <div><label>Contact person</label><input class="fi" id="ncContact" type="text" placeholder="e.g. M. Schneider"></div>
+      <div><label>Address</label><input class="fi" id="ncAddress" type="text" placeholder="e.g. Hauptstraße 12, Hamburg"></div>
+      <div><label>Email</label><input class="fi" id="ncEmail" type="email" placeholder="e.g. info@client.com"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button class="btn-outline" onclick="document.getElementById('addClientModal').classList.remove('open')">Cancel</button>
+      <button class="btn-blue" onclick="saveNewClient()"><i class="ti ti-check"></i>Save client</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Add Order ═══ -->
+<div class="modal" id="addOrderModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-clipboard-plus"></i>New order</div>
+      <button class="modal-close" onclick="document.getElementById('addOrderModal').classList.remove('open')">×</button>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label>Client</label>
+        <select class="fi" id="noClient" style="padding-left:10px">
+        </select>
+      </div>
+      <div><label>Order No.</label><input class="fi" id="noNumber" type="text" value="" placeholder="e.g. ORD-2026-069" style="color:var(--royal);font-weight:700"></div>
+      <div><label>Request date</label><input class="fi" id="noReqDate" type="date"></div>
+      <div><label>Export date</label><input class="fi" id="noExpDate" type="date"></div>
+      <div class="order-file-field">
+        <label>Order</label>
+        <input type="file" id="noOrderFile" accept=".pdf,.png,.jpg,.jpeg" style="display:none" onchange="onOrderFileChosen(this)">
+        <button type="button" class="btn-outline order-upload-btn" onclick="document.getElementById('noOrderFile').click()"><i class="ti ti-upload"></i>Upload File</button>
+        <div class="order-file-name" id="noOrderFileName">No file selected</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button class="btn-outline" onclick="document.getElementById('addOrderModal').classList.remove('open')">Cancel</button>
+      <button class="btn-blue" onclick="saveNewOrder()"><i class="ti ti-check"></i>Save order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Add User ═══ -->
+<div class="modal" id="addUserModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-user-plus"></i>Add new user</div>
+      <button class="modal-close" onclick="document.getElementById('addUserModal').classList.remove('open')">×</button>
+    </div>
+    <div class="form-grid">
+      <div><label>Username *</label><input class="fi" id="nuUsername" type="text" placeholder="e.g. ahmed.samy"></div>
+      <div><label>Mobile</label><input class="fi" id="nuMobile" type="text" placeholder="e.g. +20 10 0000 0000"></div>
+      <div><label>Job title</label><input class="fi" id="nuTitle" type="text" placeholder="e.g. Export Specialist"></div>
+      <div><label>Email</label><input class="fi" id="nuEmail" type="text" placeholder="e.g. ahmed@foam.com"></div>
+      <div><label>Password</label><input class="fi" id="nuPass" type="password" placeholder="••••••••"></div>
+      <div><label>Confirm password</label><input class="fi" id="nuPass2" type="password" placeholder="••••••••"></div>
+    </div>
+    <div style="font-size:11px;color:var(--ink-2);margin-bottom:10px;font-weight:800">Page permissions</div>
+    <div class="tbl-scroll" style="margin-bottom:14px">
+      <table class="perm-table">
+        <thead><tr><th>Page</th><th>Read only</th><th>Read + write</th><th>Full edit</th></tr></thead>
+        <tbody>
+          <tr><td><i class="ti ti-layout-dashboard"></i>Dashboard</td><td><input type="radio" name="pd" value="Read" checked></td><td><input type="radio" name="pd" value="Write"></td><td><input type="radio" name="pd" value="Full edit"></td></tr>
+          <tr><td><i class="ti ti-users"></i>Clients data</td><td><input type="radio" name="pc" value="Read" checked></td><td><input type="radio" name="pc" value="Write"></td><td><input type="radio" name="pc" value="Full edit"></td></tr>
+          <tr><td><i class="ti ti-clipboard-list"></i>Packing list</td><td><input type="radio" name="pp" value="Read" checked></td><td><input type="radio" name="pp" value="Write"></td><td><input type="radio" name="pp" value="Full edit"></td></tr>
+          <tr><td><i class="ti ti-shield-lock"></i>User management</td><td><input type="radio" name="pu" value="Read"></td><td><input type="radio" name="pu" value="Write"></td><td><input type="radio" name="pu" value="Full edit" checked></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button class="btn-outline" onclick="document.getElementById('addUserModal').classList.remove('open')">Cancel</button>
+      <button class="btn-blue" onclick="saveNewUser()"><i class="ti ti-check"></i>Save user</button>
+    </div>
+  </div>
+</div>
+
+<script>
+console.log('Foam portal build S3 · 2026-11-22');
+const ADMIN_NOTIFY_EMAIL = 'eng.ahmed.samy84.ai@gmail.com';
+let currentLoggedUser = '';
+let currentLoginTimestamp = '';
+
+// Exact FOAM INDUSTRIES - صناعات الفوم Brand Logo Vector
+function getBrandLogoSVG() {
+  return `
+  <svg viewBox="0 0 360 310" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(115, 6)">
+      <circle cx="88" cy="54" r="15.5" fill="#58595B"/>
+      <path d="M 15 62 C 18 82, 42 88, 63 83 C 50 96, 22 96, 11 77 C 7 70, 9 64, 15 62 Z" fill="#0A2240"/>
+      <path d="M 94 4 C 94 26, 74 35, 48 42 C 25 48, 12 58, 18 72 C 4 64, 2 41, 17 26 C 34 9, 75 16, 94 4 Z" fill="#C8102E"/>
+      <path d="M 63 83 C 56 112, 49 148, 45 176 C 23 158, 13 132, 24 106 C 33 88, 49 85, 63 83 Z" fill="#C8102E"/>
+      <path d="M 69 85 C 91 74, 104 85, 101 108 C 98 136, 76 155, 52 172 C 57 146, 61 114, 69 85 Z" fill="#58595B"/>
+    </g>
+    <text x="180" y="226" text-anchor="middle" fill="#0A2240" font-family="Inter, Arial, sans-serif" font-weight="900" font-size="56" letter-spacing="3">FOAM</text>
+    <text x="180" y="252" text-anchor="middle" fill="#C8102E" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="16" letter-spacing="8">INDUSTRIES</text>
+    <text x="180" y="288" text-anchor="middle" fill="#58595B" font-family="Cairo, Tahoma, sans-serif" font-weight="700" font-size="25">صـنـاعـات الـفـوم</text>
+  </svg>`;
+}
+
+document.getElementById('loginLogoContainer').innerHTML = getBrandLogoSVG();
+document.getElementById('topbarLogoContainer').innerHTML = getBrandLogoSVG();
+
+// ═══ LIVE INTERNET CONNECTIVITY LED MONITOR ═══
+function updateInternetStatusLED() {
+  const isOnline = navigator.onLine;
+  const loginPill = document.getElementById('loginNetPill');
+  const loginLbl = document.getElementById('loginNetLabel');
+  const appPill = document.getElementById('appNetPill');
+  const appLbl = document.getElementById('appNetLabel');
+
+  if (isOnline) {
+    loginPill.className = 'net-pill online';
+    loginLbl.textContent = 'Online — Connected';
+    appPill.className = 'net-pill online';
+    appLbl.textContent = 'Online';
+  } else {
+    loginPill.className = 'net-pill offline';
+    loginLbl.textContent = 'Offline — No Internet';
+    appPill.className = 'net-pill offline';
+    appLbl.textContent = 'Offline';
+  }
+}
+window.addEventListener('online', () => {
+  updateInternetStatusLED();
+  showToast('Internet connection restored (Online).', 'success');
+});
+window.addEventListener('offline', () => {
+  updateInternetStatusLED();
+  showToast('Internet connection lost (Offline).', 'error');
+});
+updateInternetStatusLED();
+
+// Corporate Users
+// Users are now checked by the server (Apps Script). Passwords are no longer stored in this file.
+
+// Initial Application Datasets
+let clientsList = [];
+
+let packingOrders = [];
+
+let systemUsers = [
+  { username: 'admin', mobile: '+20 100 000 0000', title: 'System Admin', dash: 'Admin', clients: 'Admin', packing: 'Admin', isDefault: true },
+  { username: 'ahmed.samy', mobile: '+20 101 234 5678', title: 'Export Manager', dash: 'Full edit', clients: 'Full edit', packing: 'Full edit', isDefault: false },
+  { username: 'sara.hassan', mobile: '+20 102 345 6789', title: 'Export Specialist', dash: 'Read', clients: 'Write', packing: 'Write', isDefault: false }
+];
+
+// Interactive Monthly Datasets per Client & Year for Dashboard Charts
+let MONTHLY_DATA = {};
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function parseOrderDate(str) {
+  const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(String(str || '').trim());
+  if (!m) return null;
+  const month = MONTH_NAMES.indexOf(m[2]);
+  return month < 0 ? null : { year: m[3], month: month };
+}
+
+function regionIndex(region) {
+  return { 'Europe': 0, 'Middle East': 1, 'Africa': 2 }[region] ?? 3;
+}
+
+function buildMonthlyData() {
+  const data = {};
+  ['2025', '2026'].forEach(y => {
+    const allRegions = [0, 0, 0, 0];
+    clientsList.forEach(c => { allRegions[regionIndex(c.region)] += 1; });
+    data[y] = { ALL: { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: clientsList.length, orders: 0, regions: allRegions } };
+    clientsList.forEach(c => {
+      const r = [0, 0, 0, 0];
+      r[regionIndex(c.region)] = 1;
+      data[y][c.name] = { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: 1, orders: 0, regions: r };
+    });
+  });
+  packingOrders.forEach(o => {
+    const d = parseOrderDate(o.reqDate);
+    if (!d || !data[d.year]) return;
+    [data[d.year].ALL, data[d.year][o.client]].forEach(b => {
+      if (!b) return;
+      b.foam[d.month] += Number(o.foamKg) || 0;
+      b.plas[d.month] += Number(o.plasticKg) || 0;
+      b.orders += 1;
+    });
+  });
+  return data;
+}
+
+// Activity & Email Audit Log Store
+let emailAuditLogs = [
+  {
+    id: 1,
+    type: 'action',
+    user: 'System Monitor',
+    timestamp: '20 Nov 2026, 09:00 AM',
+    title: 'Portal Security & Email Monitor Initialized',
+    details: `Automated email alerts configured for recipient ${ADMIN_NOTIFY_EMAIL}. All logins and actions are tracked.`,
+    emailStatus: 'Delivered'
+  }
+];
+
+function dispatchEmailNotification(type, user, title, details) {
+  const now = new Date();
+  const timestamp = now.toLocaleString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+  });
+
+  const entry = {
+    id: Date.now(),
+    type,
+    user: user || currentLoggedUser || 'Guest',
+    timestamp,
+    title,
+    details,
+    emailStatus: navigator.onLine ? 'Sent to eng.ahmed.samy84.ai@gmail.com' : 'Queued (Offline)'
+  };
+  emailAuditLogs.unshift(entry);
+  persistData();
+
+  // Silent background dispatch attempt via FormSubmit AJAX endpoint when online
+  if (navigator.onLine) {
+    try {
+      fetch(`https://formsubmit.co/ajax/${ADMIN_NOTIFY_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: `[Foam Industries Portal] ${title} — User: ${entry.user}`,
+          Portal: 'Foam Industries Co. — Global Export Portal',
+          Username: entry.user,
+          Login_Time: currentLoginTimestamp || timestamp,
+          Action_Time: timestamp,
+          Activity: title,
+          Details: details,
+          Device: navigator.userAgent
+        })
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  renderMessagesFeed();
+}
+
+function renderMessagesFeed() {
+  const badge = document.getElementById('msgNavBadge');
+  const mbBadge = document.getElementById('mbMsgBadge');
+  if (badge) badge.textContent = emailAuditLogs.length;
+  if (mbBadge) mbBadge.textContent = emailAuditLogs.length;
+
+  const container = document.getElementById('messagesFeedContainer');
+  if (!container) return;
+
+  container.innerHTML = emailAuditLogs.map(item => {
+    const icoClass = item.type === 'login' ? 'login' : (item.type === 'logout' ? 'logout' : 'action');
+    const icoName = item.type === 'login' ? 'ti-login' : (item.type === 'logout' ? 'ti-logout' : 'ti-activity');
+    const mailSubject = encodeURIComponent(`[Foam Portal Alert] ${item.title} (${item.user})`);
+    const mailBody = encodeURIComponent(
+      `Foam Industries Co. — Global Export Portal\n` +
+      `User: ${item.user}\n` +
+      `Time: ${item.timestamp}\n` +
+      `Action: ${item.title}\n` +
+      `Details: ${item.details}\n`
+    );
+
+    return `
+      <div class="msg-card">
+        <div class="msg-left">
+          <div class="msg-ico ${icoClass}"><i class="ti ${icoName}"></i></div>
+          <div style="min-width:0;flex:1">
+            <div class="msg-title">${item.title}</div>
+            <div class="msg-desc">${item.details}</div>
+            <div class="msg-meta">
+              <span><i class="ti ti-user"></i> <strong>${item.user}</strong></span>
+              <span><i class="ti ti-clock"></i> ${item.timestamp}</span>
+              <span class="badge ba"><i class="ti ti-mail"></i> ${item.emailStatus}</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn-outline" style="font-size:11px;text-decoration:none" href="mailto:${ADMIN_NOTIFY_EMAIL}?subject=${mailSubject}&body=${mailBody}">
+          <i class="ti ti-external-link"></i>Open Email
+        </a>
+      </div>
+    `;
+  }).join('');
+}
+
+function triggerTestEmailAlert() {
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser || 'admin',
+    'Manual Test Email Alert Triggered',
+    `User "${currentLoggedUser || 'admin'}" verified email notification routing to ${ADMIN_NOTIFY_EMAIL}.`
+  );
+  showToast(`Notification dispatched to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+function sendSummaryEmailNow() {
+  const summaryLines = emailAuditLogs.slice(0, 10).map(l => `- [${l.timestamp}] (${l.user}): ${l.title} — ${l.details}`).join('\n');
+  const subject = encodeURIComponent(`Foam Industries Portal — Activity & Login Report (${currentLoggedUser})`);
+  const body = encodeURIComponent(`Activity & Login Report for eng.ahmed.samy84.ai@gmail.com:\n\n${summaryLines}`);
+  window.location.href = `mailto:${ADMIN_NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
+}
+
+// Toast Helper
+function showToast(msg, type = 'success') {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icon = type === 'error' ? 'ti-alert-circle' : (type === 'info' ? 'ti-info-circle' : 'ti-circle-check');
+  el.innerHTML = `<i class="ti ${icon}" style="font-size:17px;flex-shrink:0"></i><span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-8px)';
+    setTimeout(() => el.remove(), 250);
+  }, 3200);
+}
+
+// Login & Password Toggle
+function togglePass() {
+  const f = document.getElementById('loginPass');
+  const ic = document.getElementById('eyeIco');
+  f.type = f.type === 'password' ? 'text' : 'password';
+  ic.className = f.type === 'password' ? 'ti ti-eye' : 'ti ti-eye-off';
+}
+
+async function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  const err = document.getElementById('loginErr');
+
+  if (!u || !p) {
+    err.style.display = 'flex';
+    return;
+  }
+  let loginRes;
+  try {
+    loginRes = await api('login', { username: u, password: p }, false);
+  } catch (e) {
+    loginRes = { ok: false, error: e.message };
+  }
+  if (!loginRes.ok) {
+    if (!/Wrong/.test(loginRes.error)) showToast(loginRes.error, 'error');
+    err.style.display = 'flex';
+    return;
+  }
+  err.style.display = 'none';
+
+  // First login on this device: offer fingerprint / Face ID
+  if (!localStorage.getItem('foam_bio') && await bioSupported()) {
+    if (confirm('Enable fingerprint / Face ID sign-in on this device?\n\nNext time you can use your fingerprint or Face ID instead of typing the password.')) {
+      await enableBiometric(loginRes.me.username);
+    }
+  }
+  await enterPortal(loginRes);
+}
+
+async function enterPortal(loginRes) {
+  const u = loginRes.me.username;
+  sessionToken = loginRes.token;
+  sessionIsAdmin = loginRes.me.admin;
+  document.querySelectorAll('[data-page="users"]').forEach(el => {
+    el.style.display = sessionIsAdmin ? '' : 'none';
+  });
+  currentLoggedUser = u;
+  currentLoginTimestamp = new Date().toLocaleString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+  });
+
+  // Keep this session so fingerprint / Face ID sign-in can reopen it on this device
+  const bio = JSON.parse(localStorage.getItem('foam_bio') || 'null');
+  if (bio && bio.username === u) {
+    localStorage.setItem('foam_bio_session', JSON.stringify({ token: loginRes.token, me: loginRes.me }));
+  }
+
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appShell').style.display = 'flex';
+  document.getElementById('topbarUser').textContent = u;
+  document.getElementById('avatarInitial').textContent = u[0].toUpperCase();
+
+  await loadFromServer();
+
+  dispatchEmailNotification(
+    'login',
+    u,
+    `User Login: ${u}`,
+    `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
+  );
+  showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+// ═══ FINGERPRINT / FACE ID (device-bound quick sign-in) ═══
+function bytesToB64url(buf) {
+  let str = '';
+  new Uint8Array(buf).forEach(b => { str += String.fromCharCode(b); });
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function b64urlToBytes(text) {
+  let b64 = text.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4) b64 += '=';
+  return Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+}
+
+async function bioSupported() {
+  try {
+    return !!(window.PublicKeyCredential &&
+      await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable());
+  } catch (e) {
+    return false;
+  }
+}
+
+async function enableBiometric(username) {
+  try {
+    const cred = await navigator.credentials.create({
+      publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)),
+        rp: { name: 'Foam Industries Export Portal' },
+        user: {
+          id: crypto.getRandomValues(new Uint8Array(16)),
+          name: username,
+          displayName: username
+        },
+        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
+        timeout: 60000
+      }
+    });
+    localStorage.setItem('foam_bio', JSON.stringify({ username: username, credId: bytesToB64url(cred.rawId) }));
+    showToast('Fingerprint / Face ID sign-in is enabled on this device.', 'success');
+    return true;
+  } catch (e) {
+    showToast('Fingerprint setup was cancelled.', 'error');
+    return false;
+  }
+}
+
+async function bioLogin() {
+  const bio = JSON.parse(localStorage.getItem('foam_bio') || 'null');
+  const sess = JSON.parse(localStorage.getItem('foam_bio_session') || 'null');
+  if (!bio || !sess) {
+    showToast('Sign in with your password first.', 'error');
+    return;
+  }
+  try {
+    await navigator.credentials.get({
+      publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)),
+        allowCredentials: [{ type: 'public-key', id: b64urlToBytes(bio.credId) }],
+        userVerification: 'required',
+        timeout: 60000
+      }
+    });
+  } catch (e) {
+    showToast('Fingerprint / Face ID check was cancelled or failed.', 'error');
+    return;
+  }
+  await enterPortal({ ok: true, token: sess.token, me: sess.me });
+}
+
+async function refreshBioButton() {
+  const btn = document.getElementById('bioLoginBtn');
+  if (!btn) return;
+  const ready = localStorage.getItem('foam_bio') && localStorage.getItem('foam_bio_session');
+  btn.style.display = (ready && await bioSupported()) ? '' : 'none';
+}
+refreshBioButton();
+
+function doLogout() {
+  const departingUser = currentLoggedUser || 'admin';
+  dispatchEmailNotification(
+    'logout',
+    departingUser,
+    `User Logout: ${departingUser}`,
+    `User "${departingUser}" signed out of the portal. Session started at ${currentLoginTimestamp}.`
+  );
+  currentLoggedUser = '';
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+  refreshBioButton();
+}
+
+function openForgotModal(e) {
+  e.preventDefault();
+  showForgotStep(1);
+  document.getElementById('forgotModal').classList.add('open');
+}
+
+function closeForgotModal() {
+  document.getElementById('forgotModal').classList.remove('open');
+  document.getElementById('forgotInput').value = '';
+  document.getElementById('forgotCode').value = '';
+  document.getElementById('forgotNewPass').value = '';
+  document.getElementById('forgotNewPass2').value = '';
+  showForgotStep(1);
+}
+
+function showForgotStep(n) {
+  document.getElementById('forgotStep1').style.display = n === 1 ? '' : 'none';
+  document.getElementById('forgotStep2').style.display = n === 2 ? '' : 'none';
+}
+
+// Step 1: ask the server to email a code to the admin
+async function submitForgotPassword() {
+  const username = document.getElementById('forgotInput').value.trim();
+  if (!username) {
+    showToast('Please enter your username.', 'error');
+    return;
+  }
+  try {
+    await api('requestReset', { username: username }, false);
+  } catch (e) {
+    showToast(e.message, 'error');
+    return;
+  }
+  showToast('If the account exists, a code was sent to its email.', 'success');
+  showForgotStep(2);
+}
+
+// Step 2: check the code and set the new password
+async function confirmForgotPassword() {
+  const username = document.getElementById('forgotInput').value.trim();
+  const code = document.getElementById('forgotCode').value.trim();
+  const pw = document.getElementById('forgotNewPass').value;
+  const pw2 = document.getElementById('forgotNewPass2').value;
+  if (!code || pw.length < 8) {
+    showToast('Enter the code and a password of at least 8 characters.', 'error');
+    return;
+  }
+  if (pw !== pw2) {
+    showToast('The two passwords do not match.', 'error');
+    return;
+  }
+  try {
+    await api('resetPassword', { username: username, code: code, newPassword: pw }, false);
+  } catch (e) {
+    showToast(e.message, 'error');
+    return;
+  }
+  closeForgotModal();
+  showToast('Password changed. Please sign in with the new password.', 'success');
+}
+
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.getAttribute('data-page') === id);
+  });
+  document.querySelectorAll('.mb-item').forEach(m => {
+    m.classList.toggle('active', m.getAttribute('data-page') === id);
+  });
+
+  if (window.innerWidth <= 900) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+function syncDriveNow() {
+  const ico = document.getElementById('syncSpinIco');
+  ico.style.transition = 'transform 0.8s ease';
+  ico.style.transform = 'rotate(360deg)';
+  setTimeout(() => { ico.style.transform = 'rotate(0deg)'; }, 800);
+  if (!sessionToken) {
+    showToast('Please log in first.', 'error');
+    return;
+  }
+  queueSync(false, true);
+  showToast('Syncing with the server…', 'info');
+}
+
+// ═══ INTERACTIVE DASHBOARD CHARTS & FILTERS ═══
+function updateDashboard() {
+  MONTHLY_DATA = buildMonthlyData();
+  const client = document.getElementById('dashClientFilter').value;
+  const year = document.getElementById('dashYearFilter').value;
+  const monthIdx = document.getElementById('dashMonthFilter').value;
+
+  let dataset;
+  if (year === 'ALL') {
+    const d26 = MONTHLY_DATA['2026'][client] || MONTHLY_DATA['2026']['ALL'];
+    const d25 = MONTHLY_DATA['2025'][client] || MONTHLY_DATA['2025']['ALL'];
+    dataset = {
+      foam: d26.foam.map((v, i) => v + d25.foam[i]),
+      plas: d26.plas.map((v, i) => v + d25.plas[i]),
+      clients: d26.clients,
+      orders: d26.orders + d25.orders,
+      regions: d26.regions
+    };
+  } else {
+    dataset = MONTHLY_DATA[year][client] || MONTHLY_DATA[year]['ALL'];
+  }
+
+  // Calculate Totals (Full Year or Single Month)
+  let totalFoam = 0;
+  let totalPlas = 0;
+  let totalOrders = dataset.orders;
+  if (monthIdx === 'ALL') {
+    totalFoam = dataset.foam.reduce((a, b) => a + b, 0);
+    totalPlas = dataset.plas.reduce((a, b) => a + b, 0);
+  } else {
+    const m = parseInt(monthIdx, 10);
+    totalFoam = dataset.foam[m];
+    totalPlas = dataset.plas[m];
+    totalOrders = Math.max(1, Math.round(dataset.orders / 12));
+  }
+
+  const totalClients = client === 'ALL' ? clientsList.length : 1;
+
+  document.getElementById('kpiClients').textContent = totalClients;
+  document.getElementById('kpiClientsUnit').textContent = client === 'ALL' ? 'active export accounts' : client;
+  document.getElementById('kpiFoam').textContent = totalFoam.toLocaleString();
+  document.getElementById('kpiPlastic').textContent = totalPlas.toLocaleString();
+  document.getElementById('kpiOrders').textContent = totalOrders;
+  document.getElementById('kpiOrdersUnit').textContent = year === 'ALL' ? 'shipments (2025–2026)' : `shipments in ${year}`;
+
+  // Update Bar Chart Title & Bars
+  document.getElementById('barChartTitle').textContent = `Monthly shipments — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
+  document.getElementById('barChartScope').textContent = client === 'ALL' ? 'All Clients' : client;
+
+  const maxFoam = Math.max(...dataset.foam, 1);
+  const barsContainer = document.getElementById('monthlyBarsContainer');
+  barsContainer.innerHTML = dataset.foam.map((fVal, i) => {
+    const pVal = dataset.plas[i];
+    const fHeight = Math.max(10, Math.round((fVal / maxFoam) * 82));
+    const pHeight = Math.max(5, Math.round((pVal / maxFoam) * 82));
+    const isDimmed = (monthIdx !== 'ALL' && parseInt(monthIdx, 10) !== i) || (year === '2026' && i === 11 && monthIdx === 'ALL');
+    const opacityStyle = isDimmed ? 'opacity:0.35;' : 'opacity:1;';
+    return `
+      <div class="bw" onclick="inspectBarMonth(${i}, ${fVal}, ${pVal})" title="${MONTH_NAMES[i]}: Foam ${fVal.toLocaleString()} KG | Plastic ${pVal.toLocaleString()} KG">
+        <div class="bar foam" style="height:${fHeight}px;${opacityStyle}"></div>
+        <div class="bar plas" style="height:${pHeight}px;${opacityStyle}"></div>
+        <div class="bar-lbl">${MONTH_NAMES[i]}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Update Donut Chart & Regions Legend
+  const [eu, me, af, ot] = dataset.regions;
+  const regSum = Math.max(eu + me + af + ot, 1);
+  const circ = 150.8; // 2 * pi * 24
+  const l1 = (eu / regSum) * circ;
+  const l2 = (me / regSum) * circ;
+  const l3 = (af / regSum) * circ;
+  const l4 = (ot / regSum) * circ;
+
+  document.getElementById('donutArc1').setAttribute('stroke-dasharray', `${l1} ${circ}`);
+  document.getElementById('donutArc1').setAttribute('stroke-dashoffset', `0`);
+  document.getElementById('donutArc2').setAttribute('stroke-dasharray', `${l2} ${circ}`);
+  document.getElementById('donutArc2').setAttribute('stroke-dashoffset', `${-l1}`);
+  document.getElementById('donutArc3').setAttribute('stroke-dasharray', `${l3} ${circ}`);
+  document.getElementById('donutArc3').setAttribute('stroke-dashoffset', `${-(l1 + l2)}`);
+  document.getElementById('donutArc4').setAttribute('stroke-dasharray', `${l4} ${circ}`);
+  document.getElementById('donutArc4').setAttribute('stroke-dashoffset', `${-(l1 + l2 + l3)}`);
+
+  document.getElementById('donutCenterNum').textContent = totalClients;
+  document.getElementById('donutCenterLbl').textContent = totalClients === 1 ? 'client' : 'clients';
+  document.getElementById('regionScopeBadge').textContent = client === 'ALL' ? 'Global' : client;
+
+  document.getElementById('donutLegendContainer').innerHTML = `
+    <div class="dl-item"><div class="dl-dot" style="background:#1d4ed8"></div>Europe — ${eu}</div>
+    <div class="dl-item"><div class="dl-dot" style="background:#06b6d4"></div>Middle East — ${me}</div>
+    <div class="dl-item"><div class="dl-dot" style="background:#10b981"></div>Africa — ${af}</div>
+    <div class="dl-item"><div class="dl-dot" style="background:#f59e0b"></div>Other — ${ot}</div>
+  `;
+
+  // Filter Dashboard Clients Table
+  const filteredClients = client === 'ALL' ? clientsList : clientsList.filter(c => c.name === client);
+  document.getElementById('dashRecentClientsBody').innerHTML = filteredClients.map(c => {
+    const qty = year === '2025' ? c.qtyKg2025 : (year === 'ALL' ? (c.qtyKg2026 + c.qtyKg2025) : c.qtyKg2026);
+    return `
+      <tr>
+        <td>${c.name}</td>
+        <td>${c.country}</td>
+        <td>${c.contact}</td>
+        <td><strong style="color:var(--royal)">${qty.toLocaleString()} KG</strong></td>
+        <td>${c.lastOrder}</td>
+        <td><span class="badge ${c.status === 'Active' ? 'ba' : 'bp'}">${c.status}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function inspectBarMonth(idx, foamKg, plasKg) {
+  document.getElementById('barHoverReadout').textContent =
+    `${MONTH_NAMES[idx]}: Foam ${foamKg.toLocaleString()} KG · Plastic ${plasKg.toLocaleString()} KG`;
+}
+
+// Render All Tables
+function fillClientSelects() {
+  const names = clientsList.map(c => c.name);
+  const fill = (id, withAll) => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const prev = sel.value;
+    const head = withAll ? '<option value="ALL">All clients</option>' : '';
+    sel.innerHTML = head + names.map(n => `<option value="${n}">${n}</option>`).join('');
+    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+  };
+  fill('dashClientFilter', true);
+  fill('packingClientFilter', true);
+  fill('noClient', false);
+}
+
+function nextOrderNumber() {
+  const nums = packingOrders.map(o => parseInt(String(o.ordNo).replace(/\D/g, '').slice(-3), 10) || 0);
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return 'ORD-2026-' + String(next).padStart(3, '0');
+}
+
+function updatePackingTotals() {
+  const noInput = document.getElementById('noNumber');
+  if (noInput && !noInput.value) noInput.value = nextOrderNumber();
+  const foam = packingOrders.reduce((a, o) => a + (Number(o.foamKg) || 0), 0);
+  const plas = packingOrders.reduce((a, o) => a + (Number(o.plasticKg) || 0), 0);
+  const f = document.getElementById('packFoamTotal');
+  const pl = document.getElementById('packPlasticTotal');
+  if (f) f.textContent = foam.toLocaleString();
+  if (pl) pl.textContent = plas.toLocaleString();
+  const num = o => parseInt(String(o.ordNo).replace(/\D/g, ''), 10) || 0;
+  const latest = [...packingOrders].sort((a, b) => num(b) - num(a))[0];
+  const l = document.getElementById('pkLatestOrd');
+  if (l) l.textContent = latest ? latest.ordNo : '—';
+}
+
+function renderAllTables() {
+  fillClientSelects();
+  updatePackingTotals();
+  populateClientReportSuggestions();
+
+  // All Clients Table (Including First Registration Date)
+  const clientsBody = document.getElementById('allClientsTableBody');
+  if (clientsBody) {
+    clientsBody.innerHTML = clientsList.map((c, idx) => `
+      <tr>
+        <td>${c.name}</td>
+        <td>${c.country}</td>
+        <td><span class="size-b">${c.firstRegistered || '01 Jan 2024'}</span></td>
+        <td>${c.vat}</td>
+        <td>${c.mobile}</td>
+        <td>${c.contact}</td>
+        <td><span class="badge ${c.status === 'Active' ? 'ba' : 'bp'}">${c.status}</span></td>
+        <td>
+          <button class="icon-btn" type="button" onclick="selectClientForReport(${idx})" title="Generate Client Report">
+            <i class="ti ti-report-analytics"></i>
+          </button>
+          <button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client">
+            <i class="ti ti-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  renderOrdersTable();
+  renderPackingTable();
+  renderMessagesFeed();
+
+  // Users Table
+  const usersBody = document.getElementById('usersTableBody');
+  const usersTitle = document.getElementById('usersCountTitle');
+  if (usersTitle) usersTitle.textContent = `Current users — ${systemUsers.length}`;
+  if (usersBody) {
+    usersBody.innerHTML = systemUsers.map((u, idx) => {
+      const badgeCls = (role) => role === 'Admin' ? 'b-admin' : (role === 'Full edit' ? 'b-edit' : (role === 'Write' ? 'b-write' : 'b-read'));
+      return `
+        <tr>
+          <td>${u.username}</td>
+          <td>${u.mobile}</td>
+          <td>${u.title}</td>
+          <td><span class="badge ${badgeCls(u.dash)}">${u.dash}</span></td>
+          <td><span class="badge ${badgeCls(u.clients)}">${u.clients}</span></td>
+          <td><span class="badge ${badgeCls(u.packing)}">${u.packing}</span></td>
+          <td>
+            ${u.isDefault ? '<span style="font-size:11px;color:var(--ink-4);font-weight:700">System</span>' : `
+              <button class="icon-btn del" type="button" onclick="deleteUser(${idx})" title="Delete User">
+                <i class="ti ti-trash"></i>
+              </button>
+            `}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+}
+
+function renderOrdersTable() {
+  const tbody = document.getElementById('ordersTableBody');
+  if (!tbody) return;
+  const q = (document.getElementById('ordersSearchInput')?.value || '').trim().toLowerCase();
+  const st = document.getElementById('ordersStatusFilter')?.value || 'ALL';
+
+  const filtered = packingOrders.filter(o => {
+    const matchesStatus = st === 'ALL' || o.status === st;
+    const matchesQuery = !q ||
+      o.ordNo.toLowerCase().includes(q) ||
+      o.client.toLowerCase().includes(q) ||
+      o.dest.toLowerCase().includes(q);
+    return matchesStatus && matchesQuery;
+  });
+
+  const prodCount = packingOrders.filter(o => o.status === 'In Production').length;
+  const readyCount = packingOrders.filter(o => o.status === 'Ready to Ship').length;
+  const shippedCount = packingOrders.filter(o => o.status === 'Shipped').length;
+
+  const totalKpi = document.getElementById('ordTotalKpi');
+  const prodKpi = document.getElementById('ordProdKpi');
+  const readyKpi = document.getElementById('ordReadyKpi');
+  const shippedKpi = document.getElementById('ordShippedKpi');
+  if (totalKpi) totalKpi.textContent = String(packingOrders.length);
+  if (prodKpi) prodKpi.textContent = String(prodCount);
+  if (readyKpi) readyKpi.textContent = String(readyCount);
+  if (shippedKpi) shippedKpi.textContent = String(shippedCount);
+
+  tbody.innerHTML = filtered.map(o => {
+    const badgeClass = o.status === 'Shipped' ? 'ba' : (o.status === 'Ready to Ship' ? 'bi' : 'bp');
+    const totalWeight = (Number(o.foamKg) || 0) + (Number(o.plasticKg) || 0);
+    return `
+      <tr>
+        <td class="ord-no">${o.ordNo}</td>
+        <td>${o.client}</td>
+        <td>${o.dest}</td>
+        <td>${o.expDate}</td>
+        <td><strong>${totalWeight.toLocaleString()} KG</strong></td>
+        <td><span class="badge ${badgeClass}">${o.status}</span></td>
+        <td>
+          <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" onchange="updateOrderStatus('${o.ordNo}', this.value)">
+            <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
+            <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
+            <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+          </select>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function updateOrderStatus(ordNo, newStatus) {
+  const order = packingOrders.find(o => o.ordNo === ordNo);
+  if (!order) return;
+  order.status = newStatus;
+  if (newStatus === 'Shipped') order.progress = 100;
+  else if (newStatus === 'Ready to Ship') order.progress = 95;
+  persistData();
+  renderOrdersTable();
+  renderPackingTable();
+  generateClientReport(false);
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Updated Order Status: ${ordNo}`,
+    `User "${currentLoggedUser}" changed order ${ordNo} (${order.client}) status to "${newStatus}".`
+  );
+  showToast(`Order ${ordNo} marked as ${newStatus}`);
+}
+
+function renderPackingTable() {
+  const tbody = document.getElementById('packingTableBody');
+  if (!tbody) return;
+  const q = (document.getElementById('packingSearchInput')?.value || '').trim().toLowerCase();
+  const clientFilter = document.getElementById('packingClientFilter')?.value || 'ALL';
+
+  const filtered = packingOrders.filter(o => {
+    const matchesClient = clientFilter === 'ALL' || o.client === clientFilter;
+    const matchesQuery = !q ||
+      o.ordNo.toLowerCase().includes(q) ||
+      o.client.toLowerCase().includes(q) ||
+      o.reqDate.toLowerCase().includes(q) ||
+      o.expDate.toLowerCase().includes(q);
+    return matchesClient && matchesQuery;
+  });
+
+  tbody.innerHTML = filtered.map(o => `
+    <tr>
+      <td class="ord-no">${o.ordNo}</td>
+      <td>${o.client}</td>
+      <td>${o.reqDate}</td>
+      <td>${o.expDate}</td>
+      <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
+      <td><span class="size-b">${o.size}</span></td>
+      <td>
+        <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
+        <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Client Report Generator (Displays ALL Orders, Dates & Quantities for Requested Client)
+let activeReportState = {
+  clientName: '',
+  country: '',
+  vat: '',
+  contact: '',
+  year: '2026',
+  month: 'All months',
+  orders: []
+};
+
+function populateClientReportSuggestions() {
+  const dl = document.getElementById('clientReportSuggestions');
+  if (!dl) return;
+  dl.innerHTML = clientsList.map(c => `<option value="${c.name}">${c.country} — ${c.contact}</option>`).join('');
+}
+
+function onReportClientInputChange() {
+  const val = document.getElementById('reportClientSearch').value.trim().toLowerCase();
+  if (!val) return;
+  const matched = clientsList.find(c => c.name.toLowerCase() === val);
+  if (matched) {
+    generateClientReport(false);
+  }
+}
+
+function resolveClientForReport(query) {
+  if (!query) {
+    return clientsList.find(c => c.name === activeReportState.clientName) || clientsList[0] || { name: '—', country: '', vat: '', contact: '' };
+  }
+  const q = query.toLowerCase();
+  return (
+    clientsList.find(c => c.name.toLowerCase() === q) ||
+    clientsList.find(c => c.name.toLowerCase().includes(q)) ||
+    clientsList.find(c => c.country.toLowerCase().includes(q) || c.vat.toLowerCase().includes(q) || c.contact.toLowerCase().includes(q)) ||
+    {
+      name: query,
+      country: 'International',
+      vat: 'Pending VAT',
+      contact: 'Export Desk',
+      status: 'Active'
+    }
+  );
+}
+
+function generateClientReport(logActivity = true) {
+  const rawQuery = document.getElementById('reportClientSearch').value.trim();
+  const yr = document.getElementById('reportYearSel').value;
+  const mo = document.getElementById('reportMonthSel').value;
+
+  const clientObj = resolveClientForReport(rawQuery);
+  const targetClientName = clientObj.name;
+
+  // Match all orders belonging exclusively to this client
+  let clientOrders = packingOrders.filter(o => o.client.toLowerCase() === targetClientName.toLowerCase());
+
+  if (yr !== 'All years') {
+    clientOrders = clientOrders.filter(o =>
+      (o.expDate && o.expDate.includes(yr)) ||
+      (o.reqDate && o.reqDate.includes(yr)) ||
+      (o.ordNo && o.ordNo.includes(yr))
+    );
+  }
+
+  if (mo !== 'All months') {
+    const shortMo = mo.slice(0, 3).toLowerCase();
+    clientOrders = clientOrders.filter(o =>
+      (o.expDate && o.expDate.toLowerCase().includes(shortMo)) ||
+      (o.reqDate && o.reqDate.toLowerCase().includes(shortMo))
+    );
+  }
+
+  // Fallback synthetic order rows if a newly added client has no orders yet in packingOrders
+  if (clientOrders.length === 0 && !rawQuery && yr === '2026' && mo === 'All months') {
+    clientOrders = packingOrders.filter(o => o.client === targetClientName);
+  }
+
+  document.getElementById('repCustName').textContent = clientObj.name;
+  document.getElementById('repCustCountry').textContent = clientObj.country;
+  document.getElementById('repCustVat').textContent = clientObj.vat;
+  document.getElementById('repCustContact').textContent = clientObj.contact;
+
+  const shortMo = mo === 'All months' ? 'Full Year' : mo.slice(0, 3);
+  document.getElementById('repPeriodBadge').textContent = `${shortMo} ${yr}`;
+  document.getElementById('repFootPeriod').textContent = `Client: ${clientObj.name} · Period: ${mo} ${yr} · Page 1 of 1`;
+
+  const tbody = document.getElementById('repOrdersTbody');
+  let totalFoam = 0;
+  let totalPlastic = 0;
+
+  if (clientOrders.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;padding:18px;color:var(--ink-3);font-weight:700">
+          No orders found for ${clientObj.name} in ${mo} ${yr}.
+        </td>
+      </tr>
+    `;
+  } else {
+    tbody.innerHTML = clientOrders.map(o => {
+      totalFoam += Number(o.foamKg) || 0;
+      totalPlastic += Number(o.plasticKg) || 0;
+      return `
+        <tr>
+          <td class="doc-order">${o.ordNo}</td>
+          <td>${o.reqDate}</td>
+          <td>${o.expDate}</td>
+          <td><span class="size-b">${o.size}</span> · ${o.status}</td>
+          <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
+          <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('repTotalFoam').textContent = totalFoam.toLocaleString();
+  document.getElementById('repTotalPlastic').textContent = totalPlastic.toLocaleString();
+  document.getElementById('repTotalCombined').textContent = (totalFoam + totalPlastic).toLocaleString();
+  document.getElementById('repOrdersCount').textContent = String(clientOrders.length);
+
+  activeReportState = {
+    clientName: clientObj.name,
+    country: clientObj.country,
+    vat: clientObj.vat,
+    contact: clientObj.contact,
+    year: yr,
+    month: mo,
+    orders: clientOrders,
+    totalFoam,
+    totalPlastic
+  };
+
+  if (logActivity && currentLoggedUser) {
+    dispatchEmailNotification(
+      'action',
+      currentLoggedUser,
+      `Generated Client Report: ${clientObj.name}`,
+      `User "${currentLoggedUser}" generated orders report for "${clientObj.name}" (${mo} ${yr}) — ${clientOrders.length} orders, Foam: ${totalFoam.toLocaleString()} KG, Plastic: ${totalPlastic.toLocaleString()} KG.`
+    );
+    showToast(`Report generated for ${clientObj.name} (${clientOrders.length} orders)`);
+  }
+}
+
+function selectClientForReport(idx) {
+  const c = clientsList[idx];
+  if (!c) return;
+  document.getElementById('reportClientSearch').value = c.name;
+  generateClientReport(true);
+  showToast(`Loaded orders report for ${c.name}`, 'info');
+}
+
+// Styled Single-Client Excel (.xls HTML Spreadsheet Matching Platform Palette & Layout)
+function exportSingleClientReportExcel() {
+  if (!activeReportState.orders || activeReportState.orders.length === 0) {
+    generateClientReport(false);
+  }
+  const st = activeReportState;
+  const totalCombined = (st.totalFoam || 0) + (st.totalPlastic || 0);
+
+  const orderRowsHtml = st.orders.length > 0
+    ? st.orders.map((o, i) => `
+        <tr style="background:${i % 2 === 1 ? '#f8fafc' : '#ffffff'}">
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#1d4ed8">${o.ordNo}</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${o.reqDate}</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${o.expDate}</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#0369a1;font-weight:600">${o.size} (${o.status})</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(o.foamKg).toLocaleString()}</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(o.plasticKg).toLocaleString()}</td>
+        </tr>
+      `).join('')
+    : `<tr><td colspan="6" style="padding:14px;border:1px solid #cbd5e1;text-align:center;color:#475569">No orders for ${st.clientName} in ${st.month} ${st.year}</td></tr>`;
+
+  const xlsHtml = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        body { font-family: 'Plus Jakarta Sans', 'Inter', Arial, sans-serif; color: #090d16; }
+        table { border-collapse: collapse; width: 100%; }
+      </style>
+    </head>
+    <body>
+      <table>
+        <tr>
+          <td colspan="4" style="background:#0A2240;color:#ffffff;padding:14px 16px;font-size:16px;font-weight:800;">
+            Foam Industries Co. — Global Export Portal (Client Orders Report)
+          </td>
+          <td colspan="2" style="background:#1d4ed8;color:#ffffff;padding:14px 16px;font-size:12px;font-weight:700;text-align:right;">
+            Period: ${st.month} ${st.year}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="background:#eff6ff;border:1px solid #bfdbfe;padding:10px 12px;">
+            <div style="font-size:10px;color:#475569;font-weight:700;">CLIENT NAME</div>
+            <div style="font-size:13px;color:#090d16;font-weight:800;">${st.clientName}</div>
+          </td>
+          <td style="background:#eff6ff;border:1px solid #bfdbfe;padding:10px 12px;">
+            <div style="font-size:10px;color:#475569;font-weight:700;">COUNTRY</div>
+            <div style="font-size:12px;color:#090d16;font-weight:700;">${st.country}</div>
+          </td>
+          <td style="background:#eff6ff;border:1px solid #bfdbfe;padding:10px 12px;">
+            <div style="font-size:10px;color:#475569;font-weight:700;">VAT NO.</div>
+            <div style="font-size:12px;color:#090d16;font-weight:700;">${st.vat}</div>
+          </td>
+          <td colspan="2" style="background:#eff6ff;border:1px solid #bfdbfe;padding:10px 12px;">
+            <div style="font-size:10px;color:#475569;font-weight:700;">CONTACT PERSON</div>
+            <div style="font-size:12px;color:#090d16;font-weight:700;">${st.contact}</div>
+          </td>
+        </tr>
+        <tr><td colspan="6" style="height:8px"></td></tr>
+        <tr style="background:#0f172a;color:#ffffff;">
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Order No.</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Request Date</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Export Date</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Size / Status</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:right;font-size:11px;">Foam KG</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:right;font-size:11px;">Plastic KG</th>
+        </tr>
+        ${orderRowsHtml}
+        <tr style="background:#e0f2fe;font-weight:800;">
+          <td colspan="4" style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#090d16;">
+            Client Summary (${st.orders.length} Orders · Combined Weight: ${totalCombined.toLocaleString()} KG)
+          </td>
+          <td style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#1d4ed8;font-size:13px;">
+            ${Number(st.totalFoam).toLocaleString()} KG
+          </td>
+          <td style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#0284c7;font-size:13px;">
+            ${Number(st.totalPlastic).toLocaleString()} KG
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6" style="background:#0A2240;color:#cbd5e1;padding:9px 14px;font-size:10px;font-weight:600;">
+            Foam Industries Co. · Global Export Portal · Developed By : AhmeD SamY
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+
+  const safeName = st.clientName.replace(/[^a-zA-Z0-9_-]/g, '_');
+  const filename = `Foam_Industries_${safeName}_Report.xls`;
+  const blob = new Blob([xlsHtml], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Exported Client Excel Report: ${st.clientName}`,
+    `User "${currentLoggedUser}" exported styled Excel report for client "${st.clientName}" (${st.month} ${st.year}).`
+  );
+  showToast(`Exported formatted report for ${st.clientName}`);
+}
+
+function printClientReport() {
+  if (!activeReportState.orders || activeReportState.orders.length === 0) {
+    generateClientReport(false);
+  }
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Exported Client PDF Report: ${activeReportState.clientName}`,
+    `User "${currentLoggedUser}" printed/exported PDF report strictly for client "${activeReportState.clientName}" (${activeReportState.month} ${activeReportState.year}).`
+  );
+  window.print();
+}
+
+// Save New Client
+function saveNewClient() {
+  const name = document.getElementById('ncName').value.trim();
+  const country = document.getElementById('ncCountry').value.trim();
+  if (!name || !country) {
+    showToast('Please enter both Customer name and Country.', 'error');
+    return;
+  }
+  const address = document.getElementById('ncAddress').value.trim();
+  const email = document.getElementById('ncEmail').value.trim();
+  const regDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const newC = {
+    name,
+    country,
+    region: document.getElementById('ncRegion').value,
+    firstRegistered: regDate,
+    vat: document.getElementById('ncVat').value.trim() || 'N/A',
+    mobile: document.getElementById('ncMobile').value.trim() || '+00 000 000',
+    contact: document.getElementById('ncContact').value.trim() || 'Export Desk',
+    address,
+    email,
+    qtyKg2026: 0,
+    qtyKg2025: 0,
+    lastOrder: 'Nov 2026',
+    status: 'Active'
+  };
+  clientsList.unshift(newC);
+  persistData();
+  document.getElementById('addClientModal').classList.remove('open');
+  ['ncName','ncCountry','ncVat','ncMobile','ncContact','ncAddress','ncEmail'].forEach(id => document.getElementById(id).value = '');
+  updateDashboard();
+  renderAllTables();
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Added New Client: ${name}`,
+    `User "${currentLoggedUser}" added client "${name}" (${country}). Address: ${address || 'N/A'}, Email: ${email || 'N/A'}.`
+  );
+  showToast(`Client "${name}" saved & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+function deleteClient(idx) {
+  const removed = clientsList.splice(idx, 1)[0];
+  persistData();
+  updateDashboard();
+  renderAllTables();
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Deleted Client: ${removed.name}`,
+    `User "${currentLoggedUser}" removed client "${removed.name}" (${removed.country}).`
+  );
+  showToast(`Removed ${removed.name} from clients list.`, 'info');
+}
+
+// ═══ BACKEND: Google Apps Script (data lives in Google Sheets & Drive) ═══
+const API_URL = 'https://script.google.com/macros/s/AKfycbzNQg1LFkM19dAhBixkhesF98qkv86m3jlPskGxlMoarNxeKIN83UHKHaIoP7sg82Wk/exec';   // the link that ends with /exec
+let sessionToken = null;
+let sessionIsAdmin = false;
+let pendingOrderFile = null;
+let saveTimer = null;
+let syncChain = Promise.resolve();
+let pollHandle = null;
+let serverBaseline = { Clients: new Map(), Orders: new Map(), Audit: new Map() };
+
+const DIFF_TABLES = {
+  Clients: { key: 'name', get: () => clientsList },
+  Orders:  { key: 'ordNo', get: () => packingOrders },
+  Audit:   { key: 'id', get: () => emailAuditLogs }
+};
+
+async function api(action, payload = {}, needsSession = true) {
+  if (API_URL.startsWith('PASTE_')) throw new Error('API_URL is not set in index.html.');
+  const body = { action, ...payload };
+  if (needsSession) body.token = sessionToken;
+  let res;
+  try {
+    res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(body) });
+  } catch (e) {
+    throw new Error('No connection to the server.');
+  }
+  const data = await res.json().catch(() => ({ ok: false, error: 'Invalid server response.' }));
+  if (!data.ok) {
+    if (data.error === 'SESSION_EXPIRED') {
+      localStorage.removeItem('foam_bio_session');
+      showToast('Session expired. Please log in again.', 'error');
+      setTimeout(() => location.reload(), 1500);
+    }
+    throw new Error(data.error || 'Server error');
+  }
+  return data;
+}
+
+function setSyncStatus(state, text) {
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+  el.dataset.state = state;
+  el.textContent = text;
+}
+
+function snapshot(list, key) {
+  return new Map(list.map(o => [String(o[key]), JSON.stringify(o)]));
+}
+
+// Sends only the records that changed in this browser since the last sync
+async function flushChanges() {
+  for (const [table, cfg] of Object.entries(DIFF_TABLES)) {
+    const list = cfg.get();
+    const base = serverBaseline[table];
+    const now = snapshot(list, cfg.key);
+    for (const o of list) {
+      const k = String(o[cfg.key]);
+      if (base.get(k) !== now.get(k)) {
+        await api('upsert', { table, record: o });
+      }
+    }
+    for (const k of base.keys()) {
+      if (!now.has(k)) await api('remove', { table, key: k });
+    }
+    serverBaseline[table] = now;
+  }
+}
+
+async function pullFromServer() {
+  const r = await api('getAll');
+  clientsList = r.data.Clients;
+  packingOrders = r.data.Orders;
+  systemUsers = r.data.Users;
+  emailAuditLogs = r.data.Audit;
+  serverBaseline = {
+    Clients: snapshot(clientsList, 'name'),
+    Orders: snapshot(packingOrders, 'ordNo'),
+    Audit: snapshot(emailAuditLogs, 'id')
+  };
+}
+
+function refreshUI() {
+  renderAllTables();
+  updateDashboard();
+  renderMessagesFeed();
+}
+
+// Sends local changes first; pulls others' changes only if the local save succeeded
+function queueSync(quiet = false, pullAfter = false) {
+  syncChain = syncChain.then(async () => {
+    try {
+      await flushChanges();
+      if (pullAfter) {
+        await pullFromServer();
+        refreshUI();
+      }
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+    } catch (err) {
+      console.error(err);
+      setSyncStatus('error', 'Sync failed: ' + err.message);
+      if (!quiet) showToast('Sync failed: ' + err.message, 'error');
+    }
+  });
+}
+
+// Called after every change: saves shortly after the last change
+function persistData() {
+  if (!sessionToken) {
+    setSyncStatus('offline', 'Not logged in: changes are not saved');
+    return;
+  }
+  setSyncStatus('saving', 'Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveTimer = null;
+    queueSync(false, false);
+  }, 400);
+}
+
+async function loadFromServer() {
+  setSyncStatus('saving', 'Loading data…');
+  try {
+    await pullFromServer();
+    refreshUI();
+    generateClientReport(false);
+    setSyncStatus('ok', 'Live · connected to server');
+  } catch (err) {
+    console.error(err);
+    setSyncStatus('error', 'Could not load data: ' + err.message);
+    showToast('Could not load data: ' + err.message, 'error');
+  }
+  if (!pollHandle) {
+    // Every 30 seconds: send pending changes and fetch other users' changes
+    pollHandle = setInterval(() => {
+      if (sessionToken && !saveTimer) queueSync(true, true);
+    }, 30000);
+  }
+}
+
+// ═══ ORDER FILES: PDF built in the browser, stored in Drive through the server ═══
+function onOrderFileChosen(input) {
+  const f = input.files && input.files[0];
+  pendingOrderFile = f || null;
+  document.getElementById('noOrderFileName').textContent = f ? f.name : 'No file selected';
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(',')[1]);
+    r.onerror = () => reject(new Error('Could not read the file.'));
+    r.readAsDataURL(blob);
+  });
+}
+
+async function uploadFileToDrive(file) {
+  const base64 = await blobToBase64(file);
+  const res = await api('uploadFile', { name: file.name, base64 });
+  return res.url;
+}
+
+async function buildOrderPdf(file, ordNo) {
+  const { PDFDocument } = PDFLib;
+  const out = await PDFDocument.create();
+  const bytes = await file.arrayBuffer();
+
+  if (file.type === 'application/pdf') {
+    const src = await PDFDocument.load(bytes);
+    const pages = await out.copyPages(src, src.getPageIndices());
+    pages.forEach(pg => out.addPage(pg));
+  } else if (file.type === 'image/png' || file.type === 'image/jpeg') {
+    const img = file.type === 'image/png' ? await out.embedPng(bytes) : await out.embedJpg(bytes);
+    const pageW = 595.28, pageH = 841.89, margin = 36;
+    const scale = Math.min((pageW - 2 * margin) / img.width, (pageH - 2 * margin) / img.height);
+    const w = img.width * scale, h = img.height * scale;
+    const page = out.addPage([pageW, pageH]);
+    page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
+  } else {
+    throw new Error('Only PDF, PNG or JPG files can be attached.');
+  }
+
+  out.setTitle(ordNo);
+  const pdfBytes = await out.save();
+  return new File([pdfBytes], `${ordNo}.pdf`, { type: 'application/pdf' });
+}
+
+
+// Save New Packing Order
+async function saveNewOrder() {
+  const client = document.getElementById('noClient').value;
+  const ordNo = document.getElementById('noNumber').value.trim();
+  if (!ordNo) {
+    showToast('Please enter the order number.', 'error');
+    return;
+  }
+  if (!pendingOrderFile) {
+    showToast('Please upload a PDF or image file for the order.', 'error');
+    return;
+  }
+  let orderFile = null;
+  let driveLink = '';
+  try {
+    showToast('Creating order PDF…', 'info');
+    orderFile = await buildOrderPdf(pendingOrderFile, ordNo);
+    showToast('Uploading to Google Drive…', 'info');
+    driveLink = await uploadFileToDrive(orderFile);
+  } catch (err) {
+    console.error(err);
+    showToast('Failed: ' + err.message, 'error');
+    return;
+  }
+  const foamKg = 0;
+  const plasticKg = 0;
+  const size = '—';
+  const reqDate = document.getElementById('noReqDate').value || '20 Nov 2026';
+  const expDate = document.getElementById('noExpDate').value || '04 Dec 2026';
+  const foundClient = clientsList.find(c => c.name === client);
+
+  packingOrders.unshift({
+    ordNo,
+    client,
+    dest: foundClient ? foundClient.country : 'International Port',
+    reqDate,
+    expDate,
+    foamKg,
+    plasticKg,
+    size,
+    orderFile: orderFile ? orderFile.name : '',
+    driveLink,
+    progress: 40,
+    status: 'In Production'
+  });
+
+  persistData();
+  document.getElementById('noNumber').value = nextOrderNumber();
+  document.getElementById('pkLatestOrd').textContent = ordNo;
+  document.getElementById('packingTotalTitle').textContent = `Orders — ${packingOrders.length} total`;
+  document.getElementById('addOrderModal').classList.remove('open');
+  pendingOrderFile = null;
+  document.getElementById('noOrderFile').value = '';
+  document.getElementById('noOrderFileName').textContent = 'No file selected';
+  updateDashboard();
+  renderOrdersTable();
+  renderPackingTable();
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Created New Export Order: ${ordNo}`,
+    `User "${currentLoggedUser}" created order ${ordNo} for ${client}. Order file: ${orderFile ? orderFile.name : 'none'}${driveLink ? ' (Drive: ' + driveLink + ')' : ''}.`
+  );
+  showToast(`Order ${ordNo} created & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+// Save New User
+async function saveNewUser() {
+  const username = document.getElementById('nuUsername').value.trim();
+  if (!username) {
+    showToast('Please enter a username.', 'error');
+    return;
+  }
+  const mobile = document.getElementById('nuMobile').value.trim() || '+20 100 000 0000';
+  const title = document.getElementById('nuTitle').value.trim() || 'Export Coordinator';
+  const dash = document.querySelector('input[name="pd"]:checked')?.value || 'Read';
+  const clients = document.querySelector('input[name="pc"]:checked')?.value || 'Read';
+  const packing = document.querySelector('input[name="pp"]:checked')?.value || 'Read';
+
+  const password = document.getElementById('nuPass').value;
+  const password2 = document.getElementById('nuPass2').value;
+  if (!password || password !== password2) {
+    showToast('Passwords are empty or do not match.', 'error');
+    return;
+  }
+  const newUser = { username, mobile, title, dash, clients, packing, email: document.getElementById('nuEmail').value.trim(), isDefault: false };
+  try {
+    await api('saveUser', { record: newUser, password });
+  } catch (err) {
+    showToast('Could not save user: ' + err.message, 'error');
+    return;
+  }
+  systemUsers.push(newUser);
+  document.getElementById('addUserModal').classList.remove('open');
+  ['nuUsername','nuMobile','nuTitle','nuEmail','nuPass','nuPass2'].forEach(id => document.getElementById(id).value = '');
+  renderAllTables();
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Added Portal User: ${username}`,
+    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Dashboard: ${dash}, Clients: ${clients}, Packing: ${packing}].`
+  );
+  showToast(`User "${username}" added & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+function deleteUser(idx) {
+  const removed = systemUsers[idx];
+  api('remove', { table: 'Users', key: removed.username })
+    .then(() => { systemUsers.splice(idx, 1); renderAllTables(); })
+    .catch(err => showToast('Could not delete user: ' + err.message, 'error'));
+  renderAllTables();
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Deleted Portal User: ${removed.username}`,
+    `User "${currentLoggedUser}" removed user account "${removed.username}".`
+  );
+  showToast(`User "${removed.username}" removed.`, 'info');
+}
+
+// Styled All-Clients Master Report Export (Excel & PDF with First Registration Date)
+function buildAllClientsPrintView() {
+  const tbody = document.getElementById('allClientsPrintTbody');
+  const nowStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  document.getElementById('allClientsReportDateBadge').textContent = `${clientsList.length} Clients · ${nowStr}`;
+  document.getElementById('allClientsCountStat').textContent = `${clientsList.length} Accounts`;
+  document.getElementById('allClientsTotalCount').textContent = String(clientsList.length);
+
+  let totalKg = 0;
+  tbody.innerHTML = clientsList.map(c => {
+    const kg = Number(c.qtyKg2026) || 0;
+    totalKg += kg;
+    return `
+      <tr>
+        <td class="doc-order">${c.name}</td>
+        <td>${c.country}</td>
+        <td><strong>${c.firstRegistered || '01 Jan 2024'}</strong></td>
+        <td>${c.vat}</td>
+        <td>${c.mobile}</td>
+        <td>${c.contact}</td>
+        <td><strong>${kg.toLocaleString()} KG</strong></td>
+        <td>${c.status}</td>
+      </tr>
+    `;
+  }).join('');
+
+  document.getElementById('allClientsTotalKg').textContent = `${totalKg.toLocaleString()} KG`;
+  return totalKg;
+}
+
+function exportAllClientsExcel() {
+  const totalKg = clientsList.reduce((sum, c) => sum + (Number(c.qtyKg2026) || 0), 0);
+  const nowStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  const rowsHtml = clientsList.map((c, idx) => `
+    <tr style="background:${idx % 2 === 1 ? '#f8fafc' : '#ffffff'}">
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#1d4ed8">${c.name}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.country}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#0369a1">${c.firstRegistered || '01 Jan 2024'}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.vat}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.mobile}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.contact}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(c.qtyKg2026 || 0).toLocaleString()} KG</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:${c.status === 'Active' ? '#065f46' : '#92400e'}">${c.status}</td>
+    </tr>
+  `).join('');
+
+  const xlsHtml = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="UTF-8">
+      <style>body { font-family: 'Plus Jakarta Sans', 'Inter', Arial, sans-serif; color: #090d16; } table { border-collapse: collapse; width: 100%; }</style>
+    </head>
+    <body>
+      <table>
+        <tr>
+          <td colspan="6" style="background:#0A2240;color:#ffffff;padding:14px 16px;font-size:16px;font-weight:800;">
+            Foam Industries Co. — Global Export Portal (All Registered Clients Report)
+          </td>
+          <td colspan="2" style="background:#1d4ed8;color:#ffffff;padding:14px 16px;font-size:12px;font-weight:700;text-align:right;">
+            Generated: ${nowStr} · ${clientsList.length} Clients
+          </td>
+        </tr>
+        <tr style="background:#0f172a;color:#ffffff;">
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Customer</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Country</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">First Registered Date</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">VAT No.</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Mobile</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Contact</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:right;font-size:11px;">Export Qty 2026 (KG)</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Status</th>
+        </tr>
+        ${rowsHtml}
+        <tr style="background:#e0f2fe;font-weight:800;">
+          <td colspan="6" style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#090d16;">
+            Total Registered Clients: ${clientsList.length}
+          </td>
+          <td style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#1d4ed8;font-size:13px;">
+            ${totalKg.toLocaleString()} KG
+          </td>
+          <td style="padding:10px 12px;border:1px solid #94a3b8;color:#059669;">All Included</td>
+        </tr>
+        <tr>
+          <td colspan="8" style="background:#0A2240;color:#cbd5e1;padding:9px 14px;font-size:10px;font-weight:600;">
+            Foam Industries Co. · Global Export Portal · Developed By : AhmeD SamY
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+
+  const filename = 'Foam_Industries_All_Clients_Report.xls';
+  const blob = new Blob([xlsHtml], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    'Exported All Clients Excel Report',
+    `User "${currentLoggedUser}" exported full all-clients report (${clientsList.length} clients) including First Registered Date.`
+  );
+  showToast(`Exported all ${clientsList.length} clients to Excel with First Registered Date`);
+}
+
+function exportAllClientsPDF() {
+  buildAllClientsPrintView();
+  document.body.classList.add('printing-all-clients');
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    'Exported All Clients PDF Report',
+    `User "${currentLoggedUser}" opened PDF print report for all ${clientsList.length} registered clients including First Registered Date.`
+  );
+  window.print();
+  setTimeout(() => {
+    document.body.classList.remove('printing-all-clients');
+  }, 400);
+}
+
+// CSV Export Helpers
+function exportClientsCSV() {
+  const rows = [['Customer','Country','VAT No.','Mobile','Contact','Export Qty 2026 (KG)','Status']];
+  clientsList.forEach(c => rows.push([c.name, c.country, c.vat, c.mobile, c.contact, c.qtyKg2026, c.status]));
+  downloadCSV(rows, 'Foam_Industries_Clients_Data.csv');
+}
+
+function exportPackingCSV() {
+  const rows = [['Order No.','Client','Destination','Request Date','Export Date','Foam KG','Plastic KG','Size','Status']];
+  packingOrders.forEach(o => rows.push([o.ordNo, o.client, o.dest, o.reqDate, o.expDate, o.foamKg, o.plasticKg, o.size, o.status]));
+  downloadCSV(rows, 'Foam_Industries_Orders_Packing.csv');
+}
+
+function downloadCSV(rows, filename) {
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    `Exported Excel/CSV: ${filename}`,
+    `User "${currentLoggedUser}" downloaded "${filename}".`
+  );
+  showToast(`Exported ${filename} successfully.`);
+}
+
+// Keyboard Enter for Login & Modal Backdrop Close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') doLogin();
+});
+
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+renderAllTables();
+generateClientReport(false);
+updateDashboard();
+</script>
+</body>
+</html>
