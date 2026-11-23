@@ -1266,6 +1266,11 @@ td:first-child{color:var(--ink);font-weight:700}
 .order-upload-btn{width:100%;justify-content:center}
 .order-file-name{font-size:12px;color:var(--ink-4);font-weight:600;word-break:break-all}
 
+/* Sign in / Sign up tabs */
+.auth-tabs{display:flex;background:#f1f5f9;border-radius:12px;padding:4px;margin:14px 0 16px}
+.auth-tab{flex:1;border:none;background:transparent;padding:9px;border-radius:9px;font-weight:800;font-size:13px;color:var(--ink-3);cursor:pointer;font-family:inherit}
+.auth-tab.active{background:#fff;color:var(--royal);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
 /* Form Grid */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .form-grid .fi{padding:10px 12px;font-size:13px;background:#f8fafc}
@@ -1532,12 +1537,18 @@ td:first-child{color:var(--ink);font-weight:700}
       <div class="lb-name">Foam Industries Co.</div>
       <div class="lb-sub"><span class="dot"></span>Global Export Portal</div>
 
+      <div class="auth-tabs">
+        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('signin')">Sign in</button>
+        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">Sign up</button>
+      </div>
+
       <div class="err-msg" id="loginErr">
         <i class="ti ti-alert-circle"></i>
         <span>Incorrect username or password.</span>
       </div>
 
-      <div class="ff">
+            <div id="signinPane">
+<div class="ff">
         <label for="loginUser">Username</label>
         <div class="iw">
           <i class="ico ti ti-user"></i>
@@ -1574,22 +1585,52 @@ td:first-child{color:var(--ink);font-weight:700}
         <span>Sign in with Fingerprint / Face ID</span>
       </button>
 
-      <div style="text-align:center;margin-top:14px;font-size:12px">
-        <a href="#" onclick="toggleSignup(event)" style="color:var(--royal);font-weight:700;text-decoration:none">Create a new account</a>
-      </div>
-      <div id="signupBox" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0">
-        <div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--ink-2)">New account</div>
-        <input class="fi" id="suUser" type="text" placeholder="Username" style="padding-left:12px;margin-bottom:8px">
-        <input class="fi" id="suMobile" type="text" placeholder="Mobile" style="padding-left:12px;margin-bottom:8px">
-        <input class="fi" id="suEmail" type="email" placeholder="Email" style="padding-left:12px;margin-bottom:8px">
-        <input class="fi" id="suPass" type="password" placeholder="Password (8+ characters)" style="padding-left:12px;margin-bottom:8px">
-        <input class="fi" id="suPass2" type="password" placeholder="Confirm password" style="padding-left:12px">
-        <button class="btn-blue" type="button" onclick="doSignup()" style="width:100%;justify-content:center;margin-top:10px">
-          <i class="ti ti-user-plus"></i><span>Sign up</span>
+            </div>
+
+      <div id="signupPane" style="display:none">
+        <div class="ff">
+          <label for="suUser">Username</label>
+          <div class="iw">
+            <i class="ico ti ti-user"></i>
+            <input class="fi" id="suUser" type="text" placeholder="Choose a username">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suMobile">Mobile</label>
+          <div class="iw">
+            <i class="ico ti ti-phone"></i>
+            <input class="fi" id="suMobile" type="text" placeholder="Mobile number">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suEmail">Email</label>
+          <div class="iw">
+            <i class="ico ti ti-mail"></i>
+            <input class="fi" id="suEmail" type="email" placeholder="Email address">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suPass">Password</label>
+          <div class="iw">
+            <i class="ico ti ti-lock"></i>
+            <input class="fi" id="suPass" type="password" placeholder="At least 8 characters">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suPass2">Confirm password</label>
+          <div class="iw">
+            <i class="ico ti ti-lock"></i>
+            <input class="fi" id="suPass2" type="password" placeholder="Repeat the password">
+          </div>
+        </div>
+
+        <button class="btn-primary" type="button" onclick="doSignup()">
+          <i class="ti ti-user-plus"></i>
+          <span>Create account</span>
         </button>
       </div>
 
-      <div class="drive-pill">
+<div class="drive-pill">
         <i class="ti ti-brand-google-drive"></i>
         <span>Synced with Google Drive &amp; Email Audit</span>
       </div>
@@ -2686,10 +2727,13 @@ async function enterPortal(loginRes) {
 }
 
 // ═══ SIGNUP ═══
-function toggleSignup(e) {
-  e.preventDefault();
-  const box = document.getElementById('signupBox');
-  box.style.display = box.style.display === 'none' ? '' : 'none';
+function showAuthTab(tab) {
+  const up = tab === 'signup';
+  document.getElementById('signinPane').style.display = up ? 'none' : '';
+  document.getElementById('signupPane').style.display = up ? '' : 'none';
+  document.getElementById('tabSignin').classList.toggle('active', !up);
+  document.getElementById('tabSignup').classList.toggle('active', up);
+  document.getElementById('loginErr').style.display = 'none';
 }
 
 async function doSignup() {
