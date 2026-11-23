@@ -1574,6 +1574,21 @@ td:first-child{color:var(--ink);font-weight:700}
         <span>Sign in with Fingerprint / Face ID</span>
       </button>
 
+      <div style="text-align:center;margin-top:14px;font-size:12px">
+        <a href="#" onclick="toggleSignup(event)" style="color:var(--royal);font-weight:700;text-decoration:none">Create a new account</a>
+      </div>
+      <div id="signupBox" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0">
+        <div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--ink-2)">New account</div>
+        <input class="fi" id="suUser" type="text" placeholder="Username" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="suMobile" type="text" placeholder="Mobile" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="suEmail" type="email" placeholder="Email" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="suPass" type="password" placeholder="Password (8+ characters)" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="suPass2" type="password" placeholder="Confirm password" style="padding-left:12px">
+        <button class="btn-blue" type="button" onclick="doSignup()" style="width:100%;justify-content:center;margin-top:10px">
+          <i class="ti ti-user-plus"></i><span>Sign up</span>
+        </button>
+      </div>
+
       <div class="drive-pill">
         <i class="ti ti-brand-google-drive"></i>
         <span>Synced with Google Drive &amp; Email Audit</span>
@@ -1804,7 +1819,7 @@ td:first-child{color:var(--ink);font-weight:700}
           <div class="header-btn-group">
             <button class="btn-outline" type="button" onclick="exportAllClientsExcel()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
             <button class="btn-outline" type="button" onclick="exportAllClientsPDF()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
-            <button class="btn-blue" type="button" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
+            <button class="btn-blue" type="button" data-write="clients" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
           </div>
         </div>
 
@@ -1960,7 +1975,7 @@ td:first-child{color:var(--ink);font-weight:700}
             <div class="page-sub">Manage export purchase orders, production status, and dispatch approvals.</div>
           </div>
           <div class="header-btn-group">
-            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+            <button class="btn-blue" data-write="orders" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
           </div>
         </div>
 
@@ -2037,7 +2052,7 @@ td:first-child{color:var(--ink);font-weight:700}
           <div class="header-btn-group">
             <button class="btn-outline" onclick="exportPackingCSV()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
             <button class="btn-outline" onclick="printClientReport()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
-            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+            <button class="btn-blue" data-write="orders" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
           </div>
         </div>
 
@@ -2137,7 +2152,7 @@ td:first-child{color:var(--ink);font-weight:700}
             <div class="page-title">User management</div>
             <div class="page-sub">Control team access roles and page-level permissions across the export portal.</div>
           </div>
-          <button class="btn-blue" onclick="document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
+          <button class="btn-blue" data-write="users" onclick="resetNewUserPerms();document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
         </div>
 
         <div class="perm-legend">
@@ -2211,6 +2226,20 @@ td:first-child{color:var(--ink);font-weight:700}
 </div><!-- /appShell -->
 
 <!-- ═══ MODAL: Forgot Password ═══ -->
+<div class="modal" id="permModal">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-shield-lock"></i>Permissions · <span id="pmUserName"></span></div>
+      <button class="modal-close" onclick="document.getElementById('permModal').classList.remove('open')">×</button>
+    </div>
+    <div class="tbl-scroll" style="margin-bottom:14px"><div id="pmPermBox"></div></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button class="btn-outline" onclick="document.getElementById('permModal').classList.remove('open')">Cancel</button>
+      <button class="btn-blue" onclick="savePermissions()"><i class="ti ti-check"></i>Save permissions</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="forgotModal">
   <div class="modal-box" style="max-width:400px">
     <div class="modal-head">
@@ -2335,15 +2364,7 @@ td:first-child{color:var(--ink);font-weight:700}
     </div>
     <div style="font-size:11px;color:var(--ink-2);margin-bottom:10px;font-weight:800">Page permissions</div>
     <div class="tbl-scroll" style="margin-bottom:14px">
-      <table class="perm-table">
-        <thead><tr><th>Page</th><th>Read only</th><th>Read + write</th><th>Full edit</th></tr></thead>
-        <tbody>
-          <tr><td><i class="ti ti-layout-dashboard"></i>Dashboard</td><td><input type="radio" name="pd" value="Read" checked></td><td><input type="radio" name="pd" value="Write"></td><td><input type="radio" name="pd" value="Full edit"></td></tr>
-          <tr><td><i class="ti ti-users"></i>Clients data</td><td><input type="radio" name="pc" value="Read" checked></td><td><input type="radio" name="pc" value="Write"></td><td><input type="radio" name="pc" value="Full edit"></td></tr>
-          <tr><td><i class="ti ti-clipboard-list"></i>Packing list</td><td><input type="radio" name="pp" value="Read" checked></td><td><input type="radio" name="pp" value="Write"></td><td><input type="radio" name="pp" value="Full edit"></td></tr>
-          <tr><td><i class="ti ti-shield-lock"></i>User management</td><td><input type="radio" name="pu" value="Read"></td><td><input type="radio" name="pu" value="Write"></td><td><input type="radio" name="pu" value="Full edit" checked></td></tr>
-        </tbody>
-      </table>
+      <div id="nuPermBox"></div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px">
       <button class="btn-outline" onclick="document.getElementById('addUserModal').classList.remove('open')">Cancel</button>
@@ -2635,9 +2656,7 @@ async function enterPortal(loginRes) {
   const u = loginRes.me.username;
   sessionToken = loginRes.token;
   sessionIsAdmin = loginRes.me.admin;
-  document.querySelectorAll('[data-page="users"]').forEach(el => {
-    el.style.display = sessionIsAdmin ? '' : 'none';
-  });
+  applyPermissions(loginRes.me);
   currentLoggedUser = u;
   currentLoginTimestamp = new Date().toLocaleString('en-GB', {
     day: '2-digit', month: 'short', year: 'numeric',
@@ -2664,6 +2683,125 @@ async function enterPortal(loginRes) {
     `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
   );
   showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+// ═══ SIGNUP ═══
+function toggleSignup(e) {
+  e.preventDefault();
+  const box = document.getElementById('signupBox');
+  box.style.display = box.style.display === 'none' ? '' : 'none';
+}
+
+async function doSignup() {
+  const username = document.getElementById('suUser').value.trim();
+  const mobile = document.getElementById('suMobile').value.trim();
+  const email = document.getElementById('suEmail').value.trim();
+  const pw = document.getElementById('suPass').value;
+  const pw2 = document.getElementById('suPass2').value;
+  if (!username || !mobile || !email || !pw) {
+    showToast('Please fill in all the fields.', 'error');
+    return;
+  }
+  if (pw.length < 8) {
+    showToast('The password must be at least 8 characters.', 'error');
+    return;
+  }
+  if (pw !== pw2) {
+    showToast('The two passwords do not match.', 'error');
+    return;
+  }
+  let res;
+  try {
+    res = await api('signup', { username, mobile, email, password: pw }, false);
+  } catch (e) {
+    showToast(e.message, 'error');
+    return;
+  }
+  showToast('Account created. Welcome, ' + username + '!', 'success');
+  await enterPortal(res);
+}
+
+// ═══ PERMISSIONS ═══
+const PERM_ROWS = [
+  { key: 'clients', label: 'Clients data', icon: 'ti-users', letter: 'c' },
+  { key: 'orders', label: 'Orders', icon: 'ti-file-invoice', letter: 'o' },
+  { key: 'packing', label: 'Packing list', icon: 'ti-clipboard-list', letter: 'p' },
+  { key: 'users', label: 'User management', icon: 'ti-shield-lock', letter: 'u' }
+];
+const PERM_LEVELS = [['None', 'No access'], ['Read', 'Read only'], ['Write', 'Read + write'], ['Full edit', 'Full control']];
+let permTarget = null;
+
+function permTableHTML(values, prefix) {
+  const head = PERM_LEVELS.map(([, label]) => `<th>${label}</th>`).join('');
+  const rows = PERM_ROWS.map(r => {
+    const cur = values[r.key] || 'None';
+    const cells = PERM_LEVELS.map(([v]) =>
+      `<td><input type="radio" name="${prefix}${r.letter}" value="${v}" ${cur === v ? 'checked' : ''}></td>`
+    ).join('');
+    return `<tr><td><i class="ti ${r.icon}"></i>${r.label}</td>${cells}</tr>`;
+  }).join('');
+  return `<table class="perm-table"><thead><tr><th>Page</th>${head}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function readPerms(prefix) {
+  const out = {};
+  PERM_ROWS.forEach(r => {
+    out[r.key] = document.querySelector(`input[name="${prefix}${r.letter}"]:checked`)?.value || 'None';
+  });
+  return out;
+}
+
+function resetNewUserPerms() {
+  document.getElementById('nuPermBox').innerHTML = permTableHTML({}, 'n');
+}
+
+function openPermModal(idx) {
+  const u = systemUsers[idx];
+  if (!u) return;
+  permTarget = u.username;
+  document.getElementById('pmUserName').textContent = u.username;
+  document.getElementById('pmPermBox').innerHTML = permTableHTML(u, 'm');
+  document.getElementById('permModal').classList.add('open');
+}
+
+async function savePermissions() {
+  const u = systemUsers.find(x => x.username === permTarget);
+  if (!u) return;
+  const perms = readPerms('m');
+  try {
+    await api('saveUser', { record: Object.assign({}, u, perms) });
+  } catch (e) {
+    showToast('Could not save: ' + e.message, 'error');
+    return;
+  }
+  Object.assign(u, perms);
+  document.getElementById('permModal').classList.remove('open');
+  renderAllTables();
+  showToast('Permissions saved.', 'success');
+}
+
+// Shows only the pages the user may open, and hides the buttons that add records
+function applyPermissions(me) {
+  const canWriteLevel = v => me.admin || v === 'Write' || v === 'Full edit';
+  const pageVisible = {
+    clients: me.admin || (me.clients && me.clients !== 'None'),
+    orders: me.admin || (me.orders && me.orders !== 'None'),
+    packing: me.admin || (me.packing && me.packing !== 'None'),
+    users: me.admin || (me.users && me.users !== 'None'),
+    messages: me.admin
+  };
+  Object.entries(pageVisible).forEach(([page, show]) => {
+    document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
+  });
+  const writeOk = {
+    clients: canWriteLevel(me.clients),
+    orders: canWriteLevel(me.orders) || canWriteLevel(me.packing),
+    users: canWriteLevel(me.users)
+  };
+  Object.entries(writeOk).forEach(([key, ok]) => {
+    document.querySelectorAll(`[data-write="${key}"]`).forEach(el => { el.style.display = ok ? '' : 'none'; });
+  });
+  goPage('dashboard');
 }
 
 // ═══ FINGERPRINT / FACE ID (device-bound quick sign-in) ═══
@@ -3060,6 +3198,7 @@ function renderAllTables() {
           <td><span class="badge ${badgeCls(u.clients)}">${u.clients}</span></td>
           <td><span class="badge ${badgeCls(u.packing)}">${u.packing}</span></td>
           <td>
+            <button class="icon-btn" type="button" onclick="openPermModal(${idx})" title="Permissions"><i class="ti ti-key"></i></button>
             ${u.isDefault ? '<span style="font-size:11px;color:var(--ink-4);font-weight:700">System</span>' : `
               <button class="icon-btn del" type="button" onclick="deleteUser(${idx})" title="Delete User">
                 <i class="ti ti-trash"></i>
@@ -3762,9 +3901,7 @@ async function saveNewUser() {
   }
   const mobile = document.getElementById('nuMobile').value.trim() || '+20 100 000 0000';
   const title = document.getElementById('nuTitle').value.trim() || 'Export Coordinator';
-  const dash = document.querySelector('input[name="pd"]:checked')?.value || 'Read';
-  const clients = document.querySelector('input[name="pc"]:checked')?.value || 'Read';
-  const packing = document.querySelector('input[name="pp"]:checked')?.value || 'Read';
+  const perms = readPerms('n');
 
   const password = document.getElementById('nuPass').value;
   const password2 = document.getElementById('nuPass2').value;
@@ -3772,7 +3909,7 @@ async function saveNewUser() {
     showToast('Passwords are empty or do not match.', 'error');
     return;
   }
-  const newUser = { username, mobile, title, dash, clients, packing, email: document.getElementById('nuEmail').value.trim(), isDefault: false };
+  const newUser = { username, mobile, title, dash: 'User', ...perms, email: document.getElementById('nuEmail').value.trim(), isDefault: false };
   try {
     await api('saveUser', { record: newUser, password });
   } catch (err) {
@@ -3780,6 +3917,7 @@ async function saveNewUser() {
     return;
   }
   systemUsers.push(newUser);
+  resetNewUserPerms();
   document.getElementById('addUserModal').classList.remove('open');
   ['nuUsername','nuMobile','nuTitle','nuEmail','nuPass','nuPass2'].forEach(id => document.getElementById(id).value = '');
   renderAllTables();
@@ -3787,7 +3925,7 @@ async function saveNewUser() {
     'action',
     currentLoggedUser,
     `Added Portal User: ${username}`,
-    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Dashboard: ${dash}, Clients: ${clients}, Packing: ${packing}].`
+    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Clients: ${newUser.clients}, Orders: ${newUser.orders}, Packing: ${newUser.packing}, Users: ${newUser.users}].`
   );
   showToast(`User "${username}" added & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
