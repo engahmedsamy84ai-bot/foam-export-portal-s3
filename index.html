@@ -2359,7 +2359,7 @@ td:first-child{color:var(--ink);font-weight:700}
       <button class="modal-close" onclick="document.getElementById('addClientModal').classList.remove('open')">×</button>
     </div>
     <div class="form-grid">
-      <div><label>Customer name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
+      <div><label>Client name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
       <div><label>Country *</label><input class="fi" id="ncCountry" type="text" placeholder="e.g. Germany"></div>
       <div>
         <label>Region</label>
@@ -3718,7 +3718,7 @@ function saveNewClient() {
   const name = document.getElementById('ncName').value.trim();
   const country = document.getElementById('ncCountry').value.trim();
   if (!name || !country) {
-    showToast('Please enter both Customer name and Country.', 'error');
+    showToast('Please enter both Client name and Country.', 'error');
     return;
   }
   const address = document.getElementById('ncAddress').value.trim();
