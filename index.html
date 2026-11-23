@@ -2267,6 +2267,30 @@ td:first-child{color:var(--ink);font-weight:700}
 </div><!-- /appShell -->
 
 <!-- ═══ MODAL: Forgot Password ═══ -->
+<div class="modal" id="editClientModal">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-edit"></i>Edit client · <span id="ecName"></span></div>
+      <button class="modal-close" onclick="closeEditClient()">×</button>
+    </div>
+    <div class="form-grid">
+      <div><label>Country</label><input class="fi" id="ecCountry" type="text"></div>
+      <div><label>VAT No.</label><input class="fi" id="ecVat" type="text"></div>
+      <div><label>Mobile</label><input class="fi" id="ecMobile" type="text"></div>
+      <div><label>Contact person</label><input class="fi" id="ecContact" type="text"></div>
+      <div><label>Email</label><input class="fi" id="ecEmail" type="email"></div>
+      <div><label>Status</label>
+        <select class="fi" id="ecStatus"><option value="Active">Active</option><option value="Pending">Pending</option></select>
+      </div>
+      <div style="grid-column:1 / -1"><label>Address</label><input class="fi" id="ecAddress" type="text"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+      <button class="btn-outline" onclick="closeEditClient()">Cancel</button>
+      <button class="btn-blue" onclick="saveEditClient()"><i class="ti ti-check"></i>Save changes</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="permModal">
   <div class="modal-box" style="max-width:560px">
     <div class="modal-head">
@@ -2765,6 +2789,46 @@ async function doSignup() {
   await enterPortal(res);
 }
 
+// ═══ EDIT CLIENT ═══
+let editClientIdx = null;
+
+function openEditClient(idx) {
+  const c = clientsList[idx];
+  if (!c) return;
+  editClientIdx = idx;
+  document.getElementById('ecName').textContent = c.name;
+  document.getElementById('ecCountry').value = c.country || '';
+  document.getElementById('ecVat').value = c.vat || '';
+  document.getElementById('ecMobile').value = c.mobile || '';
+  document.getElementById('ecContact').value = c.contact || '';
+  document.getElementById('ecEmail').value = c.email || '';
+  document.getElementById('ecStatus').value = c.status === 'Pending' ? 'Pending' : 'Active';
+  document.getElementById('ecAddress').value = c.address || '';
+  document.getElementById('editClientModal').classList.add('open');
+}
+
+function closeEditClient() {
+  document.getElementById('editClientModal').classList.remove('open');
+  editClientIdx = null;
+}
+
+function saveEditClient() {
+  const c = clientsList[editClientIdx];
+  if (!c) return;
+  c.country = document.getElementById('ecCountry').value.trim();
+  c.vat = document.getElementById('ecVat').value.trim();
+  c.mobile = document.getElementById('ecMobile').value.trim();
+  c.contact = document.getElementById('ecContact').value.trim();
+  c.email = document.getElementById('ecEmail').value.trim();
+  c.status = document.getElementById('ecStatus').value;
+  c.address = document.getElementById('ecAddress').value.trim();
+  closeEditClient();
+  renderAllTables();
+  updateDashboard();
+  persistData();
+  showToast('Client updated: ' + c.name, 'success');
+}
+
 // ═══ PERMISSIONS ═══
 const PERM_ROWS = [
   { key: 'clients', label: 'Clients data', icon: 'ti-users', letter: 'c' },
@@ -2774,6 +2838,7 @@ const PERM_ROWS = [
 ];
 const PERM_LEVELS = [['None', 'No access'], ['Read', 'Read only'], ['Write', 'Read + write'], ['Full edit', 'Full control']];
 let permTarget = null;
+let myPerms = null;
 
 function permTableHTML(values, prefix) {
   const head = PERM_LEVELS.map(([, label]) => `<th>${label}</th>`).join('');
@@ -2826,6 +2891,7 @@ async function savePermissions() {
 
 // Shows only the pages the user may open, and hides the buttons that add records
 function applyPermissions(me) {
+  myPerms = me;
   const canWriteLevel = v => me.admin || v === 'Write' || v === 'Full edit';
   const pageVisible = {
     clients: me.admin || (me.clients && me.clients !== 'None'),
@@ -3201,6 +3267,7 @@ function renderAllTables() {
   // All Clients Table (Including First Registration Date)
   const clientsBody = document.getElementById('allClientsTableBody');
   if (clientsBody) {
+    const canEditClients = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.clients)) : false;
     clientsBody.innerHTML = clientsList.map((c, idx) => `
       <tr>
         <td>${c.name}</td>
@@ -3211,9 +3278,7 @@ function renderAllTables() {
         <td>${c.contact}</td>
         <td><span class="badge ${c.status === 'Active' ? 'ba' : 'bp'}">${c.status}</span></td>
         <td>
-          <button class="icon-btn" type="button" onclick="selectClientForReport(${idx})" title="Generate Client Report">
-            <i class="ti ti-report-analytics"></i>
-          </button>
+          ${canEditClients ? `<button class="icon-btn" type="button" onclick="openEditClient(${idx})" title="Edit Client"><i class="ti ti-edit"></i></button>` : ''}
           <button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client">
             <i class="ti ti-trash"></i>
           </button>
