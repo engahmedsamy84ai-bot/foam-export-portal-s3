@@ -1271,6 +1271,9 @@ td:first-child{color:var(--ink);font-weight:700}
 .auth-tab{flex:1;border:none;background:transparent;padding:9px;border-radius:9px;font-weight:800;font-size:13px;color:var(--ink-3);cursor:pointer;font-family:inherit}
 .auth-tab.active{background:#fff;color:var(--royal);box-shadow:0 2px 8px rgba(0,0,0,.08)}
 
+/* Regional Performance banner */
+.region-banner{display:inline-block;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-style:italic;font-weight:800;font-size:13px;padding:6px 16px;border-radius:999px;box-shadow:0 2px 8px rgba(21,128,61,.35)}
+
 /* Form Grid */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .form-grid .fi{padding:10px 12px;font-size:13px;background:#f8fafc}
@@ -1731,7 +1734,7 @@ td:first-child{color:var(--ink);font-weight:700}
       <div class="page active" id="page-dashboard">
         <div class="page-header">
           <div>
-            <div class="page-title">Dashboard</div>
+            <div class="page-title">Export KPI DashboarD</div>
             <div class="page-sub">Interactive analytics for clients, exported Foam &amp; Plastic quantities (KG), and shipments.</div>
           </div>
           <div class="header-btn-group">
@@ -1800,7 +1803,7 @@ td:first-child{color:var(--ink);font-weight:700}
         <div class="charts-row">
           <div class="card">
             <div class="c-title">
-              <span id="barChartTitle">Monthly shipments — 2026 (Foam vs Plastic KG)</span>
+              <span id="barChartTitle">Performance OvervieW — 2026 (Foam vs Plastic KG)</span>
               <span class="badge ba" id="barChartScope">All Clients</span>
             </div>
             <div class="bars" id="monthlyBarsContainer"></div>
@@ -1815,11 +1818,11 @@ td:first-child{color:var(--ink);font-weight:700}
 
           <div class="card">
             <div class="c-title">
-              <span>Clients by region</span>
+              <span class="region-banner">Regional Performance</span>
               <span class="badge bi" id="regionScopeBadge">Global</span>
             </div>
             <div class="donut-area">
-              <svg class="donut-svg" viewBox="0 0 72 72">
+              <svg class="donut-svg" style="display:none" viewBox="0 0 72 72">
                 <circle cx="36" cy="36" r="24" fill="none" stroke="#e2e8f0" stroke-width="11"/>
                 <circle id="donutArc1" cx="36" cy="36" r="24" fill="none" stroke="#1d4ed8" stroke-width="11" stroke-dasharray="62 89" stroke-dashoffset="20" stroke-linecap="round"/>
                 <circle id="donutArc2" cx="36" cy="36" r="24" fill="none" stroke="#06b6d4" stroke-width="11" stroke-dasharray="36 89" stroke-dashoffset="-42" stroke-linecap="round"/>
@@ -2078,6 +2081,7 @@ td:first-child{color:var(--ink);font-weight:700}
                   <th>Total Weight (KG)</th>
                   <th>Status</th>
                   <th>Update Status</th>
+                  <th>Delete Order</th>
                 </tr>
               </thead>
               <tbody id="ordersTableBody"></tbody>
@@ -2088,6 +2092,7 @@ td:first-child{color:var(--ink);font-weight:700}
 
       <!-- ── PAGE: PRODUCTION ── -->
       <div class="page" id="page-production">
+        <input type="file" id="packingFileInput" accept=".xlsx,.xlsm,.pdf" style="display:none" onchange="onPackingFileChosen(this)">
         <div class="page-header">
           <div>
             <div class="page-title">Production</div>
@@ -2115,6 +2120,8 @@ td:first-child{color:var(--ink);font-weight:700}
                   <th>Export date</th>
                   <th>Foam KG</th>
                   <th>Plastic KG</th>
+                  <th>ORDER</th>
+                  <th>Packing</th>
                   <th>Progress</th>
                   <th>Stage</th>
                 </tr>
@@ -2793,6 +2800,57 @@ async function enterPortal(loginRes) {
   showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
+// ═══ ORDERS: download, packing upload ═══
+let pendingPackingOrd = null;
+
+function downloadOrder(ordNo) {
+  const o = packingOrders.find(x => x.ordNo === ordNo);
+  if (!o || !o.driveLink) {
+    showToast('No order file is saved for this order.', 'error');
+    return;
+  }
+  const m = String(o.driveLink).match(/[-\w]{25,}/);
+  if (!m) {
+    showToast('The order file link is not valid.', 'error');
+    return;
+  }
+  window.open('https://drive.google.com/uc?export=download&id=' + m[0], '_blank');
+}
+
+function triggerPackingUpload(ordNo) {
+  pendingPackingOrd = ordNo;
+  document.getElementById('packingFileInput').click();
+}
+
+async function onPackingFileChosen(input) {
+  const f = input.files && input.files[0];
+  input.value = '';
+  if (!f || !pendingPackingOrd) return;
+  const ext = f.name.split('.').pop().toLowerCase();
+  if (!['xlsx', 'xlsm', 'pdf'].includes(ext)) {
+    showToast('Only .xlsx, .xlsm or .pdf files can be uploaded.', 'error');
+    pendingPackingOrd = null;
+    return;
+  }
+  const ordNo = pendingPackingOrd;
+  pendingPackingOrd = null;
+  showToast('Uploading packing file…', 'info');
+  try {
+    const base64 = await blobToBase64(f);
+    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64 });
+    const o = packingOrders.find(x => x.ordNo === ordNo);
+    if (o) {
+      o.packingName = f.name;
+      o.packingLink = res.url;
+    }
+    renderOrdersTable();
+    renderProductionTable();
+    showToast('Packing file saved to Sheets, Drive and the site.', 'success');
+  } catch (e) {
+    showToast('Upload failed: ' + e.message, 'error');
+  }
+}
+
 // ═══ ORDERS: delete, export date, packing report, production ═══
 async function deleteOrder(ordNo) {
   const order = packingOrders.find(o => o.ordNo === ordNo);
@@ -2880,6 +2938,13 @@ function renderProductionTable() {
       <td>${o.expDate}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
+      <td>
+        <button class="btn-outline" type="button" onclick="downloadOrder('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px" ${o.driveLink ? '' : 'disabled'}><i class="ti ti-download"></i>download order</button>
+      </td>
+      <td>
+        ${o.packingLink ? `<a href="${o.packingLink}" target="_blank" style="font-size:11px;font-weight:700;color:var(--royal)">${o.packingName}</a><br>` : ''}
+        ${canOrd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
+      </td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
         <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
@@ -3315,7 +3380,7 @@ function updateDashboard() {
   document.getElementById('kpiOrdersUnit').textContent = year === 'ALL' ? 'shipments (2025–2026)' : `shipments in ${year}`;
 
   // Update Bar Chart Title & Bars
-  document.getElementById('barChartTitle').textContent = `Monthly shipments — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
+  document.getElementById('barChartTitle').textContent = `Performance OvervieW — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
   document.getElementById('barChartScope').textContent = client === 'ALL' ? 'All Clients' : client;
 
   const maxFoam = Math.max(...dataset.foam, 1);
@@ -3357,12 +3422,11 @@ function updateDashboard() {
   document.getElementById('donutCenterLbl').textContent = totalClients === 1 ? 'client' : 'clients';
   document.getElementById('regionScopeBadge').textContent = client === 'ALL' ? 'Global' : client;
 
-  document.getElementById('donutLegendContainer').innerHTML = `
-    <div class="dl-item"><div class="dl-dot" style="background:#1d4ed8"></div>Europe — ${eu}</div>
-    <div class="dl-item"><div class="dl-dot" style="background:#06b6d4"></div>Middle East — ${me}</div>
-    <div class="dl-item"><div class="dl-dot" style="background:#10b981"></div>Africa — ${af}</div>
-    <div class="dl-item"><div class="dl-dot" style="background:#f59e0b"></div>Other — ${ot}</div>
-  `;
+  const regRows = [['Europe', eu, '#16a34a'], ['Middle East', me, '#84cc16'], ['Africa', af, '#facc15'], ['Other', ot, '#9ca3af']];
+  document.getElementById('donutLegendContainer').innerHTML = regRows.map(([name, v, col]) => {
+    const pct = Math.round((v / regSum) * 100);
+    return `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:7px 2px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;width:100%"><span style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:3px;background:${col};display:inline-block"></span>${name}</span><span style="font-weight:800">${pct}%</span></div>`;
+  }).join('');
 
   // Filter Dashboard Clients Table
   const filteredClients = client === 'ALL' ? clientsList : clientsList.filter(c => c.name === client);
@@ -3533,8 +3597,8 @@ function renderOrdersTable() {
             <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
             <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
           </select>
-          ${canOrd ? `<div style="margin-top:6px"><button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button></div>` : ''}
         </td>
+        <td>${canOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
       </tr>
     `;
   }).join('');
