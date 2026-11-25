@@ -3187,6 +3187,54 @@ async function buildPackingPdfBytes(file) {
   return await doc.save();
 }
 
+// Makes a standard .xlsx from the uploaded .xlsm: removes the macros and sets the print area
+// of "Packing List" to its data only (so the PDF has the table and not the empty sheet)
+async function makeXlsxFromWorkbook(file) {
+  const zip = await JSZip.loadAsync(file);
+  Object.keys(zip.files).filter(n => /vbaProject\.bin$/i.test(n)).forEach(n => zip.remove(n));
+
+  let ct = await zip.file('[Content_Types].xml').async('string');
+  ct = ct.replace('application/vnd.ms-excel.sheet.macroEnabled.main+xml',
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml')
+         .replace(/<Override[^>]*vbaProject[^>]*\/>/g, '');
+  zip.file('[Content_Types].xml', ct);
+
+  let rels = await zip.file('xl/_rels/workbook.xml.rels').async('string');
+  rels = rels.replace(/<Relationship[^>]*vbaProject[^>]*\/>/g, '');
+  zip.file('xl/_rels/workbook.xml.rels', rels);
+
+  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
+  const sheets = Array.from(wbDoc.getElementsByTagName('sheet'));
+  const idx = sheets.findIndex(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
+  if (idx < 0) throw new Error('The file has no sheet named "Packing List".');
+  const rid = sheets[idx].getAttribute('r:id');
+  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
+  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
+  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
+
+  let lastRow = 1, lastCol = 1;
+  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
+    const hasValue = c.getElementsByTagName('v').length || c.getElementsByTagName('is').length || c.getElementsByTagName('f').length;
+    if (!hasValue) return;
+    const ref = splitRef(c.getAttribute('r'));
+    lastRow = Math.max(lastRow, ref.r);
+    lastCol = Math.max(lastCol, ref.c);
+  });
+  const colLetter = n => { let s2 = ''; while (n > 0) { const m2 = (n - 1) % 26; s2 = String.fromCharCode(65 + m2) + s2; n = Math.floor((n - 1) / 26); } return s2; };
+  const printArea = `'Packing List'!$A$1:$${colLetter(Math.min(lastCol, 26))}$${lastRow}`;
+
+  let wbXml = await zip.file('xl/workbook.xml').async('string');
+  wbXml = wbXml.replace(new RegExp(`<definedName name="_xlnm\\.Print_Area" localSheetId="${idx}"[^>]*>[^<]*<\\/definedName>`, 'g'), '');
+  const dn = `<definedName name="_xlnm.Print_Area" localSheetId="${idx}">${printArea.replace(/&/g, '&amp;')}</definedName>`;
+  if (wbXml.includes('<definedNames>')) {
+    wbXml = wbXml.replace('<definedNames>', () => '<definedNames>' + dn);
+  } else {
+    wbXml = wbXml.replace('</sheets>', () => '</sheets><definedNames>' + dn + '</definedNames>');
+  }
+  zip.file('xl/workbook.xml', wbXml);
+  return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
+}
+
 async function onPackingFileChosen(input) {
   const f = input.files && input.files[0];
   input.value = '';
@@ -3199,31 +3247,38 @@ async function onPackingFileChosen(input) {
   }
   const ordNo = pendingPackingOrd;
   pendingPackingOrd = null;
-  showToast('Uploading packing file…', 'info');
+
+  if (ext === 'pdf') {
+    // a PDF made in Excel is stored as it is, so the Report shows it exactly
+    showToast('Uploading PDF…', 'info');
+    try {
+      const pdfB64 = await blobToBase64(f);
+      const pr = await api('uploadPackingPdf', { ordNo: ordNo, base64: pdfB64 });
+      const o = packingOrders.find(x => x.ordNo === ordNo);
+      if (o) { o.packingPdfName = pr.pdfName; o.packingPdfLink = pr.url; }
+      renderOrdersTable(); renderProductionTable(); renderPackingTable();
+      showToast('PDF saved. The Report button will open this file.', 'success');
+    } catch (err) {
+      showToast('Upload failed: ' + err.message, 'error');
+    }
+    return;
+  }
+
+  showToast('Uploading and making the PDF automatically…', 'info');
   try {
     const base64 = await blobToBase64(f);
-    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64 });
+    const xlsxB64 = ext === 'xlsm' ? await makeXlsxFromWorkbook(f) : base64;
+    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64, xlsxBase64: xlsxB64 });
     const o = packingOrders.find(x => x.ordNo === ordNo);
     if (o) {
       o.packingName = f.name;
       o.packingLink = res.url;
+      o.packingPdfName = res.pdfName || '';
+      o.packingPdfLink = res.pdfUrl || '';
     }
-    let pdfError = '';
-    try {
-      const pdfBytes = await buildPackingPdfBytes(f);
-      const pr = await api('uploadPackingPdf', { ordNo: ordNo, base64: uint8ToBase64(pdfBytes) });
-      if (o) {
-        o.packingPdfName = pr.pdfName;
-        o.packingPdfLink = pr.url;
-      }
-    } catch (err) {
-      pdfError = err.message;
-    }
-    renderOrdersTable();
-    renderProductionTable();
-    renderPackingTable();
-    if (pdfError) {
-      showToast('File saved, but the PDF could not be made: ' + pdfError, 'error');
+    renderOrdersTable(); renderProductionTable(); renderPackingTable();
+    if (res.pdfError) {
+      showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
     } else {
       showToast('File and PDF saved to Google Drive and Sheets.', 'success');
     }
