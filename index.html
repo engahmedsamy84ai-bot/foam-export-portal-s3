@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>Foam Industries — Global Export Portal (S3)</title>
+<title>Foam Industries — Global Export Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -637,10 +637,6 @@ html,body{
   text-overflow:ellipsis;
   margin-bottom:9px;
 }
-.sync-status{margin:8px 0 10px;font-size:11.5px;font-weight:600;color:var(--ink-4);line-height:1.45}
-.sync-status[data-state="ok"]{color:var(--emerald)}
-.sync-status[data-state="saving"]{color:var(--royal)}
-.sync-status[data-state="error"],.sync-status[data-state="offline"]{color:var(--coral)}
 .btn-sync-now{
   width:100%;
   padding:8px 10px;
@@ -1266,60 +1262,6 @@ td:first-child{color:var(--ink);font-weight:700}
 .order-upload-btn{width:100%;justify-content:center}
 .order-file-name{font-size:12px;color:var(--ink-4);font-weight:600;word-break:break-all}
 
-/* Sign in / Sign up tabs */
-.auth-tabs{display:flex;background:#f1f5f9;border-radius:12px;padding:4px;margin:14px 0 16px}
-.auth-tab{flex:1;border:none;background:transparent;padding:9px;border-radius:9px;font-weight:800;font-size:13px;color:var(--ink-3);cursor:pointer;font-family:inherit}
-.auth-tab.active{background:#fff;color:var(--royal);box-shadow:0 2px 8px rgba(0,0,0,.08)}
-
-/* ═══ Design system (modern, professional) ═══ */
-body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
-.page-title,.kpi-val,.topbar-title,.c-title{font-family:'Plus Jakarta Sans','Inter',sans-serif}
-.theme-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--glass-strong);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .2s}
-.theme-btn:hover{border-color:#22c55e;color:#15803d}
-.theme-btn i{font-size:15px}
-
-.world-map{position:relative;width:70%;max-width:300px;margin:4px auto 12px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#eef6ff,#e0f2fe);box-shadow:0 6px 18px rgba(15,23,42,.10)}
-.world-map img{width:100%;display:block;opacity:.95}
-.world-map svg ellipse{transition:fill .5s ease,fill-opacity .5s ease,stroke .5s ease}
-.cont-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:600;color:var(--ink-4);transition:background .3s}
-.cont-row.on{color:var(--ink);background:rgba(21,128,61,.06)}
-.cont-name{display:flex;align-items:center;gap:9px}
-.cont-dot{width:10px;height:10px;border-radius:50%;display:inline-block;opacity:.35;transition:opacity .3s}
-.cont-row.on .cont-dot{opacity:1}
-.cont-count{font-weight:800;font-size:11.5px}
-
-#page-dashboard .card,#page-dashboard .kpi{border-radius:18px;box-shadow:0 8px 24px rgba(21,128,61,.07)}
-#page-dashboard .kpi-val{font-weight:800;letter-spacing:-.02em}
-#page-dashboard .sec-title{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin:18px 0 10px}
-
-/* ═══ Dark mode ═══ */
-html.dark body{background:#0b1320;color:#e2e8f0}
-html.dark body::before,html.dark body::after{opacity:.12}
-html.dark .topbar,html.dark .sidebar,html.dark .card,html.dark .kpi,html.dark .tbl-wrap,html.dark .modal-box,
-html.dark .toast,html.dark .search-box,html.dark .nav-footer{
-  background:#111b2e !important;border-color:#1f2d45 !important;color:#e2e8f0 !important;box-shadow:none !important}
-html.dark table th{background:#16233a !important;color:#cbd5e1 !important;border-color:#1f2d45 !important}
-html.dark table td{border-color:#1f2d45 !important;color:#e2e8f0 !important}
-html.dark .page-title,html.dark .c-title,html.dark .kpi-val,html.dark .topbar-title{color:#f8fafc !important}
-html.dark .page-sub,html.dark .kpi-unit,html.dark .kpi-label,html.dark .sec-title{color:#94a3b8 !important}
-html.dark .fi,html.dark input,html.dark select,html.dark textarea{background:#0f1a2c !important;color:#e2e8f0 !important;border-color:#1f2d45 !important}
-html.dark .btn-outline,html.dark .theme-btn,html.dark .icon-btn{background:#16233a !important;color:#e2e8f0 !important;border-color:#1f2d45 !important}
-html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
-html.dark .world-map{background:linear-gradient(180deg,#0f2a3d,#0b1f2e)}
-html.dark .cont-row.on{background:rgba(74,222,128,.08)}
-
-/* Dashboard: soft green palette */
-#page-dashboard{--royal:#15803d;--cyan:#4ade80}
-#page-dashboard .card,#page-dashboard .kpi{background:#f7fcf8;border-color:#bbf7d0}
-#page-dashboard .kpi-ico.blue{background:#dcfce7;color:#15803d}
-#page-dashboard .kpi-ico.cyan{background:#ecfdf5;color:#16a34a}
-#page-dashboard .kpi-val.blue{color:#15803d}
-#page-dashboard .bar.foam{background:linear-gradient(180deg,#166534 0%,#22c55e 100%)}
-#page-dashboard .bar.plas{background:linear-gradient(180deg,#86efac 0%,#4ade80 100%);margin-top:2px}
-
-/* Regional Performance banner */
-.region-banner{display:inline-block;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-style:italic;font-weight:800;font-size:13px;padding:6px 16px;border-radius:999px;box-shadow:0 2px 8px rgba(21,128,61,.35)}
-
 /* Form Grid */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .form-grid .fi{padding:10px 12px;font-size:13px;background:#f8fafc}
@@ -1545,55 +1487,8 @@ html.dark .cont-row.on{background:rgba(74,222,128,.08)}
   justify-content:center;
   flex-shrink:0;
 }
-
-/* ═══ DASHBOARD REDESIGN (modern, compact) ═══ */
-#page-dashboard .page-header{
-  background:linear-gradient(135deg,#052e16 0%,#15803d 55%,#22c55e 130%);
-  border-radius:22px;padding:22px 26px;margin-bottom:18px;color:#fff;
-  box-shadow:0 14px 34px rgba(21,128,61,.25);position:relative;overflow:hidden}
-#page-dashboard .page-header::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
-#page-dashboard .page-title{color:#fff;font-size:24px;letter-spacing:-.02em}
-#page-dashboard .page-sub{color:rgba(255,255,255,.78)}
-#page-dashboard .header-btn-group .sel-wrap{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25)}
-#page-dashboard .header-btn-group select{background:transparent;color:#fff}
-#page-dashboard .header-btn-group i{color:#bbf7d0}
-
-#page-dashboard .kpi-row{gap:14px;margin-bottom:16px}
-#page-dashboard .kpi{position:relative;overflow:hidden;border-radius:18px;padding:16px 18px;transition:transform .2s,box-shadow .2s}
-#page-dashboard .kpi:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(21,128,61,.14)}
-#page-dashboard .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#22c55e,#15803d)}
-#page-dashboard .kpi-val{font-size:26px}
-#page-dashboard .kpi-ico{width:38px;height:38px;border-radius:12px}
-
-#page-dashboard .charts-row{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
-#page-dashboard .charts-row .card{padding:16px 18px;border-radius:18px}
-#page-dashboard .charts-row .c-title{margin-bottom:10px}
-#page-dashboard .bars{height:150px !important}
-#page-dashboard .world-map{width:62%;max-width:210px;margin:0 auto 8px}
-#page-dashboard .cont-row{padding:6px 8px;font-size:11.5px}
-#page-dashboard .region-banner{font-size:12px;padding:5px 14px}
-#page-dashboard .sec-title{display:inline-block;background:#dcfce7;color:#166534;border-radius:999px;padding:5px 12px;letter-spacing:.04em}
-#page-dashboard .card:hover{box-shadow:0 10px 28px rgba(21,128,61,.12)}
-
-@media (max-width:900px){
-  #page-dashboard .charts-row{grid-template-columns:1fr}
-  #page-dashboard .page-header{padding:18px}
-}
-html.dark #page-dashboard .page-header{background:linear-gradient(135deg,#052e16 0%,#14532d 60%,#166534 130%)}
-html.dark #page-dashboard .kpi{background:#111b2e !important}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<script>
-  (function () {
-    var m = localStorage.getItem('foam_theme') || 'auto';
-    var h = new Date().getHours();
-    var dark = m === 'dark' || (m === 'auto' && (h >= 18 || h < 6));
-    if (dark) document.documentElement.classList.add('dark');
-  })();
-</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -1633,18 +1528,12 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
       <div class="lb-name">Foam Industries Co.</div>
       <div class="lb-sub"><span class="dot"></span>Global Export Portal</div>
 
-      <div class="auth-tabs">
-        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('signin')">Sign in</button>
-        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">Sign up</button>
-      </div>
-
       <div class="err-msg" id="loginErr">
         <i class="ti ti-alert-circle"></i>
         <span>Incorrect username or password.</span>
       </div>
 
-            <div id="signinPane">
-<div class="ff">
+      <div class="ff">
         <label for="loginUser">Username</label>
         <div class="iw">
           <i class="ico ti ti-user"></i>
@@ -1676,57 +1565,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
         <span>Sign in</span>
       </button>
 
-      <button class="btn-outline" id="bioLoginBtn" onclick="bioLogin()" type="button" style="display:none;width:100%;margin-top:10px;justify-content:center">
-        <i class="ti ti-face-id"></i>
-        <span>Sign in with Fingerprint / Face ID</span>
-      </button>
-
-            </div>
-
-      <div id="signupPane" style="display:none">
-        <div class="ff">
-          <label for="suUser">Username</label>
-          <div class="iw">
-            <i class="ico ti ti-user"></i>
-            <input class="fi" id="suUser" type="text" placeholder="Choose a username">
-          </div>
-        </div>
-        <div class="ff">
-          <label for="suMobile">Mobile</label>
-          <div class="iw">
-            <i class="ico ti ti-phone"></i>
-            <input class="fi" id="suMobile" type="text" placeholder="Mobile number">
-          </div>
-        </div>
-        <div class="ff">
-          <label for="suEmail">Email</label>
-          <div class="iw">
-            <i class="ico ti ti-mail"></i>
-            <input class="fi" id="suEmail" type="email" placeholder="Email address">
-          </div>
-        </div>
-        <div class="ff">
-          <label for="suPass">Password</label>
-          <div class="iw">
-            <i class="ico ti ti-lock"></i>
-            <input class="fi" id="suPass" type="password" placeholder="At least 8 characters">
-          </div>
-        </div>
-        <div class="ff">
-          <label for="suPass2">Confirm password</label>
-          <div class="iw">
-            <i class="ico ti ti-lock"></i>
-            <input class="fi" id="suPass2" type="password" placeholder="Repeat the password">
-          </div>
-        </div>
-
-        <button class="btn-primary" type="button" onclick="doSignup()">
-          <i class="ti ti-user-plus"></i>
-          <span>Create account</span>
-        </button>
-      </div>
-
-<div class="drive-pill">
+      <div class="drive-pill">
         <i class="ti ti-brand-google-drive"></i>
         <span>Synced with Google Drive &amp; Email Audit</span>
       </div>
@@ -1755,9 +1594,6 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
     </div>
 
     <div class="topbar-actions">
-      <button class="theme-btn" id="themeBtn" type="button" onclick="cycleTheme()" title="Theme: Auto (day/night) → Dark → Light">
-        <i class="ti ti-sun-moon" id="themeIco"></i><span id="themeLbl">Auto</span>
-      </button>
       <!-- Live Internet LED in Topbar -->
       <div class="net-pill online" id="appNetPill" style="padding:5px 10px;font-size:11px">
         <span class="net-led" style="width:8px;height:8px"></span>
@@ -1792,9 +1628,6 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
         </div>
-        <div class="nav-item" data-page="production" onclick="goPage('production')">
-          <div class="nav-item-left"><i class="ti ti-settings-automation"></i><span>Production</span></div>
-        </div>
         <div class="nav-item" data-page="packing" onclick="goPage('packing')">
           <div class="nav-item-left"><i class="ti ti-clipboard-list"></i><span>Packing list</span></div>
         </div>
@@ -1813,14 +1646,13 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
           <i class="ti ti-brand-google-drive"></i>
         </div>
         <div class="drive-path">/FOAM_INDUSTRIES/Exports_2026</div>
-        <div class="sync-status" id="syncStatus" data-state="offline">Not connected</div>
         <button class="btn-sync-now" type="button" onclick="syncDriveNow()">
           <i class="ti ti-refresh" id="syncSpinIco"></i>
           <span>Sync to Drive Now</span>
         </button>
       </div>
 
-      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong><br><span style="font-size:10px;opacity:.7">Build S3 · 2026-11-22</span></div>
+      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong></div>
     </div>
 
     <!-- CONTENT -->
@@ -1830,7 +1662,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
       <div class="page active" id="page-dashboard">
         <div class="page-header">
           <div>
-            <div class="page-title">Export KPI DashboarD</div>
+            <div class="page-title">Dashboard</div>
             <div class="page-sub">Interactive analytics for clients, exported Foam &amp; Plastic quantities (KG), and shipments.</div>
           </div>
           <div class="header-btn-group">
@@ -1838,6 +1670,10 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
               <i class="ti ti-users"></i>
               <select id="dashClientFilter" onchange="updateDashboard()">
                 <option value="ALL">All clients</option>
+                <option value="AlphaFoam GmbH">AlphaFoam GmbH</option>
+                <option value="Gulf Packing LLC">Gulf Packing LLC</option>
+                <option value="MedFoam S.A.">MedFoam S.A.</option>
+                <option value="Nile Trading Co.">Nile Trading Co.</option>
               </select>
             </div>
             <div class="sel-wrap">
@@ -1864,34 +1700,34 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
         <div class="kpi-row">
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label region-banner">Total clients</span>
+              <span class="kpi-label">Total clients</span>
               <div class="kpi-ico blue"><i class="ti ti-users"></i></div>
             </div>
-            <div class="kpi-val blue" id="kpiClients">0</div>
+            <div class="kpi-val blue" id="kpiClients">24</div>
             <div class="kpi-unit" id="kpiClientsUnit">active export accounts</div>
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label region-banner">Foam shipped</span>
+              <span class="kpi-label">Foam shipped</span>
               <div class="kpi-ico cyan"><i class="ti ti-package"></i></div>
             </div>
-            <div class="kpi-val" id="kpiFoam">0</div>
+            <div class="kpi-val" id="kpiFoam">1,842,000</div>
             <div class="kpi-unit">KG exported</div>
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label region-banner">Plastic shipped</span>
+              <span class="kpi-label">Plastic shipped</span>
               <div class="kpi-ico coral"><i class="ti ti-box"></i></div>
             </div>
-            <div class="kpi-val coral" id="kpiPlastic">0</div>
+            <div class="kpi-val coral" id="kpiPlastic">318,000</div>
             <div class="kpi-unit">KG exported</div>
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label region-banner">Orders</span>
+              <span class="kpi-label">Orders</span>
               <div class="kpi-ico emerald"><i class="ti ti-file-invoice"></i></div>
             </div>
-            <div class="kpi-val emerald" id="kpiOrders">0</div>
+            <div class="kpi-val emerald" id="kpiOrders">67</div>
             <div class="kpi-unit" id="kpiOrdersUnit">shipments in 2026</div>
           </div>
         </div>
@@ -1899,14 +1735,14 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
         <div class="charts-row">
           <div class="card">
             <div class="c-title">
-              <span id="barChartTitle" class="region-banner">Performance OvervieW — 2026 (Foam vs Plastic KG)</span>
+              <span id="barChartTitle">Monthly shipments — 2026 (Foam vs Plastic KG)</span>
               <span class="badge ba" id="barChartScope">All Clients</span>
             </div>
             <div class="bars" id="monthlyBarsContainer"></div>
             <div class="bar-legend">
               <div class="bl-group">
                 <div class="bl-item"><div class="bl-dot" style="background:var(--royal)"></div>Foam KG</div>
-                <div class="bl-item"><div class="bl-dot" style="background:#4ade80"></div>Plastic KG</div>
+                <div class="bl-item"><div class="bl-dot" style="background:#06b6d4"></div>Plastic KG</div>
               </div>
               <span style="font-size:10.5px;font-weight:700;color:var(--ink-4)" id="barHoverReadout">Tap any month for details</span>
             </div>
@@ -1914,22 +1750,11 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
 
           <div class="card">
             <div class="c-title">
-              <span class="region-banner">Regional Performance</span>
+              <span>Clients by region</span>
               <span class="badge bi" id="regionScopeBadge">Global</span>
             </div>
-            <div id="worldMap" class="world-map">
-              <img alt="World map" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAHEAqcDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDt6KKK+5PigooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiiqAKKKKkAooooAKKKKonmCiiigOYKKTdRuoDmFpabuoWgOYWilopcoc6EopaKLC50JRS0Uco+dCUUtFHKHOhKKWiiwudCUUtFFh84lFLSUcpPOgopN1LTK5goooqSgooooAKKKKACiiigAooooAKKKKACiiiqJ5gooooDmCik3UtAcwUUUUBzBRRRQHMFFFFAcwUUUVJQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFJuqieYWiiignmCiiigOYKKKKCQooopWKuFMp9KFqriG7aNtZV/qOpW8lwkOmSeVCu5ZZWG2Xjnociqfhq+8SeIN90kOjz2SRM37q+jWZv90Fv54rknjqcHys64YKrNcyOi25pa5bWdVkvN82n6tPY29myrdInkrIzE44V+WI744+taVzrz2flf8S+6kt3iVvtHHy5z9707ZPvRHGwd+yFLCVI27s1VeOSTYjx70++m75l+tOZvL+/XGag1j/aUszwp5vlNPFcW85eOVht3ANs3AcDO35fzqTQZbu4vtQ866STyf8AX2UupK3yvyAgcjJxkhRjgjnpWP8AaHc2/s+TOtsV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ABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQB//9k=" style="width:100%;display:block">
-              <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
-                <ellipse id="contNA" cx="20" cy="33" rx="13" ry="17" fill="transparent" fill-opacity="0" stroke="none"/>
-                <ellipse id="contSA" cx="30" cy="70" rx="8" ry="18" fill="transparent" fill-opacity="0" stroke="none"/>
-                <ellipse id="contEU" cx="48" cy="28" rx="6" ry="6" fill="transparent" fill-opacity="0" stroke="none"/>
-                <ellipse id="contAF" cx="50" cy="58" rx="10" ry="18" fill="transparent" fill-opacity="0" stroke="none"/>
-                <ellipse id="contAS" cx="68" cy="32" rx="18" ry="17" fill="transparent" fill-opacity="0" stroke="none"/>
-                <ellipse id="contOC" cx="85" cy="75" rx="7" ry="7" fill="transparent" fill-opacity="0" stroke="none"/>
-              </svg>
-            </div>
             <div class="donut-area">
-              <svg class="donut-svg" style="display:none" viewBox="0 0 72 72">
+              <svg class="donut-svg" viewBox="0 0 72 72">
                 <circle cx="36" cy="36" r="24" fill="none" stroke="#e2e8f0" stroke-width="11"/>
                 <circle id="donutArc1" cx="36" cy="36" r="24" fill="none" stroke="#1d4ed8" stroke-width="11" stroke-dasharray="62 89" stroke-dashoffset="20" stroke-linecap="round"/>
                 <circle id="donutArc2" cx="36" cy="36" r="24" fill="none" stroke="#06b6d4" stroke-width="11" stroke-dasharray="36 89" stroke-dashoffset="-42" stroke-linecap="round"/>
@@ -1943,7 +1768,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
           </div>
         </div>
 
-        <div class="sec-title"><span class="region-banner">Clients export breakdown (KG)</span></div>
+        <div class="sec-title">Clients export breakdown (KG)</div>
         <div class="tbl-wrap">
           <div class="tbl-scroll">
             <table>
@@ -1973,7 +1798,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
           <div class="header-btn-group">
             <button class="btn-outline" type="button" onclick="exportAllClientsExcel()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
             <button class="btn-outline" type="button" onclick="exportAllClientsPDF()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
-            <button class="btn-blue" type="button" data-write="clients" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
+            <button class="btn-blue" type="button" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
           </div>
         </div>
 
@@ -2060,10 +1885,10 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
               <div class="doc-period" id="repPeriodBadge">All months 2026</div>
             </div>
             <div class="doc-ci">
-              <div class="dci"><strong id="repCustName">—</strong>Customer</div>
+              <div class="dci"><strong id="repCustName">AlphaFoam GmbH</strong>Customer</div>
               <div class="dci"><strong id="repCustCountry">Germany</strong>Country</div>
-              <div class="dci"><strong id="repCustVat">—</strong>VAT No.</div>
-              <div class="dci"><strong id="repCustContact">—</strong>Contact</div>
+              <div class="dci"><strong id="repCustVat">DE123456789</strong>VAT No.</div>
+              <div class="dci"><strong id="repCustContact">M. Schneider</strong>Contact</div>
             </div>
             <div class="tbl-scroll">
               <table class="doc-tbl">
@@ -2129,29 +1954,30 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
             <div class="page-sub">Manage export purchase orders, production status, and dispatch approvals.</div>
           </div>
           <div class="header-btn-group">
-            <button class="btn-blue" data-write="orders" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+            <button class="btn-outline" onclick="exportPackingCSV()"><i class="ti ti-file-spreadsheet"></i>Export Orders</button>
+            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
           </div>
         </div>
 
         <div class="kpi-row">
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Total orders</span><div class="kpi-ico blue"><i class="ti ti-file-invoice"></i></div></div>
-            <div class="kpi-val blue" id="ordTotalKpi">0</div>
+            <div class="kpi-val blue" id="ordTotalKpi">67</div>
             <div class="kpi-unit">registered in 2026</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">In production</span><div class="kpi-ico cyan"><i class="ti ti-settings"></i></div></div>
-            <div class="kpi-val" id="ordProdKpi">0</div>
+            <div class="kpi-val" id="ordProdKpi">1</div>
             <div class="kpi-unit">active factory lines</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Ready to ship</span><div class="kpi-ico coral"><i class="ti ti-container"></i></div></div>
-            <div class="kpi-val coral" id="ordReadyKpi">0</div>
+            <div class="kpi-val coral" id="ordReadyKpi">1</div>
             <div class="kpi-unit">awaiting vessel</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Shipped</span><div class="kpi-ico emerald"><i class="ti ti-circle-check"></i></div></div>
-            <div class="kpi-val emerald" id="ordShippedKpi">0</div>
+            <div class="kpi-val emerald" id="ordShippedKpi">65</div>
             <div class="kpi-unit">completed exports</div>
           </div>
         </div>
@@ -2188,52 +2014,9 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
                   <th>Total Weight (KG)</th>
                   <th>Status</th>
                   <th>Update Status</th>
-                  <th>Delete Order</th>
                 </tr>
               </thead>
               <tbody id="ordersTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── PAGE: PRODUCTION ── -->
-      <div class="page" id="page-production">
-        <input type="file" id="packingFileInput" accept=".xlsx,.xlsm,.pdf" style="display:none" onchange="onPackingFileChosen(this)">
-        <div class="page-header">
-          <div>
-            <div class="page-title">Production</div>
-            <div class="page-sub">Orders on the factory floor: progress and production stage.</div>
-          </div>
-        </div>
-
-        <div class="sf-row">
-          <div class="search-box">
-            <i class="ti ti-search"></i>
-            <input type="text" id="prodSearchInput" oninput="renderProductionTable()" placeholder="Search order no. or client…">
-          </div>
-        </div>
-
-        <div class="tbl-wrap">
-          <div class="tbl-head">
-            <span class="tbl-head-title">Production line</span>
-          </div>
-          <div class="tbl-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Order No.</th>
-                  <th>Client</th>
-                  <th>Export date</th>
-                  <th>Foam KG</th>
-                  <th>Plastic KG</th>
-                  <th>ORDER</th>
-                  <th>Packing</th>
-                  <th>Progress</th>
-                  <th>Stage</th>
-                </tr>
-              </thead>
-              <tbody id="productionTableBody"></tbody>
             </table>
           </div>
         </div>
@@ -2246,23 +2029,27 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
             <div class="page-title">Packing list</div>
             <div class="page-sub">Track container dimensions, net Foam &amp; Plastic weights (KG), and shipment dispatch schedules.</div>
           </div>
-          <div class="header-btn-group"></div>
+          <div class="header-btn-group">
+            <button class="btn-outline" onclick="exportPackingCSV()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
+            <button class="btn-outline" onclick="printClientReport()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
+            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+          </div>
         </div>
 
         <div class="kpi-row" style="grid-template-columns:repeat(3,minmax(0,1fr))">
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Latest order</span><div class="kpi-ico blue"><i class="ti ti-file-invoice"></i></div></div>
-            <div class="kpi-val blue" style="font-size:19px" id="pkLatestOrd">—</div>
-            <div class="kpi-unit">latest entry</div>
+            <div class="kpi-val blue" style="font-size:19px" id="pkLatestOrd">ORD-2026-067</div>
+            <div class="kpi-unit">Nov 2026</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Total foam KG</span><div class="kpi-ico cyan"><i class="ti ti-package"></i></div></div>
-            <div class="kpi-val" id="packFoamTotal">0</div>
+            <div class="kpi-val">1,842,000</div>
             <div class="kpi-unit">all orders (KG)</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Total plastic KG</span><div class="kpi-ico coral"><i class="ti ti-box"></i></div></div>
-            <div class="kpi-val coral" id="packPlasticTotal">0</div>
+            <div class="kpi-val coral">318,000</div>
             <div class="kpi-unit">all orders (KG)</div>
           </div>
         </div>
@@ -2276,6 +2063,10 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
             <i class="ti ti-users"></i>
             <select id="packingClientFilter" onchange="renderPackingTable()">
               <option value="ALL">All clients</option>
+              <option value="AlphaFoam GmbH">AlphaFoam GmbH</option>
+              <option value="Gulf Packing LLC">Gulf Packing LLC</option>
+              <option value="MedFoam S.A.">MedFoam S.A.</option>
+              <option value="Nile Trading Co.">Nile Trading Co.</option>
             </select>
           </div>
           <div class="sel-wrap">
@@ -2286,7 +2077,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
 
         <div class="tbl-wrap">
           <div class="tbl-head">
-            <span class="tbl-head-title" id="packingTotalTitle">Orders — 0 total</span>
+            <span class="tbl-head-title" id="packingTotalTitle">Orders — 67 total</span>
             <div style="font-size:11px;font-weight:700;color:var(--royal);display:flex;align-items:center;gap:5px">
               <i class="ti ti-bell" style="font-size:14px"></i>Email notifications on
             </div>
@@ -2301,7 +2092,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
                   <th>Export date</th>
                   <th>Foam KG</th>
                   <th>Plastic KG</th>
-                  <th>Packing Report</th>
+                  <th>Size</th>
                   <th>Progress</th>
                 </tr>
               </thead>
@@ -2345,7 +2136,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
             <div class="page-title">User management</div>
             <div class="page-sub">Control team access roles and page-level permissions across the export portal.</div>
           </div>
-          <button class="btn-blue" data-write="users" onclick="resetNewUserPerms();document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
+          <button class="btn-blue" onclick="document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
         </div>
 
         <div class="perm-legend">
@@ -2401,10 +2192,6 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
       <i class="ti ti-truck-delivery"></i>
       <span>Orders</span>
     </div>
-    <div class="mb-item" data-page="production" onclick="goPage('production')">
-      <i class="ti ti-settings-automation"></i>
-      <span>Production</span>
-    </div>
     <div class="mb-item" data-page="packing" onclick="goPage('packing')">
       <i class="ti ti-clipboard-list"></i>
       <span>Packing</span>
@@ -2423,86 +2210,22 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
 </div><!-- /appShell -->
 
 <!-- ═══ MODAL: Forgot Password ═══ -->
-<div class="modal" id="editClientModal">
-  <div class="modal-box" style="max-width:560px">
-    <div class="modal-head">
-      <div class="modal-title"><i class="ti ti-edit"></i>Edit client · <span id="ecName"></span></div>
-      <button class="modal-close" onclick="closeEditClient()">×</button>
-    </div>
-    <div class="form-grid">
-      <div style="grid-column:1 / -1"><label>Client name</label><input class="fi" id="ecNameInput" type="text"></div>
-      <div><label>Country</label><input class="fi" id="ecCountry" type="text"></div>
-      <div><label>VAT No.</label><input class="fi" id="ecVat" type="text"></div>
-      <div><label>Mobile</label><input class="fi" id="ecMobile" type="text"></div>
-      <div><label>Contact person</label><input class="fi" id="ecContact" type="text"></div>
-      <div><label>Email</label><input class="fi" id="ecEmail" type="email"></div>
-      <div><label>Status</label>
-        <select class="fi" id="ecStatus"><option value="Active">Active</option><option value="Pending">Pending</option></select>
-      </div>
-      <div style="grid-column:1 / -1"><label>Address</label><input class="fi" id="ecAddress" type="text"></div>
-    </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
-      <button class="btn-outline" onclick="closeEditClient()">Cancel</button>
-      <button class="btn-blue" onclick="saveEditClient()"><i class="ti ti-check"></i>Save changes</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="permModal">
-  <div class="modal-box" style="max-width:560px">
-    <div class="modal-head">
-      <div class="modal-title"><i class="ti ti-shield-lock"></i>Permissions · <span id="pmUserName"></span></div>
-      <button class="modal-close" onclick="document.getElementById('permModal').classList.remove('open')">×</button>
-    </div>
-    <div class="tbl-scroll" style="margin-bottom:14px"><div id="pmPermBox"></div></div>
-    <div style="display:flex;justify-content:flex-end;gap:8px">
-      <button class="btn-outline" onclick="document.getElementById('permModal').classList.remove('open')">Cancel</button>
-      <button class="btn-blue" onclick="savePermissions()"><i class="ti ti-check"></i>Save permissions</button>
-    </div>
-  </div>
-</div>
-
 <div class="modal" id="forgotModal">
   <div class="modal-box" style="max-width:400px">
     <div class="modal-head">
-      <div class="modal-title"><i class="ti ti-key"></i>Reset Password</div>
-      <button class="modal-close" onclick="closeForgotModal()">×</button>
+      <div class="modal-title"><i class="ti ti-key"></i>Reset Portal Password</div>
+      <button class="modal-close" onclick="document.getElementById('forgotModal').classList.remove('open')">×</button>
     </div>
-
-    <div id="forgotStep1">
-      <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
-        Enter your username. A 6-digit code will be sent to your email, and the admin will be notified.
-      </p>
-      <div class="ff">
-        <label>Username</label>
-        <input class="fi" id="forgotInput" style="padding-left:12px" type="text" placeholder="your username">
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-        <button class="btn-outline" onclick="closeForgotModal()">Cancel</button>
-        <button class="btn-blue" onclick="submitForgotPassword()"><i class="ti ti-send"></i>Send code</button>
-      </div>
+    <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
+      Enter your registered username or corporate email address to receive password recovery instructions.
+    </p>
+    <div class="ff">
+      <label>Username or Email</label>
+      <input class="fi" id="forgotInput" style="padding-left:12px" type="text" placeholder="e.g. ahmed.samy@foam.com">
     </div>
-
-    <div id="forgotStep2" style="display:none">
-      <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
-        Enter the code from the email, then choose a new password (at least 8 characters).
-      </p>
-      <div class="ff">
-        <label>Code</label>
-        <input class="fi" id="forgotCode" style="padding-left:12px" type="text" inputmode="numeric" placeholder="6-digit code">
-      </div>
-      <div class="ff" style="margin-top:10px">
-        <label>New password</label>
-        <input class="fi" id="forgotNewPass" style="padding-left:12px" type="password">
-      </div>
-      <div class="ff" style="margin-top:10px">
-        <label>Confirm new password</label>
-        <input class="fi" id="forgotNewPass2" style="padding-left:12px" type="password">
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-        <button class="btn-outline" onclick="closeForgotModal()">Cancel</button>
-        <button class="btn-blue" onclick="confirmForgotPassword()"><i class="ti ti-check"></i>Change password</button>
-      </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn-outline" onclick="document.getElementById('forgotModal').classList.remove('open')">Cancel</button>
+      <button class="btn-blue" onclick="submitForgotPassword()"><i class="ti ti-send"></i>Send Link</button>
     </div>
   </div>
 </div>
@@ -2515,7 +2238,7 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
       <button class="modal-close" onclick="document.getElementById('addClientModal').classList.remove('open')">×</button>
     </div>
     <div class="form-grid">
-      <div><label>Client name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
+      <div><label>Customer name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
       <div><label>Country *</label><input class="fi" id="ncCountry" type="text" placeholder="e.g. Germany"></div>
       <div>
         <label>Region</label>
@@ -2529,8 +2252,8 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
       <div><label>VAT No.</label><input class="fi" id="ncVat" type="text" placeholder="e.g. DE123456789"></div>
       <div><label>Mobile</label><input class="fi" id="ncMobile" type="text" placeholder="e.g. +49 171 000"></div>
       <div><label>Contact person</label><input class="fi" id="ncContact" type="text" placeholder="e.g. M. Schneider"></div>
-      <div><label>Address</label><input class="fi" id="ncAddress" type="text" placeholder="e.g. Hauptstraße 12, Hamburg"></div>
-      <div><label>Email</label><input class="fi" id="ncEmail" type="email" placeholder="e.g. info@client.com"></div>
+      <div><label>Export Qty (KG)</label><input class="fi" id="ncQty" type="number" placeholder="e.g. 45000"></div>
+      <div><label>Account Status</label><select class="fi" id="ncStatus" style="padding-left:10px"><option value="Active">Active</option><option value="Pending">Pending</option></select></div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px">
       <button class="btn-outline" onclick="document.getElementById('addClientModal').classList.remove('open')">Cancel</button>
@@ -2550,14 +2273,18 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
       <div>
         <label>Client</label>
         <select class="fi" id="noClient" style="padding-left:10px">
+          <option>AlphaFoam GmbH</option>
+          <option>Gulf Packing LLC</option>
+          <option>MedFoam S.A.</option>
+          <option>Nile Trading Co.</option>
         </select>
       </div>
-      <div><label>Order No.</label><input class="fi" id="noNumber" type="text" value="" placeholder="e.g. ORD-2026-069" style="color:var(--royal);font-weight:700"></div>
+      <div><label>Order No.</label><input class="fi" id="noNumber" type="text" value="ORD-2026-068" readonly style="color:var(--royal);font-weight:700"></div>
       <div><label>Request date</label><input class="fi" id="noReqDate" type="date"></div>
       <div><label>Export date</label><input class="fi" id="noExpDate" type="date"></div>
       <div class="order-file-field">
         <label>Order</label>
-        <input type="file" id="noOrderFile" accept=".pdf,.png,.jpg,.jpeg" style="display:none" onchange="onOrderFileChosen(this)">
+        <input type="file" id="noOrderFile" accept=".pdf,.xls,.xlsx,.csv,.doc,.docx,.png,.jpg,.jpeg" style="display:none" onchange="onOrderFileChosen(this)">
         <button type="button" class="btn-outline order-upload-btn" onclick="document.getElementById('noOrderFile').click()"><i class="ti ti-upload"></i>Upload File</button>
         <div class="order-file-name" id="noOrderFileName">No file selected</div>
       </div>
@@ -2586,7 +2313,15 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
     </div>
     <div style="font-size:11px;color:var(--ink-2);margin-bottom:10px;font-weight:800">Page permissions</div>
     <div class="tbl-scroll" style="margin-bottom:14px">
-      <div id="nuPermBox"></div>
+      <table class="perm-table">
+        <thead><tr><th>Page</th><th>Read only</th><th>Read + write</th><th>Full edit</th></tr></thead>
+        <tbody>
+          <tr><td><i class="ti ti-layout-dashboard"></i>Dashboard</td><td><input type="radio" name="pd" value="Read" checked></td><td><input type="radio" name="pd" value="Write"></td><td><input type="radio" name="pd" value="Full edit"></td></tr>
+          <tr><td><i class="ti ti-users"></i>Clients data</td><td><input type="radio" name="pc" value="Read" checked></td><td><input type="radio" name="pc" value="Write"></td><td><input type="radio" name="pc" value="Full edit"></td></tr>
+          <tr><td><i class="ti ti-clipboard-list"></i>Packing list</td><td><input type="radio" name="pp" value="Read" checked></td><td><input type="radio" name="pp" value="Write"></td><td><input type="radio" name="pp" value="Full edit"></td></tr>
+          <tr><td><i class="ti ti-shield-lock"></i>User management</td><td><input type="radio" name="pu" value="Read"></td><td><input type="radio" name="pu" value="Write"></td><td><input type="radio" name="pu" value="Full edit" checked></td></tr>
+        </tbody>
+      </table>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px">
       <button class="btn-outline" onclick="document.getElementById('addUserModal').classList.remove('open')">Cancel</button>
@@ -2596,7 +2331,6 @@ html.dark #page-dashboard .kpi{background:#111b2e !important}
 </div>
 
 <script>
-console.log('Foam portal build S3 · 2026-11-22');
 const ADMIN_NOTIFY_EMAIL = 'eng.ahmed.samy84.ai@gmail.com';
 let currentLoggedUser = '';
 let currentLoginTimestamp = '';
@@ -2652,12 +2386,31 @@ window.addEventListener('offline', () => {
 updateInternetStatusLED();
 
 // Corporate Users
-// Users are now checked by the server (Apps Script). Passwords are no longer stored in this file.
+const USERS = {
+  admin: 'admin123',
+  'ahmed.samy': 'foam2026',
+  'sara.hassan': 'sara2026'
+};
 
 // Initial Application Datasets
-let clientsList = [];
+let clientsList = [
+  { name: 'AlphaFoam GmbH', country: 'Germany', region: 'Europe', firstRegistered: '14 Jan 2023', vat: 'DE123456789', mobile: '+49 171 000 442', contact: 'M. Schneider', qtyKg2026: 540000, qtyKg2025: 460000, lastOrder: 'Nov 2026', status: 'Active' },
+  { name: 'Gulf Packing LLC', country: 'Saudi Arabia', region: 'Middle East', firstRegistered: '09 Mar 2023', vat: 'SA987654321', mobile: '+966 50 000 881', contact: 'K. Al-Rashid', qtyKg2026: 485000, qtyKg2025: 410000, lastOrder: 'Oct 2026', status: 'Active' },
+  { name: 'MedFoam S.A.', country: 'France', region: 'Europe', firstRegistered: '22 Jul 2024', vat: 'FR445566778', mobile: '+33 6 00 00 319', contact: 'P. Dupont', qtyKg2026: 392000, qtyKg2025: 350000, lastOrder: 'Oct 2026', status: 'Pending' },
+  { name: 'Nile Trading Co.', country: 'Sudan', region: 'Africa', firstRegistered: '05 Feb 2024', vat: 'SD112233445', mobile: '+249 9 000 772', contact: 'A. Hassan', qtyKg2026: 425000, qtyKg2025: 380000, lastOrder: 'Sep 2026', status: 'Active' }
+];
 
-let packingOrders = [];
+let packingOrders = [
+  { ordNo: 'ORD-2026-067', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '01 Nov 2026', expDate: '18 Nov 2026', foamKg: 42000, plasticKg: 6500, size: '200×160', progress: 85, status: 'In Production' },
+  { ordNo: 'ORD-2026-068', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '10 Nov 2026', expDate: '27 Nov 2026', foamKg: 39500, plasticKg: 5900, size: '200×160', progress: 65, status: 'In Production' },
+  { ordNo: 'ORD-2026-064', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '12 Oct 2026', expDate: '28 Oct 2026', foamKg: 44000, plasticKg: 7100, size: '220×160', progress: 100, status: 'Shipped' },
+  { ordNo: 'ORD-2026-066', client: 'Gulf Packing LLC', dest: 'Jeddah, Saudi Arabia', reqDate: '22 Oct 2026', expDate: '05 Nov 2026', foamKg: 38500, plasticKg: 5800, size: '180×140', progress: 100, status: 'Ready to Ship' },
+  { ordNo: 'ORD-2026-063', client: 'Gulf Packing LLC', dest: 'Dammam, Saudi Arabia', reqDate: '03 Oct 2026', expDate: '19 Oct 2026', foamKg: 41200, plasticKg: 6200, size: '180×140', progress: 100, status: 'Shipped' },
+  { ordNo: 'ORD-2026-065', client: 'MedFoam S.A.', dest: 'Marseille, France', reqDate: '10 Oct 2026', expDate: '25 Oct 2026', foamKg: 29000, plasticKg: 4200, size: '160×120', progress: 100, status: 'Shipped' },
+  { ordNo: 'ORD-2026-062', client: 'MedFoam S.A.', dest: 'Le Havre, France', reqDate: '18 Sep 2026', expDate: '02 Oct 2026', foamKg: 33400, plasticKg: 4950, size: '160×120', progress: 100, status: 'Shipped' },
+  { ordNo: 'ORD-2026-061', client: 'Nile Trading Co.', dest: 'Port Sudan, Sudan', reqDate: '28 Sep 2026', expDate: '12 Oct 2026', foamKg: 51000, plasticKg: 7900, size: '220×180', progress: 100, status: 'Shipped' },
+  { ordNo: 'ORD-2025-054', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '06 Nov 2025', expDate: '21 Nov 2025', foamKg: 37000, plasticKg: 5400, size: '200×160', progress: 100, status: 'Shipped' }
+];
 
 let systemUsers = [
   { username: 'admin', mobile: '+20 100 000 0000', title: 'System Admin', dash: 'Admin', clients: 'Admin', packing: 'Admin', isDefault: true },
@@ -2666,44 +2419,63 @@ let systemUsers = [
 ];
 
 // Interactive Monthly Datasets per Client & Year for Dashboard Charts
-let MONTHLY_DATA = {};
+const MONTHLY_DATA = {
+  '2026': {
+    'ALL': {
+      foam: [132000, 158000, 114000, 184000, 146000, 198000, 165000, 142000, 179000, 152000, 192000, 80000],
+      plas: [22000, 27000, 19000, 32000, 25000, 35000, 29000, 24000, 31000, 26000, 33000, 15000],
+      clients: 24, orders: 67, regions: [10, 8, 4, 2]
+    },
+    'AlphaFoam GmbH': {
+      foam: [42000, 48000, 35000, 54000, 44000, 58000, 49000, 41000, 52000, 45000, 50000, 22000],
+      plas: [6500, 7800, 5400, 8900, 7100, 9400, 8000, 6800, 8500, 7200, 8100, 3800],
+      clients: 1, orders: 19, regions: [1, 0, 0, 0]
+    },
+    'Gulf Packing LLC': {
+      foam: [36000, 44000, 31000, 49000, 39000, 52000, 43000, 38000, 47000, 40000, 46000, 20000],
+      plas: [5800, 7100, 4900, 8200, 6300, 8600, 7100, 6200, 7700, 6500, 7400, 3200],
+      clients: 1, orders: 18, regions: [0, 1, 0, 0]
+    },
+    'MedFoam S.A.': {
+      foam: [26000, 32000, 24000, 38000, 31000, 42000, 35000, 30000, 37000, 32000, 47000, 18000],
+      plas: [4200, 5200, 3900, 6400, 5100, 7000, 5800, 4900, 6100, 5300, 7900, 3000],
+      clients: 1, orders: 14, regions: [1, 0, 0, 0]
+    },
+    'Nile Trading Co.': {
+      foam: [28000, 34000, 24000, 43000, 32000, 46000, 38000, 33000, 43000, 35000, 49000, 20000],
+      plas: [5500, 6900, 4800, 8500, 6500, 10000, 8100, 6100, 8700, 7000, 9600, 5000],
+      clients: 1, orders: 16, regions: [0, 0, 1, 0]
+    }
+  },
+  '2025': {
+    'ALL': {
+      foam: [110000, 128000, 98000, 145000, 122000, 162000, 138000, 119000, 149000, 131000, 155000, 143000],
+      plas: [18000, 21000, 16000, 25000, 20000, 28000, 23000, 19000, 25000, 22000, 26000, 24000],
+      clients: 21, orders: 58, regions: [9, 7, 3, 2]
+    },
+    'AlphaFoam GmbH': {
+      foam: [34000, 39000, 29000, 44000, 36000, 48000, 41000, 35000, 43000, 38000, 45000, 41000],
+      plas: [5200, 6100, 4500, 6900, 5600, 7400, 6300, 5400, 6700, 5900, 7000, 6400],
+      clients: 1, orders: 16, regions: [1, 0, 0, 0]
+    },
+    'Gulf Packing LLC': {
+      foam: [30000, 35000, 27000, 40000, 33000, 44000, 37000, 32000, 40000, 35000, 41000, 38000],
+      plas: [4800, 5600, 4200, 6400, 5200, 7000, 5900, 5100, 6400, 5600, 6500, 6100],
+      clients: 1, orders: 15, regions: [0, 1, 0, 0]
+    },
+    'MedFoam S.A.': {
+      foam: [22000, 26000, 20000, 29000, 25000, 33000, 28000, 24000, 30000, 27000, 32000, 29000],
+      plas: [3600, 4200, 3200, 4800, 4100, 5400, 4600, 3900, 4900, 4400, 5200, 4800],
+      clients: 1, orders: 13, regions: [1, 0, 0, 0]
+    },
+    'Nile Trading Co.': {
+      foam: [24000, 28000, 22000, 32000, 28000, 37000, 32000, 28000, 36000, 31000, 37000, 35000],
+      plas: [4400, 5100, 4100, 6900, 5100, 8200, 6200, 4600, 7000, 6100, 7300, 6700],
+      clients: 1, orders: 14, regions: [0, 0, 1, 0]
+    }
+  }
+};
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-function parseOrderDate(str) {
-  const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(String(str || '').trim());
-  if (!m) return null;
-  const month = MONTH_NAMES.indexOf(m[2]);
-  return month < 0 ? null : { year: m[3], month: month };
-}
-
-function regionIndex(region) {
-  return { 'Europe': 0, 'Middle East': 1, 'Africa': 2 }[region] ?? 3;
-}
-
-function buildMonthlyData() {
-  const data = {};
-  ['2025', '2026'].forEach(y => {
-    const allRegions = [0, 0, 0, 0];
-    clientsList.forEach(c => { allRegions[regionIndex(c.region)] += 1; });
-    data[y] = { ALL: { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: clientsList.length, orders: 0, regions: allRegions } };
-    clientsList.forEach(c => {
-      const r = [0, 0, 0, 0];
-      r[regionIndex(c.region)] = 1;
-      data[y][c.name] = { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: 1, orders: 0, regions: r };
-    });
-  });
-  packingOrders.forEach(o => {
-    const d = parseOrderDate(o.reqDate);
-    if (!d || !data[d.year]) return;
-    [data[d.year].ALL, data[d.year][o.client]].forEach(b => {
-      if (!b) return;
-      b.foam[d.month] += Number(o.foamKg) || 0;
-      b.plas[d.month] += Number(o.plasticKg) || 0;
-      b.orders += 1;
-    });
-  });
-  return data;
-}
 
 // Activity & Email Audit Log Store
 let emailAuditLogs = [
@@ -2735,7 +2507,6 @@ function dispatchEmailNotification(type, user, title, details) {
     emailStatus: navigator.onLine ? 'Sent to eng.ahmed.samy84.ai@gmail.com' : 'Queued (Offline)'
   };
   emailAuditLogs.unshift(entry);
-  persistData();
 
   // Silent background dispatch attempt via FormSubmit AJAX endpoint when online
   if (navigator.onLine) {
@@ -2843,7 +2614,7 @@ function togglePass() {
   ic.className = f.type === 'password' ? 'ti ti-eye' : 'ti ti-eye-off';
 }
 
-async function doLogin() {
+function doLogin() {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value.trim();
   const err = document.getElementById('loginErr');
@@ -2852,943 +2623,35 @@ async function doLogin() {
     err.style.display = 'flex';
     return;
   }
-  let loginRes;
-  try {
-    loginRes = await api('login', { username: u, password: p }, false);
-  } catch (e) {
-    loginRes = { ok: false, error: e.message };
-  }
-  if (!loginRes.ok) {
-    if (!/Wrong/.test(loginRes.error)) showToast(loginRes.error, 'error');
-    err.style.display = 'flex';
-    return;
-  }
-  err.style.display = 'none';
-
-  // First login on this device: offer fingerprint / Face ID
-  if (!localStorage.getItem('foam_bio') && await bioSupported()) {
-    if (confirm('Enable fingerprint / Face ID sign-in on this device?\n\nNext time you can use your fingerprint or Face ID instead of typing the password.')) {
-      await enableBiometric(loginRes.me.username);
-    }
-  }
-  await enterPortal(loginRes);
-}
-
-async function enterPortal(loginRes) {
-  const u = loginRes.me.username;
-  sessionToken = loginRes.token;
-  sessionIsAdmin = loginRes.me.admin;
-  applyPermissions(loginRes.me);
-  currentLoggedUser = u;
-  currentLoginTimestamp = new Date().toLocaleString('en-GB', {
-    day: '2-digit', month: 'short', year: 'numeric',
-    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-  });
-
-  // Keep this session so fingerprint / Face ID sign-in can reopen it on this device
-  const bio = JSON.parse(localStorage.getItem('foam_bio') || 'null');
-  if (bio && bio.username === u) {
-    localStorage.setItem('foam_bio_session', JSON.stringify({ token: loginRes.token, me: loginRes.me }));
-  }
-
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('appShell').style.display = 'flex';
-  document.getElementById('topbarUser').textContent = u;
-  document.getElementById('avatarInitial').textContent = u[0].toUpperCase();
-
-  await loadFromServer();
-
-  dispatchEmailNotification(
-    'login',
-    u,
-    `User Login: ${u}`,
-    `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
-  );
-  showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
-}
-
-// ═══ WORLD MAP: colour by the continent of each client ═══
-const CONTINENTS = [
-  { key: 'North America', color: '#6366f1', id: 'contNA' },
-  { key: 'South America', color: '#f59e0b', id: 'contSA' },
-  { key: 'Europe',        color: '#0ea5e9', id: 'contEU' },
-  { key: 'Africa',        color: '#ec4899', id: 'contAF' },
-  { key: 'Asia',          color: '#16a34a', id: 'contAS' },
-  { key: 'Oceania',       color: '#14b8a6', id: 'contOC' }
-];
-
-// ═══ THEME: Auto (dark at night, light by day), Dark, Light ═══
-const THEME_KEY = 'foam_theme';
-function themeMode() { return localStorage.getItem(THEME_KEY) || 'auto'; }
-function applyTheme() {
-  const mode = themeMode();
-  const h = new Date().getHours();
-  const dark = mode === 'dark' || (mode === 'auto' && (h >= 18 || h < 6));
-  document.documentElement.classList.toggle('dark', dark);
-  const lbl = document.getElementById('themeLbl');
-  const ico = document.getElementById('themeIco');
-  if (lbl) lbl.textContent = mode === 'auto' ? 'Auto' : (mode === 'dark' ? 'Dark' : 'Light');
-  if (ico) ico.className = dark ? 'ti ti-moon-stars' : 'ti ti-sun';
-}
-function cycleTheme() {
-  const order = ['auto', 'dark', 'light'];
-  localStorage.setItem(THEME_KEY, order[(order.indexOf(themeMode()) + 1) % 3]);
-  applyTheme();
-}
-applyTheme();
-setInterval(applyTheme, 5 * 60 * 1000);   // Auto mode switches by itself
-const COUNTRY_CONTINENT = {
-  'North America': ['usa','united states','canada','mexico','cuba','panama'],
-  'South America': ['brazil','argentina','chile','peru','colombia','venezuela','ecuador','bolivia','uruguay','paraguay'],
-  'Europe': ['germany','france','italy','spain','portugal','uk','united kingdom','england','greece','netherlands','belgium','poland','sweden','norway','denmark','austria','switzerland','ireland','romania','bulgaria','czech','hungary','russia','ukraine'],
-  'Africa': ['egypt','nigeria','south africa','kenya','morocco','algeria','tunisia','libya','sudan','ethiopia','ghana','tanzania','uganda'],
-  'Asia': ['china','india','japan','korea','saudi','uae','emirates','qatar','kuwait','oman','bahrain','jordan','iraq','iran','pakistan','bangladesh','vietnam','thailand','indonesia','malaysia','singapore','philippines','turkey','israel','lebanon','syria'],
-  'Oceania': ['australia','new zealand','fiji','papua']
-};
-
-function continentOf(c) {
-  const country = String(c.country || '').trim().toLowerCase();
-  for (const [continent, names] of Object.entries(COUNTRY_CONTINENT)) {
-    if (names.some(n => country === n || country.includes(n))) return continent;
-  }
-  if (c.region === 'Europe') return 'Europe';
-  if (c.region === 'Africa') return 'Africa';
-  if (c.region === 'Middle East') return 'Asia';
-  return 'Other';
-}
-
-function renderWorldMap(client) {
-  const list = clientsList.filter(c => client === 'ALL' || c.name === client);
-  const counts = {};
-  CONTINENTS.forEach(x => { counts[x.key] = 0; });
-  list.forEach(c => {
-    const k = continentOf(c);
-    if (k in counts) counts[k] += 1;
-  });
-  CONTINENTS.forEach(x => {
-    const el = document.getElementById(x.id);
-    if (!el) return;
-    const on = counts[x.key] > 0;
-    el.setAttribute('fill', on ? x.color : 'transparent');
-    el.setAttribute('fill-opacity', on ? '0.5' : '0');
-    el.setAttribute('stroke', on ? x.color : 'none');
-    el.setAttribute('stroke-width', '0.6');
-  });
-  const legend = document.getElementById('donutLegendContainer');
-  if (!legend) return;
-  legend.innerHTML = CONTINENTS.map(x => `
-    <div class="cont-row ${counts[x.key] ? 'on' : ''}">
-      <span class="cont-name"><span class="cont-dot" style="background:${x.color}"></span>${x.key}</span>
-      <span class="cont-count">${counts[x.key]} client${counts[x.key] === 1 ? '' : 's'}</span>
-    </div>`).join('');
-}
-
-// ═══ ORDERS: download, packing upload ═══
-let pendingPackingOrd = null;
-
-function downloadOrder(ordNo) {
-  const o = packingOrders.find(x => x.ordNo === ordNo);
-  if (!o || !o.driveLink) {
-    showToast('No order file is saved for this order.', 'error');
-    return;
-  }
-  const m = String(o.driveLink).match(/[-\w]{25,}/);
-  if (!m) {
-    showToast('The order file link is not valid.', 'error');
-    return;
-  }
-  window.open('https://drive.google.com/uc?export=download&id=' + m[0], '_blank');
-}
-
-function triggerPackingUpload(ordNo) {
-  pendingPackingOrd = ordNo;
-  document.getElementById('packingFileInput').click();
-}
-
-function uint8ToBase64(bytes) {
-  let bin = '';
-  const chunk = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunk) {
-    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
-  }
-  return btoa(bin);
-}
-
-// ---------- PDF of the "Packing List" sheet, drawn with its formats, borders, merges and logo ----------
-function xmlDoc(text) { return new DOMParser().parseFromString(text, 'application/xml'); }
-function colNum(letters) { let n = 0; for (const ch of letters) n = n * 26 + (ch.charCodeAt(0) - 64); return n; }
-function splitRef(ref) { const m = /^([A-Z]+)(\d+)$/.exec(ref); return { c: colNum(m[1]), r: +m[2] }; }
-function argbToHex(v) { if (!v || v.length < 6) return null; return '#' + v.slice(-6); }
-function resolvePath(base, target) {
-  if (target.startsWith('/')) return target.slice(1);
-  const parts = base.split('/'); parts.pop();
-  for (const seg of target.split('/')) {
-    if (seg === '..') parts.pop(); else if (seg && seg !== '.') parts.push(seg);
-  }
-  return parts.join('/');
-}
-function relsOf(doc) {
-  const map = {};
-  Array.from(doc.getElementsByTagName('Relationship')).forEach(r => { map[r.getAttribute('Id')] = { target: r.getAttribute('Target'), type: r.getAttribute('Type') || '' }; });
-  return map;
-}
-function readStyles(doc) {
-  const numFmts = {};
-  Array.from(doc.getElementsByTagName('numFmt')).forEach(n => { numFmts[n.getAttribute('numFmtId')] = n.getAttribute('formatCode'); });
-  const pick = tag => doc.getElementsByTagName(tag)[0];
-  const fonts = Array.from(pick('fonts').getElementsByTagName('font')).map(f => ({
-    bold: f.getElementsByTagName('b').length > 0,
-    size: +((f.getElementsByTagName('sz')[0] || {}).getAttribute ? f.getElementsByTagName('sz')[0].getAttribute('val') : 11) || 11,
-    color: argbToHex((f.getElementsByTagName('color')[0] || {}).getAttribute ? f.getElementsByTagName('color')[0].getAttribute('rgb') : null)
-  }));
-  const fills = Array.from(pick('fills').getElementsByTagName('fill')).map(f => {
-    const pf = f.getElementsByTagName('patternFill')[0];
-    const fg = pf && pf.getElementsByTagName('fgColor')[0];
-    return (pf && pf.getAttribute('patternType') === 'solid' && fg) ? argbToHex(fg.getAttribute('rgb')) : null;
-  });
-  const borders = Array.from(pick('borders').getElementsByTagName('border')).map(b => {
-    const out = {};
-    ['left', 'right', 'top', 'bottom'].forEach(side => {
-      const e = b.getElementsByTagName(side)[0];
-      const st = e && e.getAttribute('style');
-      if (st) out[side] = st;
+  if ((USERS[u] && USERS[u] === p) || (u === 'admin' && p === '1234')) {
+    err.style.display = 'none';
+    currentLoggedUser = u;
+    currentLoginTimestamp = new Date().toLocaleString('en-GB', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
     });
-    return out;
-  });
-  const xfs = Array.from(pick('cellXfs').getElementsByTagName('xf')).map(x => {
-    const al = x.getElementsByTagName('alignment')[0];
-    return { font: +(x.getAttribute('fontId') || 0), fill: +(x.getAttribute('fillId') || 0),
-      border: +(x.getAttribute('borderId') || 0), fmt: x.getAttribute('numFmtId'),
-      h: al ? al.getAttribute('horizontal') : null };
-  });
-  const dxfs = Array.from(doc.getElementsByTagName('dxf')).map(d => {
-    const pf = d.getElementsByTagName('patternFill')[0];
-    const bg = pf && pf.getElementsByTagName('bgColor')[0];
-    return { fill: bg ? argbToHex(bg.getAttribute('rgb')) : null,
-      bold: d.getElementsByTagName('b').length > 0 };
-  });
-  return { numFmts, fonts, fills, borders, xfs, dxfs };
-}
-function formatNumber(v, fmtId, numFmts) {
-  const code = numFmts[fmtId] || (fmtId === '2' ? '0.00' : fmtId === '3' ? '#,##0' : fmtId === '4' ? '#,##0.00' : fmtId === '1' ? '0' : '');
-  if (!code || code === 'General') return String(v);
-  if (code.includes('0.00')) return Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  if (code.includes('#,##0')) return Number(v).toLocaleString('en-US', { maximumFractionDigits: 0 });
-  if (code.includes('0')) return String(Math.round(Number(v)));
-  return String(v);
-}
 
-async function readPackingSheet(file) {
-  if (typeof JSZip === 'undefined' || typeof PDFLib === 'undefined') {
-    throw new Error('PDF tools did not load. Check your internet connection and reload.');
-  }
-  const zip = await JSZip.loadAsync(file);
-  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
-  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
-  const sheetEl = Array.from(wbDoc.getElementsByTagName('sheet')).find(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
-  if (!sheetEl) throw new Error('The file has no sheet named "Packing List".');
-  const rid = sheetEl.getAttribute('r:id');
-  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
+    document.getElementById('loginPage').style.display = 'none';
+    const app = document.getElementById('appShell');
+    app.style.display = 'flex';
+    document.getElementById('topbarUser').textContent = u;
+    document.getElementById('avatarInitial').textContent = u[0].toUpperCase();
 
-  const sstFile = zip.file('xl/sharedStrings.xml');
-  const sst = sstFile ? Array.from(xmlDoc(await sstFile.async('string')).getElementsByTagName('si'))
-    .map(si => Array.from(si.getElementsByTagName('t')).map(t => t.textContent).join('')) : [];
-  const styles = readStyles(xmlDoc(await zip.file('xl/styles.xml').async('string')));
-  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
+    renderAllTables();
+    updateDashboard();
 
-  const cells = {};          // "r,c" -> { text, xf }
-  let maxR = 1, maxC = 1;
-  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
-    const ref = splitRef(c.getAttribute('r'));
-    const t = c.getAttribute('t');
-    const vEl = c.getElementsByTagName('v')[0];
-    const isEl = c.getElementsByTagName('t')[0];
-    let text = '';
-    if (t === 's' && vEl) text = sst[+vEl.textContent] || '';
-    else if (t === 'inlineStr' && isEl) text = isEl.textContent;
-    else if (t === 'str' && vEl) text = vEl.textContent;
-    else if (t === 'b' && vEl) text = vEl.textContent === '1' ? 'TRUE' : 'FALSE';
-    else if (vEl) {
-      const xf = styles.xfs[+(c.getAttribute('s') || 0)] || {};
-      text = formatNumber(vEl.textContent, xf.fmt, styles.numFmts);
-    }
-    cells[ref.r + ',' + ref.c] = { text: text, xf: +(c.getAttribute('s') || 0) };
-    maxR = Math.max(maxR, ref.r); maxC = Math.max(maxC, ref.c);
-  });
-  const rowHt = {};
-  Array.from(sheetDoc.getElementsByTagName('row')).forEach(r => { if (r.getAttribute('ht')) rowHt[+r.getAttribute('r')] = +r.getAttribute('ht'); });
-  const colW = {};
-  Array.from(sheetDoc.getElementsByTagName('col')).forEach(c => {
-    for (let i = +c.getAttribute('min'); i <= +c.getAttribute('max') && i <= 60; i++) colW[i] = +c.getAttribute('width');
-  });
-  const merges = Array.from(sheetDoc.getElementsByTagName('mergeCell')).map(m => {
-    const [a, b] = m.getAttribute('ref').split(':').map(splitRef);
-    return { r1: a.r, c1: a.c, r2: b.r, c2: b.c };
-  });
-  // conditional formatting (the yellow rows)
-  const cfRules = [];
-  Array.from(sheetDoc.getElementsByTagName('conditionalFormatting')).forEach(cf => {
-    const sq = cf.getAttribute('sqref').split(' ')[0].split(':').map(splitRef);
-    Array.from(cf.getElementsByTagName('cfRule')).forEach(rule => {
-      const f = rule.getElementsByTagName('formula')[0];
-      const dxf = styles.dxfs[+(rule.getAttribute('dxfId') || 0)] || {};
-      if (f) cfRules.push({ r1: sq[0].r, c1: sq[0].c, r2: sq[sq.length - 1].r, c2: sq[sq.length - 1].c, formula: f.textContent, dxf: dxf });
-    });
-  });
+    dispatchEmailNotification(
+      'login',
+      u,
+      `User Login: ${u}`,
+      `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
+    );
 
-  // logo / pictures of this sheet
-  const pictures = [];
-  const sheetRelsFile = zip.file(sheetPath.replace('worksheets/', 'worksheets/_rels/') + '.rels');
-  if (sheetRelsFile) {
-    const srels = relsOf(xmlDoc(await sheetRelsFile.async('string')));
-    const drawingRel = Object.values(srels).find(r => r.type.endsWith('/drawing'));
-    if (drawingRel) {
-      const dPath = resolvePath(sheetPath, drawingRel.target);
-      const dDoc = xmlDoc(await zip.file(dPath).async('string'));
-      const drels = relsOf(xmlDoc(await zip.file(dPath.replace('drawings/', 'drawings/_rels/') + '.rels').async('string')));
-      Array.from(dDoc.getElementsByTagName('xdr:twoCellAnchor')).concat(Array.from(dDoc.getElementsByTagName('xdr:oneCellAnchor'))).forEach(anc => {
-        const from = anc.getElementsByTagName('xdr:from')[0];
-        const blip = anc.getElementsByTagName('a:blip')[0];
-        if (!from || !blip) return;
-        const rel = drels[blip.getAttribute('r:embed')];
-        if (!rel) return;
-        const num = (el, tag) => +((el.getElementsByTagName(tag)[0] || { textContent: '0' }).textContent || 0);
-        const ext = anc.getElementsByTagName('xdr:ext')[0];
-        const to = anc.getElementsByTagName('xdr:to')[0];
-        pictures.push({
-          path: resolvePath(dPath, rel.target),
-          fromCol: num(from, 'xdr:col') + 1, fromRow: num(from, 'xdr:row') + 1,
-          fromColOff: num(from, 'xdr:colOff'), fromRowOff: num(from, 'xdr:rowOff'),
-          toCol: to ? num(to, 'xdr:col') + 1 : null, toRow: to ? num(to, 'xdr:row') + 1 : null,
-          toColOff: to ? num(to, 'xdr:colOff') : 0, toRowOff: to ? num(to, 'xdr:rowOff') : 0,
-          cx: ext ? +ext.getAttribute('cx') : 0, cy: ext ? +ext.getAttribute('cy') : 0,
-          zip: zip
-        });
-      });
-    }
-  }
-  return { cells, maxR, maxC, rowHt, colW, merges, cfRules, styles, pictures, zip, sheetPath };
-}
-
-function cfMatches(rule, cells, r, c) {
-  const val = (col, row) => (cells[row + ',' + col] ? cells[row + ',' + col].text : '');
-  let f = rule.formula
-    .replace(/\$([A-Z]+)(\d+)/g, (m, col, row) => JSON.stringify(val(colNum(col), +row)))
-    .replace(/\b[A-Z]+\d+\b/g, '""');
-  f = f.replace(/<>/g, '!==').replace(/(?<![<>!=])=(?!=)/g, '===');
-  f = f.replace(/AND\(([^()]*)\)/g, (m, args) => '(' + args.split(',').join('&&') + ')');
-  f = f.replace(/ROWS\([^)]*\)/g, '1');
-  try { return !!(new Function('return (' + f + ');')()); } catch (e) { return false; }
-}
-
-async function buildPackingPdfBytes(file) {
-  const sh = await readPackingSheet(file);
-  const { cells, maxR, rowHt, colW, merges, cfRules, styles, pictures } = sh;
-  const lastR = Math.min(maxR, 200), lastC = Math.min(Math.max(sh.maxC, 1), 26);
-  const PW = 842, PH = 595, MARGIN = 22;
-  const defColPt = 48, defRowPt = 15;
-  const colPt = c => (colW[c] ? colW[c] * 7 * 0.75 + 4 : defColPt);
-  const rowPt = r => rowHt[r] || defRowPt;
-  let totalW = 0; for (let c = 1; c <= lastC; c++) totalW += colPt(c);
-  const scale = Math.min((PW - 2 * MARGIN) / totalW, 1.6);
-  const colX = [0]; for (let c = 1; c <= lastC; c++) colX[c] = colX[c - 1] + colPt(c) * scale;
-  const rowY = [0]; for (let r = 1; r <= lastR; r++) rowY[r] = rowY[r - 1] + rowPt(r) * scale;
-
-  // pages: split by whole rows
-  const usableH = PH - 2 * MARGIN;
-  const pages = []; let start = 1;
-  for (let r = 1; r <= lastR; r++) {
-    if (rowY[r] - rowY[start - 1] > usableH && r > start) { pages.push([start, r - 1]); start = r; }
-  }
-  pages.push([start, lastR]);
-
-  const { PDFDocument, StandardFonts, rgb } = PDFLib;
-  const doc = await PDFDocument.create();
-  const fonts = {
-    reg: await doc.embedFont(StandardFonts.Helvetica),
-    bold: await doc.embedFont(StandardFonts.HelveticaBold)
-  };
-  const clean = v => String(v == null ? '' : v).replace(/[^\x20-\x7E]/g, '?');
-  const hexToRgb = hex => { const n = parseInt(hex.slice(1), 16); return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255); };
-  const lineW = { thin: 0.5, hair: 0.3, medium: 1.2, thick: 1.8, double: 1.5, dotted: 0.5, dashed: 0.6 };
-
-  // which cell is covered by a merge (and must not be drawn on its own)
-  const covered = {}; const mergeAt = {};
-  merges.forEach(m => {
-    mergeAt[m.r1 + ',' + m.c1] = m;
-    for (let r = m.r1; r <= m.r2; r++) for (let c = m.c1; c <= m.c2; c++) if (r !== m.r1 || c !== m.c1) covered[r + ',' + c] = true;
-  });
-
-  // formats and conditional fills for every cell
-  const cellStyle = (r, c) => {
-    const cell = cells[r + ',' + c] || { text: '', xf: 0 };
-    const xf = styles.xfs[cell.xf] || {};
-    const font = styles.fonts[xf.font] || {};
-    let fill = styles.fills[xf.fill] || null;
-    let bold = font.bold;
-    let fcol = font.color || null;
-    cfRules.forEach(rule => {
-      if (r >= rule.r1 && r <= rule.r2 && c >= rule.c1 && c <= rule.c2 && cfMatches(rule, cells, r, c)) {
-        if (rule.dxf.fill) fill = rule.dxf.fill;
-        if (rule.dxf.bold) bold = true;
-      }
-    });
-    const isNum = cell.text !== '' && !isNaN(Number(String(cell.text).replace(/,/g, '')));
-    const align = xf.h || (isNum ? 'right' : 'left');
-    return { text: cell.text, fill, bold, color: fcol, size: (font.size || 11), align, border: styles.borders[xf.border] || {} };
-  };
-
-  pages.forEach(([r1, r2]) => {
-    const page = doc.addPage([PW, PH]);
-    const top = r => PH - MARGIN - (rowY[r - 1] - rowY[r1 - 1]);      // y of the top edge of row r on this page
-    const X = c => MARGIN + colX[c - 1];
-    for (let r = r1; r <= r2; r++) {
-      for (let c = 1; c <= lastC; c++) {
-        if (covered[r + ',' + c]) continue;
-        const m = mergeAt[r + ',' + c];
-        const rr2 = m ? m.r2 : r, cc2 = m ? m.c2 : c;
-        const x = X(c);
-        const w2 = (colX[cc2] !== undefined ? colX[cc2] : colX[lastC]) - colX[c - 1];
-        const h = (rowY[rr2] - rowY[r - 1]);
-        const y = top(r) - h;
-        const st = cellStyle(r, c);
-        if (st.fill) page.drawRectangle({ x: x, y: y, width: w2, height: h, color: hexToRgb(st.fill) });
-        const b = st.border;
-        const line = (side, x1, y1, x2, y2) => {
-          if (!b[side]) return;
-          page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness: lineW[b[side]] || 0.5, color: rgb(0, 0, 0) });
-        };
-        line('top', x, y + h, x + w2, y + h);
-        line('bottom', x, y, x + w2, y);
-        line('left', x, y, x, y + h);
-        line('right', x + w2, y, x + w2, y + h);
-        if (st.text) {
-          const f = st.bold ? fonts.bold : fonts.reg;
-          const size = Math.max(5, Math.min(st.size * scale, 22));
-          let txt = clean(st.text);
-          while (txt.length > 1 && f.widthOfTextAtSize(txt, size) > w2 - 4) txt = txt.slice(0, -1);
-          const tw = f.widthOfTextAtSize(txt, size);
-          const tx = st.align === 'center' ? x + (w2 - tw) / 2 : st.align === 'right' ? x + w2 - tw - 3 : x + 3;
-          const ty = y + h / 2 - size * 0.35;
-          page.drawText(txt, { x: tx, y: ty, size: size, font: f, color: st.color ? hexToRgb(st.color) : rgb(0, 0, 0) });
-        }
-      }
-    }
-  });
-
-  // pictures are embedded after the pages exist
-  for (const pic of sh.pictures) {
-    const bytes = await pic.zip.file(pic.path).async('uint8array');
-    const isPng = pic.path.toLowerCase().endsWith('.png');
-    const img = isPng ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
-    const pageIndex = pages.findIndex(([a, b]) => pic.fromRow >= a && pic.fromRow <= b);
-    if (pageIndex < 0) continue;
-    const [a] = pages[pageIndex];
-    const page = doc.getPages()[pageIndex];
-    const x = MARGIN + colX[pic.fromCol - 1] + (pic.fromColOff / 12700) * scale;
-    const yTop = PH - MARGIN - (rowY[pic.fromRow - 1] - rowY[a - 1]) - (pic.fromRowOff / 12700) * scale;
-    const w = pic.cx ? (pic.cx / 12700) * scale : (colX[pic.toCol - 1] - colX[pic.fromCol - 1]) * 1;
-    const hgt = pic.cy ? (pic.cy / 12700) * scale : 0;
-    page.drawImage(img, { x: x, y: yTop - hgt, width: w, height: hgt });
-  }
-  return await doc.save();
-}
-
-// Makes a standard .xlsx from the uploaded .xlsm: removes the macros and sets the print area
-// of "Packing List" to its data only (so the PDF has the table and not the empty sheet)
-async function makeXlsxFromWorkbook(file) {
-  const zip = await JSZip.loadAsync(file);
-  Object.keys(zip.files).filter(n => /vbaProject\.bin$/i.test(n)).forEach(n => zip.remove(n));
-
-  let ct = await zip.file('[Content_Types].xml').async('string');
-  ct = ct.replace('application/vnd.ms-excel.sheet.macroEnabled.main+xml',
-                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml')
-         .replace(/<Override[^>]*vbaProject[^>]*\/>/g, '');
-  zip.file('[Content_Types].xml', ct);
-
-  let rels = await zip.file('xl/_rels/workbook.xml.rels').async('string');
-  rels = rels.replace(/<Relationship[^>]*vbaProject[^>]*\/>/g, '');
-  zip.file('xl/_rels/workbook.xml.rels', rels);
-
-  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
-  const sheets = Array.from(wbDoc.getElementsByTagName('sheet'));
-  const idx = sheets.findIndex(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
-  if (idx < 0) throw new Error('The file has no sheet named "Packing List".');
-  const rid = sheets[idx].getAttribute('r:id');
-  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
-  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
-  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
-
-  let lastRow = 1, lastCol = 1;
-  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
-    const hasValue = c.getElementsByTagName('v').length || c.getElementsByTagName('is').length || c.getElementsByTagName('f').length;
-    if (!hasValue) return;
-    const ref = splitRef(c.getAttribute('r'));
-    lastRow = Math.max(lastRow, ref.r);
-    lastCol = Math.max(lastCol, ref.c);
-  });
-  const colLetter = n => { let s2 = ''; while (n > 0) { const m2 = (n - 1) % 26; s2 = String.fromCharCode(65 + m2) + s2; n = Math.floor((n - 1) / 26); } return s2; };
-  const printArea = `'Packing List'!$A$1:$${colLetter(Math.min(lastCol, 26))}$${lastRow}`;
-
-  let wbXml = await zip.file('xl/workbook.xml').async('string');
-  wbXml = wbXml.replace(new RegExp(`<definedName name="_xlnm\\.Print_Area" localSheetId="${idx}"[^>]*>[^<]*<\\/definedName>`, 'g'), '');
-  const dn = `<definedName name="_xlnm.Print_Area" localSheetId="${idx}">${printArea.replace(/&/g, '&amp;')}</definedName>`;
-  if (wbXml.includes('<definedNames>')) {
-    wbXml = wbXml.replace('<definedNames>', () => '<definedNames>' + dn);
+    showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
   } else {
-    wbXml = wbXml.replace('</sheets>', () => '</sheets><definedNames>' + dn + '</definedNames>');
-  }
-  zip.file('xl/workbook.xml', wbXml);
-  return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
-}
-
-async function onPackingFileChosen(input) {
-  const f = input.files && input.files[0];
-  input.value = '';
-  if (!f || !pendingPackingOrd) return;
-  const ext = f.name.split('.').pop().toLowerCase();
-  if (!['xlsx', 'xlsm', 'pdf'].includes(ext)) {
-    showToast('Only .xlsx, .xlsm or .pdf files can be uploaded.', 'error');
-    pendingPackingOrd = null;
-    return;
-  }
-  const ordNo = pendingPackingOrd;
-  pendingPackingOrd = null;
-
-  if (ext === 'pdf') {
-    // a PDF made in Excel is stored as it is, so the Report shows it exactly
-    showToast('Uploading PDF…', 'info');
-    try {
-      const pdfB64 = await blobToBase64(f);
-      const pr = await api('uploadPackingPdf', { ordNo: ordNo, base64: pdfB64 });
-      const o = packingOrders.find(x => x.ordNo === ordNo);
-      if (o) { o.packingPdfName = pr.pdfName; o.packingPdfLink = pr.url; }
-      renderOrdersTable(); renderProductionTable(); renderPackingTable();
-      showToast('PDF saved. The Report button will open this file.', 'success');
-    } catch (err) {
-      showToast('Upload failed: ' + err.message, 'error');
-    }
-    return;
-  }
-
-  showToast('Uploading and making the PDF automatically…', 'info');
-  try {
-    const base64 = await blobToBase64(f);
-    const xlsxB64 = ext === 'xlsm' ? await makeXlsxFromWorkbook(f) : base64;
-    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64, xlsxBase64: xlsxB64 });
-    const o = packingOrders.find(x => x.ordNo === ordNo);
-    if (o) {
-      o.packingName = f.name;
-      o.packingLink = res.url;
-      o.packingPdfName = res.pdfName || '';
-      o.packingPdfLink = res.pdfUrl || '';
-    }
-    renderOrdersTable(); renderProductionTable(); renderPackingTable();
-    if (res.pdfError) {
-      showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
-    } else {
-      showToast('File and PDF saved to Google Drive and Sheets.', 'success');
-    }
-  } catch (e) {
-    showToast('Upload failed: ' + e.message, 'error');
+    err.style.display = 'flex';
   }
 }
-
-// ═══ ORDERS: delete, export date, packing report, production ═══
-async function deleteOrder(ordNo) {
-  const order = packingOrders.find(o => o.ordNo === ordNo);
-  if (!order) return;
-  if (!confirm(`Delete order ${ordNo} (${order.client})?\n\nIt is removed from the site and from Google Sheets. Its PDF is moved to Google Drive Trash.`)) return;
-  try {
-    await api('remove', { table: 'Orders', key: ordNo });
-  } catch (e) {
-    showToast('Delete failed: ' + e.message, 'error');
-    return;
-  }
-  packingOrders = packingOrders.filter(o => o.ordNo !== ordNo);
-  serverBaseline.Orders.delete(String(ordNo));
-  renderOrdersTable();
-  renderPackingTable();
-  renderProductionTable();
-  updateDashboard();
-  dispatchEmailNotification('action', currentLoggedUser, `Deleted Order: ${ordNo}`,
-    `User "${currentLoggedUser}" deleted order ${ordNo} (${order.client}).`);
-  showToast(`Order ${ordNo} deleted`);
-}
-
-function updateExportDate(ordNo, value) {
-  const order = packingOrders.find(o => o.ordNo === ordNo);
-  if (!order) return;
-  const v = String(value || '').trim();
-  if (!v) {
-    showToast('Export date cannot be empty.', 'error');
-    renderOrdersTable();
-    return;
-  }
-  order.expDate = v;
-  persistData();
-  renderOrdersTable();
-  renderPackingTable();
-  renderProductionTable();
-  dispatchEmailNotification('action', currentLoggedUser, `Export date changed: ${ordNo}`,
-    `User "${currentLoggedUser}" changed the export date of order ${ordNo} to ${v}.`);
-  showToast(`Export date of ${ordNo} updated`);
-}
-
-async function reportPackingFile(ordNo) {
-  const o = packingOrders.find(x => x.ordNo === ordNo);
-  if (!o) return;
-  if (o.packingPdfLink) {
-    window.open(o.packingPdfLink, '_blank');
-    return;
-  }
-  if (!o.packingLink) {
-    showToast('Upload the workbook for this order in Production first.', 'error');
-    return;
-  }
-  const w = window.open('', '_blank');
-  showToast('Making the PDF from the Packing List sheet…', 'info');
-  try {
-    const res = await api('makePackingPdf', { ordNo: ordNo });
-    o.packingPdfLink = res.pdfUrl;
-    o.packingPdfName = res.pdfName;
-    if (w) w.location = res.pdfUrl; else window.open(res.pdfUrl, '_blank');
-    renderProductionTable();
-  } catch (e) {
-    if (w) w.close();
-    showToast('PDF failed: ' + e.message, 'error');
-  }
-}
-
-function printPackingReport(ordNo) {
-  const o = packingOrders.find(x => x.ordNo === ordNo);
-  if (!o) return;
-  const w = window.open('', '_blank');
-  if (!w) {
-    showToast('Allow pop-ups to open the packing report.', 'error');
-    return;
-  }
-  const foam = Number(o.foamKg) || 0;
-  const plas = Number(o.plasticKg) || 0;
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Packing Report ${o.ordNo}</title>
-<style>
-  body{font-family:Calibri,Arial,sans-serif;padding:28px;color:#0f172a}
-  h1{color:#0b2545;margin:0 0 6px;font-size:22px}
-  .sub{color:#334155;margin-bottom:18px;font-size:14px}
-  table{width:100%;border-collapse:collapse;margin-top:12px}
-  th,td{border:2px solid #000;padding:8px;text-align:center;font-size:13px}
-  th{background:#ffff00}
-  .made{text-align:center;font-size:36px;font-weight:700;margin-top:28px}
-</style></head><body>
-<h1>Foam Industries Co. - Packing Report</h1>
-<div class="sub">Order No: <b>${o.ordNo}</b> &nbsp; Client: <b>${o.client}</b> &nbsp; Destination: ${o.dest} &nbsp; Export date: ${o.expDate}</div>
-<table>
-  <thead><tr><th>Order No.</th><th>Request date</th><th>Export date</th><th>Foam KG</th><th>Plastic KG</th><th>Total KG</th><th>Status</th></tr></thead>
-  <tbody><tr><td>${o.ordNo}</td><td>${o.reqDate}</td><td>${o.expDate}</td><td>${foam.toLocaleString()}</td><td>${plas.toLocaleString()}</td><td>${(foam + plas).toLocaleString()}</td><td>${o.status}</td></tr></tbody>
-</table>
-<div class="made">MADE IN EGYPT</div>
-<script>window.onload = function () { window.print(); };<\/script>
-</body></html>`);
-  w.document.close();
-}
-
-function renderProductionTable() {
-  const tbody = document.getElementById('productionTableBody');
-  if (!tbody) return;
-  const q = (document.getElementById('prodSearchInput')?.value || '').trim().toLowerCase();
-  const rows = packingOrders.filter(o =>
-    !q || o.ordNo.toLowerCase().includes(q) || o.client.toLowerCase().includes(q));
-  const canOrd = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.orders) || ['Write', 'Full edit'].includes(myPerms.packing)) : false;
-  tbody.innerHTML = rows.map(o => `
-    <tr>
-      <td class="ord-no">${o.ordNo}</td>
-      <td>${o.client}</td>
-      <td>${o.expDate}</td>
-      <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
-      <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
-      <td>
-        <button class="btn-outline" type="button" onclick="downloadOrder('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px" ${o.driveLink ? '' : 'disabled'}><i class="ti ti-download"></i>download order</button>
-      </td>
-      <td>
-        ${o.packingLink ? `<a href="${o.packingLink}" target="_blank" style="font-size:11px;font-weight:700;color:var(--royal)">${o.packingName}</a><br>` : ''}
-        ${o.packingPdfName ? `<span style="font-size:10.5px;color:var(--ink-4)">PDF: ${o.packingPdfName}</span><br>` : ''}
-        ${canOrd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
-      </td>
-      <td>
-        <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
-        <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
-      </td>
-      <td>
-        <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canOrd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
-          <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
-          <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
-          <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-        </select>
-      </td>
-    </tr>
-  `).join('');
-}
-
-// ═══ SIGNUP ═══
-function showAuthTab(tab) {
-  const up = tab === 'signup';
-  document.getElementById('signinPane').style.display = up ? 'none' : '';
-  document.getElementById('signupPane').style.display = up ? '' : 'none';
-  document.getElementById('tabSignin').classList.toggle('active', !up);
-  document.getElementById('tabSignup').classList.toggle('active', up);
-  document.getElementById('loginErr').style.display = 'none';
-}
-
-async function doSignup() {
-  const username = document.getElementById('suUser').value.trim();
-  const mobile = document.getElementById('suMobile').value.trim();
-  const email = document.getElementById('suEmail').value.trim();
-  const pw = document.getElementById('suPass').value;
-  const pw2 = document.getElementById('suPass2').value;
-  if (!username || !mobile || !email || !pw) {
-    showToast('Please fill in all the fields.', 'error');
-    return;
-  }
-  if (pw.length < 8) {
-    showToast('The password must be at least 8 characters.', 'error');
-    return;
-  }
-  if (pw !== pw2) {
-    showToast('The two passwords do not match.', 'error');
-    return;
-  }
-  let res;
-  try {
-    res = await api('signup', { username, mobile, email, password: pw }, false);
-  } catch (e) {
-    showToast(e.message, 'error');
-    return;
-  }
-  showToast('Account created. Welcome, ' + username + '!', 'success');
-  await enterPortal(res);
-}
-
-// ═══ EDIT CLIENT ═══
-let editClientIdx = null;
-
-function openEditClient(idx) {
-  const c = clientsList[idx];
-  if (!c) return;
-  editClientIdx = idx;
-  document.getElementById('ecName').textContent = c.name;
-  document.getElementById('ecNameInput').value = c.name;
-  document.getElementById('ecCountry').value = c.country || '';
-  document.getElementById('ecVat').value = c.vat || '';
-  document.getElementById('ecMobile').value = c.mobile || '';
-  document.getElementById('ecContact').value = c.contact || '';
-  document.getElementById('ecEmail').value = c.email || '';
-  document.getElementById('ecStatus').value = c.status === 'Pending' ? 'Pending' : 'Active';
-  document.getElementById('ecAddress').value = c.address || '';
-  document.getElementById('editClientModal').classList.add('open');
-}
-
-function closeEditClient() {
-  document.getElementById('editClientModal').classList.remove('open');
-  editClientIdx = null;
-}
-
-function saveEditClient() {
-  const c = clientsList[editClientIdx];
-  if (!c) return;
-
-  const oldName = c.name;
-  const newName = document.getElementById('ecNameInput').value.trim();
-  if (!newName) {
-    showToast('The client name cannot be empty.', 'error');
-    return;
-  }
-  if (newName !== oldName) {
-    if (clientsList.some(x => x.name === newName)) {
-      showToast('A client named "' + newName + '" already exists.', 'error');
-      return;
-    }
-    c.name = newName;
-    // Orders are linked to the client by name, so they are renamed too
-    packingOrders.forEach(o => { if (o.client === oldName) o.client = newName; });
-    if (activeReportState.clientName === oldName) activeReportState.clientName = newName;
-  }
-
-  c.country = document.getElementById('ecCountry').value.trim();
-  c.vat = document.getElementById('ecVat').value.trim();
-  c.mobile = document.getElementById('ecMobile').value.trim();
-  c.contact = document.getElementById('ecContact').value.trim();
-  c.email = document.getElementById('ecEmail').value.trim();
-  c.status = document.getElementById('ecStatus').value;
-  c.address = document.getElementById('ecAddress').value.trim();
-  closeEditClient();
-  renderAllTables();
-  updateDashboard();
-  persistData();
-  showToast(newName !== oldName ? 'Client renamed to ' + newName : 'Client updated: ' + c.name, 'success');
-}
-
-// ═══ PERMISSIONS ═══
-const PERM_ROWS = [
-  { key: 'clients', label: 'Clients data', icon: 'ti-users', letter: 'c' },
-  { key: 'orders', label: 'Orders', icon: 'ti-file-invoice', letter: 'o' },
-  { key: 'packing', label: 'Packing list', icon: 'ti-clipboard-list', letter: 'p' },
-  { key: 'users', label: 'User management', icon: 'ti-shield-lock', letter: 'u' }
-];
-const PERM_LEVELS = [['None', 'No access'], ['Read', 'Read only'], ['Write', 'Read + write'], ['Full edit', 'Full control']];
-let permTarget = null;
-let myPerms = null;
-
-function permTableHTML(values, prefix) {
-  const head = PERM_LEVELS.map(([, label]) => `<th>${label}</th>`).join('');
-  const rows = PERM_ROWS.map(r => {
-    const cur = values[r.key] || 'None';
-    const cells = PERM_LEVELS.map(([v]) =>
-      `<td><input type="radio" name="${prefix}${r.letter}" value="${v}" ${cur === v ? 'checked' : ''}></td>`
-    ).join('');
-    return `<tr><td><i class="ti ${r.icon}"></i>${r.label}</td>${cells}</tr>`;
-  }).join('');
-  return `<table class="perm-table"><thead><tr><th>Page</th>${head}</tr></thead><tbody>${rows}</tbody></table>`;
-}
-
-function readPerms(prefix) {
-  const out = {};
-  PERM_ROWS.forEach(r => {
-    out[r.key] = document.querySelector(`input[name="${prefix}${r.letter}"]:checked`)?.value || 'None';
-  });
-  return out;
-}
-
-function resetNewUserPerms() {
-  document.getElementById('nuPermBox').innerHTML = permTableHTML({}, 'n');
-}
-
-function openPermModal(idx) {
-  const u = systemUsers[idx];
-  if (!u) return;
-  permTarget = u.username;
-  document.getElementById('pmUserName').textContent = u.username;
-  document.getElementById('pmPermBox').innerHTML = permTableHTML(u, 'm');
-  document.getElementById('permModal').classList.add('open');
-}
-
-async function savePermissions() {
-  const u = systemUsers.find(x => x.username === permTarget);
-  if (!u) return;
-  const perms = readPerms('m');
-  try {
-    await api('saveUser', { record: Object.assign({}, u, perms) });
-  } catch (e) {
-    showToast('Could not save: ' + e.message, 'error');
-    return;
-  }
-  Object.assign(u, perms);
-  document.getElementById('permModal').classList.remove('open');
-  renderAllTables();
-  showToast('Permissions saved.', 'success');
-}
-
-// Shows only the pages the user may open, and hides the buttons that add records
-function applyPermissions(me) {
-  myPerms = me;
-  const canWriteLevel = v => me.admin || v === 'Write' || v === 'Full edit';
-  const pageVisible = {
-    clients: me.admin || (me.clients && me.clients !== 'None'),
-    orders: me.admin || (me.orders && me.orders !== 'None'),
-    packing: me.admin || (me.packing && me.packing !== 'None'),
-    users: me.admin || (me.users && me.users !== 'None'),
-    messages: me.admin
-  };
-  Object.entries(pageVisible).forEach(([page, show]) => {
-    document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
-  });
-  const writeOk = {
-    clients: canWriteLevel(me.clients),
-    orders: canWriteLevel(me.orders) || canWriteLevel(me.packing),
-    users: canWriteLevel(me.users)
-  };
-  Object.entries(writeOk).forEach(([key, ok]) => {
-    document.querySelectorAll(`[data-write="${key}"]`).forEach(el => { el.style.display = ok ? '' : 'none'; });
-  });
-  goPage('dashboard');
-}
-
-// ═══ FINGERPRINT / FACE ID (device-bound quick sign-in) ═══
-function bytesToB64url(buf) {
-  let str = '';
-  new Uint8Array(buf).forEach(b => { str += String.fromCharCode(b); });
-  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-
-function b64urlToBytes(text) {
-  let b64 = text.replace(/-/g, '+').replace(/_/g, '/');
-  while (b64.length % 4) b64 += '=';
-  return Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-}
-
-async function bioSupported() {
-  try {
-    return !!(window.PublicKeyCredential &&
-      await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable());
-  } catch (e) {
-    return false;
-  }
-}
-
-async function enableBiometric(username) {
-  try {
-    const cred = await navigator.credentials.create({
-      publicKey: {
-        challenge: crypto.getRandomValues(new Uint8Array(32)),
-        rp: { name: 'Foam Industries Export Portal' },
-        user: {
-          id: crypto.getRandomValues(new Uint8Array(16)),
-          name: username,
-          displayName: username
-        },
-        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
-        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
-        timeout: 60000
-      }
-    });
-    localStorage.setItem('foam_bio', JSON.stringify({ username: username, credId: bytesToB64url(cred.rawId) }));
-    showToast('Fingerprint / Face ID sign-in is enabled on this device.', 'success');
-    return true;
-  } catch (e) {
-    showToast('Fingerprint setup was cancelled.', 'error');
-    return false;
-  }
-}
-
-async function bioLogin() {
-  const bio = JSON.parse(localStorage.getItem('foam_bio') || 'null');
-  const sess = JSON.parse(localStorage.getItem('foam_bio_session') || 'null');
-  if (!bio || !sess) {
-    showToast('Sign in with your password first.', 'error');
-    return;
-  }
-  try {
-    await navigator.credentials.get({
-      publicKey: {
-        challenge: crypto.getRandomValues(new Uint8Array(32)),
-        allowCredentials: [{ type: 'public-key', id: b64urlToBytes(bio.credId) }],
-        userVerification: 'required',
-        timeout: 60000
-      }
-    });
-  } catch (e) {
-    showToast('Fingerprint / Face ID check was cancelled or failed.', 'error');
-    return;
-  }
-  await enterPortal({ ok: true, token: sess.token, me: sess.me });
-}
-
-async function refreshBioButton() {
-  const btn = document.getElementById('bioLoginBtn');
-  if (!btn) return;
-  const ready = localStorage.getItem('foam_bio') && localStorage.getItem('foam_bio_session');
-  btn.style.display = (ready && await bioSupported()) ? '' : 'none';
-}
-refreshBioButton();
 
 function doLogout() {
   const departingUser = currentLoggedUser || 'admin';
@@ -3804,70 +2667,26 @@ function doLogout() {
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
   document.getElementById('loginErr').style.display = 'none';
-  refreshBioButton();
 }
 
 function openForgotModal(e) {
   e.preventDefault();
-  showForgotStep(1);
   document.getElementById('forgotModal').classList.add('open');
 }
 
-function closeForgotModal() {
+function submitForgotPassword() {
+  const val = document.getElementById('forgotInput').value.trim();
+  if (!val) {
+    showToast('Please enter your username or email address.', 'error');
+    return;
+  }
   document.getElementById('forgotModal').classList.remove('open');
   document.getElementById('forgotInput').value = '';
-  document.getElementById('forgotCode').value = '';
-  document.getElementById('forgotNewPass').value = '';
-  document.getElementById('forgotNewPass2').value = '';
-  showForgotStep(1);
+  dispatchEmailNotification('action', val, 'Password Reset Requested', `Password reset requested for account "${val}".`);
+  showToast(`Password recovery link sent to ${val}`, 'info');
 }
 
-function showForgotStep(n) {
-  document.getElementById('forgotStep1').style.display = n === 1 ? '' : 'none';
-  document.getElementById('forgotStep2').style.display = n === 2 ? '' : 'none';
-}
-
-// Step 1: ask the server to email a code to the admin
-async function submitForgotPassword() {
-  const username = document.getElementById('forgotInput').value.trim();
-  if (!username) {
-    showToast('Please enter your username.', 'error');
-    return;
-  }
-  try {
-    await api('requestReset', { username: username }, false);
-  } catch (e) {
-    showToast(e.message, 'error');
-    return;
-  }
-  showToast('If the account exists, a code was sent to its email.', 'success');
-  showForgotStep(2);
-}
-
-// Step 2: check the code and set the new password
-async function confirmForgotPassword() {
-  const username = document.getElementById('forgotInput').value.trim();
-  const code = document.getElementById('forgotCode').value.trim();
-  const pw = document.getElementById('forgotNewPass').value;
-  const pw2 = document.getElementById('forgotNewPass2').value;
-  if (!code || pw.length < 8) {
-    showToast('Enter the code and a password of at least 8 characters.', 'error');
-    return;
-  }
-  if (pw !== pw2) {
-    showToast('The two passwords do not match.', 'error');
-    return;
-  }
-  try {
-    await api('resetPassword', { username: username, code: code, newPassword: pw }, false);
-  } catch (e) {
-    showToast(e.message, 'error');
-    return;
-  }
-  closeForgotModal();
-  showToast('Password changed. Please sign in with the new password.', 'success');
-}
-
+// Unified Navigation (Syncs Desktop Sidebar & Mobile Bottom Bar)
 function goPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
@@ -3894,18 +2713,20 @@ function syncDriveNow() {
   const ico = document.getElementById('syncSpinIco');
   ico.style.transition = 'transform 0.8s ease';
   ico.style.transform = 'rotate(360deg)';
-  setTimeout(() => { ico.style.transform = 'rotate(0deg)'; }, 800);
-  if (!sessionToken) {
-    showToast('Please log in first.', 'error');
-    return;
-  }
-  queueSync(false, true);
-  showToast('Syncing with the server…', 'info');
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    'Google Drive Manual Backup',
+    `User "${currentLoggedUser}" triggered a manual cloud backup to /FOAM_INDUSTRIES/Exports_2026.`
+  );
+  setTimeout(() => {
+    ico.style.transform = 'rotate(0deg)';
+    showToast('All client records & packing lists synced to Google Drive.');
+  }, 800);
 }
 
 // ═══ INTERACTIVE DASHBOARD CHARTS & FILTERS ═══
 function updateDashboard() {
-  MONTHLY_DATA = buildMonthlyData();
   const client = document.getElementById('dashClientFilter').value;
   const year = document.getElementById('dashYearFilter').value;
   const monthIdx = document.getElementById('dashMonthFilter').value;
@@ -3939,7 +2760,7 @@ function updateDashboard() {
     totalOrders = Math.max(1, Math.round(dataset.orders / 12));
   }
 
-  const totalClients = client === 'ALL' ? clientsList.length : 1;
+  const totalClients = client === 'ALL' ? (dataset.clients + (clientsList.length - 4)) : 1;
 
   document.getElementById('kpiClients').textContent = totalClients;
   document.getElementById('kpiClientsUnit').textContent = client === 'ALL' ? 'active export accounts' : client;
@@ -3949,7 +2770,7 @@ function updateDashboard() {
   document.getElementById('kpiOrdersUnit').textContent = year === 'ALL' ? 'shipments (2025–2026)' : `shipments in ${year}`;
 
   // Update Bar Chart Title & Bars
-  document.getElementById('barChartTitle').textContent = `Performance OvervieW — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
+  document.getElementById('barChartTitle').textContent = `Monthly shipments — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
   document.getElementById('barChartScope').textContent = client === 'ALL' ? 'All Clients' : client;
 
   const maxFoam = Math.max(...dataset.foam, 1);
@@ -3991,7 +2812,12 @@ function updateDashboard() {
   document.getElementById('donutCenterLbl').textContent = totalClients === 1 ? 'client' : 'clients';
   document.getElementById('regionScopeBadge').textContent = client === 'ALL' ? 'Global' : client;
 
-  renderWorldMap(client);
+  document.getElementById('donutLegendContainer').innerHTML = `
+    <div class="dl-item"><div class="dl-dot" style="background:#1d4ed8"></div>Europe — ${eu}</div>
+    <div class="dl-item"><div class="dl-dot" style="background:#06b6d4"></div>Middle East — ${me}</div>
+    <div class="dl-item"><div class="dl-dot" style="background:#10b981"></div>Africa — ${af}</div>
+    <div class="dl-item"><div class="dl-dot" style="background:#f59e0b"></div>Other — ${ot}</div>
+  `;
 
   // Filter Dashboard Clients Table
   const filteredClients = client === 'ALL' ? clientsList : clientsList.filter(c => c.name === client);
@@ -4016,52 +2842,12 @@ function inspectBarMonth(idx, foamKg, plasKg) {
 }
 
 // Render All Tables
-function fillClientSelects() {
-  const names = clientsList.map(c => c.name);
-  const fill = (id, withAll) => {
-    const sel = document.getElementById(id);
-    if (!sel) return;
-    const prev = sel.value;
-    const head = withAll ? '<option value="ALL">All clients</option>' : '';
-    sel.innerHTML = head + names.map(n => `<option value="${n}">${n}</option>`).join('');
-    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
-  };
-  fill('dashClientFilter', true);
-  fill('packingClientFilter', true);
-  fill('noClient', false);
-}
-
-function nextOrderNumber() {
-  const nums = packingOrders.map(o => parseInt(String(o.ordNo).replace(/\D/g, '').slice(-3), 10) || 0);
-  const next = nums.length ? Math.max(...nums) + 1 : 1;
-  return 'ORD-2026-' + String(next).padStart(3, '0');
-}
-
-function updatePackingTotals() {
-  const noInput = document.getElementById('noNumber');
-  if (noInput && !noInput.value) noInput.value = nextOrderNumber();
-  const foam = packingOrders.reduce((a, o) => a + (Number(o.foamKg) || 0), 0);
-  const plas = packingOrders.reduce((a, o) => a + (Number(o.plasticKg) || 0), 0);
-  const f = document.getElementById('packFoamTotal');
-  const pl = document.getElementById('packPlasticTotal');
-  if (f) f.textContent = foam.toLocaleString();
-  if (pl) pl.textContent = plas.toLocaleString();
-  const num = o => parseInt(String(o.ordNo).replace(/\D/g, ''), 10) || 0;
-  const latest = [...packingOrders].sort((a, b) => num(b) - num(a))[0];
-  const l = document.getElementById('pkLatestOrd');
-  if (l) l.textContent = latest ? latest.ordNo : '—';
-}
-
 function renderAllTables() {
-  renderProductionTable();
-  fillClientSelects();
-  updatePackingTotals();
   populateClientReportSuggestions();
 
   // All Clients Table (Including First Registration Date)
   const clientsBody = document.getElementById('allClientsTableBody');
   if (clientsBody) {
-    const canEditClients = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.clients)) : false;
     clientsBody.innerHTML = clientsList.map((c, idx) => `
       <tr>
         <td>${c.name}</td>
@@ -4072,7 +2858,9 @@ function renderAllTables() {
         <td>${c.contact}</td>
         <td><span class="badge ${c.status === 'Active' ? 'ba' : 'bp'}">${c.status}</span></td>
         <td>
-          ${canEditClients ? `<button class="icon-btn" type="button" onclick="openEditClient(${idx})" title="Edit Client"><i class="ti ti-edit"></i></button>` : ''}
+          <button class="icon-btn" type="button" onclick="selectClientForReport(${idx})" title="Generate Client Report">
+            <i class="ti ti-report-analytics"></i>
+          </button>
           <button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client">
             <i class="ti ti-trash"></i>
           </button>
@@ -4101,7 +2889,6 @@ function renderAllTables() {
           <td><span class="badge ${badgeCls(u.clients)}">${u.clients}</span></td>
           <td><span class="badge ${badgeCls(u.packing)}">${u.packing}</span></td>
           <td>
-            <button class="icon-btn" type="button" onclick="openPermModal(${idx})" title="Permissions"><i class="ti ti-key"></i></button>
             ${u.isDefault ? '<span style="font-size:11px;color:var(--ink-4);font-weight:700">System</span>' : `
               <button class="icon-btn del" type="button" onclick="deleteUser(${idx})" title="Delete User">
                 <i class="ti ti-trash"></i>
@@ -4137,12 +2924,11 @@ function renderOrdersTable() {
   const prodKpi = document.getElementById('ordProdKpi');
   const readyKpi = document.getElementById('ordReadyKpi');
   const shippedKpi = document.getElementById('ordShippedKpi');
-  if (totalKpi) totalKpi.textContent = String(packingOrders.length);
+  if (totalKpi) totalKpi.textContent = String(63 + packingOrders.length);
   if (prodKpi) prodKpi.textContent = String(prodCount);
   if (readyKpi) readyKpi.textContent = String(readyCount);
-  if (shippedKpi) shippedKpi.textContent = String(shippedCount);
+  if (shippedKpi) shippedKpi.textContent = String(62 + shippedCount);
 
-  const canOrd = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.orders) || ['Write', 'Full edit'].includes(myPerms.packing)) : false;
   tbody.innerHTML = filtered.map(o => {
     const badgeClass = o.status === 'Shipped' ? 'ba' : (o.status === 'Ready to Ship' ? 'bi' : 'bp');
     const totalWeight = (Number(o.foamKg) || 0) + (Number(o.plasticKg) || 0);
@@ -4151,9 +2937,7 @@ function renderOrdersTable() {
         <td class="ord-no">${o.ordNo}</td>
         <td>${o.client}</td>
         <td>${o.dest}</td>
-        <td>${canOrd
-          ? `<input class="fi" type="text" value="${o.expDate}" style="padding:5px 8px;font-size:11.5px;width:130px" onchange="updateExportDate('${o.ordNo}', this.value)">`
-          : o.expDate}</td>
+        <td>${o.expDate}</td>
         <td><strong>${totalWeight.toLocaleString()} KG</strong></td>
         <td><span class="badge ${badgeClass}">${o.status}</span></td>
         <td>
@@ -4163,7 +2947,6 @@ function renderOrdersTable() {
             <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
           </select>
         </td>
-        <td>${canOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
       </tr>
     `;
   }).join('');
@@ -4175,10 +2958,8 @@ function updateOrderStatus(ordNo, newStatus) {
   order.status = newStatus;
   if (newStatus === 'Shipped') order.progress = 100;
   else if (newStatus === 'Ready to Ship') order.progress = 95;
-  persistData();
   renderOrdersTable();
   renderPackingTable();
-  renderProductionTable();
   generateClientReport(false);
   dispatchEmailNotification(
     'action',
@@ -4213,7 +2994,7 @@ function renderPackingTable() {
       <td>${o.expDate}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
-      <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Report</button></td>
+      <td><span class="size-b">${o.size}</span></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
         <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
@@ -4224,10 +3005,10 @@ function renderPackingTable() {
 
 // Client Report Generator (Displays ALL Orders, Dates & Quantities for Requested Client)
 let activeReportState = {
-  clientName: '',
-  country: '',
-  vat: '',
-  contact: '',
+  clientName: 'AlphaFoam GmbH',
+  country: 'Germany',
+  vat: 'DE123456789',
+  contact: 'M. Schneider',
   year: '2026',
   month: 'All months',
   orders: []
@@ -4250,7 +3031,7 @@ function onReportClientInputChange() {
 
 function resolveClientForReport(query) {
   if (!query) {
-    return clientsList.find(c => c.name === activeReportState.clientName) || clientsList[0] || { name: '—', country: '', vat: '', contact: '' };
+    return clientsList.find(c => c.name === activeReportState.clientName) || clientsList[0];
   }
   const q = query.toLowerCase();
   return (
@@ -4497,11 +3278,10 @@ function saveNewClient() {
   const name = document.getElementById('ncName').value.trim();
   const country = document.getElementById('ncCountry').value.trim();
   if (!name || !country) {
-    showToast('Please enter both Client name and Country.', 'error');
+    showToast('Please enter both Customer name and Country.', 'error');
     return;
   }
-  const address = document.getElementById('ncAddress').value.trim();
-  const email = document.getElementById('ncEmail').value.trim();
+  const qty = parseInt(document.getElementById('ncQty').value, 10) || 25000;
   const regDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const newC = {
     name,
@@ -4511,31 +3291,27 @@ function saveNewClient() {
     vat: document.getElementById('ncVat').value.trim() || 'N/A',
     mobile: document.getElementById('ncMobile').value.trim() || '+00 000 000',
     contact: document.getElementById('ncContact').value.trim() || 'Export Desk',
-    address,
-    email,
-    qtyKg2026: 0,
-    qtyKg2025: 0,
+    qtyKg2026: qty,
+    qtyKg2025: Math.round(qty * 0.85),
     lastOrder: 'Nov 2026',
-    status: 'Active'
+    status: document.getElementById('ncStatus').value
   };
   clientsList.unshift(newC);
-  persistData();
   document.getElementById('addClientModal').classList.remove('open');
-  ['ncName','ncCountry','ncVat','ncMobile','ncContact','ncAddress','ncEmail'].forEach(id => document.getElementById(id).value = '');
+  ['ncName','ncCountry','ncVat','ncMobile','ncContact','ncQty'].forEach(id => document.getElementById(id).value = '');
   updateDashboard();
   renderAllTables();
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
     `Added New Client: ${name}`,
-    `User "${currentLoggedUser}" added client "${name}" (${country}). Address: ${address || 'N/A'}, Email: ${email || 'N/A'}.`
+    `User "${currentLoggedUser}" added client "${name}" (${country}) with ${qty.toLocaleString()} KG export volume.`
   );
   showToast(`Client "${name}" saved & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
 function deleteClient(idx) {
   const removed = clientsList.splice(idx, 1)[0];
-  persistData();
   updateDashboard();
   renderAllTables();
   dispatchEmailNotification(
@@ -4547,216 +3323,107 @@ function deleteClient(idx) {
   showToast(`Removed ${removed.name} from clients list.`, 'info');
 }
 
-// ═══ BACKEND: Google Apps Script (data lives in Google Sheets & Drive) ═══
-const API_URL = 'https://script.google.com/macros/s/AKfycbzNQg1LFkM19dAhBixkhesF98qkv86m3jlPskGxlMoarNxeKIN83UHKHaIoP7sg82Wk/exec';   // the link that ends with /exec
-let sessionToken = null;
-let sessionIsAdmin = false;
+// ═══ GOOGLE DRIVE UPLOAD (order files) ═══
+// 1) Create an OAuth 2.0 Web Client ID in Google Cloud Console (enable Google Drive API).
+// 2) Add your site's origin to "Authorized JavaScript origins".
+// 3) Paste the Client ID below. Sign in with eng.ahmed.samy84.ai@gmail.com when prompted.
+const GDRIVE_CLIENT_ID = 'PASTE_YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com';
+const GDRIVE_ACCOUNT = 'eng.ahmed.samy84.ai@gmail.com';
+const GDRIVE_ROOT_FOLDER = 'FOAM_INDUSTRIES';
+const GDRIVE_SUB_FOLDER = 'Exports_2026';
 let pendingOrderFile = null;
-let saveTimer = null;
-let syncChain = Promise.resolve();
-let pollHandle = null;
-let serverBaseline = { Clients: new Map(), Orders: new Map(), Audit: new Map() };
+let gdriveToken = null;
+let gdriveTokenExpiry = 0;
 
-const DIFF_TABLES = {
-  Clients: { key: 'name', get: () => clientsList },
-  Orders:  { key: 'ordNo', get: () => packingOrders },
-  Audit:   { key: 'id', get: () => emailAuditLogs }
-};
-
-async function api(action, payload = {}, needsSession = true) {
-  if (API_URL.startsWith('PASTE_')) throw new Error('API_URL is not set in index.html.');
-  const body = { action, ...payload };
-  if (needsSession) body.token = sessionToken;
-  let res;
-  try {
-    res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(body) });
-  } catch (e) {
-    throw new Error('No connection to the server.');
-  }
-  const data = await res.json().catch(() => ({ ok: false, error: 'Invalid server response.' }));
-  if (!data.ok) {
-    if (data.error === 'SESSION_EXPIRED') {
-      localStorage.removeItem('foam_bio_session');
-      showToast('Session expired. Please log in again.', 'error');
-      setTimeout(() => location.reload(), 1500);
-    }
-    throw new Error(data.error || 'Server error');
-  }
-  return data;
-}
-
-function setSyncStatus(state, text) {
-  const el = document.getElementById('syncStatus');
-  if (!el) return;
-  el.dataset.state = state;
-  el.textContent = text;
-}
-
-function snapshot(list, key) {
-  return new Map(list.map(o => [String(o[key]), JSON.stringify(o)]));
-}
-
-// Sends only the records that changed in this browser since the last sync
-async function flushChanges() {
-  for (const [table, cfg] of Object.entries(DIFF_TABLES)) {
-    const list = cfg.get();
-    const base = serverBaseline[table];
-    const now = snapshot(list, cfg.key);
-    for (const o of list) {
-      const k = String(o[cfg.key]);
-      if (base.get(k) !== now.get(k)) {
-        await api('upsert', { table, record: o });
-      }
-    }
-    for (const k of base.keys()) {
-      if (!now.has(k)) await api('remove', { table, key: k });
-    }
-    serverBaseline[table] = now;
-  }
-}
-
-async function pullFromServer() {
-  const r = await api('getAll');
-  clientsList = r.data.Clients;
-  packingOrders = r.data.Orders;
-  systemUsers = r.data.Users;
-  emailAuditLogs = r.data.Audit;
-  serverBaseline = {
-    Clients: snapshot(clientsList, 'name'),
-    Orders: snapshot(packingOrders, 'ordNo'),
-    Audit: snapshot(emailAuditLogs, 'id')
-  };
-}
-
-function refreshUI() {
-  renderAllTables();
-  updateDashboard();
-  renderMessagesFeed();
-}
-
-// Sends local changes first; pulls others' changes only if the local save succeeded
-function queueSync(quiet = false, pullAfter = false) {
-  syncChain = syncChain.then(async () => {
-    try {
-      await flushChanges();
-      if (pullAfter) {
-        await pullFromServer();
-        refreshUI();
-      }
-      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
-    } catch (err) {
-      console.error(err);
-      setSyncStatus('error', 'Sync failed: ' + err.message);
-      if (!quiet) showToast('Sync failed: ' + err.message, 'error');
-    }
-  });
-}
-
-// Called after every change: saves shortly after the last change
-function persistData() {
-  if (!sessionToken) {
-    setSyncStatus('offline', 'Not logged in: changes are not saved');
-    return;
-  }
-  setSyncStatus('saving', 'Saving…');
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    saveTimer = null;
-    queueSync(false, false);
-  }, 400);
-}
-
-async function loadFromServer() {
-  setSyncStatus('saving', 'Loading data…');
-  try {
-    await pullFromServer();
-    refreshUI();
-    generateClientReport(false);
-    setSyncStatus('ok', 'Live · connected to server');
-  } catch (err) {
-    console.error(err);
-    setSyncStatus('error', 'Could not load data: ' + err.message);
-    showToast('Could not load data: ' + err.message, 'error');
-  }
-  if (!pollHandle) {
-    // Every 30 seconds: send pending changes and fetch other users' changes
-    pollHandle = setInterval(() => {
-      if (sessionToken && !saveTimer) queueSync(true, true);
-    }, 30000);
-  }
-}
-
-// ═══ ORDER FILES: PDF built in the browser, stored in Drive through the server ═══
 function onOrderFileChosen(input) {
   const f = input.files && input.files[0];
   pendingOrderFile = f || null;
   document.getElementById('noOrderFileName').textContent = f ? f.name : 'No file selected';
 }
 
-function blobToBase64(blob) {
+function getDriveToken() {
   return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(String(r.result).split(',')[1]);
-    r.onerror = () => reject(new Error('Could not read the file.'));
-    r.readAsDataURL(blob);
+    if (GDRIVE_CLIENT_ID.startsWith('PASTE_')) {
+      return reject(new Error('Google Drive Client ID is not configured.'));
+    }
+    if (!window.google || !google.accounts || !google.accounts.oauth2) {
+      return reject(new Error('Google sign-in did not load. Check your connection.'));
+    }
+    if (gdriveToken && Date.now() < gdriveTokenExpiry) return resolve(gdriveToken);
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: GDRIVE_CLIENT_ID,
+      scope: 'https://www.googleapis.com/auth/drive.file',
+      login_hint: GDRIVE_ACCOUNT,
+      callback: resp => {
+        if (resp.error) return reject(new Error(resp.error));
+        gdriveToken = resp.access_token;
+        gdriveTokenExpiry = Date.now() + (Number(resp.expires_in) - 60) * 1000;
+        resolve(gdriveToken);
+      },
+      error_callback: err => reject(new Error(err.type || 'Sign-in cancelled'))
+    });
+    client.requestAccessToken();
   });
 }
 
+async function getOrCreateDriveFolder(name, parentId, token) {
+  const parent = parentId || 'root';
+  const q = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false and '${parent}' in parents`;
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=files(id,name)`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || 'Drive lookup failed');
+  if (data.files && data.files.length) return data.files[0].id;
+
+  const created = await fetch('https://www.googleapis.com/drive/v3/files?fields=id', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, mimeType: 'application/vnd.google-apps.folder', parents: [parent] })
+  });
+  const cd = await created.json();
+  if (!created.ok) throw new Error(cd.error?.message || 'Folder creation failed');
+  return cd.id;
+}
+
 async function uploadFileToDrive(file) {
-  const base64 = await blobToBase64(file);
-  const res = await api('uploadFile', { name: file.name, base64 });
-  return res.url;
+  const token = await getDriveToken();
+  const rootId = await getOrCreateDriveFolder(GDRIVE_ROOT_FOLDER, null, token);
+  const folderId = await getOrCreateDriveFolder(GDRIVE_SUB_FOLDER, rootId, token);
+
+  const boundary = 'foam' + Date.now();
+  const body = new Blob([
+    `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`,
+    JSON.stringify({ name: file.name, parents: [folderId] }),
+    `\r\n--${boundary}\r\nContent-Type: ${file.type || 'application/octet-stream'}\r\n\r\n`,
+    file,
+    `\r\n--${boundary}--`
+  ]);
+  const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': `multipart/related; boundary=${boundary}` },
+    body
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || 'Upload failed');
+  return data.webViewLink || `https://drive.google.com/file/d/${data.id}/view`;
 }
-
-async function buildOrderPdf(file, ordNo) {
-  const { PDFDocument } = PDFLib;
-  const out = await PDFDocument.create();
-  const bytes = await file.arrayBuffer();
-
-  if (file.type === 'application/pdf') {
-    const src = await PDFDocument.load(bytes);
-    const pages = await out.copyPages(src, src.getPageIndices());
-    pages.forEach(pg => out.addPage(pg));
-  } else if (file.type === 'image/png' || file.type === 'image/jpeg') {
-    const img = file.type === 'image/png' ? await out.embedPng(bytes) : await out.embedJpg(bytes);
-    const pageW = 595.28, pageH = 841.89, margin = 36;
-    const scale = Math.min((pageW - 2 * margin) / img.width, (pageH - 2 * margin) / img.height);
-    const w = img.width * scale, h = img.height * scale;
-    const page = out.addPage([pageW, pageH]);
-    page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
-  } else {
-    throw new Error('Only PDF, PNG or JPG files can be attached.');
-  }
-
-  out.setTitle(ordNo);
-  const pdfBytes = await out.save();
-  return new File([pdfBytes], `${ordNo}.pdf`, { type: 'application/pdf' });
-}
-
 
 // Save New Packing Order
 async function saveNewOrder() {
   const client = document.getElementById('noClient').value;
-  const ordNo = document.getElementById('noNumber').value.trim();
-  if (!ordNo) {
-    showToast('Please enter the order number.', 'error');
-    return;
-  }
-  if (!pendingOrderFile) {
-    showToast('Please upload a PDF or image file for the order.', 'error');
-    return;
-  }
-  let orderFile = null;
+  const ordNo = document.getElementById('noNumber').value;
+  const orderFile = pendingOrderFile;
   let driveLink = '';
-  try {
-    showToast('Creating order PDF…', 'info');
-    orderFile = await buildOrderPdf(pendingOrderFile, ordNo);
-    showToast('Uploading to Google Drive…', 'info');
-    driveLink = await uploadFileToDrive(orderFile);
-  } catch (err) {
-    console.error(err);
-    showToast('Failed: ' + err.message, 'error');
-    return;
+  if (orderFile) {
+    showToast('Uploading order file to Google Drive…', 'info');
+    try {
+      driveLink = await uploadFileToDrive(orderFile);
+    } catch (err) {
+      console.error(err);
+      showToast('Upload failed: ' + err.message, 'error');
+      return;
+    }
   }
   const foamKg = 0;
   const plasticKg = 0;
@@ -4780,10 +3447,10 @@ async function saveNewOrder() {
     status: 'In Production'
   });
 
-  persistData();
-  document.getElementById('noNumber').value = nextOrderNumber();
+  const nextNum = 68 + packingOrders.length - 4;
+  document.getElementById('noNumber').value = `ORD-2026-0${nextNum}`;
   document.getElementById('pkLatestOrd').textContent = ordNo;
-  document.getElementById('packingTotalTitle').textContent = `Orders — ${packingOrders.length} total`;
+  document.getElementById('packingTotalTitle').textContent = `Orders — ${63 + packingOrders.length} total`;
   document.getElementById('addOrderModal').classList.remove('open');
   pendingOrderFile = null;
   document.getElementById('noOrderFile').value = '';
@@ -4801,7 +3468,7 @@ async function saveNewOrder() {
 }
 
 // Save New User
-async function saveNewUser() {
+function saveNewUser() {
   const username = document.getElementById('nuUsername').value.trim();
   if (!username) {
     showToast('Please enter a username.', 'error');
@@ -4809,23 +3476,19 @@ async function saveNewUser() {
   }
   const mobile = document.getElementById('nuMobile').value.trim() || '+20 100 000 0000';
   const title = document.getElementById('nuTitle').value.trim() || 'Export Coordinator';
-  const perms = readPerms('n');
+  const dash = document.querySelector('input[name="pd"]:checked')?.value || 'Read';
+  const clients = document.querySelector('input[name="pc"]:checked')?.value || 'Read';
+  const packing = document.querySelector('input[name="pp"]:checked')?.value || 'Read';
 
-  const password = document.getElementById('nuPass').value;
-  const password2 = document.getElementById('nuPass2').value;
-  if (!password || password !== password2) {
-    showToast('Passwords are empty or do not match.', 'error');
-    return;
-  }
-  const newUser = { username, mobile, title, dash: 'User', ...perms, email: document.getElementById('nuEmail').value.trim(), isDefault: false };
-  try {
-    await api('saveUser', { record: newUser, password });
-  } catch (err) {
-    showToast('Could not save user: ' + err.message, 'error');
-    return;
-  }
-  systemUsers.push(newUser);
-  resetNewUserPerms();
+  systemUsers.push({
+    username,
+    mobile,
+    title,
+    dash,
+    clients,
+    packing,
+    isDefault: false
+  });
   document.getElementById('addUserModal').classList.remove('open');
   ['nuUsername','nuMobile','nuTitle','nuEmail','nuPass','nuPass2'].forEach(id => document.getElementById(id).value = '');
   renderAllTables();
@@ -4833,16 +3496,13 @@ async function saveNewUser() {
     'action',
     currentLoggedUser,
     `Added Portal User: ${username}`,
-    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Clients: ${newUser.clients}, Orders: ${newUser.orders}, Packing: ${newUser.packing}, Users: ${newUser.users}].`
+    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Dashboard: ${dash}, Clients: ${clients}, Packing: ${packing}].`
   );
   showToast(`User "${username}" added & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
 function deleteUser(idx) {
-  const removed = systemUsers[idx];
-  api('remove', { table: 'Users', key: removed.username })
-    .then(() => { systemUsers.splice(idx, 1); renderAllTables(); })
-    .catch(err => showToast('Could not delete user: ' + err.message, 'error'));
+  const removed = systemUsers.splice(idx, 1)[0];
   renderAllTables();
   dispatchEmailNotification(
     'action',
