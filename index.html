@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>Foam Industries — Global Export Portal</title>
+<title>Foam Industries — Global Export Portal (S3)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -637,6 +637,10 @@ html,body{
   text-overflow:ellipsis;
   margin-bottom:9px;
 }
+.sync-status{margin:8px 0 10px;font-size:11.5px;font-weight:600;color:var(--ink-4);line-height:1.45}
+.sync-status[data-state="ok"]{color:var(--emerald)}
+.sync-status[data-state="saving"]{color:var(--royal)}
+.sync-status[data-state="error"],.sync-status[data-state="offline"]{color:var(--coral)}
 .btn-sync-now{
   width:100%;
   padding:8px 10px;
@@ -1262,6 +1266,60 @@ td:first-child{color:var(--ink);font-weight:700}
 .order-upload-btn{width:100%;justify-content:center}
 .order-file-name{font-size:12px;color:var(--ink-4);font-weight:600;word-break:break-all}
 
+/* Sign in / Sign up tabs */
+.auth-tabs{display:flex;background:#f1f5f9;border-radius:12px;padding:4px;margin:14px 0 16px}
+.auth-tab{flex:1;border:none;background:transparent;padding:9px;border-radius:9px;font-weight:800;font-size:13px;color:var(--ink-3);cursor:pointer;font-family:inherit}
+.auth-tab.active{background:#fff;color:var(--royal);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+/* ═══ Design system (modern, professional) ═══ */
+body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
+.page-title,.kpi-val,.topbar-title,.c-title{font-family:'Plus Jakarta Sans','Inter',sans-serif}
+.theme-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--glass-strong);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .2s}
+.theme-btn:hover{border-color:#22c55e;color:#15803d}
+.theme-btn i{font-size:15px}
+
+.world-map{position:relative;width:70%;max-width:300px;margin:4px auto 12px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#eef6ff,#e0f2fe);box-shadow:0 6px 18px rgba(15,23,42,.10)}
+.world-map img{width:100%;display:block;opacity:.95}
+.world-map svg ellipse{transition:fill .5s ease,fill-opacity .5s ease,stroke .5s ease}
+.cont-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:600;color:var(--ink-4);transition:background .3s}
+.cont-row.on{color:var(--ink);background:rgba(21,128,61,.06)}
+.cont-name{display:flex;align-items:center;gap:9px}
+.cont-dot{width:10px;height:10px;border-radius:50%;display:inline-block;opacity:.35;transition:opacity .3s}
+.cont-row.on .cont-dot{opacity:1}
+.cont-count{font-weight:800;font-size:11.5px}
+
+#page-dashboard .card,#page-dashboard .kpi{border-radius:18px;box-shadow:0 8px 24px rgba(21,128,61,.07)}
+#page-dashboard .kpi-val{font-weight:800;letter-spacing:-.02em}
+#page-dashboard .sec-title{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin:18px 0 10px}
+
+/* ═══ Dark mode ═══ */
+html.dark body{background:#0b1320;color:#e2e8f0}
+html.dark body::before,html.dark body::after{opacity:.12}
+html.dark .topbar,html.dark .sidebar,html.dark .card,html.dark .kpi,html.dark .tbl-wrap,html.dark .modal-box,
+html.dark .toast,html.dark .search-box,html.dark .nav-footer{
+  background:#111b2e !important;border-color:#1f2d45 !important;color:#e2e8f0 !important;box-shadow:none !important}
+html.dark table th{background:#16233a !important;color:#cbd5e1 !important;border-color:#1f2d45 !important}
+html.dark table td{border-color:#1f2d45 !important;color:#e2e8f0 !important}
+html.dark .page-title,html.dark .c-title,html.dark .kpi-val,html.dark .topbar-title{color:#f8fafc !important}
+html.dark .page-sub,html.dark .kpi-unit,html.dark .kpi-label,html.dark .sec-title{color:#94a3b8 !important}
+html.dark .fi,html.dark input,html.dark select,html.dark textarea{background:#0f1a2c !important;color:#e2e8f0 !important;border-color:#1f2d45 !important}
+html.dark .btn-outline,html.dark .theme-btn,html.dark .icon-btn{background:#16233a !important;color:#e2e8f0 !important;border-color:#1f2d45 !important}
+html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
+html.dark .world-map{background:linear-gradient(180deg,#0f2a3d,#0b1f2e)}
+html.dark .cont-row.on{background:rgba(74,222,128,.08)}
+
+/* Dashboard: soft green palette */
+#page-dashboard{--royal:#15803d;--cyan:#4ade80}
+#page-dashboard .card,#page-dashboard .kpi{background:#f7fcf8;border-color:#bbf7d0}
+#page-dashboard .kpi-ico.blue{background:#dcfce7;color:#15803d}
+#page-dashboard .kpi-ico.cyan{background:#ecfdf5;color:#16a34a}
+#page-dashboard .kpi-val.blue{color:#15803d}
+#page-dashboard .bar.foam{background:linear-gradient(180deg,#166534 0%,#22c55e 100%)}
+#page-dashboard .bar.plas{background:linear-gradient(180deg,#86efac 0%,#4ade80 100%);margin-top:2px}
+
+/* Regional Performance banner */
+.region-banner{display:inline-block;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-style:italic;font-weight:800;font-size:13px;padding:6px 16px;border-radius:999px;box-shadow:0 2px 8px rgba(21,128,61,.35)}
+
 /* Form Grid */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .form-grid .fi{padding:10px 12px;font-size:13px;background:#f8fafc}
@@ -1487,8 +1545,122 @@ td:first-child{color:var(--ink);font-weight:700}
   justify-content:center;
   flex-shrink:0;
 }
+
+/* ═══ DASHBOARD REDESIGN (modern, compact) ═══ */
+#page-dashboard .page-header{
+  background:linear-gradient(135deg,#052e16 0%,#15803d 55%,#22c55e 130%);
+  border-radius:22px;padding:22px 26px;margin-bottom:18px;color:#fff;
+  box-shadow:0 14px 34px rgba(21,128,61,.25);position:relative;overflow:hidden}
+#page-dashboard .page-header::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+#page-dashboard .page-title{color:#fff;font-size:24px;letter-spacing:-.02em}
+#page-dashboard .page-sub{color:rgba(255,255,255,.78)}
+#page-dashboard .header-btn-group .sel-wrap{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25)}
+#page-dashboard .header-btn-group select{background:transparent;color:#fff}
+#page-dashboard .header-btn-group i{color:#bbf7d0}
+
+#page-dashboard .kpi-row{gap:14px;margin-bottom:16px}
+#page-dashboard .kpi{position:relative;overflow:hidden;border-radius:18px;padding:16px 18px;transition:transform .2s,box-shadow .2s}
+#page-dashboard .kpi:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(21,128,61,.14)}
+#page-dashboard .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#22c55e,#15803d)}
+#page-dashboard .kpi-val{font-size:26px}
+#page-dashboard .kpi-ico{width:38px;height:38px;border-radius:12px}
+
+#page-dashboard .charts-row{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+#page-dashboard .charts-row .card{padding:16px 18px;border-radius:18px}
+#page-dashboard .charts-row .c-title{margin-bottom:10px}
+#page-dashboard .bars{height:150px !important}
+#page-dashboard .world-map{width:62%;max-width:210px;margin:0 auto 8px}
+#page-dashboard .cont-row{padding:6px 8px;font-size:11.5px}
+#page-dashboard .region-banner{font-size:12px;padding:5px 14px}
+#page-dashboard .sec-title{display:inline-block;background:#dcfce7;color:#166534;border-radius:999px;padding:5px 12px;letter-spacing:.04em}
+#page-dashboard .card:hover{box-shadow:0 10px 28px rgba(21,128,61,.12)}
+
+@media (max-width:900px){
+  #page-dashboard .charts-row{grid-template-columns:1fr}
+  #page-dashboard .page-header{padding:18px}
+}
+html.dark #page-dashboard .page-header{background:linear-gradient(135deg,#052e16 0%,#14532d 60%,#166534 130%)}
+html.dark #page-dashboard .kpi{background:#111b2e !important}
+
+/* ═══ LIGHT, VIVID DASHBOARD (compact) ═══ */
+#page-dashboard{--royal:#10b981;--cyan:#38bdf8}
+#page-dashboard .page-header{
+  background:linear-gradient(120deg,#6ee7b7 0%,#7dd3fc 100%) !important;
+  border-radius:16px;padding:10px 16px !important;margin-bottom:12px;color:#fff;
+  box-shadow:0 6px 16px rgba(56,189,248,.22)}
+#page-dashboard .page-header::after{display:none}
+#page-dashboard .page-title{color:#fff !important;font-size:16px !important;letter-spacing:-.01em}
+#page-dashboard .page-sub{display:none}
+#page-dashboard .header-btn-group .sel-wrap{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.55);padding:3px 8px}
+#page-dashboard .header-btn-group select,#page-dashboard .header-btn-group i{color:#fff;font-size:11px}
+
+#page-dashboard .kpi-row{gap:10px;margin-bottom:12px}
+#page-dashboard .kpi{background:linear-gradient(160deg,#ffffff,#f0fdf9) !important;border:1px solid #d1fae5 !important;border-radius:14px;padding:10px 12px !important;box-shadow:0 4px 12px rgba(16,185,129,.08)}
+#page-dashboard .kpi::before{width:3px;background:linear-gradient(180deg,#34d399,#38bdf8)}
+#page-dashboard .kpi-val{font-size:19px !important;color:#34d399 !important}
+#page-dashboard .kpi-val.blue{color:#38bdf8 !important}
+#page-dashboard .kpi-unit{font-size:10px !important;color:#94a3b8 !important}
+#page-dashboard .kpi-ico{width:28px;height:28px;border-radius:9px;font-size:14px}
+#page-dashboard .kpi-ico.blue{background:#e0f2fe;color:#38bdf8}
+#page-dashboard .kpi-ico.cyan{background:#d1fae5;color:#34d399}
+#page-dashboard .kpi-label,#page-dashboard .region-banner{font-size:10px !important;padding:3px 10px;color:#fff !important;font-weight:700;background:linear-gradient(135deg,#6ee7b7,#38bdf8) !important;box-shadow:none}
+
+#page-dashboard .charts-row{gap:10px}
+#page-dashboard .card{background:linear-gradient(160deg,#ffffff,#f7fffc) !important;border:1px solid #d1fae5 !important;border-radius:14px;padding:12px 14px !important;box-shadow:0 4px 12px rgba(16,185,129,.07)}
+#page-dashboard .c-title{font-size:11px !important;margin-bottom:6px}
+#page-dashboard .c-title span:not(.badge){color:#fff}
+#page-dashboard .bars{height:110px !important}
+#page-dashboard .bar-lbl,#page-dashboard .bar-val{font-size:9px !important}
+#page-dashboard .sec-title{font-size:10px !important;margin:12px 0 6px;background:#d1fae5 !important;color:#10b981 !important;padding:3px 10px}
+#page-dashboard table th{font-size:9.5px !important;color:#34d399 !important;background:#f0fdf9 !important}
+#page-dashboard table td{font-size:10.5px !important}
+#page-dashboard .badge{font-size:9px}
+
+/* gauge */
+.region-gauge{width:100%;max-width:200px;margin:0 auto 4px}
+.gauge-svg{width:100%;display:block;overflow:visible}
+.gauge-seg{transition:stroke-dasharray .5s ease}
+.gauge-needle{stroke:#64748b;stroke-width:2;stroke-linecap:round}
+.gauge-hub{fill:#64748b}
+.gauge-num{font:800 22px 'Plus Jakarta Sans','Inter',sans-serif;fill:#10b981}
+.gauge-of{font-size:11px;fill:#94a3b8;font-weight:700}
+.gauge-lbl{font:600 7.5px 'Inter',sans-serif;fill:#94a3b8;letter-spacing:.05em;text-transform:uppercase}
+#page-dashboard .cont-row{padding:4px 6px;font-size:10px}
+#page-dashboard .cont-count{font-size:9.5px}
+
+/* ═══ DARK MODE (softer, easier on the eyes) ═══ */
+html.dark{--gauge-track:#334155}
+html.dark body{background:#0f172a !important;color:#e2e8f0}
+html.dark .topbar,html.dark .sidebar,html.dark .modal-box,html.dark .tbl-wrap,html.dark .search-box,html.dark .toast,html.dark .nav-footer{
+  background:#1e293b !important;border-color:#334155 !important;color:#e2e8f0 !important}
+html.dark table th{background:#273449 !important;color:#94a3b8 !important;border-color:#334155 !important}
+html.dark table td{border-color:#334155 !important;color:#e2e8f0 !important}
+html.dark .fi,html.dark input,html.dark select,html.dark textarea{background:#0f172a !important;color:#e2e8f0 !important;border-color:#334155 !important}
+html.dark .btn-outline,html.dark .theme-btn,html.dark .icon-btn{background:#273449 !important;color:#e2e8f0 !important;border-color:#334155 !important}
+html.dark #page-dashboard .page-header{background:linear-gradient(120deg,#0f766e 0%,#0369a1 100%) !important;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+html.dark #page-dashboard .kpi,html.dark #page-dashboard .card{background:#1e293b !important;border-color:#334155 !important;box-shadow:0 4px 12px rgba(0,0,0,.25) !important}
+html.dark #page-dashboard .kpi-val{color:#5eead4 !important}
+html.dark #page-dashboard .kpi-val.blue{color:#7dd3fc !important}
+html.dark #page-dashboard .kpi-unit,html.dark #page-dashboard .cont-row{color:#94a3b8 !important}
+html.dark #page-dashboard .cont-row.on{color:#e2e8f0 !important;background:rgba(94,234,212,.08)}
+html.dark #page-dashboard .sec-title{background:#134e4a !important;color:#5eead4 !important}
+html.dark #page-dashboard table th{background:#273449 !important;color:#5eead4 !important}
+html.dark .gauge-num{fill:#5eead4}
+html.dark .gauge-needle,html.dark .gauge-hub{stroke:#94a3b8;fill:#94a3b8}
+html.dark .nav-item.active,html.dark .mb-item.active{background:linear-gradient(135deg,#0f766e,#0369a1) !important;color:#fff !important}
 </style>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    var m = localStorage.getItem('foam_theme') || 'auto';
+    var h = new Date().getHours();
+    var dark = m === 'dark' || (m === 'auto' && (h >= 18 || h < 6));
+    if (dark) document.documentElement.classList.add('dark');
+  })();
+</script>
 </head>
 <body>
 
@@ -1528,12 +1700,18 @@ td:first-child{color:var(--ink);font-weight:700}
       <div class="lb-name">Foam Industries Co.</div>
       <div class="lb-sub"><span class="dot"></span>Global Export Portal</div>
 
+      <div class="auth-tabs">
+        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('signin')">Sign in</button>
+        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">Sign up</button>
+      </div>
+
       <div class="err-msg" id="loginErr">
         <i class="ti ti-alert-circle"></i>
         <span>Incorrect username or password.</span>
       </div>
 
-      <div class="ff">
+            <div id="signinPane">
+<div class="ff">
         <label for="loginUser">Username</label>
         <div class="iw">
           <i class="ico ti ti-user"></i>
@@ -1565,7 +1743,57 @@ td:first-child{color:var(--ink);font-weight:700}
         <span>Sign in</span>
       </button>
 
-      <div class="drive-pill">
+      <button class="btn-outline" id="bioLoginBtn" onclick="bioLogin()" type="button" style="display:none;width:100%;margin-top:10px;justify-content:center">
+        <i class="ti ti-face-id"></i>
+        <span>Sign in with Fingerprint / Face ID</span>
+      </button>
+
+            </div>
+
+      <div id="signupPane" style="display:none">
+        <div class="ff">
+          <label for="suUser">Username</label>
+          <div class="iw">
+            <i class="ico ti ti-user"></i>
+            <input class="fi" id="suUser" type="text" placeholder="Choose a username">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suMobile">Mobile</label>
+          <div class="iw">
+            <i class="ico ti ti-phone"></i>
+            <input class="fi" id="suMobile" type="text" placeholder="Mobile number">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suEmail">Email</label>
+          <div class="iw">
+            <i class="ico ti ti-mail"></i>
+            <input class="fi" id="suEmail" type="email" placeholder="Email address">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suPass">Password</label>
+          <div class="iw">
+            <i class="ico ti ti-lock"></i>
+            <input class="fi" id="suPass" type="password" placeholder="At least 8 characters">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suPass2">Confirm password</label>
+          <div class="iw">
+            <i class="ico ti ti-lock"></i>
+            <input class="fi" id="suPass2" type="password" placeholder="Repeat the password">
+          </div>
+        </div>
+
+        <button class="btn-primary" type="button" onclick="doSignup()">
+          <i class="ti ti-user-plus"></i>
+          <span>Create account</span>
+        </button>
+      </div>
+
+<div class="drive-pill">
         <i class="ti ti-brand-google-drive"></i>
         <span>Synced with Google Drive &amp; Email Audit</span>
       </div>
@@ -1594,6 +1822,9 @@ td:first-child{color:var(--ink);font-weight:700}
     </div>
 
     <div class="topbar-actions">
+      <button class="theme-btn" id="themeBtn" type="button" onclick="cycleTheme()" title="Theme: Auto (day/night) → Dark → Light">
+        <i class="ti ti-sun-moon" id="themeIco"></i><span id="themeLbl">Auto</span>
+      </button>
       <!-- Live Internet LED in Topbar -->
       <div class="net-pill online" id="appNetPill" style="padding:5px 10px;font-size:11px">
         <span class="net-led" style="width:8px;height:8px"></span>
@@ -1628,6 +1859,9 @@ td:first-child{color:var(--ink);font-weight:700}
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
         </div>
+        <div class="nav-item" data-page="production" onclick="goPage('production')">
+          <div class="nav-item-left"><i class="ti ti-settings-automation"></i><span>Production</span></div>
+        </div>
         <div class="nav-item" data-page="packing" onclick="goPage('packing')">
           <div class="nav-item-left"><i class="ti ti-clipboard-list"></i><span>Packing list</span></div>
         </div>
@@ -1646,13 +1880,14 @@ td:first-child{color:var(--ink);font-weight:700}
           <i class="ti ti-brand-google-drive"></i>
         </div>
         <div class="drive-path">/FOAM_INDUSTRIES/Exports_2026</div>
+        <div class="sync-status" id="syncStatus" data-state="offline">Not connected</div>
         <button class="btn-sync-now" type="button" onclick="syncDriveNow()">
           <i class="ti ti-refresh" id="syncSpinIco"></i>
           <span>Sync to Drive Now</span>
         </button>
       </div>
 
-      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong></div>
+      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong><br><span style="font-size:10px;opacity:.7">Build S3 · 2026-11-22</span></div>
     </div>
 
     <!-- CONTENT -->
@@ -1662,7 +1897,7 @@ td:first-child{color:var(--ink);font-weight:700}
       <div class="page active" id="page-dashboard">
         <div class="page-header">
           <div>
-            <div class="page-title">Dashboard</div>
+            <div class="page-title">Export KPI DashboarD</div>
             <div class="page-sub">Interactive analytics for clients, exported Foam &amp; Plastic quantities (KG), and shipments.</div>
           </div>
           <div class="header-btn-group">
@@ -1670,10 +1905,6 @@ td:first-child{color:var(--ink);font-weight:700}
               <i class="ti ti-users"></i>
               <select id="dashClientFilter" onchange="updateDashboard()">
                 <option value="ALL">All clients</option>
-                <option value="AlphaFoam GmbH">AlphaFoam GmbH</option>
-                <option value="Gulf Packing LLC">Gulf Packing LLC</option>
-                <option value="MedFoam S.A.">MedFoam S.A.</option>
-                <option value="Nile Trading Co.">Nile Trading Co.</option>
               </select>
             </div>
             <div class="sel-wrap">
@@ -1700,34 +1931,34 @@ td:first-child{color:var(--ink);font-weight:700}
         <div class="kpi-row">
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Total clients</span>
+              <span class="kpi-label region-banner">Total clients</span>
               <div class="kpi-ico blue"><i class="ti ti-users"></i></div>
             </div>
-            <div class="kpi-val blue" id="kpiClients">24</div>
+            <div class="kpi-val blue" id="kpiClients">0</div>
             <div class="kpi-unit" id="kpiClientsUnit">active export accounts</div>
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Foam shipped</span>
+              <span class="kpi-label region-banner">Foam shipped</span>
               <div class="kpi-ico cyan"><i class="ti ti-package"></i></div>
             </div>
-            <div class="kpi-val" id="kpiFoam">1,842,000</div>
+            <div class="kpi-val" id="kpiFoam">0</div>
             <div class="kpi-unit">KG exported</div>
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Plastic shipped</span>
+              <span class="kpi-label region-banner">Plastic shipped</span>
               <div class="kpi-ico coral"><i class="ti ti-box"></i></div>
             </div>
-            <div class="kpi-val coral" id="kpiPlastic">318,000</div>
+            <div class="kpi-val coral" id="kpiPlastic">0</div>
             <div class="kpi-unit">KG exported</div>
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Orders</span>
+              <span class="kpi-label region-banner">Orders</span>
               <div class="kpi-ico emerald"><i class="ti ti-file-invoice"></i></div>
             </div>
-            <div class="kpi-val emerald" id="kpiOrders">67</div>
+            <div class="kpi-val emerald" id="kpiOrders">0</div>
             <div class="kpi-unit" id="kpiOrdersUnit">shipments in 2026</div>
           </div>
         </div>
@@ -1735,14 +1966,14 @@ td:first-child{color:var(--ink);font-weight:700}
         <div class="charts-row">
           <div class="card">
             <div class="c-title">
-              <span id="barChartTitle">Monthly shipments — 2026 (Foam vs Plastic KG)</span>
+              <span id="barChartTitle" class="region-banner">Performance OvervieW — 2026 (Foam vs Plastic KG)</span>
               <span class="badge ba" id="barChartScope">All Clients</span>
             </div>
             <div class="bars" id="monthlyBarsContainer"></div>
             <div class="bar-legend">
               <div class="bl-group">
                 <div class="bl-item"><div class="bl-dot" style="background:var(--royal)"></div>Foam KG</div>
-                <div class="bl-item"><div class="bl-dot" style="background:#06b6d4"></div>Plastic KG</div>
+                <div class="bl-item"><div class="bl-dot" style="background:#4ade80"></div>Plastic KG</div>
               </div>
               <span style="font-size:10.5px;font-weight:700;color:var(--ink-4)" id="barHoverReadout">Tap any month for details</span>
             </div>
@@ -1750,11 +1981,12 @@ td:first-child{color:var(--ink);font-weight:700}
 
           <div class="card">
             <div class="c-title">
-              <span>Clients by region</span>
+              <span class="region-banner">Regional Performance</span>
               <span class="badge bi" id="regionScopeBadge">Global</span>
             </div>
+            <div id="regionGauge" class="region-gauge"></div>
             <div class="donut-area">
-              <svg class="donut-svg" viewBox="0 0 72 72">
+              <svg class="donut-svg" style="display:none" viewBox="0 0 72 72">
                 <circle cx="36" cy="36" r="24" fill="none" stroke="#e2e8f0" stroke-width="11"/>
                 <circle id="donutArc1" cx="36" cy="36" r="24" fill="none" stroke="#1d4ed8" stroke-width="11" stroke-dasharray="62 89" stroke-dashoffset="20" stroke-linecap="round"/>
                 <circle id="donutArc2" cx="36" cy="36" r="24" fill="none" stroke="#06b6d4" stroke-width="11" stroke-dasharray="36 89" stroke-dashoffset="-42" stroke-linecap="round"/>
@@ -1768,7 +2000,7 @@ td:first-child{color:var(--ink);font-weight:700}
           </div>
         </div>
 
-        <div class="sec-title">Clients export breakdown (KG)</div>
+        <div class="sec-title"><span class="region-banner">Clients export breakdown (KG)</span></div>
         <div class="tbl-wrap">
           <div class="tbl-scroll">
             <table>
@@ -1798,7 +2030,7 @@ td:first-child{color:var(--ink);font-weight:700}
           <div class="header-btn-group">
             <button class="btn-outline" type="button" onclick="exportAllClientsExcel()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
             <button class="btn-outline" type="button" onclick="exportAllClientsPDF()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
-            <button class="btn-blue" type="button" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
+            <button class="btn-blue" type="button" data-write="clients" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
           </div>
         </div>
 
@@ -1885,10 +2117,10 @@ td:first-child{color:var(--ink);font-weight:700}
               <div class="doc-period" id="repPeriodBadge">All months 2026</div>
             </div>
             <div class="doc-ci">
-              <div class="dci"><strong id="repCustName">AlphaFoam GmbH</strong>Customer</div>
+              <div class="dci"><strong id="repCustName">—</strong>Customer</div>
               <div class="dci"><strong id="repCustCountry">Germany</strong>Country</div>
-              <div class="dci"><strong id="repCustVat">DE123456789</strong>VAT No.</div>
-              <div class="dci"><strong id="repCustContact">M. Schneider</strong>Contact</div>
+              <div class="dci"><strong id="repCustVat">—</strong>VAT No.</div>
+              <div class="dci"><strong id="repCustContact">—</strong>Contact</div>
             </div>
             <div class="tbl-scroll">
               <table class="doc-tbl">
@@ -1954,30 +2186,29 @@ td:first-child{color:var(--ink);font-weight:700}
             <div class="page-sub">Manage export purchase orders, production status, and dispatch approvals.</div>
           </div>
           <div class="header-btn-group">
-            <button class="btn-outline" onclick="exportPackingCSV()"><i class="ti ti-file-spreadsheet"></i>Export Orders</button>
-            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+            <button class="btn-blue" data-write="orders" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
           </div>
         </div>
 
         <div class="kpi-row">
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Total orders</span><div class="kpi-ico blue"><i class="ti ti-file-invoice"></i></div></div>
-            <div class="kpi-val blue" id="ordTotalKpi">67</div>
+            <div class="kpi-val blue" id="ordTotalKpi">0</div>
             <div class="kpi-unit">registered in 2026</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">In production</span><div class="kpi-ico cyan"><i class="ti ti-settings"></i></div></div>
-            <div class="kpi-val" id="ordProdKpi">1</div>
+            <div class="kpi-val" id="ordProdKpi">0</div>
             <div class="kpi-unit">active factory lines</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Ready to ship</span><div class="kpi-ico coral"><i class="ti ti-container"></i></div></div>
-            <div class="kpi-val coral" id="ordReadyKpi">1</div>
+            <div class="kpi-val coral" id="ordReadyKpi">0</div>
             <div class="kpi-unit">awaiting vessel</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Shipped</span><div class="kpi-ico emerald"><i class="ti ti-circle-check"></i></div></div>
-            <div class="kpi-val emerald" id="ordShippedKpi">65</div>
+            <div class="kpi-val emerald" id="ordShippedKpi">0</div>
             <div class="kpi-unit">completed exports</div>
           </div>
         </div>
@@ -2014,9 +2245,52 @@ td:first-child{color:var(--ink);font-weight:700}
                   <th>Total Weight (KG)</th>
                   <th>Status</th>
                   <th>Update Status</th>
+                  <th>Delete Order</th>
                 </tr>
               </thead>
               <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAGE: PRODUCTION ── -->
+      <div class="page" id="page-production">
+        <input type="file" id="packingFileInput" accept=".xlsx,.xlsm,.pdf" style="display:none" onchange="onPackingFileChosen(this)">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Production</div>
+            <div class="page-sub">Orders on the factory floor: progress and production stage.</div>
+          </div>
+        </div>
+
+        <div class="sf-row">
+          <div class="search-box">
+            <i class="ti ti-search"></i>
+            <input type="text" id="prodSearchInput" oninput="renderProductionTable()" placeholder="Search order no. or client…">
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <div class="tbl-head">
+            <span class="tbl-head-title">Production line</span>
+          </div>
+          <div class="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order No.</th>
+                  <th>Client</th>
+                  <th>Export date</th>
+                  <th>Foam KG</th>
+                  <th>Plastic KG</th>
+                  <th>ORDER</th>
+                  <th>Packing</th>
+                  <th>Progress</th>
+                  <th>Stage</th>
+                </tr>
+              </thead>
+              <tbody id="productionTableBody"></tbody>
             </table>
           </div>
         </div>
@@ -2029,27 +2303,23 @@ td:first-child{color:var(--ink);font-weight:700}
             <div class="page-title">Packing list</div>
             <div class="page-sub">Track container dimensions, net Foam &amp; Plastic weights (KG), and shipment dispatch schedules.</div>
           </div>
-          <div class="header-btn-group">
-            <button class="btn-outline" onclick="exportPackingCSV()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
-            <button class="btn-outline" onclick="printClientReport()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
-            <button class="btn-blue" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
-          </div>
+          <div class="header-btn-group"></div>
         </div>
 
         <div class="kpi-row" style="grid-template-columns:repeat(3,minmax(0,1fr))">
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Latest order</span><div class="kpi-ico blue"><i class="ti ti-file-invoice"></i></div></div>
-            <div class="kpi-val blue" style="font-size:19px" id="pkLatestOrd">ORD-2026-067</div>
-            <div class="kpi-unit">Nov 2026</div>
+            <div class="kpi-val blue" style="font-size:19px" id="pkLatestOrd">—</div>
+            <div class="kpi-unit">latest entry</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Total foam KG</span><div class="kpi-ico cyan"><i class="ti ti-package"></i></div></div>
-            <div class="kpi-val">1,842,000</div>
+            <div class="kpi-val" id="packFoamTotal">0</div>
             <div class="kpi-unit">all orders (KG)</div>
           </div>
           <div class="kpi">
             <div class="kpi-top"><span class="kpi-label">Total plastic KG</span><div class="kpi-ico coral"><i class="ti ti-box"></i></div></div>
-            <div class="kpi-val coral">318,000</div>
+            <div class="kpi-val coral" id="packPlasticTotal">0</div>
             <div class="kpi-unit">all orders (KG)</div>
           </div>
         </div>
@@ -2063,10 +2333,6 @@ td:first-child{color:var(--ink);font-weight:700}
             <i class="ti ti-users"></i>
             <select id="packingClientFilter" onchange="renderPackingTable()">
               <option value="ALL">All clients</option>
-              <option value="AlphaFoam GmbH">AlphaFoam GmbH</option>
-              <option value="Gulf Packing LLC">Gulf Packing LLC</option>
-              <option value="MedFoam S.A.">MedFoam S.A.</option>
-              <option value="Nile Trading Co.">Nile Trading Co.</option>
             </select>
           </div>
           <div class="sel-wrap">
@@ -2077,7 +2343,7 @@ td:first-child{color:var(--ink);font-weight:700}
 
         <div class="tbl-wrap">
           <div class="tbl-head">
-            <span class="tbl-head-title" id="packingTotalTitle">Orders — 67 total</span>
+            <span class="tbl-head-title" id="packingTotalTitle">Orders — 0 total</span>
             <div style="font-size:11px;font-weight:700;color:var(--royal);display:flex;align-items:center;gap:5px">
               <i class="ti ti-bell" style="font-size:14px"></i>Email notifications on
             </div>
@@ -2092,7 +2358,7 @@ td:first-child{color:var(--ink);font-weight:700}
                   <th>Export date</th>
                   <th>Foam KG</th>
                   <th>Plastic KG</th>
-                  <th>Size</th>
+                  <th>Packing Report</th>
                   <th>Progress</th>
                 </tr>
               </thead>
@@ -2136,7 +2402,7 @@ td:first-child{color:var(--ink);font-weight:700}
             <div class="page-title">User management</div>
             <div class="page-sub">Control team access roles and page-level permissions across the export portal.</div>
           </div>
-          <button class="btn-blue" onclick="document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
+          <button class="btn-blue" data-write="users" onclick="resetNewUserPerms();document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
         </div>
 
         <div class="perm-legend">
@@ -2192,6 +2458,10 @@ td:first-child{color:var(--ink);font-weight:700}
       <i class="ti ti-truck-delivery"></i>
       <span>Orders</span>
     </div>
+    <div class="mb-item" data-page="production" onclick="goPage('production')">
+      <i class="ti ti-settings-automation"></i>
+      <span>Production</span>
+    </div>
     <div class="mb-item" data-page="packing" onclick="goPage('packing')">
       <i class="ti ti-clipboard-list"></i>
       <span>Packing</span>
@@ -2210,22 +2480,86 @@ td:first-child{color:var(--ink);font-weight:700}
 </div><!-- /appShell -->
 
 <!-- ═══ MODAL: Forgot Password ═══ -->
+<div class="modal" id="editClientModal">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-edit"></i>Edit client · <span id="ecName"></span></div>
+      <button class="modal-close" onclick="closeEditClient()">×</button>
+    </div>
+    <div class="form-grid">
+      <div style="grid-column:1 / -1"><label>Client name</label><input class="fi" id="ecNameInput" type="text"></div>
+      <div><label>Country</label><input class="fi" id="ecCountry" type="text"></div>
+      <div><label>VAT No.</label><input class="fi" id="ecVat" type="text"></div>
+      <div><label>Mobile</label><input class="fi" id="ecMobile" type="text"></div>
+      <div><label>Contact person</label><input class="fi" id="ecContact" type="text"></div>
+      <div><label>Email</label><input class="fi" id="ecEmail" type="email"></div>
+      <div><label>Status</label>
+        <select class="fi" id="ecStatus"><option value="Active">Active</option><option value="Pending">Pending</option></select>
+      </div>
+      <div style="grid-column:1 / -1"><label>Address</label><input class="fi" id="ecAddress" type="text"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+      <button class="btn-outline" onclick="closeEditClient()">Cancel</button>
+      <button class="btn-blue" onclick="saveEditClient()"><i class="ti ti-check"></i>Save changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="permModal">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-shield-lock"></i>Permissions · <span id="pmUserName"></span></div>
+      <button class="modal-close" onclick="document.getElementById('permModal').classList.remove('open')">×</button>
+    </div>
+    <div class="tbl-scroll" style="margin-bottom:14px"><div id="pmPermBox"></div></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button class="btn-outline" onclick="document.getElementById('permModal').classList.remove('open')">Cancel</button>
+      <button class="btn-blue" onclick="savePermissions()"><i class="ti ti-check"></i>Save permissions</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="forgotModal">
   <div class="modal-box" style="max-width:400px">
     <div class="modal-head">
-      <div class="modal-title"><i class="ti ti-key"></i>Reset Portal Password</div>
-      <button class="modal-close" onclick="document.getElementById('forgotModal').classList.remove('open')">×</button>
+      <div class="modal-title"><i class="ti ti-key"></i>Reset Password</div>
+      <button class="modal-close" onclick="closeForgotModal()">×</button>
     </div>
-    <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
-      Enter your registered username or corporate email address to receive password recovery instructions.
-    </p>
-    <div class="ff">
-      <label>Username or Email</label>
-      <input class="fi" id="forgotInput" style="padding-left:12px" type="text" placeholder="e.g. ahmed.samy@foam.com">
+
+    <div id="forgotStep1">
+      <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
+        Enter your username. A 6-digit code will be sent to your email, and the admin will be notified.
+      </p>
+      <div class="ff">
+        <label>Username</label>
+        <input class="fi" id="forgotInput" style="padding-left:12px" type="text" placeholder="your username">
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn-outline" onclick="closeForgotModal()">Cancel</button>
+        <button class="btn-blue" onclick="submitForgotPassword()"><i class="ti ti-send"></i>Send code</button>
+      </div>
     </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn-outline" onclick="document.getElementById('forgotModal').classList.remove('open')">Cancel</button>
-      <button class="btn-blue" onclick="submitForgotPassword()"><i class="ti ti-send"></i>Send Link</button>
+
+    <div id="forgotStep2" style="display:none">
+      <p style="font-size:12px;color:var(--ink-3);margin-bottom:14px;line-height:1.5">
+        Enter the code from the email, then choose a new password (at least 8 characters).
+      </p>
+      <div class="ff">
+        <label>Code</label>
+        <input class="fi" id="forgotCode" style="padding-left:12px" type="text" inputmode="numeric" placeholder="6-digit code">
+      </div>
+      <div class="ff" style="margin-top:10px">
+        <label>New password</label>
+        <input class="fi" id="forgotNewPass" style="padding-left:12px" type="password">
+      </div>
+      <div class="ff" style="margin-top:10px">
+        <label>Confirm new password</label>
+        <input class="fi" id="forgotNewPass2" style="padding-left:12px" type="password">
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn-outline" onclick="closeForgotModal()">Cancel</button>
+        <button class="btn-blue" onclick="confirmForgotPassword()"><i class="ti ti-check"></i>Change password</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2238,7 +2572,7 @@ td:first-child{color:var(--ink);font-weight:700}
       <button class="modal-close" onclick="document.getElementById('addClientModal').classList.remove('open')">×</button>
     </div>
     <div class="form-grid">
-      <div><label>Customer name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
+      <div><label>Client name *</label><input class="fi" id="ncName" type="text" placeholder="e.g. AlphaFoam GmbH"></div>
       <div><label>Country *</label><input class="fi" id="ncCountry" type="text" placeholder="e.g. Germany"></div>
       <div>
         <label>Region</label>
@@ -2252,8 +2586,8 @@ td:first-child{color:var(--ink);font-weight:700}
       <div><label>VAT No.</label><input class="fi" id="ncVat" type="text" placeholder="e.g. DE123456789"></div>
       <div><label>Mobile</label><input class="fi" id="ncMobile" type="text" placeholder="e.g. +49 171 000"></div>
       <div><label>Contact person</label><input class="fi" id="ncContact" type="text" placeholder="e.g. M. Schneider"></div>
-      <div><label>Export Qty (KG)</label><input class="fi" id="ncQty" type="number" placeholder="e.g. 45000"></div>
-      <div><label>Account Status</label><select class="fi" id="ncStatus" style="padding-left:10px"><option value="Active">Active</option><option value="Pending">Pending</option></select></div>
+      <div><label>Address</label><input class="fi" id="ncAddress" type="text" placeholder="e.g. Hauptstraße 12, Hamburg"></div>
+      <div><label>Email</label><input class="fi" id="ncEmail" type="email" placeholder="e.g. info@client.com"></div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px">
       <button class="btn-outline" onclick="document.getElementById('addClientModal').classList.remove('open')">Cancel</button>
@@ -2273,18 +2607,14 @@ td:first-child{color:var(--ink);font-weight:700}
       <div>
         <label>Client</label>
         <select class="fi" id="noClient" style="padding-left:10px">
-          <option>AlphaFoam GmbH</option>
-          <option>Gulf Packing LLC</option>
-          <option>MedFoam S.A.</option>
-          <option>Nile Trading Co.</option>
         </select>
       </div>
-      <div><label>Order No.</label><input class="fi" id="noNumber" type="text" value="ORD-2026-068" readonly style="color:var(--royal);font-weight:700"></div>
+      <div><label>Order No.</label><input class="fi" id="noNumber" type="text" value="" placeholder="e.g. ORD-2026-069" style="color:var(--royal);font-weight:700"></div>
       <div><label>Request date</label><input class="fi" id="noReqDate" type="date"></div>
       <div><label>Export date</label><input class="fi" id="noExpDate" type="date"></div>
       <div class="order-file-field">
         <label>Order</label>
-        <input type="file" id="noOrderFile" accept=".pdf,.xls,.xlsx,.csv,.doc,.docx,.png,.jpg,.jpeg" style="display:none" onchange="onOrderFileChosen(this)">
+        <input type="file" id="noOrderFile" accept=".pdf,.png,.jpg,.jpeg" style="display:none" onchange="onOrderFileChosen(this)">
         <button type="button" class="btn-outline order-upload-btn" onclick="document.getElementById('noOrderFile').click()"><i class="ti ti-upload"></i>Upload File</button>
         <div class="order-file-name" id="noOrderFileName">No file selected</div>
       </div>
@@ -2313,15 +2643,7 @@ td:first-child{color:var(--ink);font-weight:700}
     </div>
     <div style="font-size:11px;color:var(--ink-2);margin-bottom:10px;font-weight:800">Page permissions</div>
     <div class="tbl-scroll" style="margin-bottom:14px">
-      <table class="perm-table">
-        <thead><tr><th>Page</th><th>Read only</th><th>Read + write</th><th>Full edit</th></tr></thead>
-        <tbody>
-          <tr><td><i class="ti ti-layout-dashboard"></i>Dashboard</td><td><input type="radio" name="pd" value="Read" checked></td><td><input type="radio" name="pd" value="Write"></td><td><input type="radio" name="pd" value="Full edit"></td></tr>
-          <tr><td><i class="ti ti-users"></i>Clients data</td><td><input type="radio" name="pc" value="Read" checked></td><td><input type="radio" name="pc" value="Write"></td><td><input type="radio" name="pc" value="Full edit"></td></tr>
-          <tr><td><i class="ti ti-clipboard-list"></i>Packing list</td><td><input type="radio" name="pp" value="Read" checked></td><td><input type="radio" name="pp" value="Write"></td><td><input type="radio" name="pp" value="Full edit"></td></tr>
-          <tr><td><i class="ti ti-shield-lock"></i>User management</td><td><input type="radio" name="pu" value="Read"></td><td><input type="radio" name="pu" value="Write"></td><td><input type="radio" name="pu" value="Full edit" checked></td></tr>
-        </tbody>
-      </table>
+      <div id="nuPermBox"></div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px">
       <button class="btn-outline" onclick="document.getElementById('addUserModal').classList.remove('open')">Cancel</button>
@@ -2331,6 +2653,7 @@ td:first-child{color:var(--ink);font-weight:700}
 </div>
 
 <script>
+console.log('Foam portal build S3 · 2026-11-22');
 const ADMIN_NOTIFY_EMAIL = 'eng.ahmed.samy84.ai@gmail.com';
 let currentLoggedUser = '';
 let currentLoginTimestamp = '';
@@ -2386,31 +2709,12 @@ window.addEventListener('offline', () => {
 updateInternetStatusLED();
 
 // Corporate Users
-const USERS = {
-  admin: 'admin123',
-  'ahmed.samy': 'foam2026',
-  'sara.hassan': 'sara2026'
-};
+// Users are now checked by the server (Apps Script). Passwords are no longer stored in this file.
 
 // Initial Application Datasets
-let clientsList = [
-  { name: 'AlphaFoam GmbH', country: 'Germany', region: 'Europe', firstRegistered: '14 Jan 2023', vat: 'DE123456789', mobile: '+49 171 000 442', contact: 'M. Schneider', qtyKg2026: 540000, qtyKg2025: 460000, lastOrder: 'Nov 2026', status: 'Active' },
-  { name: 'Gulf Packing LLC', country: 'Saudi Arabia', region: 'Middle East', firstRegistered: '09 Mar 2023', vat: 'SA987654321', mobile: '+966 50 000 881', contact: 'K. Al-Rashid', qtyKg2026: 485000, qtyKg2025: 410000, lastOrder: 'Oct 2026', status: 'Active' },
-  { name: 'MedFoam S.A.', country: 'France', region: 'Europe', firstRegistered: '22 Jul 2024', vat: 'FR445566778', mobile: '+33 6 00 00 319', contact: 'P. Dupont', qtyKg2026: 392000, qtyKg2025: 350000, lastOrder: 'Oct 2026', status: 'Pending' },
-  { name: 'Nile Trading Co.', country: 'Sudan', region: 'Africa', firstRegistered: '05 Feb 2024', vat: 'SD112233445', mobile: '+249 9 000 772', contact: 'A. Hassan', qtyKg2026: 425000, qtyKg2025: 380000, lastOrder: 'Sep 2026', status: 'Active' }
-];
+let clientsList = [];
 
-let packingOrders = [
-  { ordNo: 'ORD-2026-067', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '01 Nov 2026', expDate: '18 Nov 2026', foamKg: 42000, plasticKg: 6500, size: '200×160', progress: 85, status: 'In Production' },
-  { ordNo: 'ORD-2026-068', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '10 Nov 2026', expDate: '27 Nov 2026', foamKg: 39500, plasticKg: 5900, size: '200×160', progress: 65, status: 'In Production' },
-  { ordNo: 'ORD-2026-064', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '12 Oct 2026', expDate: '28 Oct 2026', foamKg: 44000, plasticKg: 7100, size: '220×160', progress: 100, status: 'Shipped' },
-  { ordNo: 'ORD-2026-066', client: 'Gulf Packing LLC', dest: 'Jeddah, Saudi Arabia', reqDate: '22 Oct 2026', expDate: '05 Nov 2026', foamKg: 38500, plasticKg: 5800, size: '180×140', progress: 100, status: 'Ready to Ship' },
-  { ordNo: 'ORD-2026-063', client: 'Gulf Packing LLC', dest: 'Dammam, Saudi Arabia', reqDate: '03 Oct 2026', expDate: '19 Oct 2026', foamKg: 41200, plasticKg: 6200, size: '180×140', progress: 100, status: 'Shipped' },
-  { ordNo: 'ORD-2026-065', client: 'MedFoam S.A.', dest: 'Marseille, France', reqDate: '10 Oct 2026', expDate: '25 Oct 2026', foamKg: 29000, plasticKg: 4200, size: '160×120', progress: 100, status: 'Shipped' },
-  { ordNo: 'ORD-2026-062', client: 'MedFoam S.A.', dest: 'Le Havre, France', reqDate: '18 Sep 2026', expDate: '02 Oct 2026', foamKg: 33400, plasticKg: 4950, size: '160×120', progress: 100, status: 'Shipped' },
-  { ordNo: 'ORD-2026-061', client: 'Nile Trading Co.', dest: 'Port Sudan, Sudan', reqDate: '28 Sep 2026', expDate: '12 Oct 2026', foamKg: 51000, plasticKg: 7900, size: '220×180', progress: 100, status: 'Shipped' },
-  { ordNo: 'ORD-2025-054', client: 'AlphaFoam GmbH', dest: 'Hamburg, Germany', reqDate: '06 Nov 2025', expDate: '21 Nov 2025', foamKg: 37000, plasticKg: 5400, size: '200×160', progress: 100, status: 'Shipped' }
-];
+let packingOrders = [];
 
 let systemUsers = [
   { username: 'admin', mobile: '+20 100 000 0000', title: 'System Admin', dash: 'Admin', clients: 'Admin', packing: 'Admin', isDefault: true },
@@ -2419,63 +2723,44 @@ let systemUsers = [
 ];
 
 // Interactive Monthly Datasets per Client & Year for Dashboard Charts
-const MONTHLY_DATA = {
-  '2026': {
-    'ALL': {
-      foam: [132000, 158000, 114000, 184000, 146000, 198000, 165000, 142000, 179000, 152000, 192000, 80000],
-      plas: [22000, 27000, 19000, 32000, 25000, 35000, 29000, 24000, 31000, 26000, 33000, 15000],
-      clients: 24, orders: 67, regions: [10, 8, 4, 2]
-    },
-    'AlphaFoam GmbH': {
-      foam: [42000, 48000, 35000, 54000, 44000, 58000, 49000, 41000, 52000, 45000, 50000, 22000],
-      plas: [6500, 7800, 5400, 8900, 7100, 9400, 8000, 6800, 8500, 7200, 8100, 3800],
-      clients: 1, orders: 19, regions: [1, 0, 0, 0]
-    },
-    'Gulf Packing LLC': {
-      foam: [36000, 44000, 31000, 49000, 39000, 52000, 43000, 38000, 47000, 40000, 46000, 20000],
-      plas: [5800, 7100, 4900, 8200, 6300, 8600, 7100, 6200, 7700, 6500, 7400, 3200],
-      clients: 1, orders: 18, regions: [0, 1, 0, 0]
-    },
-    'MedFoam S.A.': {
-      foam: [26000, 32000, 24000, 38000, 31000, 42000, 35000, 30000, 37000, 32000, 47000, 18000],
-      plas: [4200, 5200, 3900, 6400, 5100, 7000, 5800, 4900, 6100, 5300, 7900, 3000],
-      clients: 1, orders: 14, regions: [1, 0, 0, 0]
-    },
-    'Nile Trading Co.': {
-      foam: [28000, 34000, 24000, 43000, 32000, 46000, 38000, 33000, 43000, 35000, 49000, 20000],
-      plas: [5500, 6900, 4800, 8500, 6500, 10000, 8100, 6100, 8700, 7000, 9600, 5000],
-      clients: 1, orders: 16, regions: [0, 0, 1, 0]
-    }
-  },
-  '2025': {
-    'ALL': {
-      foam: [110000, 128000, 98000, 145000, 122000, 162000, 138000, 119000, 149000, 131000, 155000, 143000],
-      plas: [18000, 21000, 16000, 25000, 20000, 28000, 23000, 19000, 25000, 22000, 26000, 24000],
-      clients: 21, orders: 58, regions: [9, 7, 3, 2]
-    },
-    'AlphaFoam GmbH': {
-      foam: [34000, 39000, 29000, 44000, 36000, 48000, 41000, 35000, 43000, 38000, 45000, 41000],
-      plas: [5200, 6100, 4500, 6900, 5600, 7400, 6300, 5400, 6700, 5900, 7000, 6400],
-      clients: 1, orders: 16, regions: [1, 0, 0, 0]
-    },
-    'Gulf Packing LLC': {
-      foam: [30000, 35000, 27000, 40000, 33000, 44000, 37000, 32000, 40000, 35000, 41000, 38000],
-      plas: [4800, 5600, 4200, 6400, 5200, 7000, 5900, 5100, 6400, 5600, 6500, 6100],
-      clients: 1, orders: 15, regions: [0, 1, 0, 0]
-    },
-    'MedFoam S.A.': {
-      foam: [22000, 26000, 20000, 29000, 25000, 33000, 28000, 24000, 30000, 27000, 32000, 29000],
-      plas: [3600, 4200, 3200, 4800, 4100, 5400, 4600, 3900, 4900, 4400, 5200, 4800],
-      clients: 1, orders: 13, regions: [1, 0, 0, 0]
-    },
-    'Nile Trading Co.': {
-      foam: [24000, 28000, 22000, 32000, 28000, 37000, 32000, 28000, 36000, 31000, 37000, 35000],
-      plas: [4400, 5100, 4100, 6900, 5100, 8200, 6200, 4600, 7000, 6100, 7300, 6700],
-      clients: 1, orders: 14, regions: [0, 0, 1, 0]
-    }
-  }
-};
+let MONTHLY_DATA = {};
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function parseOrderDate(str) {
+  const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(String(str || '').trim());
+  if (!m) return null;
+  const month = MONTH_NAMES.indexOf(m[2]);
+  return month < 0 ? null : { year: m[3], month: month };
+}
+
+function regionIndex(region) {
+  return { 'Europe': 0, 'Middle East': 1, 'Africa': 2 }[region] ?? 3;
+}
+
+function buildMonthlyData() {
+  const data = {};
+  ['2025', '2026'].forEach(y => {
+    const allRegions = [0, 0, 0, 0];
+    clientsList.forEach(c => { allRegions[regionIndex(c.region)] += 1; });
+    data[y] = { ALL: { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: clientsList.length, orders: 0, regions: allRegions } };
+    clientsList.forEach(c => {
+      const r = [0, 0, 0, 0];
+      r[regionIndex(c.region)] = 1;
+      data[y][c.name] = { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: 1, orders: 0, regions: r };
+    });
+  });
+  packingOrders.forEach(o => {
+    const d = parseOrderDate(o.reqDate);
+    if (!d || !data[d.year]) return;
+    [data[d.year].ALL, data[d.year][o.client]].forEach(b => {
+      if (!b) return;
+      b.foam[d.month] += Number(o.foamKg) || 0;
+      b.plas[d.month] += Number(o.plasticKg) || 0;
+      b.orders += 1;
+    });
+  });
+  return data;
+}
 
 // Activity & Email Audit Log Store
 let emailAuditLogs = [
@@ -2507,6 +2792,7 @@ function dispatchEmailNotification(type, user, title, details) {
     emailStatus: navigator.onLine ? 'Sent to eng.ahmed.samy84.ai@gmail.com' : 'Queued (Offline)'
   };
   emailAuditLogs.unshift(entry);
+  persistData();
 
   // Silent background dispatch attempt via FormSubmit AJAX endpoint when online
   if (navigator.onLine) {
@@ -2614,7 +2900,7 @@ function togglePass() {
   ic.className = f.type === 'password' ? 'ti ti-eye' : 'ti ti-eye-off';
 }
 
-function doLogin() {
+async function doLogin() {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value.trim();
   const err = document.getElementById('loginErr');
@@ -2623,35 +2909,969 @@ function doLogin() {
     err.style.display = 'flex';
     return;
   }
-  if ((USERS[u] && USERS[u] === p) || (u === 'admin' && p === '1234')) {
-    err.style.display = 'none';
-    currentLoggedUser = u;
-    currentLoginTimestamp = new Date().toLocaleString('en-GB', {
-      day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-    });
-
-    document.getElementById('loginPage').style.display = 'none';
-    const app = document.getElementById('appShell');
-    app.style.display = 'flex';
-    document.getElementById('topbarUser').textContent = u;
-    document.getElementById('avatarInitial').textContent = u[0].toUpperCase();
-
-    renderAllTables();
-    updateDashboard();
-
-    dispatchEmailNotification(
-      'login',
-      u,
-      `User Login: ${u}`,
-      `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
-    );
-
-    showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
-  } else {
+  let loginRes;
+  try {
+    loginRes = await api('login', { username: u, password: p }, false);
+  } catch (e) {
+    loginRes = { ok: false, error: e.message };
+  }
+  if (!loginRes.ok) {
+    if (!/Wrong/.test(loginRes.error)) showToast(loginRes.error, 'error');
     err.style.display = 'flex';
+    return;
+  }
+  err.style.display = 'none';
+
+  // First login on this device: offer fingerprint / Face ID
+  if (!localStorage.getItem('foam_bio') && await bioSupported()) {
+    if (confirm('Enable fingerprint / Face ID sign-in on this device?\n\nNext time you can use your fingerprint or Face ID instead of typing the password.')) {
+      await enableBiometric(loginRes.me.username);
+    }
+  }
+  await enterPortal(loginRes);
+}
+
+async function enterPortal(loginRes) {
+  const u = loginRes.me.username;
+  sessionToken = loginRes.token;
+  sessionIsAdmin = loginRes.me.admin;
+  applyPermissions(loginRes.me);
+  currentLoggedUser = u;
+  currentLoginTimestamp = new Date().toLocaleString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+  });
+
+  // Keep this session so fingerprint / Face ID sign-in can reopen it on this device
+  const bio = JSON.parse(localStorage.getItem('foam_bio') || 'null');
+  if (bio && bio.username === u) {
+    localStorage.setItem('foam_bio_session', JSON.stringify({ token: loginRes.token, me: loginRes.me }));
+  }
+
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appShell').style.display = 'flex';
+  document.getElementById('topbarUser').textContent = u;
+  document.getElementById('avatarInitial').textContent = u[0].toUpperCase();
+
+  await loadFromServer();
+
+  dispatchEmailNotification(
+    'login',
+    u,
+    `User Login: ${u}`,
+    `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
+  );
+  showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+// ═══ WORLD MAP: colour by the continent of each client ═══
+const CONTINENTS = [
+  { key: 'North America', color: '#6366f1', id: 'contNA' },
+  { key: 'South America', color: '#f59e0b', id: 'contSA' },
+  { key: 'Europe',        color: '#0ea5e9', id: 'contEU' },
+  { key: 'Africa',        color: '#ec4899', id: 'contAF' },
+  { key: 'Asia',          color: '#16a34a', id: 'contAS' },
+  { key: 'Oceania',       color: '#14b8a6', id: 'contOC' }
+];
+
+// ═══ THEME: Auto (dark at night, light by day), Dark, Light ═══
+const THEME_KEY = 'foam_theme';
+function themeMode() { return localStorage.getItem(THEME_KEY) || 'auto'; }
+function applyTheme() {
+  const mode = themeMode();
+  const h = new Date().getHours();
+  const dark = mode === 'dark' || (mode === 'auto' && (h >= 18 || h < 6));
+  document.documentElement.classList.toggle('dark', dark);
+  const lbl = document.getElementById('themeLbl');
+  const ico = document.getElementById('themeIco');
+  if (lbl) lbl.textContent = mode === 'auto' ? 'Auto' : (mode === 'dark' ? 'Dark' : 'Light');
+  if (ico) ico.className = dark ? 'ti ti-moon-stars' : 'ti ti-sun';
+}
+function cycleTheme() {
+  const order = ['auto', 'dark', 'light'];
+  localStorage.setItem(THEME_KEY, order[(order.indexOf(themeMode()) + 1) % 3]);
+  applyTheme();
+}
+applyTheme();
+setInterval(applyTheme, 5 * 60 * 1000);   // Auto mode switches by itself
+const COUNTRY_CONTINENT = {
+  'North America': ['usa','united states','canada','mexico','cuba','panama'],
+  'South America': ['brazil','argentina','chile','peru','colombia','venezuela','ecuador','bolivia','uruguay','paraguay'],
+  'Europe': ['germany','france','italy','spain','portugal','uk','united kingdom','england','greece','netherlands','belgium','poland','sweden','norway','denmark','austria','switzerland','ireland','romania','bulgaria','czech','hungary','russia','ukraine'],
+  'Africa': ['egypt','nigeria','south africa','kenya','morocco','algeria','tunisia','libya','sudan','ethiopia','ghana','tanzania','uganda'],
+  'Asia': ['china','india','japan','korea','saudi','uae','emirates','qatar','kuwait','oman','bahrain','jordan','iraq','iran','pakistan','bangladesh','vietnam','thailand','indonesia','malaysia','singapore','philippines','turkey','israel','lebanon','syria'],
+  'Oceania': ['australia','new zealand','fiji','papua']
+};
+
+function continentOf(c) {
+  const country = String(c.country || '').trim().toLowerCase();
+  for (const [continent, names] of Object.entries(COUNTRY_CONTINENT)) {
+    if (names.some(n => country === n || country.includes(n))) return continent;
+  }
+  if (c.region === 'Europe') return 'Europe';
+  if (c.region === 'Africa') return 'Africa';
+  if (c.region === 'Middle East') return 'Asia';
+  return 'Other';
+}
+
+// Half-circle gauge: one coloured segment per continent, sized by its share of the clients
+function drawRegionGauge(counts, total) {
+  const host = document.getElementById('regionGauge');
+  if (!host) return;
+  const cx = 100, cy = 100, r = 78, sw = 16;
+  const pt = t => { const a = Math.PI * (1 - t); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
+  const arc = (t0, t1) => {
+    const [x0, y0] = pt(t0), [x1, y1] = pt(t1);
+    return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+  };
+  let segs = '';
+  if (total > 0) {
+    let t = 0;
+    CONTINENTS.forEach(x => {
+      const share = counts[x.key] / total;
+      if (share <= 0) return;
+      const gap = share < 1 ? 0.008 : 0;
+      segs += `<path d="${arc(t + gap, t + share - gap)}" stroke="${x.color}" stroke-width="${sw}" fill="none" stroke-linecap="round" class="gauge-seg"/>`;
+      t += share;
+    });
+  }
+  const covered = CONTINENTS.filter(x => counts[x.key] > 0).length;
+  const [nx, ny] = pt(Math.min(1, covered / CONTINENTS.length));
+  host.innerHTML = `
+    <svg viewBox="0 0 200 118" class="gauge-svg">
+      <path d="${arc(0, 1)}" stroke="var(--gauge-track,#e2e8f0)" stroke-width="${sw}" fill="none" stroke-linecap="round"/>
+      ${segs}
+      <line x1="${cx}" y1="${cy}" x2="${(cx + (nx - cx) * 0.78).toFixed(2)}" y2="${(cy + (ny - cy) * 0.78).toFixed(2)}" class="gauge-needle"/>
+      <circle cx="${cx}" cy="${cy}" r="5" class="gauge-hub"/>
+      <text x="${cx}" y="${cy - 30}" text-anchor="middle" class="gauge-num">${covered}<tspan class="gauge-of">/${CONTINENTS.length}</tspan></text>
+      <text x="${cx}" y="${cy - 16}" text-anchor="middle" class="gauge-lbl">regions covered</text>
+    </svg>`;
+}
+
+function renderWorldMap(client) {
+  const list = clientsList.filter(c => client === 'ALL' || c.name === client);
+  const counts = {};
+  CONTINENTS.forEach(x => { counts[x.key] = 0; });
+  list.forEach(c => {
+    const k = continentOf(c);
+    if (k in counts) counts[k] += 1;
+  });
+  drawRegionGauge(counts, list.length);
+  const legend = document.getElementById('donutLegendContainer');
+  if (!legend) return;
+  legend.innerHTML = CONTINENTS.map(x => `
+    <div class="cont-row ${counts[x.key] ? 'on' : ''}">
+      <span class="cont-name"><span class="cont-dot" style="background:${x.color}"></span>${x.key}</span>
+      <span class="cont-count">${counts[x.key]} client${counts[x.key] === 1 ? '' : 's'}</span>
+    </div>`).join('');
+}
+
+// ═══ ORDERS: download, packing upload ═══
+let pendingPackingOrd = null;
+
+function downloadOrder(ordNo) {
+  const o = packingOrders.find(x => x.ordNo === ordNo);
+  if (!o || !o.driveLink) {
+    showToast('No order file is saved for this order.', 'error');
+    return;
+  }
+  const m = String(o.driveLink).match(/[-\w]{25,}/);
+  if (!m) {
+    showToast('The order file link is not valid.', 'error');
+    return;
+  }
+  window.open('https://drive.google.com/uc?export=download&id=' + m[0], '_blank');
+}
+
+function triggerPackingUpload(ordNo) {
+  pendingPackingOrd = ordNo;
+  document.getElementById('packingFileInput').click();
+}
+
+function uint8ToBase64(bytes) {
+  let bin = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(bin);
+}
+
+// ---------- PDF of the "Packing List" sheet, drawn with its formats, borders, merges and logo ----------
+function xmlDoc(text) { return new DOMParser().parseFromString(text, 'application/xml'); }
+function colNum(letters) { let n = 0; for (const ch of letters) n = n * 26 + (ch.charCodeAt(0) - 64); return n; }
+function splitRef(ref) { const m = /^([A-Z]+)(\d+)$/.exec(ref); return { c: colNum(m[1]), r: +m[2] }; }
+function argbToHex(v) { if (!v || v.length < 6) return null; return '#' + v.slice(-6); }
+function resolvePath(base, target) {
+  if (target.startsWith('/')) return target.slice(1);
+  const parts = base.split('/'); parts.pop();
+  for (const seg of target.split('/')) {
+    if (seg === '..') parts.pop(); else if (seg && seg !== '.') parts.push(seg);
+  }
+  return parts.join('/');
+}
+function relsOf(doc) {
+  const map = {};
+  Array.from(doc.getElementsByTagName('Relationship')).forEach(r => { map[r.getAttribute('Id')] = { target: r.getAttribute('Target'), type: r.getAttribute('Type') || '' }; });
+  return map;
+}
+function readStyles(doc) {
+  const numFmts = {};
+  Array.from(doc.getElementsByTagName('numFmt')).forEach(n => { numFmts[n.getAttribute('numFmtId')] = n.getAttribute('formatCode'); });
+  const pick = tag => doc.getElementsByTagName(tag)[0];
+  const fonts = Array.from(pick('fonts').getElementsByTagName('font')).map(f => ({
+    bold: f.getElementsByTagName('b').length > 0,
+    size: +((f.getElementsByTagName('sz')[0] || {}).getAttribute ? f.getElementsByTagName('sz')[0].getAttribute('val') : 11) || 11,
+    color: argbToHex((f.getElementsByTagName('color')[0] || {}).getAttribute ? f.getElementsByTagName('color')[0].getAttribute('rgb') : null)
+  }));
+  const fills = Array.from(pick('fills').getElementsByTagName('fill')).map(f => {
+    const pf = f.getElementsByTagName('patternFill')[0];
+    const fg = pf && pf.getElementsByTagName('fgColor')[0];
+    return (pf && pf.getAttribute('patternType') === 'solid' && fg) ? argbToHex(fg.getAttribute('rgb')) : null;
+  });
+  const borders = Array.from(pick('borders').getElementsByTagName('border')).map(b => {
+    const out = {};
+    ['left', 'right', 'top', 'bottom'].forEach(side => {
+      const e = b.getElementsByTagName(side)[0];
+      const st = e && e.getAttribute('style');
+      if (st) out[side] = st;
+    });
+    return out;
+  });
+  const xfs = Array.from(pick('cellXfs').getElementsByTagName('xf')).map(x => {
+    const al = x.getElementsByTagName('alignment')[0];
+    return { font: +(x.getAttribute('fontId') || 0), fill: +(x.getAttribute('fillId') || 0),
+      border: +(x.getAttribute('borderId') || 0), fmt: x.getAttribute('numFmtId'),
+      h: al ? al.getAttribute('horizontal') : null };
+  });
+  const dxfs = Array.from(doc.getElementsByTagName('dxf')).map(d => {
+    const pf = d.getElementsByTagName('patternFill')[0];
+    const bg = pf && pf.getElementsByTagName('bgColor')[0];
+    return { fill: bg ? argbToHex(bg.getAttribute('rgb')) : null,
+      bold: d.getElementsByTagName('b').length > 0 };
+  });
+  return { numFmts, fonts, fills, borders, xfs, dxfs };
+}
+function formatNumber(v, fmtId, numFmts) {
+  const code = numFmts[fmtId] || (fmtId === '2' ? '0.00' : fmtId === '3' ? '#,##0' : fmtId === '4' ? '#,##0.00' : fmtId === '1' ? '0' : '');
+  if (!code || code === 'General') return String(v);
+  if (code.includes('0.00')) return Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (code.includes('#,##0')) return Number(v).toLocaleString('en-US', { maximumFractionDigits: 0 });
+  if (code.includes('0')) return String(Math.round(Number(v)));
+  return String(v);
+}
+
+async function readPackingSheet(file) {
+  if (typeof JSZip === 'undefined' || typeof PDFLib === 'undefined') {
+    throw new Error('PDF tools did not load. Check your internet connection and reload.');
+  }
+  const zip = await JSZip.loadAsync(file);
+  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
+  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
+  const sheetEl = Array.from(wbDoc.getElementsByTagName('sheet')).find(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
+  if (!sheetEl) throw new Error('The file has no sheet named "Packing List".');
+  const rid = sheetEl.getAttribute('r:id');
+  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
+
+  const sstFile = zip.file('xl/sharedStrings.xml');
+  const sst = sstFile ? Array.from(xmlDoc(await sstFile.async('string')).getElementsByTagName('si'))
+    .map(si => Array.from(si.getElementsByTagName('t')).map(t => t.textContent).join('')) : [];
+  const styles = readStyles(xmlDoc(await zip.file('xl/styles.xml').async('string')));
+  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
+
+  const cells = {};          // "r,c" -> { text, xf }
+  let maxR = 1, maxC = 1;
+  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
+    const ref = splitRef(c.getAttribute('r'));
+    const t = c.getAttribute('t');
+    const vEl = c.getElementsByTagName('v')[0];
+    const isEl = c.getElementsByTagName('t')[0];
+    let text = '';
+    if (t === 's' && vEl) text = sst[+vEl.textContent] || '';
+    else if (t === 'inlineStr' && isEl) text = isEl.textContent;
+    else if (t === 'str' && vEl) text = vEl.textContent;
+    else if (t === 'b' && vEl) text = vEl.textContent === '1' ? 'TRUE' : 'FALSE';
+    else if (vEl) {
+      const xf = styles.xfs[+(c.getAttribute('s') || 0)] || {};
+      text = formatNumber(vEl.textContent, xf.fmt, styles.numFmts);
+    }
+    cells[ref.r + ',' + ref.c] = { text: text, xf: +(c.getAttribute('s') || 0) };
+    maxR = Math.max(maxR, ref.r); maxC = Math.max(maxC, ref.c);
+  });
+  const rowHt = {};
+  Array.from(sheetDoc.getElementsByTagName('row')).forEach(r => { if (r.getAttribute('ht')) rowHt[+r.getAttribute('r')] = +r.getAttribute('ht'); });
+  const colW = {};
+  Array.from(sheetDoc.getElementsByTagName('col')).forEach(c => {
+    for (let i = +c.getAttribute('min'); i <= +c.getAttribute('max') && i <= 60; i++) colW[i] = +c.getAttribute('width');
+  });
+  const merges = Array.from(sheetDoc.getElementsByTagName('mergeCell')).map(m => {
+    const [a, b] = m.getAttribute('ref').split(':').map(splitRef);
+    return { r1: a.r, c1: a.c, r2: b.r, c2: b.c };
+  });
+  // conditional formatting (the yellow rows)
+  const cfRules = [];
+  Array.from(sheetDoc.getElementsByTagName('conditionalFormatting')).forEach(cf => {
+    const sq = cf.getAttribute('sqref').split(' ')[0].split(':').map(splitRef);
+    Array.from(cf.getElementsByTagName('cfRule')).forEach(rule => {
+      const f = rule.getElementsByTagName('formula')[0];
+      const dxf = styles.dxfs[+(rule.getAttribute('dxfId') || 0)] || {};
+      if (f) cfRules.push({ r1: sq[0].r, c1: sq[0].c, r2: sq[sq.length - 1].r, c2: sq[sq.length - 1].c, formula: f.textContent, dxf: dxf });
+    });
+  });
+
+  // logo / pictures of this sheet
+  const pictures = [];
+  const sheetRelsFile = zip.file(sheetPath.replace('worksheets/', 'worksheets/_rels/') + '.rels');
+  if (sheetRelsFile) {
+    const srels = relsOf(xmlDoc(await sheetRelsFile.async('string')));
+    const drawingRel = Object.values(srels).find(r => r.type.endsWith('/drawing'));
+    if (drawingRel) {
+      const dPath = resolvePath(sheetPath, drawingRel.target);
+      const dDoc = xmlDoc(await zip.file(dPath).async('string'));
+      const drels = relsOf(xmlDoc(await zip.file(dPath.replace('drawings/', 'drawings/_rels/') + '.rels').async('string')));
+      Array.from(dDoc.getElementsByTagName('xdr:twoCellAnchor')).concat(Array.from(dDoc.getElementsByTagName('xdr:oneCellAnchor'))).forEach(anc => {
+        const from = anc.getElementsByTagName('xdr:from')[0];
+        const blip = anc.getElementsByTagName('a:blip')[0];
+        if (!from || !blip) return;
+        const rel = drels[blip.getAttribute('r:embed')];
+        if (!rel) return;
+        const num = (el, tag) => +((el.getElementsByTagName(tag)[0] || { textContent: '0' }).textContent || 0);
+        const ext = anc.getElementsByTagName('xdr:ext')[0];
+        const to = anc.getElementsByTagName('xdr:to')[0];
+        pictures.push({
+          path: resolvePath(dPath, rel.target),
+          fromCol: num(from, 'xdr:col') + 1, fromRow: num(from, 'xdr:row') + 1,
+          fromColOff: num(from, 'xdr:colOff'), fromRowOff: num(from, 'xdr:rowOff'),
+          toCol: to ? num(to, 'xdr:col') + 1 : null, toRow: to ? num(to, 'xdr:row') + 1 : null,
+          toColOff: to ? num(to, 'xdr:colOff') : 0, toRowOff: to ? num(to, 'xdr:rowOff') : 0,
+          cx: ext ? +ext.getAttribute('cx') : 0, cy: ext ? +ext.getAttribute('cy') : 0,
+          zip: zip
+        });
+      });
+    }
+  }
+  return { cells, maxR, maxC, rowHt, colW, merges, cfRules, styles, pictures, zip, sheetPath };
+}
+
+function cfMatches(rule, cells, r, c) {
+  const val = (col, row) => (cells[row + ',' + col] ? cells[row + ',' + col].text : '');
+  let f = rule.formula
+    .replace(/\$([A-Z]+)(\d+)/g, (m, col, row) => JSON.stringify(val(colNum(col), +row)))
+    .replace(/\b[A-Z]+\d+\b/g, '""');
+  f = f.replace(/<>/g, '!==').replace(/(?<![<>!=])=(?!=)/g, '===');
+  f = f.replace(/AND\(([^()]*)\)/g, (m, args) => '(' + args.split(',').join('&&') + ')');
+  f = f.replace(/ROWS\([^)]*\)/g, '1');
+  try { return !!(new Function('return (' + f + ');')()); } catch (e) { return false; }
+}
+
+async function buildPackingPdfBytes(file) {
+  const sh = await readPackingSheet(file);
+  const { cells, maxR, rowHt, colW, merges, cfRules, styles, pictures } = sh;
+  const lastR = Math.min(maxR, 200), lastC = Math.min(Math.max(sh.maxC, 1), 26);
+  const PW = 842, PH = 595, MARGIN = 22;
+  const defColPt = 48, defRowPt = 15;
+  const colPt = c => (colW[c] ? colW[c] * 7 * 0.75 + 4 : defColPt);
+  const rowPt = r => rowHt[r] || defRowPt;
+  let totalW = 0; for (let c = 1; c <= lastC; c++) totalW += colPt(c);
+  const scale = Math.min((PW - 2 * MARGIN) / totalW, 1.6);
+  const colX = [0]; for (let c = 1; c <= lastC; c++) colX[c] = colX[c - 1] + colPt(c) * scale;
+  const rowY = [0]; for (let r = 1; r <= lastR; r++) rowY[r] = rowY[r - 1] + rowPt(r) * scale;
+
+  // pages: split by whole rows
+  const usableH = PH - 2 * MARGIN;
+  const pages = []; let start = 1;
+  for (let r = 1; r <= lastR; r++) {
+    if (rowY[r] - rowY[start - 1] > usableH && r > start) { pages.push([start, r - 1]); start = r; }
+  }
+  pages.push([start, lastR]);
+
+  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  const doc = await PDFDocument.create();
+  const fonts = {
+    reg: await doc.embedFont(StandardFonts.Helvetica),
+    bold: await doc.embedFont(StandardFonts.HelveticaBold)
+  };
+  const clean = v => String(v == null ? '' : v).replace(/[^\x20-\x7E]/g, '?');
+  const hexToRgb = hex => { const n = parseInt(hex.slice(1), 16); return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255); };
+  const lineW = { thin: 0.5, hair: 0.3, medium: 1.2, thick: 1.8, double: 1.5, dotted: 0.5, dashed: 0.6 };
+
+  // which cell is covered by a merge (and must not be drawn on its own)
+  const covered = {}; const mergeAt = {};
+  merges.forEach(m => {
+    mergeAt[m.r1 + ',' + m.c1] = m;
+    for (let r = m.r1; r <= m.r2; r++) for (let c = m.c1; c <= m.c2; c++) if (r !== m.r1 || c !== m.c1) covered[r + ',' + c] = true;
+  });
+
+  // formats and conditional fills for every cell
+  const cellStyle = (r, c) => {
+    const cell = cells[r + ',' + c] || { text: '', xf: 0 };
+    const xf = styles.xfs[cell.xf] || {};
+    const font = styles.fonts[xf.font] || {};
+    let fill = styles.fills[xf.fill] || null;
+    let bold = font.bold;
+    let fcol = font.color || null;
+    cfRules.forEach(rule => {
+      if (r >= rule.r1 && r <= rule.r2 && c >= rule.c1 && c <= rule.c2 && cfMatches(rule, cells, r, c)) {
+        if (rule.dxf.fill) fill = rule.dxf.fill;
+        if (rule.dxf.bold) bold = true;
+      }
+    });
+    const isNum = cell.text !== '' && !isNaN(Number(String(cell.text).replace(/,/g, '')));
+    const align = xf.h || (isNum ? 'right' : 'left');
+    return { text: cell.text, fill, bold, color: fcol, size: (font.size || 11), align, border: styles.borders[xf.border] || {} };
+  };
+
+  pages.forEach(([r1, r2]) => {
+    const page = doc.addPage([PW, PH]);
+    const top = r => PH - MARGIN - (rowY[r - 1] - rowY[r1 - 1]);      // y of the top edge of row r on this page
+    const X = c => MARGIN + colX[c - 1];
+    for (let r = r1; r <= r2; r++) {
+      for (let c = 1; c <= lastC; c++) {
+        if (covered[r + ',' + c]) continue;
+        const m = mergeAt[r + ',' + c];
+        const rr2 = m ? m.r2 : r, cc2 = m ? m.c2 : c;
+        const x = X(c);
+        const w2 = (colX[cc2] !== undefined ? colX[cc2] : colX[lastC]) - colX[c - 1];
+        const h = (rowY[rr2] - rowY[r - 1]);
+        const y = top(r) - h;
+        const st = cellStyle(r, c);
+        if (st.fill) page.drawRectangle({ x: x, y: y, width: w2, height: h, color: hexToRgb(st.fill) });
+        const b = st.border;
+        const line = (side, x1, y1, x2, y2) => {
+          if (!b[side]) return;
+          page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness: lineW[b[side]] || 0.5, color: rgb(0, 0, 0) });
+        };
+        line('top', x, y + h, x + w2, y + h);
+        line('bottom', x, y, x + w2, y);
+        line('left', x, y, x, y + h);
+        line('right', x + w2, y, x + w2, y + h);
+        if (st.text) {
+          const f = st.bold ? fonts.bold : fonts.reg;
+          const size = Math.max(5, Math.min(st.size * scale, 22));
+          let txt = clean(st.text);
+          while (txt.length > 1 && f.widthOfTextAtSize(txt, size) > w2 - 4) txt = txt.slice(0, -1);
+          const tw = f.widthOfTextAtSize(txt, size);
+          const tx = st.align === 'center' ? x + (w2 - tw) / 2 : st.align === 'right' ? x + w2 - tw - 3 : x + 3;
+          const ty = y + h / 2 - size * 0.35;
+          page.drawText(txt, { x: tx, y: ty, size: size, font: f, color: st.color ? hexToRgb(st.color) : rgb(0, 0, 0) });
+        }
+      }
+    }
+  });
+
+  // pictures are embedded after the pages exist
+  for (const pic of sh.pictures) {
+    const bytes = await pic.zip.file(pic.path).async('uint8array');
+    const isPng = pic.path.toLowerCase().endsWith('.png');
+    const img = isPng ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+    const pageIndex = pages.findIndex(([a, b]) => pic.fromRow >= a && pic.fromRow <= b);
+    if (pageIndex < 0) continue;
+    const [a] = pages[pageIndex];
+    const page = doc.getPages()[pageIndex];
+    const x = MARGIN + colX[pic.fromCol - 1] + (pic.fromColOff / 12700) * scale;
+    const yTop = PH - MARGIN - (rowY[pic.fromRow - 1] - rowY[a - 1]) - (pic.fromRowOff / 12700) * scale;
+    const w = pic.cx ? (pic.cx / 12700) * scale : (colX[pic.toCol - 1] - colX[pic.fromCol - 1]) * 1;
+    const hgt = pic.cy ? (pic.cy / 12700) * scale : 0;
+    page.drawImage(img, { x: x, y: yTop - hgt, width: w, height: hgt });
+  }
+  return await doc.save();
+}
+
+// Makes a standard .xlsx from the uploaded .xlsm: removes the macros and sets the print area
+// of "Packing List" to its data only (so the PDF has the table and not the empty sheet)
+async function makeXlsxFromWorkbook(file) {
+  const zip = await JSZip.loadAsync(file);
+  Object.keys(zip.files).filter(n => /vbaProject\.bin$/i.test(n)).forEach(n => zip.remove(n));
+
+  let ct = await zip.file('[Content_Types].xml').async('string');
+  ct = ct.replace('application/vnd.ms-excel.sheet.macroEnabled.main+xml',
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml')
+         .replace(/<Override[^>]*vbaProject[^>]*\/>/g, '');
+  zip.file('[Content_Types].xml', ct);
+
+  let rels = await zip.file('xl/_rels/workbook.xml.rels').async('string');
+  rels = rels.replace(/<Relationship[^>]*vbaProject[^>]*\/>/g, '');
+  zip.file('xl/_rels/workbook.xml.rels', rels);
+
+  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
+  const sheets = Array.from(wbDoc.getElementsByTagName('sheet'));
+  const idx = sheets.findIndex(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
+  if (idx < 0) throw new Error('The file has no sheet named "Packing List".');
+  const rid = sheets[idx].getAttribute('r:id');
+  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
+  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
+  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
+
+  let lastRow = 1, lastCol = 1;
+  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
+    const hasValue = c.getElementsByTagName('v').length || c.getElementsByTagName('is').length || c.getElementsByTagName('f').length;
+    if (!hasValue) return;
+    const ref = splitRef(c.getAttribute('r'));
+    lastRow = Math.max(lastRow, ref.r);
+    lastCol = Math.max(lastCol, ref.c);
+  });
+  const colLetter = n => { let s2 = ''; while (n > 0) { const m2 = (n - 1) % 26; s2 = String.fromCharCode(65 + m2) + s2; n = Math.floor((n - 1) / 26); } return s2; };
+  const printArea = `'Packing List'!$A$1:$${colLetter(Math.min(lastCol, 26))}$${lastRow}`;
+
+  let wbXml = await zip.file('xl/workbook.xml').async('string');
+  wbXml = wbXml.replace(new RegExp(`<definedName name="_xlnm\\.Print_Area" localSheetId="${idx}"[^>]*>[^<]*<\\/definedName>`, 'g'), '');
+  const dn = `<definedName name="_xlnm.Print_Area" localSheetId="${idx}">${printArea.replace(/&/g, '&amp;')}</definedName>`;
+  if (wbXml.includes('<definedNames>')) {
+    wbXml = wbXml.replace('<definedNames>', () => '<definedNames>' + dn);
+  } else {
+    wbXml = wbXml.replace('</sheets>', () => '</sheets><definedNames>' + dn + '</definedNames>');
+  }
+  zip.file('xl/workbook.xml', wbXml);
+  return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
+}
+
+async function onPackingFileChosen(input) {
+  const f = input.files && input.files[0];
+  input.value = '';
+  if (!f || !pendingPackingOrd) return;
+  const ext = f.name.split('.').pop().toLowerCase();
+  if (!['xlsx', 'xlsm', 'pdf'].includes(ext)) {
+    showToast('Only .xlsx, .xlsm or .pdf files can be uploaded.', 'error');
+    pendingPackingOrd = null;
+    return;
+  }
+  const ordNo = pendingPackingOrd;
+  pendingPackingOrd = null;
+
+  if (ext === 'pdf') {
+    // a PDF made in Excel is stored as it is, so the Report shows it exactly
+    showToast('Uploading PDF…', 'info');
+    try {
+      const pdfB64 = await blobToBase64(f);
+      const pr = await api('uploadPackingPdf', { ordNo: ordNo, base64: pdfB64 });
+      const o = packingOrders.find(x => x.ordNo === ordNo);
+      if (o) { o.packingPdfName = pr.pdfName; o.packingPdfLink = pr.url; }
+      renderOrdersTable(); renderProductionTable(); renderPackingTable();
+      showToast('PDF saved. The Report button will open this file.', 'success');
+    } catch (err) {
+      showToast('Upload failed: ' + err.message, 'error');
+    }
+    return;
+  }
+
+  showToast('Uploading and making the PDF automatically…', 'info');
+  try {
+    const base64 = await blobToBase64(f);
+    const xlsxB64 = ext === 'xlsm' ? await makeXlsxFromWorkbook(f) : base64;
+    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64, xlsxBase64: xlsxB64 });
+    const o = packingOrders.find(x => x.ordNo === ordNo);
+    if (o) {
+      o.packingName = f.name;
+      o.packingLink = res.url;
+      o.packingPdfName = res.pdfName || '';
+      o.packingPdfLink = res.pdfUrl || '';
+    }
+    renderOrdersTable(); renderProductionTable(); renderPackingTable();
+    if (res.pdfError) {
+      showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
+    } else {
+      showToast('File and PDF saved to Google Drive and Sheets.', 'success');
+    }
+  } catch (e) {
+    showToast('Upload failed: ' + e.message, 'error');
   }
 }
+
+// ═══ ORDERS: delete, export date, packing report, production ═══
+async function deleteOrder(ordNo) {
+  const order = packingOrders.find(o => o.ordNo === ordNo);
+  if (!order) return;
+  if (!confirm(`Delete order ${ordNo} (${order.client})?\n\nIt is removed from the site and from Google Sheets. Its PDF is moved to Google Drive Trash.`)) return;
+  try {
+    await api('remove', { table: 'Orders', key: ordNo });
+  } catch (e) {
+    showToast('Delete failed: ' + e.message, 'error');
+    return;
+  }
+  packingOrders = packingOrders.filter(o => o.ordNo !== ordNo);
+  serverBaseline.Orders.delete(String(ordNo));
+  renderOrdersTable();
+  renderPackingTable();
+  renderProductionTable();
+  updateDashboard();
+  dispatchEmailNotification('action', currentLoggedUser, `Deleted Order: ${ordNo}`,
+    `User "${currentLoggedUser}" deleted order ${ordNo} (${order.client}).`);
+  showToast(`Order ${ordNo} deleted`);
+}
+
+function updateExportDate(ordNo, value) {
+  const order = packingOrders.find(o => o.ordNo === ordNo);
+  if (!order) return;
+  const v = String(value || '').trim();
+  if (!v) {
+    showToast('Export date cannot be empty.', 'error');
+    renderOrdersTable();
+    return;
+  }
+  order.expDate = v;
+  persistData();
+  renderOrdersTable();
+  renderPackingTable();
+  renderProductionTable();
+  dispatchEmailNotification('action', currentLoggedUser, `Export date changed: ${ordNo}`,
+    `User "${currentLoggedUser}" changed the export date of order ${ordNo} to ${v}.`);
+  showToast(`Export date of ${ordNo} updated`);
+}
+
+async function reportPackingFile(ordNo) {
+  const o = packingOrders.find(x => x.ordNo === ordNo);
+  if (!o) return;
+  if (o.packingPdfLink) {
+    window.open(o.packingPdfLink, '_blank');
+    return;
+  }
+  if (!o.packingLink) {
+    showToast('Upload the workbook for this order in Production first.', 'error');
+    return;
+  }
+  const w = window.open('', '_blank');
+  showToast('Making the PDF from the Packing List sheet…', 'info');
+  try {
+    const res = await api('makePackingPdf', { ordNo: ordNo });
+    o.packingPdfLink = res.pdfUrl;
+    o.packingPdfName = res.pdfName;
+    if (w) w.location = res.pdfUrl; else window.open(res.pdfUrl, '_blank');
+    renderProductionTable();
+  } catch (e) {
+    if (w) w.close();
+    showToast('PDF failed: ' + e.message, 'error');
+  }
+}
+
+function printPackingReport(ordNo) {
+  const o = packingOrders.find(x => x.ordNo === ordNo);
+  if (!o) return;
+  const w = window.open('', '_blank');
+  if (!w) {
+    showToast('Allow pop-ups to open the packing report.', 'error');
+    return;
+  }
+  const foam = Number(o.foamKg) || 0;
+  const plas = Number(o.plasticKg) || 0;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Packing Report ${o.ordNo}</title>
+<style>
+  body{font-family:Calibri,Arial,sans-serif;padding:28px;color:#0f172a}
+  h1{color:#0b2545;margin:0 0 6px;font-size:22px}
+  .sub{color:#334155;margin-bottom:18px;font-size:14px}
+  table{width:100%;border-collapse:collapse;margin-top:12px}
+  th,td{border:2px solid #000;padding:8px;text-align:center;font-size:13px}
+  th{background:#ffff00}
+  .made{text-align:center;font-size:36px;font-weight:700;margin-top:28px}
+</style></head><body>
+<h1>Foam Industries Co. - Packing Report</h1>
+<div class="sub">Order No: <b>${o.ordNo}</b> &nbsp; Client: <b>${o.client}</b> &nbsp; Destination: ${o.dest} &nbsp; Export date: ${o.expDate}</div>
+<table>
+  <thead><tr><th>Order No.</th><th>Request date</th><th>Export date</th><th>Foam KG</th><th>Plastic KG</th><th>Total KG</th><th>Status</th></tr></thead>
+  <tbody><tr><td>${o.ordNo}</td><td>${o.reqDate}</td><td>${o.expDate}</td><td>${foam.toLocaleString()}</td><td>${plas.toLocaleString()}</td><td>${(foam + plas).toLocaleString()}</td><td>${o.status}</td></tr></tbody>
+</table>
+<div class="made">MADE IN EGYPT</div>
+<script>window.onload = function () { window.print(); };<\/script>
+</body></html>`);
+  w.document.close();
+}
+
+function renderProductionTable() {
+  const tbody = document.getElementById('productionTableBody');
+  if (!tbody) return;
+  const q = (document.getElementById('prodSearchInput')?.value || '').trim().toLowerCase();
+  const rows = packingOrders.filter(o =>
+    !q || o.ordNo.toLowerCase().includes(q) || o.client.toLowerCase().includes(q));
+  const canOrd = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.orders) || ['Write', 'Full edit'].includes(myPerms.packing)) : false;
+  tbody.innerHTML = rows.map(o => `
+    <tr>
+      <td class="ord-no">${o.ordNo}</td>
+      <td>${o.client}</td>
+      <td>${o.expDate}</td>
+      <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
+      <td>
+        <button class="btn-outline" type="button" onclick="downloadOrder('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px" ${o.driveLink ? '' : 'disabled'}><i class="ti ti-download"></i>download order</button>
+      </td>
+      <td>
+        ${o.packingLink ? `<a href="${o.packingLink}" target="_blank" style="font-size:11px;font-weight:700;color:var(--royal)">${o.packingName}</a><br>` : ''}
+        ${o.packingPdfName ? `<span style="font-size:10.5px;color:var(--ink-4)">PDF: ${o.packingPdfName}</span><br>` : ''}
+        ${canOrd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
+      </td>
+      <td>
+        <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
+        <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
+      </td>
+      <td>
+        <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canOrd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
+          <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
+          <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
+          <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+        </select>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ═══ SIGNUP ═══
+function showAuthTab(tab) {
+  const up = tab === 'signup';
+  document.getElementById('signinPane').style.display = up ? 'none' : '';
+  document.getElementById('signupPane').style.display = up ? '' : 'none';
+  document.getElementById('tabSignin').classList.toggle('active', !up);
+  document.getElementById('tabSignup').classList.toggle('active', up);
+  document.getElementById('loginErr').style.display = 'none';
+}
+
+async function doSignup() {
+  const username = document.getElementById('suUser').value.trim();
+  const mobile = document.getElementById('suMobile').value.trim();
+  const email = document.getElementById('suEmail').value.trim();
+  const pw = document.getElementById('suPass').value;
+  const pw2 = document.getElementById('suPass2').value;
+  if (!username || !mobile || !email || !pw) {
+    showToast('Please fill in all the fields.', 'error');
+    return;
+  }
+  if (pw.length < 8) {
+    showToast('The password must be at least 8 characters.', 'error');
+    return;
+  }
+  if (pw !== pw2) {
+    showToast('The two passwords do not match.', 'error');
+    return;
+  }
+  let res;
+  try {
+    res = await api('signup', { username, mobile, email, password: pw }, false);
+  } catch (e) {
+    showToast(e.message, 'error');
+    return;
+  }
+  showToast('Account created. Welcome, ' + username + '!', 'success');
+  await enterPortal(res);
+}
+
+// ═══ EDIT CLIENT ═══
+let editClientIdx = null;
+
+function openEditClient(idx) {
+  const c = clientsList[idx];
+  if (!c) return;
+  editClientIdx = idx;
+  document.getElementById('ecName').textContent = c.name;
+  document.getElementById('ecNameInput').value = c.name;
+  document.getElementById('ecCountry').value = c.country || '';
+  document.getElementById('ecVat').value = c.vat || '';
+  document.getElementById('ecMobile').value = c.mobile || '';
+  document.getElementById('ecContact').value = c.contact || '';
+  document.getElementById('ecEmail').value = c.email || '';
+  document.getElementById('ecStatus').value = c.status === 'Pending' ? 'Pending' : 'Active';
+  document.getElementById('ecAddress').value = c.address || '';
+  document.getElementById('editClientModal').classList.add('open');
+}
+
+function closeEditClient() {
+  document.getElementById('editClientModal').classList.remove('open');
+  editClientIdx = null;
+}
+
+function saveEditClient() {
+  const c = clientsList[editClientIdx];
+  if (!c) return;
+
+  const oldName = c.name;
+  const newName = document.getElementById('ecNameInput').value.trim();
+  if (!newName) {
+    showToast('The client name cannot be empty.', 'error');
+    return;
+  }
+  if (newName !== oldName) {
+    if (clientsList.some(x => x.name === newName)) {
+      showToast('A client named "' + newName + '" already exists.', 'error');
+      return;
+    }
+    c.name = newName;
+    // Orders are linked to the client by name, so they are renamed too
+    packingOrders.forEach(o => { if (o.client === oldName) o.client = newName; });
+    if (activeReportState.clientName === oldName) activeReportState.clientName = newName;
+  }
+
+  c.country = document.getElementById('ecCountry').value.trim();
+  c.vat = document.getElementById('ecVat').value.trim();
+  c.mobile = document.getElementById('ecMobile').value.trim();
+  c.contact = document.getElementById('ecContact').value.trim();
+  c.email = document.getElementById('ecEmail').value.trim();
+  c.status = document.getElementById('ecStatus').value;
+  c.address = document.getElementById('ecAddress').value.trim();
+  closeEditClient();
+  renderAllTables();
+  updateDashboard();
+  persistData();
+  showToast(newName !== oldName ? 'Client renamed to ' + newName : 'Client updated: ' + c.name, 'success');
+}
+
+// ═══ PERMISSIONS ═══
+const PERM_ROWS = [
+  { key: 'clients', label: 'Clients data', icon: 'ti-users', letter: 'c' },
+  { key: 'orders', label: 'Orders', icon: 'ti-file-invoice', letter: 'o' },
+  { key: 'packing', label: 'Packing list', icon: 'ti-clipboard-list', letter: 'p' },
+  { key: 'users', label: 'User management', icon: 'ti-shield-lock', letter: 'u' }
+];
+const PERM_LEVELS = [['None', 'No access'], ['Read', 'Read only'], ['Write', 'Read + write'], ['Full edit', 'Full control']];
+let permTarget = null;
+let myPerms = null;
+
+function permTableHTML(values, prefix) {
+  const head = PERM_LEVELS.map(([, label]) => `<th>${label}</th>`).join('');
+  const rows = PERM_ROWS.map(r => {
+    const cur = values[r.key] || 'None';
+    const cells = PERM_LEVELS.map(([v]) =>
+      `<td><input type="radio" name="${prefix}${r.letter}" value="${v}" ${cur === v ? 'checked' : ''}></td>`
+    ).join('');
+    return `<tr><td><i class="ti ${r.icon}"></i>${r.label}</td>${cells}</tr>`;
+  }).join('');
+  return `<table class="perm-table"><thead><tr><th>Page</th>${head}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function readPerms(prefix) {
+  const out = {};
+  PERM_ROWS.forEach(r => {
+    out[r.key] = document.querySelector(`input[name="${prefix}${r.letter}"]:checked`)?.value || 'None';
+  });
+  return out;
+}
+
+function resetNewUserPerms() {
+  document.getElementById('nuPermBox').innerHTML = permTableHTML({}, 'n');
+}
+
+function openPermModal(idx) {
+  const u = systemUsers[idx];
+  if (!u) return;
+  permTarget = u.username;
+  document.getElementById('pmUserName').textContent = u.username;
+  document.getElementById('pmPermBox').innerHTML = permTableHTML(u, 'm');
+  document.getElementById('permModal').classList.add('open');
+}
+
+async function savePermissions() {
+  const u = systemUsers.find(x => x.username === permTarget);
+  if (!u) return;
+  const perms = readPerms('m');
+  try {
+    await api('saveUser', { record: Object.assign({}, u, perms) });
+  } catch (e) {
+    showToast('Could not save: ' + e.message, 'error');
+    return;
+  }
+  Object.assign(u, perms);
+  document.getElementById('permModal').classList.remove('open');
+  renderAllTables();
+  showToast('Permissions saved.', 'success');
+}
+
+// Shows only the pages the user may open, and hides the buttons that add records
+function applyPermissions(me) {
+  myPerms = me;
+  const canWriteLevel = v => me.admin || v === 'Write' || v === 'Full edit';
+  const pageVisible = {
+    clients: me.admin || (me.clients && me.clients !== 'None'),
+    orders: me.admin || (me.orders && me.orders !== 'None'),
+    packing: me.admin || (me.packing && me.packing !== 'None'),
+    users: me.admin || (me.users && me.users !== 'None'),
+    messages: me.admin
+  };
+  Object.entries(pageVisible).forEach(([page, show]) => {
+    document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
+  });
+  const writeOk = {
+    clients: canWriteLevel(me.clients),
+    orders: canWriteLevel(me.orders) || canWriteLevel(me.packing),
+    users: canWriteLevel(me.users)
+  };
+  Object.entries(writeOk).forEach(([key, ok]) => {
+    document.querySelectorAll(`[data-write="${key}"]`).forEach(el => { el.style.display = ok ? '' : 'none'; });
+  });
+  goPage('dashboard');
+}
+
+// ═══ FINGERPRINT / FACE ID (device-bound quick sign-in) ═══
+function bytesToB64url(buf) {
+  let str = '';
+  new Uint8Array(buf).forEach(b => { str += String.fromCharCode(b); });
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function b64urlToBytes(text) {
+  let b64 = text.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4) b64 += '=';
+  return Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+}
+
+async function bioSupported() {
+  try {
+    return !!(window.PublicKeyCredential &&
+      await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable());
+  } catch (e) {
+    return false;
+  }
+}
+
+async function enableBiometric(username) {
+  try {
+    const cred = await navigator.credentials.create({
+      publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)),
+        rp: { name: 'Foam Industries Export Portal' },
+        user: {
+          id: crypto.getRandomValues(new Uint8Array(16)),
+          name: username,
+          displayName: username
+        },
+        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
+        timeout: 60000
+      }
+    });
+    localStorage.setItem('foam_bio', JSON.stringify({ username: username, credId: bytesToB64url(cred.rawId) }));
+    showToast('Fingerprint / Face ID sign-in is enabled on this device.', 'success');
+    return true;
+  } catch (e) {
+    showToast('Fingerprint setup was cancelled.', 'error');
+    return false;
+  }
+}
+
+async function bioLogin() {
+  const bio = JSON.parse(localStorage.getItem('foam_bio') || 'null');
+  const sess = JSON.parse(localStorage.getItem('foam_bio_session') || 'null');
+  if (!bio || !sess) {
+    showToast('Sign in with your password first.', 'error');
+    return;
+  }
+  try {
+    await navigator.credentials.get({
+      publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)),
+        allowCredentials: [{ type: 'public-key', id: b64urlToBytes(bio.credId) }],
+        userVerification: 'required',
+        timeout: 60000
+      }
+    });
+  } catch (e) {
+    showToast('Fingerprint / Face ID check was cancelled or failed.', 'error');
+    return;
+  }
+  await enterPortal({ ok: true, token: sess.token, me: sess.me });
+}
+
+async function refreshBioButton() {
+  const btn = document.getElementById('bioLoginBtn');
+  if (!btn) return;
+  const ready = localStorage.getItem('foam_bio') && localStorage.getItem('foam_bio_session');
+  btn.style.display = (ready && await bioSupported()) ? '' : 'none';
+}
+refreshBioButton();
 
 function doLogout() {
   const departingUser = currentLoggedUser || 'admin';
@@ -2667,26 +3887,70 @@ function doLogout() {
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
   document.getElementById('loginErr').style.display = 'none';
+  refreshBioButton();
 }
 
 function openForgotModal(e) {
   e.preventDefault();
+  showForgotStep(1);
   document.getElementById('forgotModal').classList.add('open');
 }
 
-function submitForgotPassword() {
-  const val = document.getElementById('forgotInput').value.trim();
-  if (!val) {
-    showToast('Please enter your username or email address.', 'error');
-    return;
-  }
+function closeForgotModal() {
   document.getElementById('forgotModal').classList.remove('open');
   document.getElementById('forgotInput').value = '';
-  dispatchEmailNotification('action', val, 'Password Reset Requested', `Password reset requested for account "${val}".`);
-  showToast(`Password recovery link sent to ${val}`, 'info');
+  document.getElementById('forgotCode').value = '';
+  document.getElementById('forgotNewPass').value = '';
+  document.getElementById('forgotNewPass2').value = '';
+  showForgotStep(1);
 }
 
-// Unified Navigation (Syncs Desktop Sidebar & Mobile Bottom Bar)
+function showForgotStep(n) {
+  document.getElementById('forgotStep1').style.display = n === 1 ? '' : 'none';
+  document.getElementById('forgotStep2').style.display = n === 2 ? '' : 'none';
+}
+
+// Step 1: ask the server to email a code to the admin
+async function submitForgotPassword() {
+  const username = document.getElementById('forgotInput').value.trim();
+  if (!username) {
+    showToast('Please enter your username.', 'error');
+    return;
+  }
+  try {
+    await api('requestReset', { username: username }, false);
+  } catch (e) {
+    showToast(e.message, 'error');
+    return;
+  }
+  showToast('If the account exists, a code was sent to its email.', 'success');
+  showForgotStep(2);
+}
+
+// Step 2: check the code and set the new password
+async function confirmForgotPassword() {
+  const username = document.getElementById('forgotInput').value.trim();
+  const code = document.getElementById('forgotCode').value.trim();
+  const pw = document.getElementById('forgotNewPass').value;
+  const pw2 = document.getElementById('forgotNewPass2').value;
+  if (!code || pw.length < 8) {
+    showToast('Enter the code and a password of at least 8 characters.', 'error');
+    return;
+  }
+  if (pw !== pw2) {
+    showToast('The two passwords do not match.', 'error');
+    return;
+  }
+  try {
+    await api('resetPassword', { username: username, code: code, newPassword: pw }, false);
+  } catch (e) {
+    showToast(e.message, 'error');
+    return;
+  }
+  closeForgotModal();
+  showToast('Password changed. Please sign in with the new password.', 'success');
+}
+
 function goPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
@@ -2713,20 +3977,18 @@ function syncDriveNow() {
   const ico = document.getElementById('syncSpinIco');
   ico.style.transition = 'transform 0.8s ease';
   ico.style.transform = 'rotate(360deg)';
-  dispatchEmailNotification(
-    'action',
-    currentLoggedUser,
-    'Google Drive Manual Backup',
-    `User "${currentLoggedUser}" triggered a manual cloud backup to /FOAM_INDUSTRIES/Exports_2026.`
-  );
-  setTimeout(() => {
-    ico.style.transform = 'rotate(0deg)';
-    showToast('All client records & packing lists synced to Google Drive.');
-  }, 800);
+  setTimeout(() => { ico.style.transform = 'rotate(0deg)'; }, 800);
+  if (!sessionToken) {
+    showToast('Please log in first.', 'error');
+    return;
+  }
+  queueSync(false, true);
+  showToast('Syncing with the server…', 'info');
 }
 
 // ═══ INTERACTIVE DASHBOARD CHARTS & FILTERS ═══
 function updateDashboard() {
+  MONTHLY_DATA = buildMonthlyData();
   const client = document.getElementById('dashClientFilter').value;
   const year = document.getElementById('dashYearFilter').value;
   const monthIdx = document.getElementById('dashMonthFilter').value;
@@ -2760,7 +4022,7 @@ function updateDashboard() {
     totalOrders = Math.max(1, Math.round(dataset.orders / 12));
   }
 
-  const totalClients = client === 'ALL' ? (dataset.clients + (clientsList.length - 4)) : 1;
+  const totalClients = client === 'ALL' ? clientsList.length : 1;
 
   document.getElementById('kpiClients').textContent = totalClients;
   document.getElementById('kpiClientsUnit').textContent = client === 'ALL' ? 'active export accounts' : client;
@@ -2770,7 +4032,7 @@ function updateDashboard() {
   document.getElementById('kpiOrdersUnit').textContent = year === 'ALL' ? 'shipments (2025–2026)' : `shipments in ${year}`;
 
   // Update Bar Chart Title & Bars
-  document.getElementById('barChartTitle').textContent = `Monthly shipments — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
+  document.getElementById('barChartTitle').textContent = `Performance OvervieW — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
   document.getElementById('barChartScope').textContent = client === 'ALL' ? 'All Clients' : client;
 
   const maxFoam = Math.max(...dataset.foam, 1);
@@ -2812,12 +4074,7 @@ function updateDashboard() {
   document.getElementById('donutCenterLbl').textContent = totalClients === 1 ? 'client' : 'clients';
   document.getElementById('regionScopeBadge').textContent = client === 'ALL' ? 'Global' : client;
 
-  document.getElementById('donutLegendContainer').innerHTML = `
-    <div class="dl-item"><div class="dl-dot" style="background:#1d4ed8"></div>Europe — ${eu}</div>
-    <div class="dl-item"><div class="dl-dot" style="background:#06b6d4"></div>Middle East — ${me}</div>
-    <div class="dl-item"><div class="dl-dot" style="background:#10b981"></div>Africa — ${af}</div>
-    <div class="dl-item"><div class="dl-dot" style="background:#f59e0b"></div>Other — ${ot}</div>
-  `;
+  renderWorldMap(client);
 
   // Filter Dashboard Clients Table
   const filteredClients = client === 'ALL' ? clientsList : clientsList.filter(c => c.name === client);
@@ -2842,12 +4099,52 @@ function inspectBarMonth(idx, foamKg, plasKg) {
 }
 
 // Render All Tables
+function fillClientSelects() {
+  const names = clientsList.map(c => c.name);
+  const fill = (id, withAll) => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const prev = sel.value;
+    const head = withAll ? '<option value="ALL">All clients</option>' : '';
+    sel.innerHTML = head + names.map(n => `<option value="${n}">${n}</option>`).join('');
+    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+  };
+  fill('dashClientFilter', true);
+  fill('packingClientFilter', true);
+  fill('noClient', false);
+}
+
+function nextOrderNumber() {
+  const nums = packingOrders.map(o => parseInt(String(o.ordNo).replace(/\D/g, '').slice(-3), 10) || 0);
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return 'ORD-2026-' + String(next).padStart(3, '0');
+}
+
+function updatePackingTotals() {
+  const noInput = document.getElementById('noNumber');
+  if (noInput && !noInput.value) noInput.value = nextOrderNumber();
+  const foam = packingOrders.reduce((a, o) => a + (Number(o.foamKg) || 0), 0);
+  const plas = packingOrders.reduce((a, o) => a + (Number(o.plasticKg) || 0), 0);
+  const f = document.getElementById('packFoamTotal');
+  const pl = document.getElementById('packPlasticTotal');
+  if (f) f.textContent = foam.toLocaleString();
+  if (pl) pl.textContent = plas.toLocaleString();
+  const num = o => parseInt(String(o.ordNo).replace(/\D/g, ''), 10) || 0;
+  const latest = [...packingOrders].sort((a, b) => num(b) - num(a))[0];
+  const l = document.getElementById('pkLatestOrd');
+  if (l) l.textContent = latest ? latest.ordNo : '—';
+}
+
 function renderAllTables() {
+  renderProductionTable();
+  fillClientSelects();
+  updatePackingTotals();
   populateClientReportSuggestions();
 
   // All Clients Table (Including First Registration Date)
   const clientsBody = document.getElementById('allClientsTableBody');
   if (clientsBody) {
+    const canEditClients = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.clients)) : false;
     clientsBody.innerHTML = clientsList.map((c, idx) => `
       <tr>
         <td>${c.name}</td>
@@ -2858,9 +4155,7 @@ function renderAllTables() {
         <td>${c.contact}</td>
         <td><span class="badge ${c.status === 'Active' ? 'ba' : 'bp'}">${c.status}</span></td>
         <td>
-          <button class="icon-btn" type="button" onclick="selectClientForReport(${idx})" title="Generate Client Report">
-            <i class="ti ti-report-analytics"></i>
-          </button>
+          ${canEditClients ? `<button class="icon-btn" type="button" onclick="openEditClient(${idx})" title="Edit Client"><i class="ti ti-edit"></i></button>` : ''}
           <button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client">
             <i class="ti ti-trash"></i>
           </button>
@@ -2889,6 +4184,7 @@ function renderAllTables() {
           <td><span class="badge ${badgeCls(u.clients)}">${u.clients}</span></td>
           <td><span class="badge ${badgeCls(u.packing)}">${u.packing}</span></td>
           <td>
+            <button class="icon-btn" type="button" onclick="openPermModal(${idx})" title="Permissions"><i class="ti ti-key"></i></button>
             ${u.isDefault ? '<span style="font-size:11px;color:var(--ink-4);font-weight:700">System</span>' : `
               <button class="icon-btn del" type="button" onclick="deleteUser(${idx})" title="Delete User">
                 <i class="ti ti-trash"></i>
@@ -2924,11 +4220,12 @@ function renderOrdersTable() {
   const prodKpi = document.getElementById('ordProdKpi');
   const readyKpi = document.getElementById('ordReadyKpi');
   const shippedKpi = document.getElementById('ordShippedKpi');
-  if (totalKpi) totalKpi.textContent = String(63 + packingOrders.length);
+  if (totalKpi) totalKpi.textContent = String(packingOrders.length);
   if (prodKpi) prodKpi.textContent = String(prodCount);
   if (readyKpi) readyKpi.textContent = String(readyCount);
-  if (shippedKpi) shippedKpi.textContent = String(62 + shippedCount);
+  if (shippedKpi) shippedKpi.textContent = String(shippedCount);
 
+  const canOrd = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.orders) || ['Write', 'Full edit'].includes(myPerms.packing)) : false;
   tbody.innerHTML = filtered.map(o => {
     const badgeClass = o.status === 'Shipped' ? 'ba' : (o.status === 'Ready to Ship' ? 'bi' : 'bp');
     const totalWeight = (Number(o.foamKg) || 0) + (Number(o.plasticKg) || 0);
@@ -2937,7 +4234,9 @@ function renderOrdersTable() {
         <td class="ord-no">${o.ordNo}</td>
         <td>${o.client}</td>
         <td>${o.dest}</td>
-        <td>${o.expDate}</td>
+        <td>${canOrd
+          ? `<input class="fi" type="text" value="${o.expDate}" style="padding:5px 8px;font-size:11.5px;width:130px" onchange="updateExportDate('${o.ordNo}', this.value)">`
+          : o.expDate}</td>
         <td><strong>${totalWeight.toLocaleString()} KG</strong></td>
         <td><span class="badge ${badgeClass}">${o.status}</span></td>
         <td>
@@ -2947,6 +4246,7 @@ function renderOrdersTable() {
             <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
           </select>
         </td>
+        <td>${canOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
       </tr>
     `;
   }).join('');
@@ -2958,8 +4258,10 @@ function updateOrderStatus(ordNo, newStatus) {
   order.status = newStatus;
   if (newStatus === 'Shipped') order.progress = 100;
   else if (newStatus === 'Ready to Ship') order.progress = 95;
+  persistData();
   renderOrdersTable();
   renderPackingTable();
+  renderProductionTable();
   generateClientReport(false);
   dispatchEmailNotification(
     'action',
@@ -2994,7 +4296,7 @@ function renderPackingTable() {
       <td>${o.expDate}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
-      <td><span class="size-b">${o.size}</span></td>
+      <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Report</button></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
         <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
@@ -3005,10 +4307,10 @@ function renderPackingTable() {
 
 // Client Report Generator (Displays ALL Orders, Dates & Quantities for Requested Client)
 let activeReportState = {
-  clientName: 'AlphaFoam GmbH',
-  country: 'Germany',
-  vat: 'DE123456789',
-  contact: 'M. Schneider',
+  clientName: '',
+  country: '',
+  vat: '',
+  contact: '',
   year: '2026',
   month: 'All months',
   orders: []
@@ -3031,7 +4333,7 @@ function onReportClientInputChange() {
 
 function resolveClientForReport(query) {
   if (!query) {
-    return clientsList.find(c => c.name === activeReportState.clientName) || clientsList[0];
+    return clientsList.find(c => c.name === activeReportState.clientName) || clientsList[0] || { name: '—', country: '', vat: '', contact: '' };
   }
   const q = query.toLowerCase();
   return (
@@ -3278,10 +4580,11 @@ function saveNewClient() {
   const name = document.getElementById('ncName').value.trim();
   const country = document.getElementById('ncCountry').value.trim();
   if (!name || !country) {
-    showToast('Please enter both Customer name and Country.', 'error');
+    showToast('Please enter both Client name and Country.', 'error');
     return;
   }
-  const qty = parseInt(document.getElementById('ncQty').value, 10) || 25000;
+  const address = document.getElementById('ncAddress').value.trim();
+  const email = document.getElementById('ncEmail').value.trim();
   const regDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const newC = {
     name,
@@ -3291,27 +4594,31 @@ function saveNewClient() {
     vat: document.getElementById('ncVat').value.trim() || 'N/A',
     mobile: document.getElementById('ncMobile').value.trim() || '+00 000 000',
     contact: document.getElementById('ncContact').value.trim() || 'Export Desk',
-    qtyKg2026: qty,
-    qtyKg2025: Math.round(qty * 0.85),
+    address,
+    email,
+    qtyKg2026: 0,
+    qtyKg2025: 0,
     lastOrder: 'Nov 2026',
-    status: document.getElementById('ncStatus').value
+    status: 'Active'
   };
   clientsList.unshift(newC);
+  persistData();
   document.getElementById('addClientModal').classList.remove('open');
-  ['ncName','ncCountry','ncVat','ncMobile','ncContact','ncQty'].forEach(id => document.getElementById(id).value = '');
+  ['ncName','ncCountry','ncVat','ncMobile','ncContact','ncAddress','ncEmail'].forEach(id => document.getElementById(id).value = '');
   updateDashboard();
   renderAllTables();
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
     `Added New Client: ${name}`,
-    `User "${currentLoggedUser}" added client "${name}" (${country}) with ${qty.toLocaleString()} KG export volume.`
+    `User "${currentLoggedUser}" added client "${name}" (${country}). Address: ${address || 'N/A'}, Email: ${email || 'N/A'}.`
   );
   showToast(`Client "${name}" saved & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
 function deleteClient(idx) {
   const removed = clientsList.splice(idx, 1)[0];
+  persistData();
   updateDashboard();
   renderAllTables();
   dispatchEmailNotification(
@@ -3323,107 +4630,216 @@ function deleteClient(idx) {
   showToast(`Removed ${removed.name} from clients list.`, 'info');
 }
 
-// ═══ GOOGLE DRIVE UPLOAD (order files) ═══
-// 1) Create an OAuth 2.0 Web Client ID in Google Cloud Console (enable Google Drive API).
-// 2) Add your site's origin to "Authorized JavaScript origins".
-// 3) Paste the Client ID below. Sign in with eng.ahmed.samy84.ai@gmail.com when prompted.
-const GDRIVE_CLIENT_ID = 'PASTE_YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com';
-const GDRIVE_ACCOUNT = 'eng.ahmed.samy84.ai@gmail.com';
-const GDRIVE_ROOT_FOLDER = 'FOAM_INDUSTRIES';
-const GDRIVE_SUB_FOLDER = 'Exports_2026';
+// ═══ BACKEND: Google Apps Script (data lives in Google Sheets & Drive) ═══
+const API_URL = 'https://script.google.com/macros/s/AKfycbzNQg1LFkM19dAhBixkhesF98qkv86m3jlPskGxlMoarNxeKIN83UHKHaIoP7sg82Wk/exec';   // the link that ends with /exec
+let sessionToken = null;
+let sessionIsAdmin = false;
 let pendingOrderFile = null;
-let gdriveToken = null;
-let gdriveTokenExpiry = 0;
+let saveTimer = null;
+let syncChain = Promise.resolve();
+let pollHandle = null;
+let serverBaseline = { Clients: new Map(), Orders: new Map(), Audit: new Map() };
 
+const DIFF_TABLES = {
+  Clients: { key: 'name', get: () => clientsList },
+  Orders:  { key: 'ordNo', get: () => packingOrders },
+  Audit:   { key: 'id', get: () => emailAuditLogs }
+};
+
+async function api(action, payload = {}, needsSession = true) {
+  if (API_URL.startsWith('PASTE_')) throw new Error('API_URL is not set in index.html.');
+  const body = { action, ...payload };
+  if (needsSession) body.token = sessionToken;
+  let res;
+  try {
+    res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(body) });
+  } catch (e) {
+    throw new Error('No connection to the server.');
+  }
+  const data = await res.json().catch(() => ({ ok: false, error: 'Invalid server response.' }));
+  if (!data.ok) {
+    if (data.error === 'SESSION_EXPIRED') {
+      localStorage.removeItem('foam_bio_session');
+      showToast('Session expired. Please log in again.', 'error');
+      setTimeout(() => location.reload(), 1500);
+    }
+    throw new Error(data.error || 'Server error');
+  }
+  return data;
+}
+
+function setSyncStatus(state, text) {
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+  el.dataset.state = state;
+  el.textContent = text;
+}
+
+function snapshot(list, key) {
+  return new Map(list.map(o => [String(o[key]), JSON.stringify(o)]));
+}
+
+// Sends only the records that changed in this browser since the last sync
+async function flushChanges() {
+  for (const [table, cfg] of Object.entries(DIFF_TABLES)) {
+    const list = cfg.get();
+    const base = serverBaseline[table];
+    const now = snapshot(list, cfg.key);
+    for (const o of list) {
+      const k = String(o[cfg.key]);
+      if (base.get(k) !== now.get(k)) {
+        await api('upsert', { table, record: o });
+      }
+    }
+    for (const k of base.keys()) {
+      if (!now.has(k)) await api('remove', { table, key: k });
+    }
+    serverBaseline[table] = now;
+  }
+}
+
+async function pullFromServer() {
+  const r = await api('getAll');
+  clientsList = r.data.Clients;
+  packingOrders = r.data.Orders;
+  systemUsers = r.data.Users;
+  emailAuditLogs = r.data.Audit;
+  serverBaseline = {
+    Clients: snapshot(clientsList, 'name'),
+    Orders: snapshot(packingOrders, 'ordNo'),
+    Audit: snapshot(emailAuditLogs, 'id')
+  };
+}
+
+function refreshUI() {
+  renderAllTables();
+  updateDashboard();
+  renderMessagesFeed();
+}
+
+// Sends local changes first; pulls others' changes only if the local save succeeded
+function queueSync(quiet = false, pullAfter = false) {
+  syncChain = syncChain.then(async () => {
+    try {
+      await flushChanges();
+      if (pullAfter) {
+        await pullFromServer();
+        refreshUI();
+      }
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+    } catch (err) {
+      console.error(err);
+      setSyncStatus('error', 'Sync failed: ' + err.message);
+      if (!quiet) showToast('Sync failed: ' + err.message, 'error');
+    }
+  });
+}
+
+// Called after every change: saves shortly after the last change
+function persistData() {
+  if (!sessionToken) {
+    setSyncStatus('offline', 'Not logged in: changes are not saved');
+    return;
+  }
+  setSyncStatus('saving', 'Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveTimer = null;
+    queueSync(false, false);
+  }, 400);
+}
+
+async function loadFromServer() {
+  setSyncStatus('saving', 'Loading data…');
+  try {
+    await pullFromServer();
+    refreshUI();
+    generateClientReport(false);
+    setSyncStatus('ok', 'Live · connected to server');
+  } catch (err) {
+    console.error(err);
+    setSyncStatus('error', 'Could not load data: ' + err.message);
+    showToast('Could not load data: ' + err.message, 'error');
+  }
+  if (!pollHandle) {
+    // Every 30 seconds: send pending changes and fetch other users' changes
+    pollHandle = setInterval(() => {
+      if (sessionToken && !saveTimer) queueSync(true, true);
+    }, 30000);
+  }
+}
+
+// ═══ ORDER FILES: PDF built in the browser, stored in Drive through the server ═══
 function onOrderFileChosen(input) {
   const f = input.files && input.files[0];
   pendingOrderFile = f || null;
   document.getElementById('noOrderFileName').textContent = f ? f.name : 'No file selected';
 }
 
-function getDriveToken() {
+function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
-    if (GDRIVE_CLIENT_ID.startsWith('PASTE_')) {
-      return reject(new Error('Google Drive Client ID is not configured.'));
-    }
-    if (!window.google || !google.accounts || !google.accounts.oauth2) {
-      return reject(new Error('Google sign-in did not load. Check your connection.'));
-    }
-    if (gdriveToken && Date.now() < gdriveTokenExpiry) return resolve(gdriveToken);
-    const client = google.accounts.oauth2.initTokenClient({
-      client_id: GDRIVE_CLIENT_ID,
-      scope: 'https://www.googleapis.com/auth/drive.file',
-      login_hint: GDRIVE_ACCOUNT,
-      callback: resp => {
-        if (resp.error) return reject(new Error(resp.error));
-        gdriveToken = resp.access_token;
-        gdriveTokenExpiry = Date.now() + (Number(resp.expires_in) - 60) * 1000;
-        resolve(gdriveToken);
-      },
-      error_callback: err => reject(new Error(err.type || 'Sign-in cancelled'))
-    });
-    client.requestAccessToken();
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(',')[1]);
+    r.onerror = () => reject(new Error('Could not read the file.'));
+    r.readAsDataURL(blob);
   });
-}
-
-async function getOrCreateDriveFolder(name, parentId, token) {
-  const parent = parentId || 'root';
-  const q = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false and '${parent}' in parents`;
-  const res = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=files(id,name)`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error?.message || 'Drive lookup failed');
-  if (data.files && data.files.length) return data.files[0].id;
-
-  const created = await fetch('https://www.googleapis.com/drive/v3/files?fields=id', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, mimeType: 'application/vnd.google-apps.folder', parents: [parent] })
-  });
-  const cd = await created.json();
-  if (!created.ok) throw new Error(cd.error?.message || 'Folder creation failed');
-  return cd.id;
 }
 
 async function uploadFileToDrive(file) {
-  const token = await getDriveToken();
-  const rootId = await getOrCreateDriveFolder(GDRIVE_ROOT_FOLDER, null, token);
-  const folderId = await getOrCreateDriveFolder(GDRIVE_SUB_FOLDER, rootId, token);
-
-  const boundary = 'foam' + Date.now();
-  const body = new Blob([
-    `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`,
-    JSON.stringify({ name: file.name, parents: [folderId] }),
-    `\r\n--${boundary}\r\nContent-Type: ${file.type || 'application/octet-stream'}\r\n\r\n`,
-    file,
-    `\r\n--${boundary}--`
-  ]);
-  const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': `multipart/related; boundary=${boundary}` },
-    body
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error?.message || 'Upload failed');
-  return data.webViewLink || `https://drive.google.com/file/d/${data.id}/view`;
+  const base64 = await blobToBase64(file);
+  const res = await api('uploadFile', { name: file.name, base64 });
+  return res.url;
 }
+
+async function buildOrderPdf(file, ordNo) {
+  const { PDFDocument } = PDFLib;
+  const out = await PDFDocument.create();
+  const bytes = await file.arrayBuffer();
+
+  if (file.type === 'application/pdf') {
+    const src = await PDFDocument.load(bytes);
+    const pages = await out.copyPages(src, src.getPageIndices());
+    pages.forEach(pg => out.addPage(pg));
+  } else if (file.type === 'image/png' || file.type === 'image/jpeg') {
+    const img = file.type === 'image/png' ? await out.embedPng(bytes) : await out.embedJpg(bytes);
+    const pageW = 595.28, pageH = 841.89, margin = 36;
+    const scale = Math.min((pageW - 2 * margin) / img.width, (pageH - 2 * margin) / img.height);
+    const w = img.width * scale, h = img.height * scale;
+    const page = out.addPage([pageW, pageH]);
+    page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
+  } else {
+    throw new Error('Only PDF, PNG or JPG files can be attached.');
+  }
+
+  out.setTitle(ordNo);
+  const pdfBytes = await out.save();
+  return new File([pdfBytes], `${ordNo}.pdf`, { type: 'application/pdf' });
+}
+
 
 // Save New Packing Order
 async function saveNewOrder() {
   const client = document.getElementById('noClient').value;
-  const ordNo = document.getElementById('noNumber').value;
-  const orderFile = pendingOrderFile;
+  const ordNo = document.getElementById('noNumber').value.trim();
+  if (!ordNo) {
+    showToast('Please enter the order number.', 'error');
+    return;
+  }
+  if (!pendingOrderFile) {
+    showToast('Please upload a PDF or image file for the order.', 'error');
+    return;
+  }
+  let orderFile = null;
   let driveLink = '';
-  if (orderFile) {
-    showToast('Uploading order file to Google Drive…', 'info');
-    try {
-      driveLink = await uploadFileToDrive(orderFile);
-    } catch (err) {
-      console.error(err);
-      showToast('Upload failed: ' + err.message, 'error');
-      return;
-    }
+  try {
+    showToast('Creating order PDF…', 'info');
+    orderFile = await buildOrderPdf(pendingOrderFile, ordNo);
+    showToast('Uploading to Google Drive…', 'info');
+    driveLink = await uploadFileToDrive(orderFile);
+  } catch (err) {
+    console.error(err);
+    showToast('Failed: ' + err.message, 'error');
+    return;
   }
   const foamKg = 0;
   const plasticKg = 0;
@@ -3447,10 +4863,10 @@ async function saveNewOrder() {
     status: 'In Production'
   });
 
-  const nextNum = 68 + packingOrders.length - 4;
-  document.getElementById('noNumber').value = `ORD-2026-0${nextNum}`;
+  persistData();
+  document.getElementById('noNumber').value = nextOrderNumber();
   document.getElementById('pkLatestOrd').textContent = ordNo;
-  document.getElementById('packingTotalTitle').textContent = `Orders — ${63 + packingOrders.length} total`;
+  document.getElementById('packingTotalTitle').textContent = `Orders — ${packingOrders.length} total`;
   document.getElementById('addOrderModal').classList.remove('open');
   pendingOrderFile = null;
   document.getElementById('noOrderFile').value = '';
@@ -3468,7 +4884,7 @@ async function saveNewOrder() {
 }
 
 // Save New User
-function saveNewUser() {
+async function saveNewUser() {
   const username = document.getElementById('nuUsername').value.trim();
   if (!username) {
     showToast('Please enter a username.', 'error');
@@ -3476,19 +4892,23 @@ function saveNewUser() {
   }
   const mobile = document.getElementById('nuMobile').value.trim() || '+20 100 000 0000';
   const title = document.getElementById('nuTitle').value.trim() || 'Export Coordinator';
-  const dash = document.querySelector('input[name="pd"]:checked')?.value || 'Read';
-  const clients = document.querySelector('input[name="pc"]:checked')?.value || 'Read';
-  const packing = document.querySelector('input[name="pp"]:checked')?.value || 'Read';
+  const perms = readPerms('n');
 
-  systemUsers.push({
-    username,
-    mobile,
-    title,
-    dash,
-    clients,
-    packing,
-    isDefault: false
-  });
+  const password = document.getElementById('nuPass').value;
+  const password2 = document.getElementById('nuPass2').value;
+  if (!password || password !== password2) {
+    showToast('Passwords are empty or do not match.', 'error');
+    return;
+  }
+  const newUser = { username, mobile, title, dash: 'User', ...perms, email: document.getElementById('nuEmail').value.trim(), isDefault: false };
+  try {
+    await api('saveUser', { record: newUser, password });
+  } catch (err) {
+    showToast('Could not save user: ' + err.message, 'error');
+    return;
+  }
+  systemUsers.push(newUser);
+  resetNewUserPerms();
   document.getElementById('addUserModal').classList.remove('open');
   ['nuUsername','nuMobile','nuTitle','nuEmail','nuPass','nuPass2'].forEach(id => document.getElementById(id).value = '');
   renderAllTables();
@@ -3496,13 +4916,16 @@ function saveNewUser() {
     'action',
     currentLoggedUser,
     `Added Portal User: ${username}`,
-    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Dashboard: ${dash}, Clients: ${clients}, Packing: ${packing}].`
+    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Clients: ${newUser.clients}, Orders: ${newUser.orders}, Packing: ${newUser.packing}, Users: ${newUser.users}].`
   );
   showToast(`User "${username}" added & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
 function deleteUser(idx) {
-  const removed = systemUsers.splice(idx, 1)[0];
+  const removed = systemUsers[idx];
+  api('remove', { table: 'Users', key: removed.username })
+    .then(() => { systemUsers.splice(idx, 1); renderAllTables(); })
+    .catch(err => showToast('Could not delete user: ' + err.message, 'error'));
   renderAllTables();
   dispatchEmailNotification(
     'action',
