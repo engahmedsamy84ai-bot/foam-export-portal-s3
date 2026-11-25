@@ -228,7 +228,6 @@ html,body{
   letter-spacing:-0.02em;
   margin-bottom:6px;
 }
-/* Exact Title Case: Global Export Portal */
 .lb-sub{
   display:inline-flex;
   align-items:center;
@@ -387,7 +386,6 @@ html,body{
 }
 .drive-pill i{color:var(--emerald);font-size:15px}
 
-/* Bottom-Left Developer Signature (Non-overlapping on Mobile & Desktop) */
 .login-bottom-bar{
   position:relative;
   z-index:3;
@@ -536,7 +534,6 @@ html,body{
   position:relative;
 }
 
-/* Mobile Sidebar Backdrop */
 .sidebar-overlay{
   display:none;
   position:fixed;
@@ -809,7 +806,6 @@ html,body{
   flex-wrap:wrap;
 }
 
-/* Interactive Vibrant Bar Chart */
 .bars{
   display:flex;
   align-items:flex-end;
@@ -841,7 +837,6 @@ html,body{
 .bl-item{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--ink-2)}
 .bl-dot{width:10px;height:10px;border-radius:3px}
 
-/* Interactive Vibrant Donut */
 .donut-area{
   display:flex;
   align-items:center;
@@ -1154,7 +1149,6 @@ td:first-child{color:var(--ink);font-weight:700}
     page-break-inside:avoid;
   }
 
-  /* Dedicated Print / PDF Styling for All Clients Master Report */
   body.printing-all-clients{
     background:#ffffff !important;
     color:#090d16 !important;
@@ -1272,11 +1266,10 @@ td:first-child{color:var(--ink);font-weight:700}
 .auth-tab{flex:1;border:none;background:transparent;padding:9px;border-radius:9px;font-weight:800;font-size:13px;color:var(--ink-3);cursor:pointer;font-family:inherit}
 .auth-tab.active{background:#fff;color:var(--royal);box-shadow:0 2px 8px rgba(0,0,0,.08)}
 
-/* ═══ Design system (modern, professional) ═══ */
+/* Design system */
 body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .page-title,.kpi-val,.topbar-title,.c-title{font-family:'Plus Jakarta Sans','Inter',sans-serif}
 
-/* Form Grid */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .form-grid .fi{padding:10px 12px;font-size:13px;background:#f8fafc}
 .form-grid label{
@@ -1289,14 +1282,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   margin-bottom:5px;
 }
 
-/* User Role Badges */
 .b-admin{background:var(--violet-bg);color:#5b21b6}
 .b-edit{background:var(--amber-bg);color:#92400e}
 .b-write{background:var(--emerald-bg);color:#065f46}
 .b-read{background:#dbeafe;color:#1e40af}
 .b-none{background:#f1f5f9;color:#64748b}
 
-/* Permission Legend */
 .perm-legend{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .pl-item{
   display:flex;
@@ -1326,13 +1317,11 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .pl-text strong{display:block;font-size:12px;font-weight:800;color:var(--ink);margin-bottom:2px}
 .pl-text span{font-size:10.5px;color:var(--ink-3);line-height:1.4;font-weight:500}
 
-/* Progress Bar & Badges */
 .prog{height:6px;background:#e2e8f0;border-radius:999px;width:72px;display:inline-block;vertical-align:middle;overflow:hidden}
 .prog-fill{height:100%;background:linear-gradient(90deg, var(--royal), var(--emerald));border-radius:999px}
 .ord-no{font-size:11.5px;color:var(--royal);font-weight:800}
 .size-b{background:#e0f2fe;color:#0369a1;padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:700}
 
-/* Modals */
 .modal{
   display:none;
   position:fixed;
@@ -1369,7 +1358,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .modal-close{background:none;border:none;cursor:pointer;font-size:24px;color:var(--ink-3);line-height:1;padding:2px 6px}
 .modal-close:hover{color:var(--coral)}
 
-/* Mobile Bottom Navigation Bar */
 .mobile-bottom-nav{
   display:none;
   background:rgba(255,255,255,0.95);
@@ -1414,7 +1402,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   border-radius:999px;
 }
 
-/* ═══ RESPONSIVE BREAKPOINTS (TABLET & MOBILE) ═══ */
 @media(max-width:900px){
   .kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))}
   .charts-row{grid-template-columns:1fr}
@@ -1432,20 +1419,15 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 }
 
 @media(max-width:600px){
-  /* Login Page Mobile Adjustments */
   #loginPage{padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
   .login-top-status{justify-content:center;margin-bottom:10px}
-  .login-box{
-    padding:24px 20px 20px;
-    border-radius:22px;
-  }
+  .login-box{padding:24px 20px 20px;border-radius:22px}
   .lb-logo{width:140px}
   .lb-name{font-size:19px}
   .lb-sub{font-size:11.5px;margin-bottom:16px}
   .login-bottom-bar{justify-content:center;margin-top:12px}
   .dev-signature{font-size:11px;padding:6px 13px}
 
-  /* App Topbar Mobile Adjustments */
   .topbar{height:58px;padding:0 12px;gap:8px}
   .topbar-logo{width:36px;height:34px}
   .topbar-title{font-size:13px}
@@ -1456,7 +1438,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   .btn-logout .logout-txt{display:none}
   .btn-logout{padding:7px 9px}
 
-  /* Page Content & Grids on Mobile */
   .page{padding:14px 12px 24px}
   .page-header{flex-direction:column;align-items:stretch;gap:10px}
   .page-title{font-size:17px}
@@ -1471,14 +1452,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   .kpi-val{font-size:18px}
   .kpi-unit{font-size:10px}
 
-  /* Charts on Mobile */
   .card{padding:13px;border-radius:14px}
   .bars{gap:3px;height:105px}
   .bar-lbl{font-size:8.5px}
   .donut-area{flex-direction:column;gap:12px;padding:6px 0}
   .donut-legend{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:10px}
 
-  /* Filters & Modals on Mobile */
   .sf-row{flex-direction:column;gap:8px}
   .search-box,.sel-wrap,.sf-row .btn-blue{width:100%}
   .form-grid{grid-template-columns:1fr}
@@ -1503,7 +1482,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   flex-shrink:0;
 }
 
-/* ═══ DASHBOARD EXACT VISUAL STYLING (MATCHING SCREENSHOT) ═══ */
+/* ═══ DASHBOARD EXACT VISUAL STYLING ═══ */
 #page-dashboard .page-header{
   background:transparent;
   border-radius:0;
@@ -1608,7 +1587,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 <!-- Toast Container -->
 <div class="toast-wrap" id="toastWrap"></div>
 
-<!-- Global Clean Bright Shipping Backdrop (No Text on Ship) -->
+<!-- Global Clean Bright Shipping Backdrop -->
 <div class="global-backdrop">
   <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=85"
        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=85';"
@@ -1692,10 +1671,10 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
       <div id="signupPane" style="display:none">
         <div class="ff">
-          <label for="suUser">Username</label>
+          <label for="suUser">Client / Username</label>
           <div class="iw">
             <i class="ico ti ti-user"></i>
-            <input class="fi" id="suUser" type="text" placeholder="Choose a username">
+            <input class="fi" id="suUser" type="text" placeholder="Choose a client username">
           </div>
         </div>
         <div class="ff">
@@ -1729,7 +1708,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
         <button class="btn-primary" type="button" onclick="doSignup()">
           <i class="ti ti-user-plus"></i>
-          <span>Create account</span>
+          <span>Create client account</span>
         </button>
       </div>
 
@@ -1762,7 +1741,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     </div>
 
     <div class="topbar-actions">
-      <!-- Live Internet LED in Topbar -->
       <div class="net-pill online" id="appNetPill" style="padding:5px 10px;font-size:11px">
         <span class="net-led" style="width:8px;height:8px"></span>
         <span id="appNetLabel">Online</span>
@@ -1780,7 +1758,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   </div>
 
   <div class="body-row">
-    <!-- Mobile Drawer Backdrop -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
     <!-- SIDEBAR -->
@@ -1830,7 +1807,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     <!-- CONTENT -->
     <div class="content">
 
-      <!-- ── PAGE 1: DASHBOARD (Exact Screenshot Design & Interactive Analytics) ── -->
+      <!-- ── PAGE 1: DASHBOARD ── -->
       <div class="page active" id="page-dashboard">
         <div class="page-header">
           <div>
@@ -1961,16 +1938,16 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="page-header">
           <div>
             <div class="page-title">Clients data</div>
-            <div class="page-sub">Manage international client accounts, first registration dates, order statements, and Excel/PDF exports.</div>
+            <div class="page-sub" id="clientsPageSub">Manage international client accounts, first registration dates, order statements, and Excel/PDF exports.</div>
           </div>
           <div class="header-btn-group">
-            <button class="btn-outline" type="button" onclick="exportAllClientsExcel()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
-            <button class="btn-outline" type="button" onclick="exportAllClientsPDF()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
+            <button class="btn-outline" id="btnExportAllClientsExcel" type="button" onclick="exportAllClientsExcel()"><i class="ti ti-file-spreadsheet"></i>Export Excel</button>
+            <button class="btn-outline" id="btnExportAllClientsPDF" type="button" onclick="exportAllClientsPDF()"><i class="ti ti-file-type-pdf"></i>Export PDF</button>
             <button class="btn-blue" type="button" data-write="clients" onclick="document.getElementById('addClientModal').classList.add('open')"><i class="ti ti-plus"></i>Add client</button>
           </div>
         </div>
 
-        <!-- Master All-Clients Report Container (Shown During PDF Print) -->
+        <!-- Master All-Clients Report Container -->
         <div class="report-doc" id="allClientsPrintDoc">
           <div class="doc-top">
             <div>
@@ -2013,13 +1990,13 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
 
         <!-- Client Report Section -->
-        <div class="card" style="margin-bottom:16px">
+        <div class="card" id="clientReportCard" style="margin-bottom:16px">
           <div class="c-title" style="margin-bottom:10px">
             <span>Client report</span>
             <span style="font-size:11px;font-weight:600;color:var(--ink-4)">Statement Generator</span>
           </div>
           <div class="sf-row">
-            <div class="search-box" style="flex:1.5">
+            <div class="search-box" id="reportClientSearchBox" style="flex:1.5">
               <i class="ti ti-search"></i>
               <input type="text" id="reportClientSearch" list="clientReportSuggestions" placeholder="Type or select client name (e.g. AlphaFoam GmbH)…" oninput="onReportClientInputChange()">
               <datalist id="clientReportSuggestions"></datalist>
@@ -2092,7 +2069,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
 
         <!-- All Clients Table -->
-        <div class="sec-title">All clients</div>
+        <div class="sec-title" id="allClientsSecTitle">All clients</div>
         <div class="tbl-wrap">
           <div class="tbl-scroll">
             <table>
@@ -2122,7 +2099,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <div class="page-sub">Manage export purchase orders, production status, and dispatch approvals.</div>
           </div>
           <div class="header-btn-group">
-            <button class="btn-blue" data-write="orders" onclick="document.getElementById('addOrderModal').classList.add('open')"><i class="ti ti-plus"></i>New order</button>
+            <button class="btn-blue" data-write="orders" onclick="openAddOrderModal()"><i class="ti ti-plus"></i>New order</button>
           </div>
         </div>
 
@@ -2304,12 +2281,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
       </div>
 
-      <!-- ── PAGE 5: MESSAGES (Email Notification & Activity Log Center) ── -->
+      <!-- ── PAGE 5: MESSAGES ── -->
       <div class="page" id="page-messages">
         <div class="page-header">
           <div>
             <div class="page-title">Messages &amp; Email Alerts</div>
-            <div class="page-sub">Real-time user login &amp; activity notifications dispatched to <strong>eng.ahmed.samy84.ai@gmail.com</strong></div>
+            <div class="page-sub">Real-time user login, logout, signup &amp; order notifications dispatched to <strong>eng.ahmed.samy84.ai@gmail.com</strong></div>
           </div>
           <div class="header-btn-group" data-write="messages">
             <button class="btn-outline" onclick="sendSummaryEmailNow()"><i class="ti ti-mail-forward"></i>Send Full Log via Email</button>
@@ -2322,7 +2299,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <div class="kpi-ico emerald" style="width:40px;height:40px"><i class="ti ti-mail-check" style="font-size:20px"></i></div>
             <div>
               <div style="font-size:13px;font-weight:800;color:var(--ink)">Automated Email Security Monitor</div>
-              <div style="font-size:11.5px;color:var(--ink-3);font-weight:500">Recipient: <strong style="color:var(--royal)">eng.ahmed.samy84.ai@gmail.com</strong> · Logs user name, login time, and actions</div>
+              <div style="font-size:11.5px;color:var(--ink-3);font-weight:500">Recipient: <strong style="color:var(--royal)">eng.ahmed.samy84.ai@gmail.com</strong> · Logs logins, logouts, signups &amp; new orders</div>
             </div>
           </div>
           <span class="badge ba"><i class="ti ti-check"></i> Active Dispatch</span>
@@ -2597,8 +2574,10 @@ console.log('Foam portal build S3 · 2026-11-22');
 const ADMIN_NOTIFY_EMAIL = 'eng.ahmed.samy84.ai@gmail.com';
 let currentLoggedUser = '';
 let currentLoginTimestamp = '';
+let isClientSelfAccount = false;
+let clientSelfName = '';
 
-// Exact FOAM INDUSTRIES - صناعات الفوم Brand Logo Vector
+// Exact FOAM INDUSTRIES Brand Logo Vector
 function getBrandLogoSVG() {
   return `
   <svg viewBox="0 0 360 310" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
@@ -2650,7 +2629,6 @@ updateInternetStatusLED();
 
 // Initial Application Datasets
 let clientsList = [];
-
 let packingOrders = [];
 
 let systemUsers = [
@@ -2676,17 +2654,19 @@ function regionIndex(region) {
 
 function buildMonthlyData() {
   const data = {};
+  const visClients = getVisibleClients();
+  const visOrders = getVisibleOrders();
   ['2025', '2026'].forEach(y => {
     const allRegions = [0, 0, 0, 0];
-    clientsList.forEach(c => { allRegions[regionIndex(c.region)] += 1; });
-    data[y] = { ALL: { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: clientsList.length, orders: 0, regions: allRegions } };
-    clientsList.forEach(c => {
+    visClients.forEach(c => { allRegions[regionIndex(c.region)] += 1; });
+    data[y] = { ALL: { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: visClients.length, orders: 0, regions: allRegions } };
+    visClients.forEach(c => {
       const r = [0, 0, 0, 0];
       r[regionIndex(c.region)] = 1;
       data[y][c.name] = { foam: Array(12).fill(0), plas: Array(12).fill(0), clients: 1, orders: 0, regions: r };
     });
   });
-  packingOrders.forEach(o => {
+  visOrders.forEach(o => {
     const d = parseOrderDate(o.reqDate);
     if (!d || !data[d.year]) return;
     [data[d.year].ALL, data[d.year][o.client]].forEach(b => {
@@ -2699,6 +2679,48 @@ function buildMonthlyData() {
   return data;
 }
 
+// Client Self-Scoped Helpers (For Sign-up Client Accounts)
+function getVisibleClients() {
+  if (!isClientSelfAccount) return clientsList;
+  const target = (clientSelfName || currentLoggedUser || '').trim().toLowerCase();
+  return clientsList.filter(c => String(c.name || '').trim().toLowerCase() === target);
+}
+
+function getVisibleOrders() {
+  if (!isClientSelfAccount) return packingOrders;
+  const target = (clientSelfName || currentLoggedUser || '').trim().toLowerCase();
+  return packingOrders.filter(o => String(o.client || '').trim().toLowerCase() === target);
+}
+
+function ensureClientSelfRecord(username, email = '', mobile = '') {
+  const cleanName = String(username || '').trim();
+  if (!cleanName) return;
+  const existing = clientsList.find(c => String(c.name || '').trim().toLowerCase() === cleanName.toLowerCase());
+  if (existing) {
+    clientSelfName = existing.name;
+    return existing;
+  }
+  const regDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const rec = {
+    name: cleanName,
+    country: 'International',
+    region: 'Other',
+    firstRegistered: regDate,
+    vat: 'N/A',
+    mobile: mobile || '+00 000 000',
+    contact: cleanName,
+    address: '',
+    email: email || '',
+    qtyKg2026: 0,
+    qtyKg2025: 0,
+    lastOrder: 'Nov 2026',
+    status: 'Active'
+  };
+  clientsList.unshift(rec);
+  clientSelfName = rec.name;
+  return rec;
+}
+
 // Activity & Email Audit Log Store
 let emailAuditLogs = [
   {
@@ -2707,7 +2729,7 @@ let emailAuditLogs = [
     user: 'System Monitor',
     timestamp: '20 Nov 2026, 09:00 AM',
     title: 'Portal Security & Email Monitor Initialized',
-    details: `Automated email alerts configured for recipient ${ADMIN_NOTIFY_EMAIL}. All logins and actions are tracked.`,
+    details: `Automated email alerts configured for recipient ${ADMIN_NOTIFY_EMAIL}. All logins, logouts, signups, and new orders are tracked.`,
     emailStatus: 'Delivered'
   }
 ];
@@ -2720,13 +2742,13 @@ function dispatchEmailNotification(type, user, title, details) {
   });
 
   const entry = {
-    id: Date.now(),
+    id: Date.now() + Math.floor(Math.random() * 1000),
     type,
     user: user || currentLoggedUser || 'Guest',
     timestamp,
     title,
     details,
-    emailStatus: navigator.onLine ? 'Sent to eng.ahmed.samy84.ai@gmail.com' : 'Queued (Offline)'
+    emailStatus: navigator.onLine ? `Sent to ${ADMIN_NOTIFY_EMAIL}` : 'Queued (Offline)'
   };
   emailAuditLogs.unshift(entry);
   persistData();
@@ -2739,6 +2761,7 @@ function dispatchEmailNotification(type, user, title, details) {
         body: JSON.stringify({
           _subject: `[Foam Industries Portal] ${title} — User: ${entry.user}`,
           Portal: 'Foam Industries Co. — Global Export Portal',
+          Recipient: ADMIN_NOTIFY_EMAIL,
           Username: entry.user,
           Login_Time: currentLoginTimestamp || timestamp,
           Action_Time: timestamp,
@@ -2809,7 +2832,7 @@ function triggerTestEmailAlert() {
 function sendSummaryEmailNow() {
   const summaryLines = emailAuditLogs.slice(0, 10).map(l => `- [${l.timestamp}] (${l.user}): ${l.title} — ${l.details}`).join('\n');
   const subject = encodeURIComponent(`Foam Industries Portal — Activity & Login Report (${currentLoggedUser})`);
-  const body = encodeURIComponent(`Activity & Login Report for eng.ahmed.samy84.ai@gmail.com:\n\n${summaryLines}`);
+  const body = encodeURIComponent(`Activity & Login Report for ${ADMIN_NOTIFY_EMAIL}:\n\n${summaryLines}`);
   window.location.href = `mailto:${ADMIN_NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
 }
 
@@ -2870,6 +2893,12 @@ async function enterPortal(loginRes) {
   const u = loginRes.me.username;
   sessionToken = loginRes.token;
   sessionIsAdmin = loginRes.me.admin;
+
+  const matchedUser = systemUsers.find(x => String(x.username || '').toLowerCase() === String(u || '').toLowerCase());
+  const selfFlag = Boolean(loginRes.me.clientSelfOnly || matchedUser?.clientSelfOnly || loginRes.me.title === 'Self-Registered Client' || matchedUser?.title === 'Self-Registered Client');
+  isClientSelfAccount = selfFlag && !loginRes.me.admin;
+  clientSelfName = loginRes.me.clientScope || matchedUser?.clientScope || u;
+
   applyPermissions(loginRes.me);
   currentLoggedUser = u;
   currentLoginTimestamp = new Date().toLocaleString('en-GB', {
@@ -2888,6 +2917,13 @@ async function enterPortal(loginRes) {
   document.getElementById('avatarInitial').textContent = u[0].toUpperCase();
 
   await loadFromServer();
+
+  if (isClientSelfAccount) {
+    ensureClientSelfRecord(clientSelfName);
+    refreshUI();
+    generateClientReport(false);
+    goPage('clients');
+  }
 
   dispatchEmailNotification(
     'login',
@@ -2929,7 +2965,7 @@ function uint8ToBase64(bytes) {
   return btoa(bin);
 }
 
-// ---------- PDF of the "Packing List" sheet, drawn with its formats, borders, merges and logo ----------
+// ---------- PDF of the "Packing List" sheet ----------
 function xmlDoc(text) { return new DOMParser().parseFromString(text, 'application/xml'); }
 function colNum(letters) { let n = 0; for (const ch of letters) n = n * 26 + (ch.charCodeAt(0) - 64); return n; }
 function splitRef(ref) { const m = /^([A-Z]+)(\d+)$/.exec(ref); return { c: colNum(m[1]), r: +m[2] }; }
@@ -3261,7 +3297,7 @@ function renderProductionTable() {
   const tbody = document.getElementById('productionTableBody');
   if (!tbody) return;
   const q = (document.getElementById('prodSearchInput')?.value || '').trim().toLowerCase();
-  const rows = packingOrders.filter(o =>
+  const rows = getVisibleOrders().filter(o =>
     !q || o.ordNo.toLowerCase().includes(q) || o.client.toLowerCase().includes(q));
   const canWriteProd = hasPageWrite('production') || hasPageWrite('orders') || hasPageWrite('packing');
   const canFullProd = hasPageFull('production') || hasPageFull('orders') || hasPageFull('packing');
@@ -3295,7 +3331,7 @@ function renderProductionTable() {
   `).join('');
 }
 
-// ═══ SIGNUP ═══
+// ═══ SIGNUP (Restricts to Orders + Own Client Data Only + Sends Email Alert) ═══
 function showAuthTab(tab) {
   const up = tab === 'signup';
   document.getElementById('signinPane').style.display = up ? 'none' : '';
@@ -3323,15 +3359,42 @@ async function doSignup() {
     showToast('The two passwords do not match.', 'error');
     return;
   }
+  const clientPerms = {
+    dash: 'None',
+    clients: 'Write',
+    orders: 'Write',
+    production: 'None',
+    packing: 'None',
+    messages: 'None',
+    users: 'None',
+    clientSelfOnly: true,
+    clientScope: username,
+    title: 'Self-Registered Client'
+  };
   let res;
   try {
-    res = await api('signup', { username, mobile, email, password: pw }, false);
+    res = await api('signup', Object.assign({ username, mobile, email, password: pw }, clientPerms), false);
   } catch (e) {
     showToast(e.message, 'error');
     return;
   }
-  showToast('Account created. Welcome, ' + username + '!', 'success');
-  await enterPortal(res);
+  const mergedMe = Object.assign({}, res.me || {}, clientPerms, {
+    username: (res.me && res.me.username) || username,
+    admin: false
+  });
+  await enterPortal(Object.assign({}, res, { me: mergedMe }));
+  ensureClientSelfRecord(username, email, mobile);
+  refreshUI();
+  generateClientReport(false);
+  goPage('clients');
+
+  dispatchEmailNotification(
+    'action',
+    username,
+    `New Client Sign-Up: ${username}`,
+    `New user "${username}" signed up via Sign Up with restricted access to Orders & own Client Data only. Mobile: ${mobile}, Email: ${email}.`
+  );
+  showToast('Client account created. Notification sent to ' + ADMIN_NOTIFY_EMAIL, 'success');
 }
 
 // ═══ EDIT CLIENT ═══
@@ -3375,6 +3438,7 @@ function saveEditClient() {
     }
     c.name = newName;
     packingOrders.forEach(o => { if (o.client === oldName) o.client = newName; });
+    if (isClientSelfAccount && clientSelfName === oldName) clientSelfName = newName;
     if (activeReportState.clientName === oldName) activeReportState.clientName = newName;
   }
 
@@ -3408,6 +3472,7 @@ let myPerms = null;
 function hasPageRead(key) {
   if (!myPerms) return true;
   if (myPerms.admin) return true;
+  if (isClientSelfAccount && key !== 'clients' && key !== 'orders') return false;
   const v = myPerms[key];
   return v === 'Read' || v === 'Write' || v === 'Full edit' || v === 'Admin';
 }
@@ -3415,6 +3480,7 @@ function hasPageRead(key) {
 function hasPageWrite(key) {
   if (!myPerms) return true;
   if (myPerms.admin) return true;
+  if (isClientSelfAccount && key !== 'clients' && key !== 'orders') return false;
   const v = myPerms[key];
   return v === 'Write' || v === 'Full edit' || v === 'Admin';
 }
@@ -3422,6 +3488,7 @@ function hasPageWrite(key) {
 function hasPageFull(key) {
   if (!myPerms) return true;
   if (myPerms.admin) return true;
+  if (isClientSelfAccount && key !== 'clients' && key !== 'orders') return false;
   const v = myPerms[key];
   return v === 'Full edit' || v === 'Admin';
 }
@@ -3478,6 +3545,7 @@ async function savePermissions() {
 function applyPermissions(me) {
   myPerms = me;
   const pageVisible = {
+    dashboard: !isClientSelfAccount,
     clients: hasPageRead('clients'),
     orders: hasPageRead('orders'),
     production: hasPageRead('production') || hasPageRead('orders') || hasPageRead('packing'),
@@ -3498,7 +3566,30 @@ function applyPermissions(me) {
   Object.entries(writeOk).forEach(([key, ok]) => {
     document.querySelectorAll(`[data-write="${key}"]`).forEach(el => { el.style.display = ok ? '' : 'none'; });
   });
-  goPage('dashboard');
+
+  // Hide multi-client directory exports & client search box for self-registered clients
+  const showAllClientTools = !isClientSelfAccount;
+  ['btnExportAllClientsExcel', 'btnExportAllClientsPDF', 'allClientsPrintDoc', 'reportClientSearchBox', 'allClientsSecTitle'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && id !== 'allClientsPrintDoc') el.style.display = showAllClientTools ? '' : 'none';
+  });
+  const allClientsTbl = document.getElementById('allClientsTableBody')?.closest('.tbl-wrap');
+  if (allClientsTbl) allClientsTbl.style.display = showAllClientTools ? '' : 'none';
+  const subEl = document.getElementById('clientsPageSub');
+  if (subEl) {
+    subEl.textContent = isClientSelfAccount
+      ? `Viewing your client profile (${clientSelfName || currentLoggedUser}) and requesting export orders.`
+      : 'Manage international client accounts, first registration dates, order statements, and Excel/PDF exports.';
+  }
+
+  goPage(isClientSelfAccount ? 'clients' : 'dashboard');
+}
+
+function openAddOrderModal() {
+  fillClientSelects();
+  const noInput = document.getElementById('noNumber');
+  if (noInput) noInput.value = nextOrderNumber();
+  document.getElementById('addOrderModal').classList.add('open');
 }
 
 // ═══ FINGERPRINT / FACE ID ═══
@@ -3588,6 +3679,8 @@ function doLogout() {
     `User "${departingUser}" signed out of the portal. Session started at ${currentLoginTimestamp}.`
   );
   currentLoggedUser = '';
+  isClientSelfAccount = false;
+  clientSelfName = '';
   document.getElementById('appShell').style.display = 'none';
   document.getElementById('loginPage').style.display = 'flex';
   document.getElementById('loginUser').value = '';
@@ -3690,9 +3783,11 @@ function syncDriveNow() {
   showToast('Syncing with the server…', 'info');
 }
 
-// ═══ INTERACTIVE DASHBOARD CHARTS & FILTERS (EXACT SCREENSHOT LAYOUT) ═══
+// ═══ INTERACTIVE DASHBOARD CHARTS & FILTERS ═══
 function updateDashboard() {
   MONTHLY_DATA = buildMonthlyData();
+  const visClients = getVisibleClients();
+  const visOrders = getVisibleOrders();
   const client = document.getElementById('dashClientFilter').value;
   const year = document.getElementById('dashYearFilter').value;
   const monthIdx = document.getElementById('dashMonthFilter').value;
@@ -3712,7 +3807,6 @@ function updateDashboard() {
     dataset = MONTHLY_DATA[year][client] || MONTHLY_DATA[year]['ALL'];
   }
 
-  // Calculate Totals (Full Year or Single Month)
   let totalFoam = 0;
   let totalPlas = 0;
   let totalOrders = dataset.orders;
@@ -3726,7 +3820,7 @@ function updateDashboard() {
     totalOrders = Math.max(1, Math.round(dataset.orders / 12));
   }
 
-  const totalClients = client === 'ALL' ? clientsList.length : 1;
+  const totalClients = client === 'ALL' ? visClients.length : 1;
 
   document.getElementById('kpiClients').textContent = totalClients;
   document.getElementById('kpiClientsUnit').textContent = client === 'ALL' ? 'active export accounts' : client;
@@ -3735,7 +3829,6 @@ function updateDashboard() {
   document.getElementById('kpiOrders').textContent = totalOrders;
   document.getElementById('kpiOrdersUnit').textContent = year === 'ALL' ? 'shipments (2025–2026)' : `shipments in ${year}`;
 
-  // Update Bar Chart Title & Bars
   document.getElementById('barChartTitle').textContent = `Monthly shipments — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
   document.getElementById('barChartScope').textContent = client === 'ALL' ? 'All Clients' : client;
 
@@ -3756,10 +3849,9 @@ function updateDashboard() {
     `;
   }).join('');
 
-  // Update Donut Chart & Regions Legend (Matching Screenshot)
   const [eu, me, af, ot] = dataset.regions;
   const regSum = Math.max(eu + me + af + ot, 1);
-  const circ = 150.8; // 2 * pi * 24
+  const circ = 150.8;
   const l1 = (eu / regSum) * circ;
   const l2 = (me / regSum) * circ;
   const l3 = (af / regSum) * circ;
@@ -3791,8 +3883,7 @@ function updateDashboard() {
     </div>
   `).join('');
 
-  // Filter Dashboard Clients Table
-  const filteredClients = client === 'ALL' ? clientsList : clientsList.filter(c => c.name === client);
+  const filteredClients = client === 'ALL' ? visClients : visClients.filter(c => c.name === client);
   document.getElementById('dashRecentClientsBody').innerHTML = filteredClients.map(c => {
     const qty = year === '2025' ? c.qtyKg2025 : (year === 'ALL' ? (c.qtyKg2026 + c.qtyKg25) : c.qtyKg2026);
     return `
@@ -3815,14 +3906,19 @@ function inspectBarMonth(idx, foamKg, plasKg) {
 
 // Render All Tables
 function fillClientSelects() {
-  const names = clientsList.map(c => c.name);
+  const visClients = getVisibleClients();
+  const names = visClients.map(c => c.name);
   const fill = (id, withAll) => {
     const sel = document.getElementById(id);
     if (!sel) return;
     const prev = sel.value;
-    const head = withAll ? '<option value="ALL">All clients</option>' : '';
+    const head = (withAll && !isClientSelfAccount) ? '<option value="ALL">All clients</option>' : '';
     sel.innerHTML = head + names.map(n => `<option value="${n}">${n}</option>`).join('');
-    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+    if (isClientSelfAccount && names.length > 0) {
+      sel.value = names[0];
+    } else if ([...sel.options].some(o => o.value === prev)) {
+      sel.value = prev;
+    }
   };
   fill('dashClientFilter', true);
   fill('packingClientFilter', true);
@@ -3836,16 +3932,17 @@ function nextOrderNumber() {
 }
 
 function updatePackingTotals() {
+  const visOrders = getVisibleOrders();
   const noInput = document.getElementById('noNumber');
   if (noInput && !noInput.value) noInput.value = nextOrderNumber();
-  const foam = packingOrders.reduce((a, o) => a + (Number(o.foamKg) || 0), 0);
-  const plas = packingOrders.reduce((a, o) => a + (Number(o.plasticKg) || 0), 0);
+  const foam = visOrders.reduce((a, o) => a + (Number(o.foamKg) || 0), 0);
+  const plas = visOrders.reduce((a, o) => a + (Number(o.plasticKg) || 0), 0);
   const f = document.getElementById('packFoamTotal');
   const pl = document.getElementById('packPlasticTotal');
   if (f) f.textContent = foam.toLocaleString();
   if (pl) pl.textContent = plas.toLocaleString();
   const num = o => parseInt(String(o.ordNo).replace(/\D/g, ''), 10) || 0;
-  const latest = [...packingOrders].sort((a, b) => num(b) - num(a))[0];
+  const latest = [...visOrders].sort((a, b) => num(b) - num(a))[0];
   const l = document.getElementById('pkLatestOrd');
   if (l) l.textContent = latest ? latest.ordNo : '—';
 }
@@ -3856,11 +3953,14 @@ function renderAllTables() {
   updatePackingTotals();
   populateClientReportSuggestions();
 
+  const visClients = getVisibleClients();
   const clientsBody = document.getElementById('allClientsTableBody');
   if (clientsBody) {
-    const canEditClients = hasPageFull('clients');
-    const canDelClients = hasPageFull('clients');
-    clientsBody.innerHTML = clientsList.map((c, idx) => `
+    const canEditClients = hasPageFull('clients') || isClientSelfAccount;
+    const canDelClients = hasPageFull('clients') && !isClientSelfAccount;
+    clientsBody.innerHTML = visClients.map((c) => {
+      const idx = clientsList.indexOf(c);
+      return `
       <tr>
         <td>${c.name}</td>
         <td>${c.country}</td>
@@ -3874,7 +3974,8 @@ function renderAllTables() {
           ${canDelClients ? `<button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client"><i class="ti ti-trash"></i></button>` : ''}
         </td>
       </tr>
-    `).join('');
+    `;
+    }).join('');
   }
 
   renderOrdersTable();
@@ -3916,10 +4017,11 @@ function renderAllTables() {
 function renderOrdersTable() {
   const tbody = document.getElementById('ordersTableBody');
   if (!tbody) return;
+  const visOrders = getVisibleOrders();
   const q = (document.getElementById('ordersSearchInput')?.value || '').trim().toLowerCase();
   const st = document.getElementById('ordersStatusFilter')?.value || 'ALL';
 
-  const filtered = packingOrders.filter(o => {
+  const filtered = visOrders.filter(o => {
     const matchesStatus = st === 'ALL' || o.status === st;
     const matchesQuery = !q ||
       o.ordNo.toLowerCase().includes(q) ||
@@ -3928,15 +4030,15 @@ function renderOrdersTable() {
     return matchesStatus && matchesQuery;
   });
 
-  const prodCount = packingOrders.filter(o => o.status === 'In Production').length;
-  const readyCount = packingOrders.filter(o => o.status === 'Ready to Ship').length;
-  const shippedCount = packingOrders.filter(o => o.status === 'Shipped').length;
+  const prodCount = visOrders.filter(o => o.status === 'In Production').length;
+  const readyCount = visOrders.filter(o => o.status === 'Ready to Ship').length;
+  const shippedCount = visOrders.filter(o => o.status === 'Shipped').length;
 
   const totalKpi = document.getElementById('ordTotalKpi');
   const prodKpi = document.getElementById('ordProdKpi');
   const readyKpi = document.getElementById('ordReadyKpi');
   const shippedKpi = document.getElementById('ordShippedKpi');
-  if (totalKpi) totalKpi.textContent = String(packingOrders.length);
+  if (totalKpi) totalKpi.textContent = String(visOrders.length);
   if (prodKpi) prodKpi.textContent = String(prodCount);
   if (readyKpi) readyKpi.textContent = String(readyCount);
   if (shippedKpi) shippedKpi.textContent = String(shippedCount);
@@ -3991,10 +4093,11 @@ function updateOrderStatus(ordNo, newStatus) {
 function renderPackingTable() {
   const tbody = document.getElementById('packingTableBody');
   if (!tbody) return;
+  const visOrders = getVisibleOrders();
   const q = (document.getElementById('packingSearchInput')?.value || '').trim().toLowerCase();
   const clientFilter = document.getElementById('packingClientFilter')?.value || 'ALL';
 
-  const filtered = packingOrders.filter(o => {
+  const filtered = visOrders.filter(o => {
     const matchesClient = clientFilter === 'ALL' || o.client === clientFilter;
     const matchesQuery = !q ||
       o.ordNo.toLowerCase().includes(q) ||
@@ -4035,27 +4138,31 @@ let activeReportState = {
 function populateClientReportSuggestions() {
   const dl = document.getElementById('clientReportSuggestions');
   if (!dl) return;
-  dl.innerHTML = clientsList.map(c => `<option value="${c.name}">${c.country} — ${c.contact}</option>`).join('');
+  dl.innerHTML = getVisibleClients().map(c => `<option value="${c.name}">${c.country} — ${c.contact}</option>`).join('');
 }
 
 function onReportClientInputChange() {
   const val = document.getElementById('reportClientSearch').value.trim().toLowerCase();
   if (!val) return;
-  const matched = clientsList.find(c => c.name.toLowerCase() === val);
+  const matched = getVisibleClients().find(c => c.name.toLowerCase() === val);
   if (matched) {
     generateClientReport(false);
   }
 }
 
 function resolveClientForReport(query) {
+  const visClients = getVisibleClients();
+  if (isClientSelfAccount) {
+    return visClients[0] || { name: clientSelfName || currentLoggedUser || '—', country: 'International', vat: 'N/A', contact: currentLoggedUser || 'Client' };
+  }
   if (!query) {
-    return clientsList.find(c => c.name === activeReportState.clientName) || clientsList[0] || { name: '—', country: '', vat: '', contact: '' };
+    return visClients.find(c => c.name === activeReportState.clientName) || visClients[0] || { name: '—', country: '', vat: '', contact: '' };
   }
   const q = query.toLowerCase();
   return (
-    clientsList.find(c => c.name.toLowerCase() === q) ||
-    clientsList.find(c => c.name.toLowerCase().includes(q)) ||
-    clientsList.find(c => c.country.toLowerCase().includes(q) || c.vat.toLowerCase().includes(q) || c.contact.toLowerCase().includes(q)) ||
+    visClients.find(c => c.name.toLowerCase() === q) ||
+    visClients.find(c => c.name.toLowerCase().includes(q)) ||
+    visClients.find(c => c.country.toLowerCase().includes(q) || c.vat.toLowerCase().includes(q) || c.contact.toLowerCase().includes(q)) ||
     {
       name: query,
       country: 'International',
@@ -4067,14 +4174,14 @@ function resolveClientForReport(query) {
 }
 
 function generateClientReport(logActivity = true) {
-  const rawQuery = document.getElementById('reportClientSearch').value.trim();
+  const rawQuery = isClientSelfAccount ? '' : document.getElementById('reportClientSearch').value.trim();
   const yr = document.getElementById('reportYearSel').value;
   const mo = document.getElementById('reportMonthSel').value;
 
   const clientObj = resolveClientForReport(rawQuery);
   const targetClientName = clientObj.name;
 
-  let clientOrders = packingOrders.filter(o => o.client.toLowerCase() === targetClientName.toLowerCase());
+  let clientOrders = getVisibleOrders().filter(o => o.client.toLowerCase() === targetClientName.toLowerCase());
 
   if (yr !== 'All years') {
     clientOrders = clientOrders.filter(o =>
@@ -4093,7 +4200,7 @@ function generateClientReport(logActivity = true) {
   }
 
   if (clientOrders.length === 0 && !rawQuery && yr === '2026' && mo === 'All months') {
-    clientOrders = packingOrders.filter(o => o.client === targetClientName);
+    clientOrders = getVisibleOrders().filter(o => o.client === targetClientName);
   }
 
   document.getElementById('repCustName').textContent = clientObj.name;
@@ -4186,10 +4293,7 @@ function exportSingleClientReportExcel() {
     <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
     <head>
       <meta charset="UTF-8">
-      <style>
-        body { font-family: 'Plus Jakarta Sans', 'Inter', Arial, sans-serif; color: #090d16; }
-        table { border-collapse: collapse; width: 100%; }
-      </style>
+      <style>body { font-family: 'Plus Jakarta Sans', 'Inter', Arial, sans-serif; color: #090d16; } table { border-collapse: collapse; width: 100%; }</style>
     </head>
     <body>
       <table>
@@ -4307,6 +4411,7 @@ function saveNewClient() {
     status: 'Active'
   };
   clientsList.unshift(newC);
+  if (isClientSelfAccount) clientSelfName = newC.name;
   persistData();
   document.getElementById('addClientModal').classList.remove('open');
   ['ncName','ncCountry','ncVat','ncMobile','ncContact','ncAddress','ncEmail'].forEach(id => document.getElementById(id).value = '');
@@ -4335,7 +4440,7 @@ function deleteClient(idx) {
   showToast(`Removed ${removed.name} from clients list.`, 'info');
 }
 
-// ═══ BACKEND: Google Apps Script (data lives in Google Sheets & Drive) ═══
+// ═══ BACKEND: Google Apps Script ═══
 const API_URL = 'https://script.google.com/macros/s/AKfycbzNQg1LFkM19dAhBixkhesF98qkv86m3jlPskGxlMoarNxeKIN83UHKHaIoP7sg82Wk/exec';
 let sessionToken = null;
 let sessionIsAdmin = false;
@@ -4455,6 +4560,7 @@ async function loadFromServer() {
   setSyncStatus('saving', 'Loading data…');
   try {
     await pullFromServer();
+    if (isClientSelfAccount) ensureClientSelfRecord(clientSelfName || currentLoggedUser);
     refreshUI();
     generateClientReport(false);
     setSyncStatus('ok', 'Live · connected to server');
@@ -4517,9 +4623,9 @@ async function buildOrderPdf(file, ordNo) {
   return new File([pdfBytes], `${ordNo}.pdf`, { type: 'application/pdf' });
 }
 
-// Save New Packing Order
+// Save New Packing Order + Send Email Alert
 async function saveNewOrder() {
-  const client = document.getElementById('noClient').value;
+  const client = isClientSelfAccount ? (clientSelfName || currentLoggedUser) : document.getElementById('noClient').value;
   const ordNo = document.getElementById('noNumber').value.trim();
   if (!ordNo) {
     showToast('Please enter the order number.', 'error');
@@ -4566,7 +4672,7 @@ async function saveNewOrder() {
   persistData();
   document.getElementById('noNumber').value = nextOrderNumber();
   document.getElementById('pkLatestOrd').textContent = ordNo;
-  document.getElementById('packingTotalTitle').textContent = `Orders — ${packingOrders.length} total`;
+  document.getElementById('packingTotalTitle').textContent = `Orders — ${getVisibleOrders().length} total`;
   document.getElementById('addOrderModal').classList.remove('open');
   pendingOrderFile = null;
   document.getElementById('noOrderFile').value = '';
@@ -4574,11 +4680,12 @@ async function saveNewOrder() {
   updateDashboard();
   renderOrdersTable();
   renderPackingTable();
+  generateClientReport(false);
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
-    `Created New Export Order: ${ordNo}`,
-    `User "${currentLoggedUser}" created order ${ordNo} for ${client}. Order file: ${orderFile ? orderFile.name : 'none'}${driveLink ? ' (Drive: ' + driveLink + ')' : ''}.`
+    `New Order Requested: ${ordNo}`,
+    `User "${currentLoggedUser}" requested new order ${ordNo} for client "${client}". Request Date: ${reqDate}, Export Date: ${expDate}. Order file: ${orderFile ? orderFile.name : 'none'}${driveLink ? ' (Drive: ' + driveLink + ')' : ''}.`
   );
   showToast(`Order ${ordNo} created & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
