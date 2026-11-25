@@ -1545,6 +1545,42 @@ html.dark .cont-row.on{background:rgba(74,222,128,.08)}
   justify-content:center;
   flex-shrink:0;
 }
+
+/* ═══ DASHBOARD REDESIGN (modern, compact) ═══ */
+#page-dashboard .page-header{
+  background:linear-gradient(135deg,#052e16 0%,#15803d 55%,#22c55e 130%);
+  border-radius:22px;padding:22px 26px;margin-bottom:18px;color:#fff;
+  box-shadow:0 14px 34px rgba(21,128,61,.25);position:relative;overflow:hidden}
+#page-dashboard .page-header::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+#page-dashboard .page-title{color:#fff;font-size:24px;letter-spacing:-.02em}
+#page-dashboard .page-sub{color:rgba(255,255,255,.78)}
+#page-dashboard .header-btn-group .sel-wrap{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25)}
+#page-dashboard .header-btn-group select{background:transparent;color:#fff}
+#page-dashboard .header-btn-group i{color:#bbf7d0}
+
+#page-dashboard .kpi-row{gap:14px;margin-bottom:16px}
+#page-dashboard .kpi{position:relative;overflow:hidden;border-radius:18px;padding:16px 18px;transition:transform .2s,box-shadow .2s}
+#page-dashboard .kpi:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(21,128,61,.14)}
+#page-dashboard .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#22c55e,#15803d)}
+#page-dashboard .kpi-val{font-size:26px}
+#page-dashboard .kpi-ico{width:38px;height:38px;border-radius:12px}
+
+#page-dashboard .charts-row{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+#page-dashboard .charts-row .card{padding:16px 18px;border-radius:18px}
+#page-dashboard .charts-row .c-title{margin-bottom:10px}
+#page-dashboard .bars{height:150px !important}
+#page-dashboard .world-map{width:62%;max-width:210px;margin:0 auto 8px}
+#page-dashboard .cont-row{padding:6px 8px;font-size:11.5px}
+#page-dashboard .region-banner{font-size:12px;padding:5px 14px}
+#page-dashboard .sec-title{display:inline-block;background:#dcfce7;color:#166534;border-radius:999px;padding:5px 12px;letter-spacing:.04em}
+#page-dashboard .card:hover{box-shadow:0 10px 28px rgba(21,128,61,.12)}
+
+@media (max-width:900px){
+  #page-dashboard .charts-row{grid-template-columns:1fr}
+  #page-dashboard .page-header{padding:18px}
+}
+html.dark #page-dashboard .page-header{background:linear-gradient(135deg,#052e16 0%,#14532d 60%,#166534 130%)}
+html.dark #page-dashboard .kpi{background:#111b2e !important}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
