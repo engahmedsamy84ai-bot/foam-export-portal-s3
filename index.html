@@ -1510,7 +1510,7 @@ td:first-child{color:var(--ink);font-weight:700}
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
 
@@ -2907,40 +2907,283 @@ function uint8ToBase64(bytes) {
   return btoa(bin);
 }
 
-// Reads the "Packing List" sheet of the Excel file and draws it as a PDF page (table with borders)
-async function buildPackingPdfBytes(file) {
-  if (typeof XLSX === 'undefined' || typeof PDFLib === 'undefined') {
+// ---------- PDF of the "Packing List" sheet, drawn with its formats, borders, merges and logo ----------
+function xmlDoc(text) { return new DOMParser().parseFromString(text, 'application/xml'); }
+function colNum(letters) { let n = 0; for (const ch of letters) n = n * 26 + (ch.charCodeAt(0) - 64); return n; }
+function splitRef(ref) { const m = /^([A-Z]+)(\d+)$/.exec(ref); return { c: colNum(m[1]), r: +m[2] }; }
+function argbToHex(v) { if (!v || v.length < 6) return null; return '#' + v.slice(-6); }
+function resolvePath(base, target) {
+  if (target.startsWith('/')) return target.slice(1);
+  const parts = base.split('/'); parts.pop();
+  for (const seg of target.split('/')) {
+    if (seg === '..') parts.pop(); else if (seg && seg !== '.') parts.push(seg);
+  }
+  return parts.join('/');
+}
+function relsOf(doc) {
+  const map = {};
+  Array.from(doc.getElementsByTagName('Relationship')).forEach(r => { map[r.getAttribute('Id')] = { target: r.getAttribute('Target'), type: r.getAttribute('Type') || '' }; });
+  return map;
+}
+function readStyles(doc) {
+  const numFmts = {};
+  Array.from(doc.getElementsByTagName('numFmt')).forEach(n => { numFmts[n.getAttribute('numFmtId')] = n.getAttribute('formatCode'); });
+  const pick = tag => doc.getElementsByTagName(tag)[0];
+  const fonts = Array.from(pick('fonts').getElementsByTagName('font')).map(f => ({
+    bold: f.getElementsByTagName('b').length > 0,
+    size: +((f.getElementsByTagName('sz')[0] || {}).getAttribute ? f.getElementsByTagName('sz')[0].getAttribute('val') : 11) || 11,
+    color: argbToHex((f.getElementsByTagName('color')[0] || {}).getAttribute ? f.getElementsByTagName('color')[0].getAttribute('rgb') : null)
+  }));
+  const fills = Array.from(pick('fills').getElementsByTagName('fill')).map(f => {
+    const pf = f.getElementsByTagName('patternFill')[0];
+    const fg = pf && pf.getElementsByTagName('fgColor')[0];
+    return (pf && pf.getAttribute('patternType') === 'solid' && fg) ? argbToHex(fg.getAttribute('rgb')) : null;
+  });
+  const borders = Array.from(pick('borders').getElementsByTagName('border')).map(b => {
+    const out = {};
+    ['left', 'right', 'top', 'bottom'].forEach(side => {
+      const e = b.getElementsByTagName(side)[0];
+      const st = e && e.getAttribute('style');
+      if (st) out[side] = st;
+    });
+    return out;
+  });
+  const xfs = Array.from(pick('cellXfs').getElementsByTagName('xf')).map(x => {
+    const al = x.getElementsByTagName('alignment')[0];
+    return { font: +(x.getAttribute('fontId') || 0), fill: +(x.getAttribute('fillId') || 0),
+      border: +(x.getAttribute('borderId') || 0), fmt: x.getAttribute('numFmtId'),
+      h: al ? al.getAttribute('horizontal') : null };
+  });
+  const dxfs = Array.from(doc.getElementsByTagName('dxf')).map(d => {
+    const pf = d.getElementsByTagName('patternFill')[0];
+    const bg = pf && pf.getElementsByTagName('bgColor')[0];
+    return { fill: bg ? argbToHex(bg.getAttribute('rgb')) : null,
+      bold: d.getElementsByTagName('b').length > 0 };
+  });
+  return { numFmts, fonts, fills, borders, xfs, dxfs };
+}
+function formatNumber(v, fmtId, numFmts) {
+  const code = numFmts[fmtId] || (fmtId === '2' ? '0.00' : fmtId === '3' ? '#,##0' : fmtId === '4' ? '#,##0.00' : fmtId === '1' ? '0' : '');
+  if (!code || code === 'General') return String(v);
+  if (code.includes('0.00')) return Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (code.includes('#,##0')) return Number(v).toLocaleString('en-US', { maximumFractionDigits: 0 });
+  if (code.includes('0')) return String(Math.round(Number(v)));
+  return String(v);
+}
+
+async function readPackingSheet(file) {
+  if (typeof JSZip === 'undefined' || typeof PDFLib === 'undefined') {
     throw new Error('PDF tools did not load. Check your internet connection and reload.');
   }
-  const wb = XLSX.read(await file.arrayBuffer(), { type: 'array' });
-  const sheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'packing list');
-  if (!sheetName) throw new Error('The file has no sheet named "Packing List".');
-  const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: '', blankrows: false });
-  if (!rows.length) throw new Error('The "Packing List" sheet is empty.');
+  const zip = await JSZip.loadAsync(file);
+  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
+  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
+  const sheetEl = Array.from(wbDoc.getElementsByTagName('sheet')).find(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
+  if (!sheetEl) throw new Error('The file has no sheet named "Packing List".');
+  const rid = sheetEl.getAttribute('r:id');
+  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
+
+  const sstFile = zip.file('xl/sharedStrings.xml');
+  const sst = sstFile ? Array.from(xmlDoc(await sstFile.async('string')).getElementsByTagName('si'))
+    .map(si => Array.from(si.getElementsByTagName('t')).map(t => t.textContent).join('')) : [];
+  const styles = readStyles(xmlDoc(await zip.file('xl/styles.xml').async('string')));
+  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
+
+  const cells = {};          // "r,c" -> { text, xf }
+  let maxR = 1, maxC = 1;
+  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
+    const ref = splitRef(c.getAttribute('r'));
+    const t = c.getAttribute('t');
+    const vEl = c.getElementsByTagName('v')[0];
+    const isEl = c.getElementsByTagName('t')[0];
+    let text = '';
+    if (t === 's' && vEl) text = sst[+vEl.textContent] || '';
+    else if (t === 'inlineStr' && isEl) text = isEl.textContent;
+    else if (t === 'str' && vEl) text = vEl.textContent;
+    else if (t === 'b' && vEl) text = vEl.textContent === '1' ? 'TRUE' : 'FALSE';
+    else if (vEl) {
+      const xf = styles.xfs[+(c.getAttribute('s') || 0)] || {};
+      text = formatNumber(vEl.textContent, xf.fmt, styles.numFmts);
+    }
+    cells[ref.r + ',' + ref.c] = { text: text, xf: +(c.getAttribute('s') || 0) };
+    maxR = Math.max(maxR, ref.r); maxC = Math.max(maxC, ref.c);
+  });
+  const rowHt = {};
+  Array.from(sheetDoc.getElementsByTagName('row')).forEach(r => { if (r.getAttribute('ht')) rowHt[+r.getAttribute('r')] = +r.getAttribute('ht'); });
+  const colW = {};
+  Array.from(sheetDoc.getElementsByTagName('col')).forEach(c => {
+    for (let i = +c.getAttribute('min'); i <= +c.getAttribute('max') && i <= 60; i++) colW[i] = +c.getAttribute('width');
+  });
+  const merges = Array.from(sheetDoc.getElementsByTagName('mergeCell')).map(m => {
+    const [a, b] = m.getAttribute('ref').split(':').map(splitRef);
+    return { r1: a.r, c1: a.c, r2: b.r, c2: b.c };
+  });
+  // conditional formatting (the yellow rows)
+  const cfRules = [];
+  Array.from(sheetDoc.getElementsByTagName('conditionalFormatting')).forEach(cf => {
+    const sq = cf.getAttribute('sqref').split(' ')[0].split(':').map(splitRef);
+    Array.from(cf.getElementsByTagName('cfRule')).forEach(rule => {
+      const f = rule.getElementsByTagName('formula')[0];
+      const dxf = styles.dxfs[+(rule.getAttribute('dxfId') || 0)] || {};
+      if (f) cfRules.push({ r1: sq[0].r, c1: sq[0].c, r2: sq[sq.length - 1].r, c2: sq[sq.length - 1].c, formula: f.textContent, dxf: dxf });
+    });
+  });
+
+  // logo / pictures of this sheet
+  const pictures = [];
+  const sheetRelsFile = zip.file(sheetPath.replace('worksheets/', 'worksheets/_rels/') + '.rels');
+  if (sheetRelsFile) {
+    const srels = relsOf(xmlDoc(await sheetRelsFile.async('string')));
+    const drawingRel = Object.values(srels).find(r => r.type.endsWith('/drawing'));
+    if (drawingRel) {
+      const dPath = resolvePath(sheetPath, drawingRel.target);
+      const dDoc = xmlDoc(await zip.file(dPath).async('string'));
+      const drels = relsOf(xmlDoc(await zip.file(dPath.replace('drawings/', 'drawings/_rels/') + '.rels').async('string')));
+      Array.from(dDoc.getElementsByTagName('xdr:twoCellAnchor')).concat(Array.from(dDoc.getElementsByTagName('xdr:oneCellAnchor'))).forEach(anc => {
+        const from = anc.getElementsByTagName('xdr:from')[0];
+        const blip = anc.getElementsByTagName('a:blip')[0];
+        if (!from || !blip) return;
+        const rel = drels[blip.getAttribute('r:embed')];
+        if (!rel) return;
+        const num = (el, tag) => +((el.getElementsByTagName(tag)[0] || { textContent: '0' }).textContent || 0);
+        const ext = anc.getElementsByTagName('xdr:ext')[0];
+        const to = anc.getElementsByTagName('xdr:to')[0];
+        pictures.push({
+          path: resolvePath(dPath, rel.target),
+          fromCol: num(from, 'xdr:col') + 1, fromRow: num(from, 'xdr:row') + 1,
+          fromColOff: num(from, 'xdr:colOff'), fromRowOff: num(from, 'xdr:rowOff'),
+          toCol: to ? num(to, 'xdr:col') + 1 : null, toRow: to ? num(to, 'xdr:row') + 1 : null,
+          toColOff: to ? num(to, 'xdr:colOff') : 0, toRowOff: to ? num(to, 'xdr:rowOff') : 0,
+          cx: ext ? +ext.getAttribute('cx') : 0, cy: ext ? +ext.getAttribute('cy') : 0,
+          zip: zip
+        });
+      });
+    }
+  }
+  return { cells, maxR, maxC, rowHt, colW, merges, cfRules, styles, pictures, zip, sheetPath };
+}
+
+function cfMatches(rule, cells, r, c) {
+  const val = (col, row) => (cells[row + ',' + col] ? cells[row + ',' + col].text : '');
+  let f = rule.formula
+    .replace(/\$([A-Z]+)(\d+)/g, (m, col, row) => JSON.stringify(val(colNum(col), +row)))
+    .replace(/\b[A-Z]+\d+\b/g, '""');
+  f = f.replace(/<>/g, '!==').replace(/(?<![<>!=])=(?!=)/g, '===');
+  f = f.replace(/AND\(([^()]*)\)/g, (m, args) => '(' + args.split(',').join('&&') + ')');
+  f = f.replace(/ROWS\([^)]*\)/g, '1');
+  try { return !!(new Function('return (' + f + ');')()); } catch (e) { return false; }
+}
+
+async function buildPackingPdfBytes(file) {
+  const sh = await readPackingSheet(file);
+  const { cells, maxR, rowHt, colW, merges, cfRules, styles, pictures } = sh;
+  const lastR = Math.min(maxR, 200), lastC = Math.min(Math.max(sh.maxC, 1), 26);
+  const PW = 842, PH = 595, MARGIN = 22;
+  const defColPt = 48, defRowPt = 15;
+  const colPt = c => (colW[c] ? colW[c] * 7 * 0.75 + 4 : defColPt);
+  const rowPt = r => rowHt[r] || defRowPt;
+  let totalW = 0; for (let c = 1; c <= lastC; c++) totalW += colPt(c);
+  const scale = Math.min((PW - 2 * MARGIN) / totalW, 1.6);
+  const colX = [0]; for (let c = 1; c <= lastC; c++) colX[c] = colX[c - 1] + colPt(c) * scale;
+  const rowY = [0]; for (let r = 1; r <= lastR; r++) rowY[r] = rowY[r - 1] + rowPt(r) * scale;
+
+  // pages: split by whole rows
+  const usableH = PH - 2 * MARGIN;
+  const pages = []; let start = 1;
+  for (let r = 1; r <= lastR; r++) {
+    if (rowY[r] - rowY[start - 1] > usableH && r > start) { pages.push([start, r - 1]); start = r; }
+  }
+  pages.push([start, lastR]);
 
   const { PDFDocument, StandardFonts, rgb } = PDFLib;
   const doc = await PDFDocument.create();
-  const font = await doc.embedFont(StandardFonts.Helvetica);
-  const bold = await doc.embedFont(StandardFonts.HelveticaBold);
-  const W = 842, H = 595, M = 28, ROW_H = 16;
-  const cols = Math.min(Math.max(...rows.map(r => r.length), 1), 16);
-  const colW = (W - M * 2) / cols;
-  const clean = v => String(v == null ? '' : v).replace(/[^\x20-\x7E]/g, '?').slice(0, 45);
+  const fonts = {
+    reg: await doc.embedFont(StandardFonts.Helvetica),
+    bold: await doc.embedFont(StandardFonts.HelveticaBold)
+  };
+  const clean = v => String(v == null ? '' : v).replace(/[^\x20-\x7E]/g, '?');
+  const hexToRgb = hex => { const n = parseInt(hex.slice(1), 16); return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255); };
+  const lineW = { thin: 0.5, hair: 0.3, medium: 1.2, thick: 1.8, double: 1.5, dotted: 0.5, dashed: 0.6 };
 
-  let page = doc.addPage([W, H]);
-  let y = H - M;
-  rows.forEach(row => {
-    if (y - ROW_H < M) { page = doc.addPage([W, H]); y = H - M; }
-    const label = clean(row[0]).toUpperCase();
-    const isBold = label.includes('MADE IN EGYPT') || label === 'TOTAL' || label === 'NO.';
-    for (let c = 0; c < cols; c++) {
-      const x = M + c * colW;
-      page.drawRectangle({ x: x, y: y - ROW_H, width: colW, height: ROW_H, borderColor: rgb(0, 0, 0), borderWidth: 0.5 });
-      const txt = clean(row[c]);
-      if (txt) page.drawText(txt, { x: x + 3, y: y - ROW_H + 4, size: 8, font: isBold ? bold : font });
-    }
-    y -= ROW_H;
+  // which cell is covered by a merge (and must not be drawn on its own)
+  const covered = {}; const mergeAt = {};
+  merges.forEach(m => {
+    mergeAt[m.r1 + ',' + m.c1] = m;
+    for (let r = m.r1; r <= m.r2; r++) for (let c = m.c1; c <= m.c2; c++) if (r !== m.r1 || c !== m.c1) covered[r + ',' + c] = true;
   });
+
+  // formats and conditional fills for every cell
+  const cellStyle = (r, c) => {
+    const cell = cells[r + ',' + c] || { text: '', xf: 0 };
+    const xf = styles.xfs[cell.xf] || {};
+    const font = styles.fonts[xf.font] || {};
+    let fill = styles.fills[xf.fill] || null;
+    let bold = font.bold;
+    let fcol = font.color || null;
+    cfRules.forEach(rule => {
+      if (r >= rule.r1 && r <= rule.r2 && c >= rule.c1 && c <= rule.c2 && cfMatches(rule, cells, r, c)) {
+        if (rule.dxf.fill) fill = rule.dxf.fill;
+        if (rule.dxf.bold) bold = true;
+      }
+    });
+    const isNum = cell.text !== '' && !isNaN(Number(String(cell.text).replace(/,/g, '')));
+    const align = xf.h || (isNum ? 'right' : 'left');
+    return { text: cell.text, fill, bold, color: fcol, size: (font.size || 11), align, border: styles.borders[xf.border] || {} };
+  };
+
+  pages.forEach(([r1, r2]) => {
+    const page = doc.addPage([PW, PH]);
+    const top = r => PH - MARGIN - (rowY[r - 1] - rowY[r1 - 1]);      // y of the top edge of row r on this page
+    const X = c => MARGIN + colX[c - 1];
+    for (let r = r1; r <= r2; r++) {
+      for (let c = 1; c <= lastC; c++) {
+        if (covered[r + ',' + c]) continue;
+        const m = mergeAt[r + ',' + c];
+        const rr2 = m ? m.r2 : r, cc2 = m ? m.c2 : c;
+        const x = X(c);
+        const w2 = (colX[cc2] !== undefined ? colX[cc2] : colX[lastC]) - colX[c - 1];
+        const h = (rowY[rr2] - rowY[r - 1]);
+        const y = top(r) - h;
+        const st = cellStyle(r, c);
+        if (st.fill) page.drawRectangle({ x: x, y: y, width: w2, height: h, color: hexToRgb(st.fill) });
+        const b = st.border;
+        const line = (side, x1, y1, x2, y2) => {
+          if (!b[side]) return;
+          page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness: lineW[b[side]] || 0.5, color: rgb(0, 0, 0) });
+        };
+        line('top', x, y + h, x + w2, y + h);
+        line('bottom', x, y, x + w2, y);
+        line('left', x, y, x, y + h);
+        line('right', x + w2, y, x + w2, y + h);
+        if (st.text) {
+          const f = st.bold ? fonts.bold : fonts.reg;
+          const size = Math.max(5, Math.min(st.size * scale, 22));
+          let txt = clean(st.text);
+          while (txt.length > 1 && f.widthOfTextAtSize(txt, size) > w2 - 4) txt = txt.slice(0, -1);
+          const tw = f.widthOfTextAtSize(txt, size);
+          const tx = st.align === 'center' ? x + (w2 - tw) / 2 : st.align === 'right' ? x + w2 - tw - 3 : x + 3;
+          const ty = y + h / 2 - size * 0.35;
+          page.drawText(txt, { x: tx, y: ty, size: size, font: f, color: st.color ? hexToRgb(st.color) : rgb(0, 0, 0) });
+        }
+      }
+    }
+  });
+
+  // pictures are embedded after the pages exist
+  for (const pic of sh.pictures) {
+    const bytes = await pic.zip.file(pic.path).async('uint8array');
+    const isPng = pic.path.toLowerCase().endsWith('.png');
+    const img = isPng ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+    const pageIndex = pages.findIndex(([a, b]) => pic.fromRow >= a && pic.fromRow <= b);
+    if (pageIndex < 0) continue;
+    const [a] = pages[pageIndex];
+    const page = doc.getPages()[pageIndex];
+    const x = MARGIN + colX[pic.fromCol - 1] + (pic.fromColOff / 12700) * scale;
+    const yTop = PH - MARGIN - (rowY[pic.fromRow - 1] - rowY[a - 1]) - (pic.fromRowOff / 12700) * scale;
+    const w = pic.cx ? (pic.cx / 12700) * scale : (colX[pic.toCol - 1] - colX[pic.fromCol - 1]) * 1;
+    const hgt = pic.cy ? (pic.cy / 12700) * scale : 0;
+    page.drawImage(img, { x: x, y: yTop - hgt, width: w, height: hgt });
+  }
   return await doc.save();
 }
 
