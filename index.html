@@ -1768,7 +1768,7 @@ td:first-child{color:var(--ink);font-weight:700}
         <div class="kpi-row">
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Total clients</span>
+              <span class="kpi-label region-banner">Total clients</span>
               <div class="kpi-ico blue"><i class="ti ti-users"></i></div>
             </div>
             <div class="kpi-val blue" id="kpiClients">0</div>
@@ -1776,7 +1776,7 @@ td:first-child{color:var(--ink);font-weight:700}
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Foam shipped</span>
+              <span class="kpi-label region-banner">Foam shipped</span>
               <div class="kpi-ico cyan"><i class="ti ti-package"></i></div>
             </div>
             <div class="kpi-val" id="kpiFoam">0</div>
@@ -1784,7 +1784,7 @@ td:first-child{color:var(--ink);font-weight:700}
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Plastic shipped</span>
+              <span class="kpi-label region-banner">Plastic shipped</span>
               <div class="kpi-ico coral"><i class="ti ti-box"></i></div>
             </div>
             <div class="kpi-val coral" id="kpiPlastic">0</div>
@@ -1792,7 +1792,7 @@ td:first-child{color:var(--ink);font-weight:700}
           </div>
           <div class="kpi">
             <div class="kpi-top">
-              <span class="kpi-label">Orders</span>
+              <span class="kpi-label region-banner">Orders</span>
               <div class="kpi-ico emerald"><i class="ti ti-file-invoice"></i></div>
             </div>
             <div class="kpi-val emerald" id="kpiOrders">0</div>
@@ -1803,7 +1803,7 @@ td:first-child{color:var(--ink);font-weight:700}
         <div class="charts-row">
           <div class="card">
             <div class="c-title">
-              <span id="barChartTitle">Performance OvervieW — 2026 (Foam vs Plastic KG)</span>
+              <span id="barChartTitle" class="region-banner">Performance OvervieW — 2026 (Foam vs Plastic KG)</span>
               <span class="badge ba" id="barChartScope">All Clients</span>
             </div>
             <div class="bars" id="monthlyBarsContainer"></div>
@@ -1836,7 +1836,7 @@ td:first-child{color:var(--ink);font-weight:700}
           </div>
         </div>
 
-        <div class="sec-title">Clients export breakdown (KG)</div>
+        <div class="sec-title"><span class="region-banner">Clients export breakdown (KG)</span></div>
         <div class="tbl-wrap">
           <div class="tbl-scroll">
             <table>
@@ -2842,10 +2842,17 @@ async function onPackingFileChosen(input) {
     if (o) {
       o.packingName = f.name;
       o.packingLink = res.url;
+      o.packingPdfName = res.pdfName || '';
+      o.packingPdfLink = res.pdfUrl || '';
     }
     renderOrdersTable();
     renderProductionTable();
-    showToast('Packing file saved to Sheets, Drive and the site.', 'success');
+    renderPackingTable();
+    if (res.pdfError) {
+      showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
+    } else {
+      showToast('File and PDF saved to Google Drive and Sheets.', 'success');
+    }
   } catch (e) {
     showToast('Upload failed: ' + e.message, 'error');
   }
@@ -2890,6 +2897,18 @@ function updateExportDate(ordNo, value) {
   dispatchEmailNotification('action', currentLoggedUser, `Export date changed: ${ordNo}`,
     `User "${currentLoggedUser}" changed the export date of order ${ordNo} to ${v}.`);
   showToast(`Export date of ${ordNo} updated`);
+}
+
+function reportPackingFile(ordNo) {
+  const o = packingOrders.find(x => x.ordNo === ordNo);
+  if (o && o.packingPdfLink) {
+    const m = String(o.packingPdfLink).match(/[-\w]{25,}/);
+    if (m) {
+      window.open('https://drive.google.com/uc?export=download&id=' + m[0], '_blank');
+      return;
+    }
+  }
+  printPackingReport(ordNo);
 }
 
 function printPackingReport(ordNo) {
@@ -2943,6 +2962,7 @@ function renderProductionTable() {
       </td>
       <td>
         ${o.packingLink ? `<a href="${o.packingLink}" target="_blank" style="font-size:11px;font-weight:700;color:var(--royal)">${o.packingName}</a><br>` : ''}
+        ${o.packingPdfName ? `<span style="font-size:10.5px;color:var(--ink-4)">PDF: ${o.packingPdfName}</span><br>` : ''}
         ${canOrd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
       </td>
       <td>
@@ -3648,7 +3668,7 @@ function renderPackingTable() {
       <td>${o.expDate}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
-      <td><button class="btn-outline" type="button" onclick="printPackingReport('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>PDF</button></td>
+      <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Report</button></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
         <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
