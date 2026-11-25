@@ -1510,6 +1510,7 @@ td:first-child{color:var(--ink);font-weight:700}
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -2897,6 +2898,52 @@ function triggerPackingUpload(ordNo) {
   document.getElementById('packingFileInput').click();
 }
 
+function uint8ToBase64(bytes) {
+  let bin = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(bin);
+}
+
+// Reads the "Packing List" sheet of the Excel file and draws it as a PDF page (table with borders)
+async function buildPackingPdfBytes(file) {
+  if (typeof XLSX === 'undefined' || typeof PDFLib === 'undefined') {
+    throw new Error('PDF tools did not load. Check your internet connection and reload.');
+  }
+  const wb = XLSX.read(await file.arrayBuffer(), { type: 'array' });
+  const sheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'packing list');
+  if (!sheetName) throw new Error('The file has no sheet named "Packing List".');
+  const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: '', blankrows: false });
+  if (!rows.length) throw new Error('The "Packing List" sheet is empty.');
+
+  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  const doc = await PDFDocument.create();
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+  const W = 842, H = 595, M = 28, ROW_H = 16;
+  const cols = Math.min(Math.max(...rows.map(r => r.length), 1), 16);
+  const colW = (W - M * 2) / cols;
+  const clean = v => String(v == null ? '' : v).replace(/[^\x20-\x7E]/g, '?').slice(0, 45);
+
+  let page = doc.addPage([W, H]);
+  let y = H - M;
+  rows.forEach(row => {
+    if (y - ROW_H < M) { page = doc.addPage([W, H]); y = H - M; }
+    const label = clean(row[0]).toUpperCase();
+    const isBold = label.includes('MADE IN EGYPT') || label === 'TOTAL' || label === 'NO.';
+    for (let c = 0; c < cols; c++) {
+      const x = M + c * colW;
+      page.drawRectangle({ x: x, y: y - ROW_H, width: colW, height: ROW_H, borderColor: rgb(0, 0, 0), borderWidth: 0.5 });
+      const txt = clean(row[c]);
+      if (txt) page.drawText(txt, { x: x + 3, y: y - ROW_H + 4, size: 8, font: isBold ? bold : font });
+    }
+    y -= ROW_H;
+  });
+  return await doc.save();
+}
+
 async function onPackingFileChosen(input) {
   const f = input.files && input.files[0];
   input.value = '';
@@ -2917,14 +2964,23 @@ async function onPackingFileChosen(input) {
     if (o) {
       o.packingName = f.name;
       o.packingLink = res.url;
-      o.packingPdfName = res.pdfName || '';
-      o.packingPdfLink = res.pdfUrl || '';
+    }
+    let pdfError = '';
+    try {
+      const pdfBytes = await buildPackingPdfBytes(f);
+      const pr = await api('uploadPackingPdf', { ordNo: ordNo, base64: uint8ToBase64(pdfBytes) });
+      if (o) {
+        o.packingPdfName = pr.pdfName;
+        o.packingPdfLink = pr.url;
+      }
+    } catch (err) {
+      pdfError = err.message;
     }
     renderOrdersTable();
     renderProductionTable();
     renderPackingTable();
-    if (res.pdfError) {
-      showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
+    if (pdfError) {
+      showToast('File saved, but the PDF could not be made: ' + pdfError, 'error');
     } else {
       showToast('File and PDF saved to Google Drive and Sheets.', 'success');
     }
