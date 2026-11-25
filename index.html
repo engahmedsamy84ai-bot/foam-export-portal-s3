@@ -1275,23 +1275,6 @@ td:first-child{color:var(--ink);font-weight:700}
 /* ═══ Design system (modern, professional) ═══ */
 body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .page-title,.kpi-val,.topbar-title,.c-title{font-family:'Plus Jakarta Sans','Inter',sans-serif}
-.theme-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--glass-strong);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:all .2s}
-.theme-btn:hover{border-color:var(--royal);color:var(--royal)}
-.theme-btn i{font-size:15px}
-
-/* ═══ Dark mode ═══ */
-html.dark body{background:#0b1320;color:#e2e8f0}
-html.dark body::before,html.dark body::after{opacity:.12}
-html.dark .topbar,html.dark .sidebar,html.dark .card,html.dark .kpi,html.dark .tbl-wrap,html.dark .modal-box,
-html.dark .toast,html.dark .search-box,html.dark .nav-footer,html.dark .sel-wrap{
-  background:#111b2e !important;border-color:#1f2d45 !important;color:#e2e8f0 !important;box-shadow:none !important}
-html.dark table th{background:#16233a !important;color:#cbd5e1 !important;border-color:#1f2d45 !important}
-html.dark table td{border-color:#1f2d45 !important;color:#e2e8f0 !important}
-html.dark .page-title,html.dark .c-title,html.dark .kpi-val,html.dark .topbar-title{color:#f8fafc !important}
-html.dark .page-sub,html.dark .kpi-unit,html.dark .kpi-label,html.dark .sec-title{color:#94a3b8 !important}
-html.dark .fi,html.dark input,html.dark select,html.dark textarea{background:#0f1a2c !important;color:#e2e8f0 !important;border-color:#1f2d45 !important}
-html.dark .btn-outline,html.dark .theme-btn,html.dark .icon-btn{background:#16233a !important;color:#e2e8f0 !important;border-color:#1f2d45 !important}
-html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
 
 /* Form Grid */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
@@ -1311,6 +1294,7 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
 .b-edit{background:var(--amber-bg);color:#92400e}
 .b-write{background:var(--emerald-bg);color:#065f46}
 .b-read{background:#dbeafe;color:#1e40af}
+.b-none{background:#f1f5f9;color:#64748b}
 
 /* Permission Legend */
 .perm-legend{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
@@ -1367,7 +1351,7 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
   border-radius:18px;
   padding:20px;
   width:100%;
-  max-width:520px;
+  max-width:540px;
   max-height:90dvh;
   overflow-y:auto;
   box-shadow:0 24px 60px rgba(15,23,42,0.24);
@@ -1618,14 +1602,6 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script>
-  (function () {
-    var m = localStorage.getItem('foam_theme') || 'auto';
-    var h = new Date().getHours();
-    var dark = m === 'dark' || (m === 'auto' && (h >= 18 || h < 6));
-    if (dark) document.documentElement.classList.add('dark');
-  })();
-</script>
 </head>
 <body>
 
@@ -1786,9 +1762,6 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
     </div>
 
     <div class="topbar-actions">
-      <button class="theme-btn" id="themeBtn" type="button" onclick="cycleTheme()" title="Theme: Auto (day/night) → Dark → Light">
-        <i class="ti ti-sun-moon" id="themeIco"></i><span id="themeLbl">Auto</span>
-      </button>
       <!-- Live Internet LED in Topbar -->
       <div class="net-pill online" id="appNetPill" style="padding:5px 10px;font-size:11px">
         <span class="net-led" style="width:8px;height:8px"></span>
@@ -2338,7 +2311,7 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
             <div class="page-title">Messages &amp; Email Alerts</div>
             <div class="page-sub">Real-time user login &amp; activity notifications dispatched to <strong>eng.ahmed.samy84.ai@gmail.com</strong></div>
           </div>
-          <div class="header-btn-group">
+          <div class="header-btn-group" data-write="messages">
             <button class="btn-outline" onclick="sendSummaryEmailNow()"><i class="ti ti-mail-forward"></i>Send Full Log via Email</button>
             <button class="btn-blue" onclick="triggerTestEmailAlert()"><i class="ti ti-send"></i>Test Email Alert</button>
           </div>
@@ -2371,15 +2344,15 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
         <div class="perm-legend">
           <div class="pl-item">
             <div class="pl-icon read"><i class="ti ti-eye"></i></div>
-            <div class="pl-text"><strong>Read only</strong><span>View data, download reports, add orders in Packing List</span></div>
+            <div class="pl-text"><strong>Read only</strong><span>View data, download reports, and monitor assigned pages</span></div>
           </div>
           <div class="pl-item">
             <div class="pl-icon write"><i class="ti ti-pencil"></i></div>
-            <div class="pl-text"><strong>Read + write</strong><span>View, download, add orders and add new clients</span></div>
+            <div class="pl-text"><strong>Read + write</strong><span>View, download, and add/upload new records in assigned pages</span></div>
           </div>
           <div class="pl-item">
             <div class="pl-icon edit"><i class="ti ti-shield-check"></i></div>
-            <div class="pl-text"><strong>Full edit</strong><span>All above + edit and delete existing data</span></div>
+            <div class="pl-text"><strong>Full control</strong><span>All above + edit, update, and delete existing records</span></div>
           </div>
         </div>
 
@@ -2392,9 +2365,11 @@ html.dark .nav-item,html.dark .mb-item{color:#cbd5e1}
                   <th>Username</th>
                   <th>Mobile</th>
                   <th>Job title</th>
-                  <th>Dashboard</th>
                   <th>Clients</th>
+                  <th>Orders</th>
+                  <th>Production</th>
                   <th>Packing list</th>
+                  <th>Messages</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -2679,9 +2654,9 @@ let clientsList = [];
 let packingOrders = [];
 
 let systemUsers = [
-  { username: 'admin', mobile: '+20 100 000 0000', title: 'System Admin', dash: 'Admin', clients: 'Admin', packing: 'Admin', isDefault: true },
-  { username: 'ahmed.samy', mobile: '+20 101 234 5678', title: 'Export Manager', dash: 'Full edit', clients: 'Full edit', packing: 'Full edit', isDefault: false },
-  { username: 'sara.hassan', mobile: '+20 102 345 6789', title: 'Export Specialist', dash: 'Read', clients: 'Write', packing: 'Write', isDefault: false }
+  { username: 'admin', mobile: '+20 100 000 0000', title: 'System Admin', dash: 'Admin', clients: 'Admin', orders: 'Admin', production: 'Admin', packing: 'Admin', messages: 'Admin', users: 'Admin', isDefault: true },
+  { username: 'ahmed.samy', mobile: '+20 101 234 5678', title: 'Export Manager', dash: 'Full edit', clients: 'Full edit', orders: 'Full edit', production: 'Full edit', packing: 'Full edit', messages: 'Full edit', users: 'Full edit', isDefault: false },
+  { username: 'sara.hassan', mobile: '+20 102 345 6789', title: 'Export Specialist', dash: 'Read', clients: 'Write', orders: 'Write', production: 'Write', packing: 'Write', messages: 'Read', users: 'None', isDefault: false }
 ];
 
 // Interactive Monthly Datasets per Client & Year for Dashboard Charts
@@ -2922,27 +2897,6 @@ async function enterPortal(loginRes) {
   );
   showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
-
-// ═══ THEME: Auto (dark at night, light by day), Dark, Light ═══
-const THEME_KEY = 'foam_theme';
-function themeMode() { return localStorage.getItem(THEME_KEY) || 'auto'; }
-function applyTheme() {
-  const mode = themeMode();
-  const h = new Date().getHours();
-  const dark = mode === 'dark' || (mode === 'auto' && (h >= 18 || h < 6));
-  document.documentElement.classList.toggle('dark', dark);
-  const lbl = document.getElementById('themeLbl');
-  const ico = document.getElementById('themeIco');
-  if (lbl) lbl.textContent = mode === 'auto' ? 'Auto' : (mode === 'dark' ? 'Dark' : 'Light');
-  if (ico) ico.className = dark ? 'ti ti-moon-stars' : 'ti ti-sun';
-}
-function cycleTheme() {
-  const order = ['auto', 'dark', 'light'];
-  localStorage.setItem(THEME_KEY, order[(order.indexOf(themeMode()) + 1) % 3]);
-  applyTheme();
-}
-applyTheme();
-setInterval(applyTheme, 5 * 60 * 1000);
 
 // ═══ ORDERS: download, packing upload ═══
 let pendingPackingOrd = null;
@@ -3309,7 +3263,8 @@ function renderProductionTable() {
   const q = (document.getElementById('prodSearchInput')?.value || '').trim().toLowerCase();
   const rows = packingOrders.filter(o =>
     !q || o.ordNo.toLowerCase().includes(q) || o.client.toLowerCase().includes(q));
-  const canOrd = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.orders) || ['Write', 'Full edit'].includes(myPerms.packing)) : false;
+  const canWriteProd = hasPageWrite('production') || hasPageWrite('orders') || hasPageWrite('packing');
+  const canFullProd = hasPageFull('production') || hasPageFull('orders') || hasPageFull('packing');
   tbody.innerHTML = rows.map(o => `
     <tr>
       <td class="ord-no">${o.ordNo}</td>
@@ -3323,14 +3278,14 @@ function renderProductionTable() {
       <td>
         ${o.packingLink ? `<a href="${o.packingLink}" target="_blank" style="font-size:11px;font-weight:700;color:var(--royal)">${o.packingName}</a><br>` : ''}
         ${o.packingPdfName ? `<span style="font-size:10.5px;color:var(--ink-4)">PDF: ${o.packingPdfName}</span><br>` : ''}
-        ${canOrd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
+        ${canWriteProd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
       </td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
         <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
       </td>
       <td>
-        <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canOrd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
+        <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canFullProd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
           <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
           <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
           <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
@@ -3437,16 +3392,39 @@ function saveEditClient() {
   showToast(newName !== oldName ? 'Client renamed to ' + newName : 'Client updated: ' + c.name, 'success');
 }
 
-// ═══ PERMISSIONS ═══
+// ═══ PERMISSIONS (Including Production & Messages) ═══
 const PERM_ROWS = [
   { key: 'clients', label: 'Clients data', icon: 'ti-users', letter: 'c' },
   { key: 'orders', label: 'Orders', icon: 'ti-file-invoice', letter: 'o' },
+  { key: 'production', label: 'Production', icon: 'ti-settings-automation', letter: 'r' },
   { key: 'packing', label: 'Packing list', icon: 'ti-clipboard-list', letter: 'p' },
+  { key: 'messages', label: 'Messages', icon: 'ti-mail-bolt', letter: 'm' },
   { key: 'users', label: 'User management', icon: 'ti-shield-lock', letter: 'u' }
 ];
 const PERM_LEVELS = [['None', 'No access'], ['Read', 'Read only'], ['Write', 'Read + write'], ['Full edit', 'Full control']];
 let permTarget = null;
 let myPerms = null;
+
+function hasPageRead(key) {
+  if (!myPerms) return true;
+  if (myPerms.admin) return true;
+  const v = myPerms[key];
+  return v === 'Read' || v === 'Write' || v === 'Full edit' || v === 'Admin';
+}
+
+function hasPageWrite(key) {
+  if (!myPerms) return true;
+  if (myPerms.admin) return true;
+  const v = myPerms[key];
+  return v === 'Write' || v === 'Full edit' || v === 'Admin';
+}
+
+function hasPageFull(key) {
+  if (!myPerms) return true;
+  if (myPerms.admin) return true;
+  const v = myPerms[key];
+  return v === 'Full edit' || v === 'Admin';
+}
 
 function permTableHTML(values, prefix) {
   const head = PERM_LEVELS.map(([, label]) => `<th>${label}</th>`).join('');
@@ -3499,21 +3477,23 @@ async function savePermissions() {
 
 function applyPermissions(me) {
   myPerms = me;
-  const canWriteLevel = v => me.admin || v === 'Write' || v === 'Full edit';
   const pageVisible = {
-    clients: me.admin || (me.clients && me.clients !== 'None'),
-    orders: me.admin || (me.orders && me.orders !== 'None'),
-    packing: me.admin || (me.packing && me.packing !== 'None'),
-    users: me.admin || (me.users && me.users !== 'None'),
-    messages: me.admin
+    clients: hasPageRead('clients'),
+    orders: hasPageRead('orders'),
+    production: hasPageRead('production') || hasPageRead('orders') || hasPageRead('packing'),
+    packing: hasPageRead('packing'),
+    messages: hasPageRead('messages'),
+    users: hasPageRead('users')
   };
   Object.entries(pageVisible).forEach(([page, show]) => {
     document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
   });
   const writeOk = {
-    clients: canWriteLevel(me.clients),
-    orders: canWriteLevel(me.orders) || canWriteLevel(me.packing),
-    users: canWriteLevel(me.users)
+    clients: hasPageWrite('clients'),
+    orders: hasPageWrite('orders') || hasPageWrite('packing'),
+    production: hasPageWrite('production'),
+    messages: hasPageWrite('messages'),
+    users: hasPageWrite('users')
   };
   Object.entries(writeOk).forEach(([key, ok]) => {
     document.querySelectorAll(`[data-write="${key}"]`).forEach(el => { el.style.display = ok ? '' : 'none'; });
@@ -3878,7 +3858,8 @@ function renderAllTables() {
 
   const clientsBody = document.getElementById('allClientsTableBody');
   if (clientsBody) {
-    const canEditClients = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.clients)) : false;
+    const canEditClients = hasPageFull('clients');
+    const canDelClients = hasPageFull('clients');
     clientsBody.innerHTML = clientsList.map((c, idx) => `
       <tr>
         <td>${c.name}</td>
@@ -3890,9 +3871,7 @@ function renderAllTables() {
         <td><span class="badge ${c.status === 'Active' ? 'ba' : 'bp'}">${c.status}</span></td>
         <td>
           ${canEditClients ? `<button class="icon-btn" type="button" onclick="openEditClient(${idx})" title="Edit Client"><i class="ti ti-edit"></i></button>` : ''}
-          <button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client">
-            <i class="ti ti-trash"></i>
-          </button>
+          ${canDelClients ? `<button class="icon-btn del" type="button" onclick="deleteClient(${idx})" title="Delete Client"><i class="ti ti-trash"></i></button>` : ''}
         </td>
       </tr>
     `).join('');
@@ -3906,23 +3885,27 @@ function renderAllTables() {
   const usersTitle = document.getElementById('usersCountTitle');
   if (usersTitle) usersTitle.textContent = `Current users — ${systemUsers.length}`;
   if (usersBody) {
+    const canEditUsers = hasPageFull('users');
     usersBody.innerHTML = systemUsers.map((u, idx) => {
-      const badgeCls = (role) => role === 'Admin' ? 'b-admin' : (role === 'Full edit' ? 'b-edit' : (role === 'Write' ? 'b-write' : 'b-read'));
+      const badgeCls = (role) => role === 'Admin' ? 'b-admin' : (role === 'Full edit' ? 'b-edit' : (role === 'Write' ? 'b-write' : (role === 'Read' ? 'b-read' : 'b-none')));
+      const roleLabel = (role) => role || 'None';
       return `
         <tr>
           <td>${u.username}</td>
           <td>${u.mobile}</td>
           <td>${u.title}</td>
-          <td><span class="badge ${badgeCls(u.dash)}">${u.dash}</span></td>
-          <td><span class="badge ${badgeCls(u.clients)}">${u.clients}</span></td>
-          <td><span class="badge ${badgeCls(u.packing)}">${u.packing}</span></td>
+          <td><span class="badge ${badgeCls(u.clients)}">${roleLabel(u.clients)}</span></td>
+          <td><span class="badge ${badgeCls(u.orders)}">${roleLabel(u.orders)}</span></td>
+          <td><span class="badge ${badgeCls(u.production)}">${roleLabel(u.production)}</span></td>
+          <td><span class="badge ${badgeCls(u.packing)}">${roleLabel(u.packing)}</span></td>
+          <td><span class="badge ${badgeCls(u.messages)}">${roleLabel(u.messages)}</span></td>
           <td>
-            <button class="icon-btn" type="button" onclick="openPermModal(${idx})" title="Permissions"><i class="ti ti-key"></i></button>
-            ${u.isDefault ? '<span style="font-size:11px;color:var(--ink-4);font-weight:700">System</span>' : `
+            ${canEditUsers ? `<button class="icon-btn" type="button" onclick="openPermModal(${idx})" title="Permissions"><i class="ti ti-key"></i></button>` : ''}
+            ${u.isDefault ? '<span style="font-size:11px;color:var(--ink-4);font-weight:700">System</span>' : (canEditUsers ? `
               <button class="icon-btn del" type="button" onclick="deleteUser(${idx})" title="Delete User">
                 <i class="ti ti-trash"></i>
               </button>
-            `}
+            ` : '')}
           </td>
         </tr>
       `;
@@ -3958,7 +3941,7 @@ function renderOrdersTable() {
   if (readyKpi) readyKpi.textContent = String(readyCount);
   if (shippedKpi) shippedKpi.textContent = String(shippedCount);
 
-  const canOrd = myPerms ? (myPerms.admin || ['Write', 'Full edit'].includes(myPerms.orders) || ['Write', 'Full edit'].includes(myPerms.packing)) : false;
+  const canFullOrd = hasPageFull('orders') || hasPageFull('packing');
   tbody.innerHTML = filtered.map(o => {
     const badgeClass = o.status === 'Shipped' ? 'ba' : (o.status === 'Ready to Ship' ? 'bi' : 'bp');
     const totalWeight = (Number(o.foamKg) || 0) + (Number(o.plasticKg) || 0);
@@ -3967,19 +3950,19 @@ function renderOrdersTable() {
         <td class="ord-no">${o.ordNo}</td>
         <td>${o.client}</td>
         <td>${o.dest}</td>
-        <td>${canOrd
+        <td>${canFullOrd
           ? `<input class="fi" type="text" value="${o.expDate}" style="padding:5px 8px;font-size:11.5px;width:130px" onchange="updateExportDate('${o.ordNo}', this.value)">`
           : o.expDate}</td>
         <td><strong>${totalWeight.toLocaleString()} KG</strong></td>
         <td><span class="badge ${badgeClass}">${o.status}</span></td>
         <td>
-          <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" onchange="updateOrderStatus('${o.ordNo}', this.value)">
+          <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canFullOrd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
             <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
             <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
             <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
           </select>
         </td>
-        <td>${canOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
+        <td>${canFullOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
       </tr>
     `;
   }).join('');
@@ -4633,7 +4616,7 @@ async function saveNewUser() {
     'action',
     currentLoggedUser,
     `Added Portal User: ${username}`,
-    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Clients: ${newUser.clients}, Orders: ${newUser.orders}, Packing: ${newUser.packing}, Users: ${newUser.users}].`
+    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Clients: ${newUser.clients}, Orders: ${newUser.orders}, Production: ${newUser.production}, Packing: ${newUser.packing}, Messages: ${newUser.messages}, Users: ${newUser.users}].`
   );
   showToast(`User "${username}" added & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
