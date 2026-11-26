@@ -2753,26 +2753,6 @@ function dispatchEmailNotification(type, user, title, details) {
   emailAuditLogs.unshift(entry);
   persistData();
 
-  if (navigator.onLine) {
-    try {
-      fetch(`https://formsubmit.co/ajax/${ADMIN_NOTIFY_EMAIL}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: `[Foam Industries Portal] ${title} — User: ${entry.user}`,
-          Portal: 'Foam Industries Co. — Global Export Portal',
-          Recipient: ADMIN_NOTIFY_EMAIL,
-          Username: entry.user,
-          Login_Time: currentLoginTimestamp || timestamp,
-          Action_Time: timestamp,
-          Activity: title,
-          Details: details,
-          Device: navigator.userAgent
-        })
-      }).catch(() => {});
-    } catch (e) {}
-  }
-
   renderMessagesFeed();
 }
 
@@ -2932,6 +2912,27 @@ async function enterPortal(loginRes) {
     `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
   );
   showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+}
+
+// ═══ DATES: day, month, year only (no time) ═══
+const MON3 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(v) {
+  const t = String(v || '').trim();
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(t);
+  if (iso) return `${iso[3]} ${MON3[+iso[2] - 1]} ${iso[1]}`;
+  const d = new Date(t);
+  if (/\d{4}/.test(t) && !isNaN(d) && t.length > 12) {
+    return `${String(d.getDate()).padStart(2, '0')} ${MON3[d.getMonth()]} ${d.getFullYear()}`;
+  }
+  return t;
+}
+function isoFromDisplay(v) {
+  const t = String(v || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return t;
+  const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(t);
+  if (!m) return '';
+  const mi = MON3.indexOf(m[2]);
+  return mi < 0 ? '' : `${m[3]}-${String(mi + 1).padStart(2, '0')}-${m[1].padStart(2, '0')}`;
 }
 
 // ═══ ORDERS: download, packing upload ═══
@@ -3252,7 +3253,7 @@ async function deleteOrder(ordNo) {
 function updateExportDate(ordNo, value) {
   const order = packingOrders.find(o => o.ordNo === ordNo);
   if (!order) return;
-  const v = String(value || '').trim();
+  const v = fmtDate(value);
   if (!v) {
     showToast('Export date cannot be empty.', 'error');
     renderOrdersTable();
@@ -3305,7 +3306,7 @@ function renderProductionTable() {
     <tr>
       <td class="ord-no">${o.ordNo}</td>
       <td>${o.client}</td>
-      <td>${o.expDate}</td>
+      <td>${fmtDate(o.expDate)}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
       <td>
@@ -3672,6 +3673,7 @@ refreshBioButton();
 
 function doLogout() {
   const departingUser = currentLoggedUser || 'admin';
+  if (sessionToken) { api('logout', {}, true).catch(() => {}); sessionToken = null; }
   dispatchEmailNotification(
     'logout',
     departingUser,
@@ -4053,7 +4055,7 @@ function renderOrdersTable() {
         <td>${o.client}</td>
         <td>${o.dest}</td>
         <td>${canFullOrd
-          ? `<input class="fi" type="text" value="${o.expDate}" style="padding:5px 8px;font-size:11.5px;width:130px" onchange="updateExportDate('${o.ordNo}', this.value)">`
+          ? `<input class="fi" type="date" value="${isoFromDisplay(o.expDate)}" style="padding:5px 8px;font-size:11.5px;width:150px" onchange="updateExportDate('${o.ordNo}', this.value)">`
           : o.expDate}</td>
         <td><strong>${totalWeight.toLocaleString()} KG</strong></td>
         <td><span class="badge ${badgeClass}">${o.status}</span></td>
@@ -4111,8 +4113,8 @@ function renderPackingTable() {
     <tr>
       <td class="ord-no">${o.ordNo}</td>
       <td>${o.client}</td>
-      <td>${o.reqDate}</td>
-      <td>${o.expDate}</td>
+      <td>${fmtDate(o.reqDate)}</td>
+      <td>${fmtDate(o.expDate)}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
       <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Report</button></td>
@@ -4231,8 +4233,8 @@ function generateClientReport(logActivity = true) {
       return `
         <tr>
           <td class="doc-order">${o.ordNo}</td>
-          <td>${o.reqDate}</td>
-          <td>${o.expDate}</td>
+          <td>${fmtDate(o.reqDate)}</td>
+          <td>${fmtDate(o.expDate)}</td>
           <td><span class="size-b">${o.size}</span> · ${o.status}</td>
           <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
           <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
@@ -4280,8 +4282,8 @@ function exportSingleClientReportExcel() {
     ? st.orders.map((o, i) => `
         <tr style="background:${i % 2 === 1 ? '#f8fafc' : '#ffffff'}">
           <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#1d4ed8">${o.ordNo}</td>
-          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${o.reqDate}</td>
-          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${o.expDate}</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${fmtDate(o.reqDate)}</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${fmtDate(o.expDate)}</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#0369a1;font-weight:600">${o.size} (${o.status})</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(o.foamKg).toLocaleString()}</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(o.plasticKg).toLocaleString()}</td>
@@ -4650,8 +4652,8 @@ async function saveNewOrder() {
   const foamKg = 0;
   const plasticKg = 0;
   const size = '—';
-  const reqDate = document.getElementById('noReqDate').value || '20 Nov 2026';
-  const expDate = document.getElementById('noExpDate').value || '04 Dec 2026';
+  const reqDate = fmtDate(document.getElementById('noReqDate').value) || fmtDate(new Date().toISOString().slice(0, 10));
+  const expDate = fmtDate(document.getElementById('noExpDate').value) || '';
   const foundClient = clientsList.find(c => c.name === client);
 
   packingOrders.unshift({
