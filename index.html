@@ -4150,7 +4150,7 @@ function renderOrdersTable() {
             <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
           </select>
         </td>
-        <td>${canOrd ? `<button class="btn-outline" type="button" onclick="triggerReplaceFile('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px"><i class="ti ti-upload"></i>Upload File</button>` : ''}</td>
+        <td>${(hasPageWrite('orders') || hasPageWrite('packing')) ? `<button class="btn-outline" type="button" onclick="triggerReplaceFile('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px"><i class="ti ti-upload"></i>Upload File</button>` : ''}</td>
         <td>${canFullOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
       </tr>
     `;
