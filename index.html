@@ -2111,7 +2111,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       </div>
 
       <!-- ── PAGE 3: ORDERS ── -->
-      <input type="file" id="replaceFileInput" style="display:none" onchange="onReplaceFileChosen(this)">
+      
       <div class="page" id="page-orders">
         <div class="page-header">
           <div>
@@ -2337,19 +2337,21 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <div class="page-sub">Upload your order file. An order number is assigned automatically.</div>
           </div>
         </div>
-        <input type="file" id="newOrderFileInput" style="display:none" onchange="onNewOrderFileChosen(this)">
+        <input type="file" id="camInput" accept="image/*" capture="environment" style="display:none" onchange="onUploadPicked(this)">
+        <input type="file" id="anyFileInput" style="display:none" onchange="onUploadPicked(this)">
         <div class="no-grid">
           <div class="card no-card">
             <div class="sec-title">Order</div>
             <div class="no-row"><span>Order number</span><strong id="noAutoNumber">Assigned automatically</strong></div>
             <div class="no-actions">
-              <button class="btn-blue" type="button" onclick="document.getElementById('newOrderFileInput').click()"><i class="ti ti-upload"></i>Upload File</button>
+              <button class="btn-blue" type="button" onclick="uploadTarget='new';chooseFileSource()"><i class="ti ti-upload"></i>Upload File</button>
               <a id="noWhatsApp" class="btn-outline no-wa" href="#" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Chat on WhatsApp</a>
             </div>
+            <div id="noWaBox" class="no-actions"></div>
             <div class="no-hint">PDF, Excel, Word, JPG and other files are accepted.</div>
           </div>
           <div class="card no-card">
-            <div class="sec-title">Source</div>
+            <div class="sec-title">Company details</div>
             <div class="no-source">
               <strong>Foam Industries Co.</strong><br>
               11829 Badr City<br>
@@ -3638,6 +3640,11 @@ function applyPermissions(me) {
     users: hasPageRead('users'),
     neworder: isClientSelfAccount && !(myPerms && myPerms.admin)
   };
+  if (isClientSelfAccount && !(myPerms && myPerms.admin)) {
+    pageVisible.clients = false;
+    pageVisible.orders = false;
+    pageVisible.production = false;
+  }
   Object.entries(pageVisible).forEach(([page, show]) => {
     document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
   });
@@ -4679,7 +4686,32 @@ let pendingReplaceOrd = null;
 
 function triggerReplaceFile(ordNo) {
   pendingReplaceOrd = ordNo;
-  document.getElementById('replaceFileInput').click();
+  uploadTarget = 'replace';
+  chooseFileSource();
+}
+
+// Upload source: camera or a file
+let uploadTarget = 'new';
+function chooseFileSource() {
+  const old = document.getElementById('srcChooser');
+  if (old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'srcChooser';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:9999';
+  ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:18px;width:260px;text-align:center;font-family:Inter,sans-serif;color:#0f172a">' +
+    '<div style="font-weight:800;margin-bottom:12px">Upload from</div>' +
+    '<button id="srcCam" class="btn-blue" type="button" style="width:100%;justify-content:center;margin-bottom:8px"><i class="ti ti-camera"></i>Camera</button>' +
+    '<button id="srcFile" class="btn-outline" type="button" style="width:100%;justify-content:center"><i class="ti ti-file"></i>File</button>' +
+    '<button id="srcCancel" type="button" style="margin-top:10px;background:none;border:none;color:#64748b;cursor:pointer">Cancel</button></div>';
+  document.body.appendChild(ov);
+  ov.querySelector('#srcCam').onclick = () => { ov.remove(); document.getElementById('camInput').click(); };
+  ov.querySelector('#srcFile').onclick = () => { ov.remove(); document.getElementById('anyFileInput').click(); };
+  ov.querySelector('#srcCancel').onclick = () => ov.remove();
+}
+
+function onUploadPicked(input) {
+  if (uploadTarget === 'replace') return onReplaceFileChosen(input);
+  return onNewOrderFileChosen(input);
 }
 
 async function onReplaceFileChosen(input) {
@@ -4737,6 +4769,11 @@ async function onNewOrderFileChosen(input) {
     const base64 = await blobToBase64(f);
     const res = await api('createClientOrder', { name: f.name, base64: base64 });
     document.getElementById('noAutoNumber').textContent = res.ordNo;
+    const box = document.getElementById('noWaBox');
+    if (box) {
+      box.innerHTML = (res.clientWaLink ? '<a class="btn-outline no-wa" href="' + res.clientWaLink + '" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Send order number on WhatsApp</a>' : '') +
+        (res.companyWaLink ? '<a class="btn-outline no-wa" href="' + res.companyWaLink + '" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Send company details on WhatsApp</a>' : '');
+    }
     showToast('Order ' + res.ordNo + ' received. Thank you!', 'success');
     await pullFromServer();
     refreshUI();
