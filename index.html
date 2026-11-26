@@ -2292,7 +2292,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
                   <th>Export date</th>
                   <th>Foam KG</th>
                   <th>Plastic KG</th>
-                  <th>Packing Report</th>
+                  <th>PACKING REPORT</th>
                   <th>Progress</th>
                 </tr>
               </thead>
@@ -3262,6 +3262,29 @@ async function makeXlsxFromWorkbook(file) {
   return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
 }
 
+// Reads the "Total" row of the Packing List sheet: Net Weight -> Foam KG, Plastic Weight -> Plastic KG
+function packingTotalsFromSheet(sh) {
+  const cellOf = (r, c) => (sh.cells[r + ',' + c] ? sh.cells[r + ',' + c].text : '');
+  let netCol = null, plasCol = null, headerRow = null;
+  Object.keys(sh.cells).forEach(k => {
+    const [r, c] = k.split(',').map(Number);
+    const t = String(sh.cells[k].text || '').trim().toLowerCase();
+    if (t.startsWith('net weight')) { netCol = c; headerRow = r; }
+    if (t.startsWith('plastic weight')) { plasCol = c; headerRow = headerRow || r; }
+  });
+  let totalRow = null;
+  Object.keys(sh.cells).forEach(k => {
+    const [r, c] = k.split(',').map(Number);
+    if (c === 1 && String(sh.cells[k].text || '').trim().toLowerCase() === 'total') totalRow = r;
+  });
+  if (!totalRow || (!netCol && !plasCol)) return null;
+  const num = v => parseFloat(String(v || '0').replace(/,/g, '')) || 0;
+  return {
+    foamKg: netCol ? num(cellOf(totalRow, netCol)) : null,
+    plasticKg: plasCol ? num(cellOf(totalRow, plasCol)) : null
+  };
+}
+
 async function onPackingFileChosen(input) {
   const f = input.files && input.files[0];
   input.value = '';
@@ -3294,13 +3317,18 @@ async function onPackingFileChosen(input) {
   try {
     const base64 = await blobToBase64(f);
     const xlsxB64 = ext === 'xlsm' ? await makeXlsxFromWorkbook(f) : base64;
-    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64, xlsxBase64: xlsxB64 });
+    let totals = null;
+    try { totals = packingTotalsFromSheet(await readPackingSheet(f)); } catch (e) { totals = null; }
+    const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64, xlsxBase64: xlsxB64, totals: totals });
     const o = packingOrders.find(x => x.ordNo === ordNo);
     if (o) {
       o.packingName = f.name;
       o.packingLink = res.url;
       o.packingPdfName = res.pdfName || '';
       o.packingPdfLink = res.pdfUrl || '';
+      o.packingXlsxLink = res.xlsxUrl || '';
+      if (res.foamKg != null) o.foamKg = res.foamKg;
+      if (res.plasticKg != null) o.plasticKg = res.plasticKg;
     }
     renderOrdersTable(); renderProductionTable(); renderPackingTable();
     if (res.pdfError) {
@@ -3352,6 +3380,15 @@ function updateExportDate(ordNo, value) {
   dispatchEmailNotification('action', currentLoggedUser, `Export date changed: ${ordNo}`,
     `User "${currentLoggedUser}" changed the export date of order ${ordNo} to ${v}.`);
   showToast(`Export date of ${ordNo} updated`);
+}
+
+function reportPackingXlsx(ordNo) {
+  const o = packingOrders.find(x => x.ordNo === ordNo);
+  if (!o || !o.packingXlsxLink) {
+    showToast('No Packing.xlsx yet for this order. Upload the workbook in Production first.', 'error');
+    return;
+  }
+  window.open(o.packingXlsxLink, '_blank');
 }
 
 async function reportPackingFile(ordNo) {
@@ -4209,7 +4246,7 @@ function renderPackingTable() {
       <td>${fmtDate(o.expDate)}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
-      <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Report</button></td>
+      <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Packing.pdf</button> <button class="btn-outline" type="button" onclick="reportPackingXlsx('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-spreadsheet"></i>Packing.xlsx</button></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
         <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
