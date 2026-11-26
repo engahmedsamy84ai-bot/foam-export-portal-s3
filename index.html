@@ -2726,10 +2726,29 @@ let MONTHLY_DATA = {};
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 function parseOrderDate(str) {
-  const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(String(str || '').trim());
+  const t = String(str || '').trim();
+  let m = /^(\d{4})-(\d{2})-(\d{2})/.exec(t);
+  if (m) return { year: m[1], month: +m[2] - 1 };
+  m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})/.exec(t);
   if (!m) return null;
   const month = MONTH_NAMES.indexOf(m[2]);
   return month < 0 ? null : { year: m[3], month: month };
+}
+
+// Totals of the visible orders for the chosen client, year and month (all clients when "ALL")
+function orderTotals(client, year, monthIdx) {
+  let foam = 0, plas = 0, count = 0;
+  getVisibleOrders().forEach(o => {
+    if (client !== 'ALL' && o.client !== client) return;
+    const d = parseOrderDate(o.reqDate);
+    if (!d) return;
+    if (year !== 'ALL' && d.year !== String(year)) return;
+    if (monthIdx !== 'ALL' && d.month !== +monthIdx) return;
+    foam += Number(o.foamKg) || 0;
+    plas += Number(o.plasticKg) || 0;
+    count += 1;
+  });
+  return { foam: foam, plas: plas, orders: count };
 }
 
 function regionIndex(region) {
@@ -3216,6 +3235,58 @@ function cfMatches(rule, cells, r, c) {
   try { return !!(new Function('return (' + f + ');')()); } catch (e) { return false; }
 }
 
+// Builds a workbook with ONLY the "Packing List" sheet, values only (no AhmeD, no formulas, no macros)
+async function makePackingOnlyXlsx(file) {
+  const zip = await JSZip.loadAsync(file);
+  Object.keys(zip.files).filter(n => /vbaProject\.bin$|calcChain\.xml$/i.test(n)).forEach(n => zip.remove(n));
+
+  let wbXml = await zip.file('xl/workbook.xml').async('string');
+  const wbDoc = xmlDoc(wbXml);
+  const sheetEls = Array.from(wbDoc.getElementsByTagName('sheet'));
+  const pIdx = sheetEls.findIndex(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
+  if (pIdx < 0) throw new Error('The file has no sheet named "Packing List".');
+  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
+  const keepRid = sheetEls[pIdx].getAttribute('r:id');
+  const keepPath = resolvePath('xl/workbook.xml', wbRels[keepRid].target);
+  const dropEls = sheetEls.filter((x, i) => i !== pIdx);
+  const dropPaths = dropEls.map(x => resolvePath('xl/workbook.xml', wbRels[x.getAttribute('r:id')].target));
+
+  // sheets: keep only Packing List
+  dropEls.forEach(x => { wbXml = wbXml.replace(new RegExp('<sheet [^>]*r:id="' + x.getAttribute('r:id') + '"[^>]*/>'), ''); });
+  // defined names: drop the old ones, set the print area of Packing List
+  wbXml = wbXml.replace(/<definedNames>[\s\S]*?<\/definedNames>/, '');
+  let lastRow = 1, lastCol = 1;
+  const sheetXml0 = await zip.file(keepPath).async('string');
+  const sd = xmlDoc(sheetXml0);
+  Array.from(sd.getElementsByTagName('c')).forEach(c => {
+    if (!(c.getElementsByTagName('v').length || c.getElementsByTagName('is').length)) return;
+    const ref = splitRef(c.getAttribute('r'));
+    lastRow = Math.max(lastRow, ref.r); lastCol = Math.max(lastCol, ref.c);
+  });
+  const colL = n => { let t = ''; while (n > 0) { const m2 = (n - 1) % 26; t = String.fromCharCode(65 + m2) + t; n = Math.floor((n - 1) / 26); } return t; };
+  const dn = '<definedName name="_xlnm.Print_Area" localSheetId="0">\'Packing List\'!$A$1:$' + colL(Math.min(lastCol, 26)) + '$' + lastRow + '</definedName>';
+  wbXml = wbXml.replace('</sheets>', () => '</sheets><definedNames>' + dn + '</definedNames>');
+  wbXml = wbXml.replace(/<calcPr[^>]*\/>/, '');
+  zip.file('xl/workbook.xml', wbXml);
+
+  // relationships and content types: remove the dropped sheets, calc chain and macros
+  let rels = await zip.file('xl/_rels/workbook.xml.rels').async('string');
+  dropEls.forEach(x => { rels = rels.replace(new RegExp('<Relationship [^>]*Id="' + x.getAttribute('r:id') + '"[^>]*/>'), ''); });
+  rels = rels.replace(/<Relationship[^>]*(vbaProject|calcChain)[^>]*\/>/g, '');
+  zip.file('xl/_rels/workbook.xml.rels', rels);
+  let ct = await zip.file('[Content_Types].xml').async('string');
+  ct = ct.replace('application/vnd.ms-excel.sheet.macroEnabled.main+xml', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml')
+         .replace(/<Override[^>]*(vbaProject|calcChain)[^>]*\/>/g, '');
+  dropPaths.forEach(pth => { ct = ct.replace(new RegExp('<Override[^>]*PartName="/?' + pth.replace(/[.]/g, '\\.') + '"[^>]*/>'), ''); zip.remove(pth); });
+  zip.file('[Content_Types].xml', ct);
+
+  // the Packing List sheet: keep the values, remove every formula
+  let sheetXml = sheetXml0.replace(/<f[^>]*\/>/g, '').replace(/<f[^>]*>[\s\S]*?<\/f>/g, '');
+  zip.file(keepPath, sheetXml);
+
+  return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
+}
+
 async function makeXlsxFromWorkbook(file) {
   const zip = await JSZip.loadAsync(file);
   Object.keys(zip.files).filter(n => /vbaProject\.bin$/i.test(n)).forEach(n => zip.remove(n));
@@ -3290,7 +3361,7 @@ async function onPackingFileChosen(input) {
   input.value = '';
   if (!f || !pendingPackingOrd) return;
   const ext = f.name.split('.').pop().toLowerCase();
-  if (!['xlsx', 'xlsm', 'pdf'].includes(ext)) {
+  if (false) {
     showToast('Only .xlsx, .xlsm or .pdf files can be uploaded.', 'error');
     pendingPackingOrd = null;
     return;
@@ -3316,9 +3387,10 @@ async function onPackingFileChosen(input) {
   showToast('Uploading and making the PDF automatically…', 'info');
   try {
     const base64 = await blobToBase64(f);
-    const xlsxB64 = ext === 'xlsm' ? await makeXlsxFromWorkbook(f) : base64;
+    const isSheet = ext === 'xlsm' || ext === 'xlsx';
+    const xlsxB64 = isSheet ? await makePackingOnlyXlsx(f) : base64;
     let totals = null;
-    try { totals = packingTotalsFromSheet(await readPackingSheet(f)); } catch (e) { totals = null; }
+    if (isSheet) { try { totals = packingTotalsFromSheet(await readPackingSheet(f)); } catch (e) { totals = null; } }
     const res = await api('uploadPacking', { ordNo: ordNo, name: f.name, mime: f.type, base64: base64, xlsxBase64: xlsxB64, totals: totals });
     const o = packingOrders.find(x => x.ordNo === ordNo);
     if (o) {
@@ -3937,18 +4009,10 @@ function updateDashboard() {
     dataset = MONTHLY_DATA[year][client] || MONTHLY_DATA[year]['ALL'];
   }
 
-  let totalFoam = 0;
-  let totalPlas = 0;
-  let totalOrders = dataset.orders;
-  if (monthIdx === 'ALL') {
-    totalFoam = dataset.foam.reduce((a, b) => a + b, 0);
-    totalPlas = dataset.plas.reduce((a, b) => a + b, 0);
-  } else {
-    const m = parseInt(monthIdx, 10);
-    totalFoam = dataset.foam[m];
-    totalPlas = dataset.plas[m];
-    totalOrders = Math.max(1, Math.round(dataset.orders / 12));
-  }
+  const tot = orderTotals(client, year, monthIdx);
+  const totalFoam = tot.foam;
+  const totalPlas = tot.plas;
+  const totalOrders = tot.orders;
 
   const totalClients = client === 'ALL' ? visClients.length : 1;
 
