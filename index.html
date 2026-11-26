@@ -1578,6 +1578,22 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   font-size:13px;
   padding:12px 16px;
 }
+
+/* New Order page */
+.no-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.no-card{padding:16px 18px}
+.no-wide{grid-column:1 / -1}
+.no-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:13px}
+.no-row strong{color:#0ea5e9}
+.no-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
+.no-wa{background:#25d366 !important;color:#fff !important;border-color:#25d366 !important}
+.no-hint{font-size:11px;color:#94a3b8;margin-top:8px}
+.no-source{font-size:12.5px;line-height:1.7;color:#334155}
+.no-source a{color:#0ea5e9}
+.no-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.no-form label{display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px}
+.no-wide-f{grid-column:1 / -1}
+@media (max-width:900px){.no-grid,.no-form{grid-template-columns:1fr}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -1772,6 +1788,9 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
+        </div>
+        <div class="nav-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
+          <div class="nav-item-left"><i class="ti ti-file-plus"></i><span>New Order</span></div>
         </div>
         <div class="nav-item" data-page="production" onclick="goPage('production')">
           <div class="nav-item-left"><i class="ti ti-settings-automation"></i><span>Production</span></div>
@@ -2092,6 +2111,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       </div>
 
       <!-- ── PAGE 3: ORDERS ── -->
+      <input type="file" id="replaceFileInput" style="display:none" onchange="onReplaceFileChosen(this)">
       <div class="page" id="page-orders">
         <div class="page-header">
           <div>
@@ -2158,6 +2178,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
                   <th>Total Weight (KG)</th>
                   <th>Status</th>
                   <th>Update Status</th>
+                  <th>Modify Order</th>
                   <th>Delete Order</th>
                 </tr>
               </thead>
@@ -2308,6 +2329,55 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div id="messagesFeedContainer"></div>
       </div>
 
+      <!-- ── PAGE: NEW ORDER (client accounts) ── -->
+      <div class="page" id="page-neworder">
+        <div class="page-header">
+          <div>
+            <div class="page-title">New Order</div>
+            <div class="page-sub">Upload your order file. An order number is assigned automatically.</div>
+          </div>
+        </div>
+        <input type="file" id="newOrderFileInput" style="display:none" onchange="onNewOrderFileChosen(this)">
+        <div class="no-grid">
+          <div class="card no-card">
+            <div class="sec-title">Order</div>
+            <div class="no-row"><span>Order number</span><strong id="noAutoNumber">Assigned automatically</strong></div>
+            <div class="no-actions">
+              <button class="btn-blue" type="button" onclick="document.getElementById('newOrderFileInput').click()"><i class="ti ti-upload"></i>Upload File</button>
+              <a id="noWhatsApp" class="btn-outline no-wa" href="#" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Chat on WhatsApp</a>
+            </div>
+            <div class="no-hint">PDF, Excel, Word, JPG and other files are accepted.</div>
+          </div>
+          <div class="card no-card">
+            <div class="sec-title">Source</div>
+            <div class="no-source">
+              <strong>Foam Industries Co.</strong><br>
+              11829 Badr City<br>
+              Industrial Zone, 250 Feddan-144w<br>
+              East Roubeky.<br>
+              Cairo, Egypt.<br>
+              MOBILE : 002011133337111<br>
+              Web Site : <a href="https://www.foamindustries-eg.com" target="_blank" rel="noopener">www.foamindustries-eg.com</a><br>
+              Email : info@foamindustries-eg.com
+            </div>
+          </div>
+          <div class="card no-card no-wide">
+            <div class="sec-title">Your client details</div>
+            <div class="no-form">
+              <div><label>Customer name</label><input class="fi" id="ncdName" type="text" readonly></div>
+              <div><label>Country</label><input class="fi" id="ncdCountry" type="text"></div>
+              <div><label>Region</label><input class="fi" id="ncdRegion" type="text"></div>
+              <div><label>VAT No.</label><input class="fi" id="ncdVat" type="text"></div>
+              <div><label>Mobile</label><input class="fi" id="ncdMobile" type="text"></div>
+              <div><label>Contact person</label><input class="fi" id="ncdContact" type="text"></div>
+              <div><label>Email</label><input class="fi" id="ncdEmail" type="email"></div>
+              <div class="no-wide-f"><label>Address</label><input class="fi" id="ncdAddress" type="text"></div>
+            </div>
+            <div class="no-actions"><button class="btn-blue" type="button" onclick="saveClientDetails()"><i class="ti ti-device-floppy"></i>Save details</button></div>
+          </div>
+        </div>
+      </div>
+
       <!-- ── PAGE 6: USER MANAGEMENT ── -->
       <div class="page" id="page-users">
         <div class="page-header">
@@ -2333,6 +2403,14 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
           </div>
         </div>
 
+        <div class="card" id="adminSettingsCard" style="margin-bottom:12px">
+          <div class="sec-title">Order settings (admin)</div>
+          <div class="no-form">
+            <div><label>Next order number</label><input class="fi" id="setNextOrder" type="text" placeholder="ORD-2026-001"></div>
+            <div><label>WhatsApp number (with country code)</label><input class="fi" id="setWhatsApp" type="text" placeholder="201xxxxxxxxx"></div>
+          </div>
+          <div class="no-actions"><button class="btn-blue" type="button" onclick="saveAdminSettings()"><i class="ti ti-device-floppy"></i>Save settings</button></div>
+        </div>
         <div class="tbl-wrap">
           <div class="tbl-head"><span class="tbl-head-title" id="usersCountTitle">Current users — 3</span></div>
           <div class="tbl-scroll">
@@ -2372,6 +2450,10 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     <div class="mb-item" data-page="orders" onclick="goPage('orders')">
       <i class="ti ti-truck-delivery"></i>
       <span>Orders</span>
+    </div>
+    <div class="mb-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
+      <i class="ti ti-file-plus"></i>
+      <span>New Order</span>
     </div>
     <div class="mb-item" data-page="production" onclick="goPage('production')">
       <i class="ti ti-settings-automation"></i>
@@ -2880,6 +2962,7 @@ async function enterPortal(loginRes) {
   clientSelfName = loginRes.me.clientScope || matchedUser?.clientScope || u;
 
   applyPermissions(loginRes.me);
+  if (isClientSelfAccount) setTimeout(() => goPage('neworder'), 0);
   currentLoggedUser = u;
   currentLoginTimestamp = new Date().toLocaleString('en-GB', {
     day: '2-digit', month: 'short', year: 'numeric',
@@ -3387,7 +3470,7 @@ async function doSignup() {
   ensureClientSelfRecord(username, email, mobile);
   refreshUI();
   generateClientReport(false);
-  goPage('clients');
+  goPage('neworder');
 
   dispatchEmailNotification(
     'action',
@@ -3552,7 +3635,8 @@ function applyPermissions(me) {
     production: hasPageRead('production') || hasPageRead('orders') || hasPageRead('packing'),
     packing: hasPageRead('packing'),
     messages: hasPageRead('messages'),
-    users: hasPageRead('users')
+    users: hasPageRead('users'),
+    neworder: isClientSelfAccount && !(myPerms && myPerms.admin)
   };
   Object.entries(pageVisible).forEach(([page, show]) => {
     document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
@@ -4066,6 +4150,7 @@ function renderOrdersTable() {
             <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
           </select>
         </td>
+        <td>${canOrd ? `<button class="btn-outline" type="button" onclick="triggerReplaceFile('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px"><i class="ti ti-upload"></i>Upload File</button>` : ''}</td>
         <td>${canFullOrd ? `<button class="btn-outline" type="button" onclick="deleteOrder('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px;color:#e11d48;border-color:#fecdd3"><i class="ti ti-trash"></i>Delete</button>` : ''}</td>
       </tr>
     `;
@@ -4514,6 +4599,10 @@ async function pullFromServer() {
   clientsList = r.data.Clients;
   packingOrders = r.data.Orders;
   systemUsers = r.data.Users;
+  WHATSAPP_NUMBER = r.whatsapp || '';
+  if (r.nextOrderNo !== undefined) { const el = document.getElementById('setNextOrder'); if (el && document.activeElement !== el) el.value = r.nextOrderNo; }
+  if (r.whatsapp !== undefined) { const wl = document.getElementById('setWhatsApp'); if (wl && document.activeElement !== wl) wl.value = r.whatsapp; }
+  renderNewOrderPage();
   emailAuditLogs = r.data.Audit;
   serverBaseline = {
     Clients: snapshot(clientsList, 'name'),
@@ -4583,6 +4672,111 @@ function onOrderFileChosen(input) {
   const f = input.files && input.files[0];
   pendingOrderFile = f || null;
   document.getElementById('noOrderFileName').textContent = f ? f.name : 'No file selected';
+}
+
+let WHATSAPP_NUMBER = '';
+let pendingReplaceOrd = null;
+
+function triggerReplaceFile(ordNo) {
+  pendingReplaceOrd = ordNo;
+  document.getElementById('replaceFileInput').click();
+}
+
+async function onReplaceFileChosen(input) {
+  const f = input.files && input.files[0];
+  input.value = '';
+  const ordNo = pendingReplaceOrd;
+  pendingReplaceOrd = null;
+  if (!f || !ordNo) return;
+  showToast('Replacing the file of ' + ordNo + '…', 'info');
+  try {
+    const base64 = await blobToBase64(f);
+    const res = await api('replaceOrderFile', { ordNo: ordNo, name: f.name, base64: base64 });
+    const o = packingOrders.find(x => x.ordNo === ordNo);
+    if (o) {
+      o.orderFile = f.name;
+      o.driveLink = res.url;
+      if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(o));
+    }
+    renderOrdersTable();
+    renderProductionTable();
+    showToast('File replaced. Order ' + ordNo + ' keeps its number.', 'success');
+  } catch (e) {
+    showToast('Replace failed: ' + e.message, 'error');
+  }
+}
+
+function renderNewOrderPage() {
+  const link = document.getElementById('noWhatsApp');
+  if (link) {
+    const num = String(WHATSAPP_NUMBER || '').replace(/\D/g, '');
+    link.href = num
+      ? 'https://wa.me/' + num + '?text=' + encodeURIComponent('Hello Foam Industries, I want to request a new order (' + (currentLoggedUser || '') + ').')
+      : '#';
+    link.style.opacity = num ? '1' : '.5';
+  }
+  const me = (typeof clientSelfName !== 'undefined' && clientSelfName) || currentLoggedUser;
+  const rec = clientsList.find(c => String(c.name || '').toLowerCase() === String(me || '').toLowerCase());
+  const set = (id, v) => { const el = document.getElementById(id); if (el && document.activeElement !== el) el.value = v || ''; };
+  set('ncdName', rec ? rec.name : me);
+  set('ncdCountry', rec && rec.country !== 'International' ? rec.country : '');
+  set('ncdRegion', rec && rec.region !== 'Other' ? rec.region : '');
+  set('ncdVat', rec && rec.vat !== 'N/A' ? rec.vat : '');
+  set('ncdMobile', rec ? rec.mobile : '');
+  set('ncdContact', rec ? rec.contact : '');
+  set('ncdEmail', rec ? rec.email : '');
+  set('ncdAddress', rec ? rec.address : '');
+}
+
+async function onNewOrderFileChosen(input) {
+  const f = input.files && input.files[0];
+  input.value = '';
+  if (!f) return;
+  showToast('Sending your order…', 'info');
+  try {
+    const base64 = await blobToBase64(f);
+    const res = await api('createClientOrder', { name: f.name, base64: base64 });
+    document.getElementById('noAutoNumber').textContent = res.ordNo;
+    showToast('Order ' + res.ordNo + ' received. Thank you!', 'success');
+    await pullFromServer();
+    refreshUI();
+  } catch (e) {
+    showToast('Order failed: ' + e.message, 'error');
+  }
+}
+
+async function saveClientDetails() {
+  const rec = {
+    name: document.getElementById('ncdName').value.trim() || currentLoggedUser,
+    country: document.getElementById('ncdCountry').value.trim(),
+    region: document.getElementById('ncdRegion').value.trim(),
+    vat: document.getElementById('ncdVat').value.trim(),
+    mobile: document.getElementById('ncdMobile').value.trim(),
+    contact: document.getElementById('ncdContact').value.trim(),
+    email: document.getElementById('ncdEmail').value.trim(),
+    address: document.getElementById('ncdAddress').value.trim()
+  };
+  try {
+    await api('saveMyClient', { record: rec });
+    showToast('Client details saved.', 'success');
+    await pullFromServer();
+    refreshUI();
+  } catch (e) {
+    showToast('Save failed: ' + e.message, 'error');
+  }
+}
+
+async function saveAdminSettings() {
+  const nextOrderNo = document.getElementById('setNextOrder').value.trim();
+  const whatsapp = document.getElementById('setWhatsApp').value.trim();
+  try {
+    await api('saveSettings', { nextOrderNo: nextOrderNo, whatsapp: whatsapp });
+    WHATSAPP_NUMBER = whatsapp;
+    renderNewOrderPage();
+    showToast('Order settings saved.', 'success');
+  } catch (e) {
+    showToast('Save failed: ' + e.message, 'error');
+  }
 }
 
 function blobToBase64(blob) {
