@@ -1637,10 +1637,18 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       <div class="lb-sub"><span class="dot"></span>Global Export Portal</div>
 
       <div class="auth-tabs">
-        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('signin')">Sign in</button>
-        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">Sign up</button>
+        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('signin')">I am a User</button>
+        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">I am a Client</button>
       </div>
 
+      <div style="text-align:center;margin-top:10px;font-size:12px"><a href="#" onclick="toggleRequest(event)" style="color:#0ea5e9;font-weight:700;text-decoration:none">Request staff access</a></div>
+      <div id="requestPane" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0">
+        <input class="fi" id="rqUser" type="text" placeholder="Username" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="rqMobile" type="text" placeholder="Mobile" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="rqEmail" type="email" placeholder="Email" style="padding-left:12px;margin-bottom:8px">
+        <input class="fi" id="rqPass" type="password" placeholder="Password (8+ characters)" style="padding-left:12px;margin-bottom:8px">
+        <button class="btn-outline" type="button" onclick="doRequestAccess()" style="width:100%;justify-content:center"><i class="ti ti-send"></i>Send request</button>
+      </div>
       <div class="err-msg" id="loginErr">
         <i class="ti ti-alert-circle"></i>
         <span>Incorrect username or password.</span>
@@ -1686,6 +1694,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       </div>
 
       <div id="signupPane" style="display:none">
+        <div class="ff"><label for="suCustomer">Customer Name</label><div class="iw"><i class="ico ti ti-building"></i><input class="fi" id="suCustomer" type="text" placeholder="Customer name"></div></div>
+        <div class="ff"><label for="suCountry">Country</label><div class="iw"><i class="ico ti ti-world"></i><input class="fi" id="suCountry" type="text" placeholder="Country"></div></div>
+        <div class="ff"><label for="suRegion">Region</label><div class="iw"><i class="ico ti ti-map"></i><input class="fi" id="suRegion" type="text" placeholder="Region"></div></div>
+        <div class="ff"><label for="suVat">VAT No.</label><div class="iw"><i class="ico ti ti-receipt"></i><input class="fi" id="suVat" type="text" placeholder="VAT number"></div></div>
+        <div class="ff"><label for="suContact">Contact person</label><div class="iw"><i class="ico ti ti-user-circle"></i><input class="fi" id="suContact" type="text" placeholder="Contact person"></div></div>
+        <div class="ff"><label for="suAddress">Address</label><div class="iw"><i class="ico ti ti-map-pin"></i><input class="fi" id="suAddress" type="text" placeholder="Address"></div></div>
         <div class="ff">
           <label for="suUser">Client / Username</label>
           <div class="iw">
@@ -1788,6 +1802,9 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
+        </div>
+        <div class="nav-item" data-page="tracking" onclick="goPage('tracking')" style="display:none">
+          <div class="nav-item-left"><i class="ti ti-truck"></i><span>Shipment Tracking</span></div>
         </div>
         <div class="nav-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
           <div class="nav-item-left"><i class="ti ti-file-plus"></i><span>New Order</span></div>
@@ -2330,6 +2347,21 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div id="messagesFeedContainer"></div>
       </div>
 
+      <!-- ── PAGE: SHIPMENT TRACKING (client accounts) ── -->
+      <div class="page" id="page-tracking">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Shipment Tracking</div>
+            <div class="page-sub">Follow your shipment: production, loading, shipping and delivery.</div>
+          </div>
+        </div>
+        <div class="card no-card">
+          <div class="no-row"><span>Shipment</span>
+            <select class="fi" id="trkSelect" onchange="renderTracking()" style="max-width:260px"></select></div>
+          <div id="trkBody"></div>
+        </div>
+      </div>
+
       <!-- ── PAGE: NEW ORDER (client accounts) ── -->
       <div class="page" id="page-neworder">
         <div class="page-header">
@@ -2453,6 +2485,10 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     <div class="mb-item" data-page="orders" onclick="goPage('orders')">
       <i class="ti ti-truck-delivery"></i>
       <span>Orders</span>
+    </div>
+    <div class="mb-item" data-page="tracking" onclick="goPage('tracking')" style="display:none">
+      <i class="ti ti-truck"></i>
+      <span>Shipment Tracking</span>
     </div>
     <div class="mb-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
       <i class="ti ti-file-plus"></i>
@@ -3019,6 +3055,81 @@ async function enterPortal(loginRes) {
   showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
+// ═══ SHIPMENT TRACKING / STAFF REQUESTS ═══
+function toggleRequest(e) {
+  e.preventDefault();
+  const box = document.getElementById('requestPane');
+  box.style.display = box.style.display === 'none' ? '' : 'none';
+}
+
+async function doRequestAccess() {
+  const username = document.getElementById('rqUser').value.trim();
+  const mobile = document.getElementById('rqMobile').value.trim();
+  const email = document.getElementById('rqEmail').value.trim();
+  const password = document.getElementById('rqPass').value;
+  if (!username || !mobile || !email || password.length < 8) {
+    showToast('Fill in all the fields (password: 8 characters at least).', 'error');
+    return;
+  }
+  try {
+    const res = await api('signup', { username, mobile, email, password, accountType: 'user' }, false);
+    showToast(res.message || 'Request sent.', 'success');
+    document.getElementById('requestPane').style.display = 'none';
+  } catch (e) {
+    showToast(e.message, 'error');
+  }
+}
+
+const STAGE_PERCENT = { 'In Production': 33, 'Ready to Ship': 66, 'Shipped': 100 };
+
+function renderTracking() {
+  const sel = document.getElementById('trkSelect');
+  if (!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = packingOrders.map(o => `<option value="${o.ordNo}">${o.ordNo}</option>`).join('');
+  if (prev && packingOrders.some(o => o.ordNo === prev)) sel.value = prev;
+  const body = document.getElementById('trkBody');
+  const o = packingOrders.find(x => x.ordNo === sel.value);
+  if (!o) {
+    body.innerHTML = '<div class="no-hint">No shipments yet.</div>';
+    return;
+  }
+  const pct = STAGE_PERCENT[o.status] != null ? STAGE_PERCENT[o.status] : (Number(o.progress) || 0);
+  const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0;
+  const stage = o.status === 'Shipped' ? 'Shipped' : (o.status === 'Ready to Ship' ? 'Loading' : 'Production');
+  body.innerHTML = `
+    <div style="margin:14px 0 6px;display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>${stage}</span><span>${pct}%</span></div>
+    <div style="height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden">
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#34d399,#38bdf8);border-radius:999px;transition:width .6s"></div>
+    </div>
+    <div class="no-row" style="flex-wrap:wrap;gap:12px;margin-top:10px">
+      <span>Foam weight: <strong>${foam.toLocaleString()} KG</strong></span>
+      <span>Plastic weight: <strong>${plas.toLocaleString()} KG</strong></span>
+      <span>Total weight: <strong>${(foam + plas).toLocaleString()} KG</strong></span>
+    </div>
+    <div class="no-row" style="flex-wrap:wrap;gap:12px">
+      <span>Order date: <strong>${fmtDate(o.reqDate) || '—'}</strong></span>
+      <span>Shipping date: <strong>${fmtDate(o.expDate) || '—'}</strong></span>
+      <span>Final delivery: <strong>${fmtDate(o.deliveryDate) || '—'}</strong></span>
+    </div>
+    <div style="margin-top:12px"><label style="font-size:11px;font-weight:700;color:#64748b">Message about this shipment</label>
+      <textarea class="fi" id="trkMsg" rows="3" style="width:100%;margin-top:4px" placeholder="Write your message"></textarea>
+      <div class="no-actions"><button class="btn-blue" type="button" onclick="sendTrackingMessage('${o.ordNo}')"><i class="ti ti-send"></i>Send</button></div>
+    </div>`;
+}
+
+async function sendTrackingMessage(ordNo) {
+  const text = document.getElementById('trkMsg').value.trim();
+  if (!text) { showToast('Write a message first.', 'error'); return; }
+  try {
+    await api('sendShipmentMessage', { ordNo: ordNo, text: text });
+    document.getElementById('trkMsg').value = '';
+    showToast('Message sent.', 'success');
+  } catch (e) {
+    showToast('Message failed: ' + e.message, 'error');
+  }
+}
+
 // ═══ DATES: day, month, year only (no time) ═══
 const MON3 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function fmtDate(v) {
@@ -3543,7 +3654,13 @@ async function doSignup() {
   const email = document.getElementById('suEmail').value.trim();
   const pw = document.getElementById('suPass').value;
   const pw2 = document.getElementById('suPass2').value;
-  if (!username || !mobile || !email || !pw) {
+  const customerName = document.getElementById('suCustomer').value.trim();
+  const country = document.getElementById('suCountry').value.trim();
+  const region = document.getElementById('suRegion').value.trim();
+  const vat = document.getElementById('suVat').value.trim();
+  const contact = document.getElementById('suContact').value.trim();
+  const address = document.getElementById('suAddress').value.trim();
+  if (!customerName || !username || !mobile || !email || !pw) {
     showToast('Please fill in all the fields.', 'error');
     return;
   }
@@ -3569,7 +3686,7 @@ async function doSignup() {
   };
   let res;
   try {
-    res = await api('signup', Object.assign({ username, mobile, email, password: pw }, clientPerms), false);
+    res = await api('signup', Object.assign({ username, mobile, email, password: pw, customerName, country, region, vat, contact, address, accountType: 'client' }, clientPerms), false);
   } catch (e) {
     showToast(e.message, 'error');
     return;
@@ -3726,6 +3843,7 @@ async function savePermissions() {
   const u = systemUsers.find(x => x.username === permTarget);
   if (!u) return;
   const perms = readPerms('m');
+  if (u.title === 'Pending approval') u.title = 'Staff';
   try {
     await api('saveUser', { record: Object.assign({}, u, perms) });
   } catch (e) {
@@ -3748,7 +3866,8 @@ function applyPermissions(me) {
     packing: hasPageRead('packing'),
     messages: hasPageRead('messages'),
     users: hasPageRead('users'),
-    neworder: isClientSelfAccount && !(myPerms && myPerms.admin)
+    neworder: isClientSelfAccount && !(myPerms && myPerms.admin),
+    tracking: isClientSelfAccount && !(myPerms && myPerms.admin)
   };
   if (isClientSelfAccount && !(myPerms && myPerms.admin)) {
     pageVisible.clients = false;
@@ -4143,6 +4262,7 @@ function updatePackingTotals() {
 }
 
 function renderAllTables() {
+  renderTracking();
   renderProductionTable();
   fillClientSelects();
   updatePackingTotals();
