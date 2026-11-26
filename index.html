@@ -2292,6 +2292,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
                   <th>Export date</th>
                   <th>Foam KG</th>
                   <th>Plastic KG</th>
+                  <th>CONTAINER KG</th>
                   <th>PACKING REPORT</th>
                   <th>Progress</th>
                 </tr>
@@ -2615,7 +2616,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       <div><label>Export date</label><input class="fi" id="noExpDate" type="date"></div>
       <div class="order-file-field">
         <label>Order</label>
-        <input type="file" id="noOrderFile" accept=".pdf,.png,.jpg,.jpeg" style="display:none" onchange="onOrderFileChosen(this)">
+        <input type="file" id="noOrderFile" style="display:none" onchange="onOrderFileChosen(this)">
         <button type="button" class="btn-outline order-upload-btn" onclick="document.getElementById('noOrderFile').click()"><i class="ti ti-upload"></i>Upload File</button>
         <div class="order-file-name" id="noOrderFileName">No file selected</div>
       </div>
@@ -2746,7 +2747,7 @@ function orderTotals(client, year, monthIdx) {
     if (monthIdx !== 'ALL' && d.month !== +monthIdx) return;
     foam += Number(o.foamKg) || 0;
     plas += Number(o.plasticKg) || 0;
-    count += 1;
+    if (o.status === 'Shipped') count += 1;
   });
   return { foam: foam, plas: plas, orders: count };
 }
@@ -4009,7 +4010,7 @@ function updateDashboard() {
     dataset = MONTHLY_DATA[year][client] || MONTHLY_DATA[year]['ALL'];
   }
 
-  const tot = orderTotals(client, year, monthIdx);
+  const tot = orderTotals(client, year, monthIdx);   // Orders = shipped orders (goes up when shipped, down when deleted)
   const totalFoam = tot.foam;
   const totalPlas = tot.plas;
   const totalOrders = tot.orders;
@@ -4275,6 +4276,7 @@ function updateOrderStatus(ordNo, newStatus) {
   renderOrdersTable();
   renderPackingTable();
   renderProductionTable();
+  updateDashboard();
   generateClientReport(false);
   dispatchEmailNotification(
     'action',
@@ -4310,6 +4312,7 @@ function renderPackingTable() {
       <td>${fmtDate(o.expDate)}</td>
       <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
       <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
+      <td><strong>${(Number(o.foamKg) + Number(o.plasticKg)).toLocaleString()}</strong></td>
       <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Packing.pdf</button> <button class="btn-outline" type="button" onclick="reportPackingXlsx('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-spreadsheet"></i>Packing.xlsx</button></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
@@ -4966,14 +4969,20 @@ async function saveNewOrder() {
     return;
   }
   if (!pendingOrderFile) {
-    showToast('Please upload a PDF or image file for the order.', 'error');
+    showToast('Please upload the order file.', 'error');
     return;
   }
   let orderFile = null;
   let driveLink = '';
   try {
-    showToast('Creating order PDF…', 'info');
-    orderFile = await buildOrderPdf(pendingOrderFile, ordNo);
+    const ext = pendingOrderFile.name.includes('.') ? '.' + pendingOrderFile.name.split('.').pop().toLowerCase() : '';
+    if (['pdf', 'png', 'jpg', 'jpeg'].includes(ext.slice(1))) {
+      showToast('Creating order PDF…', 'info');
+      orderFile = await buildOrderPdf(pendingOrderFile, ordNo);
+    } else {
+      // any other format is saved as it is, with the order number as its name
+      orderFile = new File([pendingOrderFile], ordNo + ext, { type: pendingOrderFile.type || 'application/octet-stream' });
+    }
     showToast('Uploading to Google Drive…', 'info');
     driveLink = await uploadFileToDrive(orderFile);
   } catch (err) {
