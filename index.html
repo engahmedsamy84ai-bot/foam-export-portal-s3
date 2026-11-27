@@ -2308,9 +2308,11 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
                   <th>Client</th>
                   <th>Request date</th>
                   <th>Export date</th>
-                  <th>Foam KG</th>
-                  <th>Plastic KG</th>
-                  <th>CONTAINER KG</th>
+                  <th>NO OF SHEETS</th>
+                  <th>NO OF ROLLS</th>
+                  <th>NET WEIGHT (KG)</th>
+                  <th>PLASTIC WEIGHT (KG)</th>
+                  <th>GROSS WEIGHT (KG)</th>
                   <th>PACKING REPORT</th>
                   <th>Progress</th>
                 </tr>
@@ -3449,24 +3451,25 @@ async function makeXlsxFromWorkbook(file) {
 // Reads the "Total" row of the Packing List sheet: Net Weight -> Foam KG, Plastic Weight -> Plastic KG
 function packingTotalsFromSheet(sh) {
   const cellOf = (r, c) => (sh.cells[r + ',' + c] ? sh.cells[r + ',' + c].text : '');
-  let netCol = null, plasCol = null, headerRow = null;
+  const cols = {};
   Object.keys(sh.cells).forEach(k => {
     const [r, c] = k.split(',').map(Number);
     const t = String(sh.cells[k].text || '').trim().toLowerCase();
-    if (t.startsWith('net weight')) { netCol = c; headerRow = r; }
-    if (t.startsWith('plastic weight')) { plasCol = c; headerRow = headerRow || r; }
+    if (t.startsWith('no of sheets') || t.startsWith('no. of sheets')) cols.sheets = { c: c, r: r };
+    else if (t.startsWith('no of rolls') || t.startsWith('no. of rolls')) cols.rolls = { c: c, r: r };
+    else if (t.startsWith('net weight')) cols.net = { c: c, r: r };
+    else if (t.startsWith('plastic weight')) cols.plastic = { c: c, r: r };
+    else if (t.startsWith('gross weight')) cols.gross = { c: c, r: r };
   });
   let totalRow = null;
   Object.keys(sh.cells).forEach(k => {
     const [r, c] = k.split(',').map(Number);
     if (c === 1 && String(sh.cells[k].text || '').trim().toLowerCase() === 'total') totalRow = r;
   });
-  if (!totalRow || (!netCol && !plasCol)) return null;
+  if (!totalRow) return null;
   const num = v => parseFloat(String(v || '0').replace(/,/g, '')) || 0;
-  return {
-    foamKg: netCol ? num(cellOf(totalRow, netCol)) : null,
-    plasticKg: plasCol ? num(cellOf(totalRow, plasCol)) : null
-  };
+  const at = key => (cols[key] ? num(cellOf(totalRow, cols[key].c)) : null);
+  return { sheets: at('sheets'), rolls: at('rolls'), foamKg: at('net'), plasticKg: at('plastic'), grossKg: at('gross') };
 }
 
 async function onPackingFileChosen(input) {
@@ -3515,6 +3518,7 @@ async function onPackingFileChosen(input) {
       if (res.foamKg != null) o.foamKg = res.foamKg;
       if (res.plasticKg != null) o.plasticKg = res.plasticKg;
     }
+    try { await pullFromServer(); } catch (e) { /* keep the local copy */ }
     renderOrdersTable(); renderProductionTable(); renderPackingTable();
     if (res.pdfError) {
       showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
@@ -4435,9 +4439,11 @@ function renderPackingTable() {
       <td>${o.client}</td>
       <td>${fmtDate(o.reqDate)}</td>
       <td>${fmtDate(o.expDate)}</td>
-      <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
-      <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
-      <td><strong>${(Number(o.foamKg) + Number(o.plasticKg)).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.sheets || 0).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.rolls || 0).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.foamKg || 0).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.plasticKg || 0).toLocaleString()}</strong></td>
+      <td><strong>${Number(o.grossKg || 0).toLocaleString()}</strong></td>
       <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Packing.pdf</button> <button class="btn-outline" type="button" onclick="reportPackingXlsx('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-spreadsheet"></i>Packing.xlsx</button></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
