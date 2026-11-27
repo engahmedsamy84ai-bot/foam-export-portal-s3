@@ -1834,7 +1834,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
           <span>Google Drive Backup</span>
           <i class="ti ti-brand-google-drive"></i>
         </div>
-        <div class="drive-path">/FOAM_INDUSTRIES/Exports_2026</div>
+        <div class="drive-path">/FOAM_INDUSTRIES/Production · Packing · Orders</div>
         <div class="sync-status" id="syncStatus" data-state="offline">Not connected</div>
         <button class="btn-sync-now" type="button" onclick="syncDriveNow()">
           <i class="ti ti-refresh" id="syncSpinIco"></i>
@@ -3162,18 +3162,9 @@ function isoFromDisplay(v) {
 let pendingPackingOrd = null;
 
 function downloadOrder(ordNo) {
-  const o = packingOrders.find(x => x.ordNo === ordNo);
-  if (!o || !o.driveLink) {
-    showToast('No order file is saved for this order.', 'error');
-    return;
-  }
-  const m = String(o.driveLink).match(/[-\w]{25,}/);
-  if (!m) {
-    showToast('The order file link is not valid.', 'error');
-    return;
-  }
-  window.open('https://drive.google.com/uc?export=download&id=' + m[0], '_blank');
+  downloadServerFile(ordNo, 'order', true);
 }
+
 
 function triggerPackingUpload(ordNo) {
   pendingPackingOrd = ordNo;
@@ -3522,7 +3513,7 @@ async function onPackingFileChosen(input) {
       if (res.foamKg != null) o.foamKg = res.foamKg;
       if (res.plasticKg != null) o.plasticKg = res.plasticKg;
     }
-    try { await pullFromServer(); } catch (e) { /* keep the local copy */ }
+    try { await queuedPull(); } catch (e) { /* keep the local copy */ }
     renderOrdersTable(); renderProductionTable(); renderPackingTable();
     if (res.pdfError) {
       showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
@@ -3576,37 +3567,62 @@ function updateExportDate(ordNo, value) {
 }
 
 function reportPackingXlsx(ordNo) {
-  const o = packingOrders.find(x => x.ordNo === ordNo);
-  if (!o || !o.packingXlsxLink) {
-    showToast('No Packing.xlsx yet for this order. Upload the workbook in Production first.', 'error');
-    return;
+  downloadServerFile(ordNo, 'xlsx', true);
+}
+
+
+// Helpers: saves go through the same queue, files are read by the server and sent to the page
+function queueSaveOrder(o) {
+  syncChain = syncChain.then(async () => {
+    try {
+      await api('upsert', { table: 'Orders', record: o });
+      if (serverBaseline.Orders) serverBaseline.Orders.set(String(o.ordNo), JSON.stringify(o));
+    } catch (e) {
+      showToast('Order not saved: ' + e.message, 'error');
+    }
+  });
+}
+
+function queuedPull() {
+  syncChain = syncChain.then(async () => {
+    await flushChanges();
+    await pullFromServer();
+  });
+  return syncChain.then(() => refreshUI());
+}
+
+async function downloadServerFile(ordNo, kind, asDownload) {
+  const w = asDownload ? null : window.open('', '_blank');
+  try {
+    const r = await api('downloadFile', { ordNo: ordNo, kind: kind });
+    const bin = atob(r.base64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([bytes], { type: r.mime || 'application/octet-stream' }));
+    if (asDownload) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = r.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } else if (w) {
+      w.location = url;
+    }
+  } catch (e) {
+    if (w) w.close();
+    showToast('Download failed: ' + e.message, 'error');
   }
-  window.open(o.packingXlsxLink, '_blank');
 }
 
 async function reportPackingFile(ordNo) {
   const o = packingOrders.find(x => x.ordNo === ordNo);
   if (!o) return;
-  if (o.packingPdfLink) {
-    window.open(o.packingPdfLink, '_blank');
+  if (!o.packingPdfLink) {
+    showToast('No PDF yet for this order. Upload the workbook in Production first.', 'error');
     return;
   }
-  if (!o.packingLink) {
-    showToast('Upload the workbook for this order in Production first.', 'error');
-    return;
-  }
-  const w = window.open('', '_blank');
-  showToast('Making the PDF from the Packing List sheet…', 'info');
-  try {
-    const res = await api('makePackingPdf', { ordNo: ordNo });
-    o.packingPdfLink = res.pdfUrl;
-    o.packingPdfName = res.pdfName;
-    if (w) w.location = res.pdfUrl; else window.open(res.pdfUrl, '_blank');
-    renderProductionTable();
-  } catch (e) {
-    if (w) w.close();
-    showToast('PDF failed: ' + e.message, 'error');
-  }
+  downloadServerFile(ordNo, 'pdf', false);
 }
 
 function renderProductionTable() {
@@ -4868,7 +4884,7 @@ function queueSync(quiet = false, pullAfter = false) {
     try {
       await flushChanges();
       if (pullAfter) {
-        await pullFromServer();
+        await queuedPull();
         refreshUI();
       }
       setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
@@ -4896,7 +4912,7 @@ function persistData() {
 async function loadFromServer() {
   setSyncStatus('saving', 'Loading data…');
   try {
-    await pullFromServer();
+    await queuedPull();
     if (isClientSelfAccount) ensureClientSelfRecord(clientSelfName || currentLoggedUser);
     refreshUI();
     generateClientReport(false);
@@ -5014,7 +5030,7 @@ async function onNewOrderFileChosen(input) {
         (res.companyWaLink ? '<a class="btn-outline no-wa" href="' + res.companyWaLink + '" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Send company details on WhatsApp</a>' : '');
     }
     showToast('Order ' + res.ordNo + ' received. Thank you!', 'success');
-    await pullFromServer();
+    await queuedPull();
     refreshUI();
   } catch (e) {
     showToast('Order failed: ' + e.message, 'error');
@@ -5035,7 +5051,7 @@ async function saveClientDetails() {
   try {
     await api('saveMyClient', { record: rec });
     showToast('Client details saved.', 'success');
-    await pullFromServer();
+    await queuedPull();
     refreshUI();
   } catch (e) {
     showToast('Save failed: ' + e.message, 'error');
@@ -5151,7 +5167,7 @@ async function saveNewOrder() {
     status: 'In Production'
   });
 
-  persistData();
+  queueSaveOrder(packingOrders[0]);
   document.getElementById('noNumber').value = nextOrderNumber();
   document.getElementById('pkLatestOrd').textContent = ordNo;
   document.getElementById('packingTotalTitle').textContent = `Orders — ${getVisibleOrders().length} total`;
