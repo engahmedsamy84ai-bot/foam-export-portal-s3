@@ -1637,12 +1637,13 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       <div class="lb-sub"><span class="dot"></span>Global Export Portal</div>
 
       <div class="auth-tabs">
-        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('signin')">I am a User</button>
-        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">I am a Client</button>
+        <button type="button" id="tabSignin" class="auth-tab active" onclick="showAuthTab('newuser')">New User</button>
+        <button type="button" id="tabSignup" class="auth-tab" onclick="showAuthTab('signup')">New Client</button>
       </div>
 
-      <div style="text-align:center;margin-top:10px;font-size:12px"><a href="#" onclick="toggleRequest(event)" style="color:#0ea5e9;font-weight:700;text-decoration:none">Request staff access</a></div>
-      <div id="requestPane" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0">
+      <div id="backToSignin" style="display:none;text-align:center;margin:8px 0 6px;font-size:12px"><a href="#" onclick="showAuthTab('login');return false" style="color:#0ea5e9;font-weight:700;text-decoration:none"><i class="ti ti-arrow-left"></i> Back to sign in</a></div>
+      <div id="requestPane" style="display:none;margin-top:6px">
+        <div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--ink-2)">Request staff access</div>
         <input class="fi" id="rqUser" type="text" placeholder="Username" style="padding-left:12px;margin-bottom:8px">
         <input class="fi" id="rqMobile" type="text" placeholder="Mobile" style="padding-left:12px;margin-bottom:8px">
         <input class="fi" id="rqEmail" type="email" placeholder="Email" style="padding-left:12px;margin-bottom:8px">
@@ -3640,13 +3641,17 @@ function renderProductionTable() {
 
 // ═══ SIGNUP (Restricts to Orders + Own Client Data Only + Sends Email Alert) ═══
 function showAuthTab(tab) {
-  const up = tab === 'signup';
-  document.getElementById('signinPane').style.display = up ? 'none' : '';
-  document.getElementById('signupPane').style.display = up ? '' : 'none';
-  document.getElementById('tabSignin').classList.toggle('active', !up);
-  document.getElementById('tabSignup').classList.toggle('active', up);
+  const isNewUser = tab === 'newuser';
+  const isClient = tab === 'signup';
+  document.getElementById('signinPane').style.display = (isNewUser || isClient) ? 'none' : '';
+  document.getElementById('requestPane').style.display = isNewUser ? '' : 'none';
+  document.getElementById('signupPane').style.display = isClient ? '' : 'none';
+  document.getElementById('tabSignin').classList.toggle('active', isNewUser);
+  document.getElementById('tabSignup').classList.toggle('active', isClient);
+  document.getElementById('backToSignin').style.display = (isNewUser || isClient) ? '' : 'none';
   document.getElementById('loginErr').style.display = 'none';
 }
+showAuthTab('login');
 
 async function doSignup() {
   const username = document.getElementById('suUser').value.trim();
