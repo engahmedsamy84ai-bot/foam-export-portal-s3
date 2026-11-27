@@ -24,8 +24,7 @@ html,body{height:100%;width:100%;max-width:100vw;font-family:'Plus Jakarta Sans'
 .global-backdrop::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,250,252,0.74) 0%,rgba(224,242,254,0.65) 50%,rgba(241,245,249,0.78) 100%)}
 .toast-wrap{position:fixed;top:14px;right:14px;left:14px;z-index:2500;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none}
 .toast{pointer-events:auto;max-width:420px;width:100%;background:rgba(255,255,255,0.97);backdrop-filter:blur(14px);border:1px solid rgba(15,23,42,0.1);border-left:4px solid var(--emerald);color:var(--ink);padding:11px 14px;border-radius:12px;font-size:12px;font-weight:600;box-shadow:0 14px 34px rgba(15,23,42,0.16);display:flex;align-items:center;gap:9px;animation:slideIn .25s ease}
-.toast.error{border-left-color:var(--coral)}
-.toast.info{border-left-color:var(--royal)}
+.toast.error{border-left-color:var(--coral)}.toast.info{border-left-color:var(--royal)}
 @keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 #loginPage{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:16px 16px calc(16px + env(safe-area-inset-bottom));overflow-y:auto;overflow-x:hidden}
 .login-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -213,7 +212,7 @@ td:first-child{color:var(--ink);font-weight:700}
 .perm-table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:360px}
 .perm-table th{background:#f1f5f9;font-size:10.5px;color:var(--ink-2);padding:9px 10px;font-weight:800;text-align:center}
 .perm-table th:first-child{text-align:left}
-.perm-table td{padding:10px 10px;border-top:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink);text-align:center}
+.perm-table td{padding:10px;border-top:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink);text-align:center}
 .perm-table td:first-child{text-align:left;display:flex;align-items:center;gap:8px}
 .perm-table td:first-child i{font-size:16px;color:var(--royal)}
 .perm-table input[type=radio]{accent-color:var(--royal);width:15px;height:15px;cursor:pointer}
@@ -237,9 +236,9 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .pl-item{display:flex;align-items:flex-start;gap:10px;background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:12px;padding:11px 14px;flex:1;min-width:160px;box-shadow:0 6px 18px rgba(15,23,42,0.04)}
 .pl-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pl-icon i{font-size:16px}
-.pl-icon.read{background:#dbeafe} .pl-icon.read i{color:var(--royal)}
-.pl-icon.write{background:var(--emerald-bg)} .pl-icon.write i{color:var(--emerald)}
-.pl-icon.edit{background:var(--amber-bg)} .pl-icon.edit i{color:var(--amber)}
+.pl-icon.read{background:#dbeafe}.pl-icon.read i{color:var(--royal)}
+.pl-icon.write{background:var(--emerald-bg)}.pl-icon.write i{color:var(--emerald)}
+.pl-icon.edit{background:var(--amber-bg)}.pl-icon.edit i{color:var(--amber)}
 .pl-text strong{display:block;font-size:12px;font-weight:800;color:var(--ink);margin-bottom:2px}
 .pl-text span{font-size:10.5px;color:var(--ink-3);line-height:1.4;font-weight:500}
 .prog{height:6px;background:#e2e8f0;border-radius:999px;width:72px;display:inline-block;vertical-align:middle;overflow:hidden}
@@ -289,10 +288,9 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   .page-header{flex-direction:column;align-items:stretch;gap:10px}
   .page-title{font-size:17px}
   .header-btn-group{width:100%}
-  .header-btn-group > button,
-  .header-btn-group > .sel-wrap{flex:1}
+  .header-btn-group > button,.header-btn-group > .sel-wrap{flex:1}
   .kpi-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .kpi{padding:12px 12px;border-radius:14px}
+  .kpi{padding:12px;border-radius:14px}
   .kpi-label{font-size:10.5px}
   .kpi-ico{width:28px;height:28px;font-size:14px}
   .kpi-val{font-size:18px}
@@ -311,21 +309,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 }
 @media(min-width:901px){.menu-btn{display:none!important}}
 .menu-btn{display:none;background:rgba(255,255,255,0.9);border:1px solid rgba(15,23,42,0.1);border-radius:9px;cursor:pointer;color:var(--ink);font-size:20px;width:36px;height:36px;align-items:center;justify-content:center;flex-shrink:0}
-#page-dashboard .page-header{background:transparent;border-radius:0;padding:0;margin-bottom:18px;color:var(--ink);box-shadow:none}
-#page-dashboard .page-title{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-0.02em}
-#page-dashboard .page-sub{font-size:12.5px;font-weight:500;color:var(--ink-3);margin-top:3px}
-#page-dashboard .header-btn-group .sel-wrap{background:rgba(255,255,255,0.94);border:1px solid rgba(15,23,42,0.12);border-radius:11px;padding:8px 13px;box-shadow:0 4px 12px rgba(15,23,42,0.04)}
-#page-dashboard .header-btn-group .sel-wrap i{color:var(--royal);font-size:15px}
-#page-dashboard .header-btn-group .sel-wrap select{color:var(--ink);font-size:12.5px;font-weight:700}
-#page-dashboard .kpi{background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.96);border-radius:16px;padding:16px 18px;box-shadow:0 10px 26px rgba(15,23,42,0.06)}
-#page-dashboard .kpi-label{font-size:12px;font-weight:700;color:var(--ink-3)}
-#page-dashboard .kpi-val{font-size:24px;font-weight:800;letter-spacing:-0.03em}
-#page-dashboard .kpi-unit{font-size:11.5px;font-weight:600;color:var(--ink-4);margin-top:4px}
-#page-dashboard .card{background:rgba(255,255,255,0.90);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.95);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(15,23,42,0.06)}
-#page-dashboard .sec-title{font-size:14px;font-weight:800;color:var(--ink);margin:6px 0 10px}
-#page-dashboard .tbl-wrap{background:rgba(255,255,255,0.93);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.96);border-radius:16px;box-shadow:0 10px 28px rgba(15,23,42,0.06)}
-#page-dashboard table th{background:rgba(241,245,249,0.85);font-size:10.5px;font-weight:800;color:var(--ink-3);padding:12px 16px}
-#page-dashboard table td{font-size:13px;padding:12px 16px}
 .no-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .no-card{padding:16px 18px}
 .no-wide{grid-column:1 / -1}
@@ -340,14 +323,15 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .no-form label{display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px}
 .no-wide-f{grid-column:1 / -1}
 @media (max-width:900px){.no-grid,.no-form{grid-template-columns:1fr}}
-#page-packing table th{font-size:9.5px !important;padding:6px 6px !important;letter-spacing:.02em}
-#page-packing table td{font-size:10px !important;padding:6px 6px !important}
-#page-packing table td strong{font-size:10px !important}
-#page-packing .btn-outline{font-size:9.5px !important;padding:3px 7px !important}
-@media (max-width:900px){
-  #page-packing table th{font-size:8.5px !important;padding:4px 4px !important}
-  #page-packing table td{font-size:9px !important;padding:4px 4px !important}
-}
+#page-quotation .no-card{padding:20px 22px}
+#page-quotation .no-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+#page-quotation .no-form label{display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+#page-quotation .no-form .fi{width:100%;padding:10px 12px;font-size:13px;border:1.5px solid rgba(15,23,42,0.14);border-radius:10px;background:rgba(255,255,255,0.86);color:#0f172a;outline:none;transition:all 0.18s ease}
+#page-quotation .no-form .fi:focus{border-color:#1d4ed8;box-shadow:0 0 0 4px rgba(29,78,216,0.14);background:#fff}
+#page-quotation table th{font-size:10px;padding:8px 10px}
+#page-quotation table td{font-size:11px;padding:6px 8px}
+#page-quotation .no-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;flex-wrap:wrap}
+@media(max-width:700px){#page-quotation .no-form{grid-template-columns:1fr}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -360,7 +344,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=85" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=85';" alt="Global Container Shipping Logistics">
 </div>
 
-<!-- ═══════════ 1. LOGIN PAGE ═══════════ -->
+<!-- ═══════════ LOGIN PAGE ═══════════ -->
 <div id="loginPage">
   <div class="login-backdrop">
     <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2000&q=85" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=85';" alt="Container Ship">
@@ -390,7 +374,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <span>Incorrect username or password.</span>
       </div>
 
-      <!-- SIGN IN PANE -->
       <div id="signinPane">
         <div class="ff">
           <label for="loginUser">Username</label>
@@ -404,25 +387,19 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
           <div class="iw">
             <i class="ico ti ti-lock"></i>
             <input class="fi" id="loginPass" type="password" placeholder="Enter your password" autocomplete="current-password">
-            <button class="eye-btn" onclick="togglePass()" type="button" aria-label="Show or hide password">
-              <i class="ti ti-eye" id="eyeIco"></i>
-            </button>
+            <button class="eye-btn" onclick="togglePass()" type="button"><i class="ti ti-eye" id="eyeIco"></i></button>
           </div>
         </div>
         <div class="forgot-link">
-          <label class="rem-lbl">
-            <input type="checkbox" checked>
-            <span>Remember me</span>
-          </label>
+          <label class="rem-lbl"><input type="checkbox" checked><span>Remember me</span></label>
           <a href="#" onclick="openForgotModal(event)">Forgot password?</a>
         </div>
         <button class="btn-primary" onclick="doLogin()" type="button">
-          <i class="ti ti-login"></i>
-          <span>Sign in</span>
+          <i class="ti ti-login"></i><span>Sign in</span>
         </button>
       </div>
 
-      <!-- ✅ NEW CLIENT PANE — 5 حقول فقط: Username, Email, Mobile, Password, Confirm Password -->
+      <!-- ✅ NEW CLIENT PANE — 4 حقول فقط: Username, Email, Mobile, Password -->
       <div id="signupPane" style="display:none">
         <div class="ff">
           <label for="suUser">Username</label>
@@ -452,16 +429,8 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <input class="fi" id="suPass" type="password" placeholder="At least 8 characters">
           </div>
         </div>
-        <div class="ff">
-          <label for="suPass2">Confirm Password</label>
-          <div class="iw">
-            <i class="ico ti ti-lock"></i>
-            <input class="fi" id="suPass2" type="password" placeholder="Repeat the password">
-          </div>
-        </div>
         <button class="btn-primary" type="button" onclick="doSignup()">
-          <i class="ti ti-user-plus"></i>
-          <span>Create client account</span>
+          <i class="ti ti-user-plus"></i><span>Create client account</span>
         </button>
       </div>
 
@@ -480,7 +449,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   </div>
 </div>
 
-<!-- ═══════════ 2. APP SHELL ═══════════ -->
+<!-- ═══════════ APP SHELL ═══════════ -->
 <div id="appShell">
   <div class="topbar">
     <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu"><i class="ti ti-menu-2"></i></button>
@@ -498,8 +467,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="topbar-avatar" id="avatarInitial">A</div>
         <span class="user-name-txt" id="topbarUser">admin</span>
         <button class="btn-logout" onclick="doLogout()" title="Logout">
-          <i class="ti ti-logout"></i>
-          <span class="logout-txt">Logout</span>
+          <i class="ti ti-logout"></i><span class="logout-txt">Logout</span>
         </button>
       </div>
     </div>
@@ -508,7 +476,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   <div class="body-row">
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- SIDEBAR -->
+    <!-- ✅ SIDEBAR — Quotation فوق Orders + Shipment Tracking تحت Packing list -->
     <div class="sidebar" id="sidebar">
       <nav class="nav">
         <div class="nav-section-lbl">Export Operations</div>
@@ -518,23 +486,26 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="nav-item" data-page="clients" onclick="goPage('clients')">
           <div class="nav-item-left"><i class="ti ti-users"></i><span>Clients data</span></div>
         </div>
+        <!-- ✅ Quotation فوق Orders -->
         <div class="nav-item" data-page="quotation" onclick="goPage('quotation')">
           <div class="nav-item-left"><i class="ti ti-file-invoice"></i><span>Quotation</span></div>
         </div>
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
         </div>
-        <div class="nav-item" data-page="tracking" onclick="goPage('tracking')" style="display:none">
-          <div class="nav-item-left"><i class="ti ti-truck"></i><span>Shipment Tracking</span></div>
-        </div>
-        <div class="nav-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
-          <div class="nav-item-left"><i class="ti ti-file-plus"></i><span>New Order</span></div>
-        </div>
         <div class="nav-item" data-page="production" onclick="goPage('production')">
           <div class="nav-item-left"><i class="ti ti-settings-automation"></i><span>Production</span></div>
         </div>
         <div class="nav-item" data-page="packing" onclick="goPage('packing')">
           <div class="nav-item-left"><i class="ti ti-clipboard-list"></i><span>Packing list</span></div>
+        </div>
+        <!-- ✅ Shipment Tracking تحت Packing list -->
+        <div class="nav-item" data-page="tracking" onclick="goPage('tracking')">
+          <div class="nav-item-left"><i class="ti ti-truck"></i><span>Shipment Tracking</span></div>
+        </div>
+        <!-- New Order (مخفي افتراضيًا — يظهر للعميل فقط) -->
+        <div class="nav-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
+          <div class="nav-item-left"><i class="ti ti-file-plus"></i><span>New Order</span></div>
         </div>
         <div class="nav-item" data-page="messages" onclick="goPage('messages')">
           <div class="nav-item-left"><i class="ti ti-mail-bolt"></i><span>Messages</span></div>
@@ -546,15 +517,11 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       </nav>
 
       <div class="drive-box">
-        <div class="drive-box-head">
-          <span>Google Drive Backup</span>
-          <i class="ti ti-brand-google-drive"></i>
-        </div>
+        <div class="drive-box-head"><span>Google Drive Backup</span><i class="ti ti-brand-google-drive"></i></div>
         <div class="drive-path">/FOAM_INDUSTRIES/Production · Packing · Orders</div>
         <div class="sync-status" id="syncStatus" data-state="offline">Not connected</div>
         <button class="btn-sync-now" type="button" onclick="syncDriveNow()">
-          <i class="ti ti-refresh" id="syncSpinIco"></i>
-          <span>Sync to Drive Now</span>
+          <i class="ti ti-refresh" id="syncSpinIco"></i><span>Sync to Drive Now</span>
         </button>
       </div>
 
@@ -646,19 +613,31 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Customer</th><th>Country</th><th>First registered</th><th>VAT No.</th><th>Mobile</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead><tbody id="allClientsTableBody"></tbody></table></div></div>
       </div>
 
-      <!-- QUOTATION -->
+      <!-- ✅ QUOTATION — الصفحة الجديدة -->
       <div class="page" id="page-quotation">
-        <div class="page-header"><div><div class="page-title">Quotation</div><div class="page-sub">Prepare a price quotation for a client, then print it.</div></div></div>
+        <div class="page-header">
+          <div><div class="page-title">Quotation</div><div class="page-sub">Prepare a price quotation for a client, then print it.</div></div>
+        </div>
         <div class="card no-card">
           <div class="no-form">
-            <div><label>Client name</label><input class="fi" id="qtClient" type="text"></div>
+            <div><label>Client name</label><input class="fi" id="qtClient" type="text" placeholder="Client name"></div>
             <div><label>Quotation date</label><input class="fi" id="qtDate" type="date"></div>
             <div><label>Currency</label><select class="fi" id="qtCur"><option>USD</option><option>EUR</option><option>EGP</option></select></div>
             <div><label>Valid until</label><input class="fi" id="qtValid" type="date"></div>
           </div>
-          <div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead><tbody id="qtRows"></tbody></table></div>
-          <div class="no-actions"><button class="btn-outline" type="button" onclick="addQuoteRow()"><i class="ti ti-plus"></i>Add item</button><strong id="qtTotal" style="margin-left:auto">0.00</strong></div>
-          <div class="no-actions"><button class="btn-blue" type="button" onclick="printQuotation()"><i class="ti ti-printer"></i>Print quotation</button></div>
+          <div class="tbl-wrap" style="margin-top:12px">
+            <table>
+              <thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead>
+              <tbody id="qtRows"></tbody>
+            </table>
+          </div>
+          <div class="no-actions">
+            <button class="btn-outline" type="button" onclick="addQuoteRow()"><i class="ti ti-plus"></i>Add item</button>
+            <strong id="qtTotal" style="margin-left:auto;font-size:16px;color:var(--royal)">0.00</strong>
+          </div>
+          <div class="no-actions">
+            <button class="btn-blue" type="button" onclick="printQuotation()"><i class="ti ti-printer"></i>Print quotation</button>
+          </div>
         </div>
       </div>
 
@@ -704,6 +683,15 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="tbl-wrap"><div class="tbl-head"><span class="tbl-head-title" id="packingTotalTitle">Orders — 0 total</span><div style="font-size:11px;font-weight:700;color:var(--royal);display:flex;align-items:center;gap:5px"><i class="ti ti-bell" style="font-size:14px"></i>Email notifications on</div></div><div class="tbl-scroll"><table><thead><tr><th>Order No.</th><th>Client</th><th>Request date</th><th>Export date</th><th>NO OF SHEETS</th><th>NO OF ROLLS</th><th>NET WEIGHT (KG)</th><th>PLASTIC WEIGHT (KG)</th><th>GROSS WEIGHT (KG)</th><th>PACKING REPORT</th><th>UPDATE STATUS</th><th>Progress</th></tr></thead><tbody id="packingTableBody"></tbody></table></div></div>
       </div>
 
+      <!-- ✅ SHIPMENT TRACKING -->
+      <div class="page" id="page-tracking">
+        <div class="page-header"><div><div class="page-title">Shipment Tracking</div><div class="page-sub">Follow your shipment: production, loading, shipping and delivery.</div></div></div>
+        <div class="card no-card">
+          <div class="no-row"><span>Shipment</span><select class="fi" id="trkSelect" onchange="renderTracking()" style="max-width:260px"></select></div>
+          <div id="trkBody"></div>
+        </div>
+      </div>
+
       <!-- MESSAGES -->
       <div class="page" id="page-messages">
         <div class="page-header">
@@ -715,15 +703,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
           <span class="badge ba"><i class="ti ti-check"></i> Active</span>
         </div>
         <div id="messagesFeedContainer"></div>
-      </div>
-
-      <!-- SHIPMENT TRACKING (client) -->
-      <div class="page" id="page-tracking">
-        <div class="page-header"><div><div class="page-title">Shipment Tracking</div><div class="page-sub">Follow your shipment: production, loading, shipping and delivery.</div></div></div>
-        <div class="card no-card">
-          <div class="no-row"><span>Shipment</span><select class="fi" id="trkSelect" onchange="renderTracking()" style="max-width:260px"></select></div>
-          <div id="trkBody"></div>
-        </div>
       </div>
 
       <!-- NEW ORDER (client) -->
@@ -778,15 +757,16 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     </div>
   </div>
 
+  <!-- ✅ MOBILE BOTTOM NAV -->
   <nav class="mobile-bottom-nav">
     <div class="mb-item active" data-page="dashboard" onclick="goPage('dashboard')"><i class="ti ti-layout-dashboard"></i><span>Home</span></div>
     <div class="mb-item" data-page="clients" onclick="goPage('clients')"><i class="ti ti-users"></i><span>Clients</span></div>
     <div class="mb-item" data-page="quotation" onclick="goPage('quotation')"><i class="ti ti-file-invoice"></i><span>Quotation</span></div>
     <div class="mb-item" data-page="orders" onclick="goPage('orders')"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
-    <div class="mb-item" data-page="tracking" onclick="goPage('tracking')" style="display:none"><i class="ti ti-truck"></i><span>Tracking</span></div>
-    <div class="mb-item" data-page="neworder" onclick="goPage('neworder')" style="display:none"><i class="ti ti-file-plus"></i><span>New</span></div>
     <div class="mb-item" data-page="production" onclick="goPage('production')"><i class="ti ti-settings-automation"></i><span>Production</span></div>
     <div class="mb-item" data-page="packing" onclick="goPage('packing')"><i class="ti ti-clipboard-list"></i><span>Packing</span></div>
+    <div class="mb-item" data-page="tracking" onclick="goPage('tracking')"><i class="ti ti-truck"></i><span>Tracking</span></div>
+    <div class="mb-item" data-page="neworder" onclick="goPage('neworder')" style="display:none"><i class="ti ti-file-plus"></i><span>New</span></div>
     <div class="mb-item" data-page="messages" onclick="goPage('messages')"><i class="ti ti-mail-bolt"></i><span>Messages</span><span class="mb-badge" id="mbMsgBadge">1</span></div>
     <div class="mb-item" data-page="users" onclick="goPage('users')"><i class="ti ti-shield-lock"></i><span>Users</span></div>
   </nav>
@@ -877,7 +857,6 @@ let emailAuditLogs = [];
 let sessionToken = localStorage.getItem('foam_token') || '';
 let API_URL = localStorage.getItem('foam_api_url') || '';
 
-// ═══ Brand Logo ═══
 function getBrandLogoSVG() {
   return `<svg viewBox="0 0 360 310" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(115, 6)">
@@ -895,7 +874,6 @@ function getBrandLogoSVG() {
 document.getElementById('loginLogoContainer').innerHTML = getBrandLogoSVG();
 document.getElementById('topbarLogoContainer').innerHTML = getBrandLogoSVG();
 
-// ═══ Internet LED ═══
 function updateInternetStatusLED() {
   const isOnline = navigator.onLine;
   const loginPill = document.getElementById('loginNetPill');
@@ -914,7 +892,6 @@ window.addEventListener('online', () => { updateInternetStatusLED(); showToast('
 window.addEventListener('offline', () => { updateInternetStatusLED(); showToast('Internet lost.', 'error'); });
 updateInternetStatusLED();
 
-// ═══ Toast ═══
 function showToast(msg, type = 'success') {
   const wrap = document.getElementById('toastWrap');
   const el = document.createElement('div');
@@ -925,7 +902,6 @@ function showToast(msg, type = 'success') {
   setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(-8px)'; setTimeout(() => el.remove(), 250); }, 3200);
 }
 
-// ═══ API Layer ═══
 async function api(action, payload = {}, needAuth = true) {
   if (!API_URL) {
     const url = prompt('Please enter Google Apps Script Web App URL (ends with /exec):', '');
@@ -951,7 +927,6 @@ async function api(action, payload = {}, needAuth = true) {
   return data;
 }
 
-// ═══ Login / Signup ═══
 function togglePass() {
   const f = document.getElementById('loginPass');
   const ic = document.getElementById('eyeIco');
@@ -991,32 +966,32 @@ async function doLogin() {
   }
 }
 
-// ✅ doSignup معدلة — بتبعت customerName = username (لأن الحقل اتشال)
+// ✅ doSignup — 4 حقول فقط
 async function doSignup() {
   const username = document.getElementById('suUser').value.trim();
-  const mobile = document.getElementById('suMobile').value.trim();
   const email = document.getElementById('suEmail').value.trim();
+  const mobile = document.getElementById('suMobile').value.trim();
   const pass = document.getElementById('suPass').value;
-  const pass2 = document.getElementById('suPass2').value;
 
-  if (!username || !mobile || !email || !pass) {
+  if (!username || !email || !mobile || !pass) {
     showToast('Please fill all fields', 'error');
     return;
   }
-  if (pass !== pass2) {
-    showToast('Passwords do not match', 'error');
+  if (pass.length < 8) {
+    showToast('Password must be at least 8 characters', 'error');
     return;
   }
 
   try {
     const r = await api('signup', {
       username: username,
-      mobile: mobile,
       email: email,
+      mobile: mobile,
       password: pass,
       customerName: username,
       accountType: 'client'
     }, false);
+
     sessionToken = r.token;
     localStorage.setItem('foam_token', r.token);
     currentLoggedUser = r.me.username;
@@ -1037,11 +1012,11 @@ function doLogout() {
   document.getElementById('loginPage').style.display = 'flex';
 }
 
-// ═══ Enter Portal ═══
+// ✅ enterPortal — العميل الجديد يشوف فقط Quotation + Tracking + New Order
 async function enterPortal(me) {
   currentLoggedUser = me.username;
   isClientSelfAccount = !!me.clientSelf;
-  clientSelfName = me.username;
+  clientSelfName = me.clientName || me.username;
 
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('appShell').style.display = 'flex';
@@ -1049,18 +1024,22 @@ async function enterPortal(me) {
   document.getElementById('avatarInitial').textContent = (me.username || 'U')[0].toUpperCase();
 
   if (isClientSelfAccount) {
+    const allowed = ['quotation', 'tracking', 'neworder'];
     document.querySelectorAll('.nav-item, .mb-item').forEach(el => {
-      const p = el.getAttribute('data-page');
-      if (p === 'neworder' || p === 'tracking' || p === 'dashboard') el.style.display = '';
-      else el.style.display = 'none';
+      const page = el.getAttribute('data-page');
+      el.style.display = allowed.includes(page) ? '' : 'none';
+    });
+  } else {
+    document.querySelectorAll('.nav-item, .mb-item').forEach(el => {
+      const page = el.getAttribute('data-page');
+      el.style.display = page === 'neworder' ? 'none' : '';
     });
   }
 
   await reloadAll();
-  showPage('dashboard');
+  showPage(isClientSelfAccount ? 'quotation' : 'dashboard');
 }
 
-// ═══ Reload ═══
 async function reloadAll() {
   try {
     const r = await api('getAll');
@@ -1103,7 +1082,6 @@ function setSyncStatus(state, msg) {
 
 function syncDriveNow() { setSyncStatus('saving', 'Syncing…'); reloadAll(); }
 
-// ═══ Navigation ═══
 function goPage(page) { showPage(page); }
 function showPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1112,29 +1090,30 @@ function showPage(page) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.getAttribute('data-page') === page));
   document.querySelectorAll('.mb-item').forEach(n => n.classList.toggle('active', n.getAttribute('data-page') === page));
   if (window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
-  if (page === 'dashboard') renderDashboard();
-  if (page === 'orders') renderOrdersTable();
-  if (page === 'packing') renderPackingTable();
-  if (page === 'production') renderProductionTable();
-  if (page === 'tracking') renderTracking();
-  if (page === 'clients') renderClientsTables();
-  if (page === 'users') renderUsersTable();
-  if (page === 'quotation') { if (!document.getElementById('qtRows').children.length) addQuoteRow(); }
-  if (page === 'messages') renderMessagesFeed();
+  if (page === 'dashboard') { try { renderDashboard(); } catch (e) {} }
+  if (page === 'orders') { try { renderOrdersTable(); } catch (e) {} }
+  if (page === 'packing') { try { renderPackingTable(); } catch (e) {} }
+  if (page === 'production') { try { renderProductionTable(); } catch (e) {} }
+  if (page === 'tracking') { try { renderTracking(); } catch (e) {} }
+  if (page === 'clients') { try { renderClientsTables(); } catch (e) {} }
+  if (page === 'users') { try { renderUsersTable(); } catch (e) {} }
+  if (page === 'messages') { try { renderMessagesFeed(); } catch (e) {} }
+  if (page === 'quotation') {
+    const tbody = document.getElementById('qtRows');
+    if (tbody && !tbody.children.length) addQuoteRow();
+  }
 }
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('open');
 }
 
-// ═══ Status helpers ═══
 function isShippedStatus(s) { return s === 'Sea Freight' || s === 'Delivered'; }
 function statusBadge(s) {
   const map = { 'In Production': 'bp', 'Order Confirmed': 'bi', 'Foam Production': 'bp', 'Container Loading': 'bp', 'Sea Freight': 'bi', 'Delivered': 'ba', 'Active': 'ba' };
   return `<span class="badge ${map[s] || 'bi'}">${s || '—'}</span>`;
 }
 
-// ═══ Dashboard ═══
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function parseOrderDate(str) {
   const t = String(str || '').trim();
@@ -1172,7 +1151,7 @@ function renderDashboard() {
     const m = monthly[i] || { f: 0, p: 0 };
     const hF = Math.max(3, (m.f / max) * 100);
     const hP = Math.max(3, (m.p / max) * 100);
-    barsHtml += `<div class="bw" title="${MONTH_NAMES[i]}: Foam ${m.f} KG / Plastic ${m.p} KG"><div class="bar foam" style="height:${hF}%"></div><div class="bar plas" style="height:${hP}%"></div><div class="bar-lbl">${MONTH_NAMES[i]}</div></div>`;
+    barsHtml += `<div class="bw"><div class="bar foam" style="height:${hF}%"></div><div class="bar plas" style="height:${hP}%"></div><div class="bar-lbl">${MONTH_NAMES[i]}</div></div>`;
   }
   document.getElementById('monthlyBarsContainer').innerHTML = barsHtml;
 
@@ -1204,24 +1183,18 @@ function renderDashboard() {
   }).join('') || '<tr><td colspan="6" style="text-align:center;color:#94a3b8">No clients yet</td></tr>';
 }
 
-// ═══ Clients Tables ═══
 function renderClientsTables() {
   const body = document.getElementById('allClientsTableBody');
   if (!body) return;
   body.innerHTML = clientsList.map(c => `
     <tr>
-      <td>${c.name}</td>
-      <td>${c.country || '—'}</td>
-      <td>${c.firstRegistered || '—'}</td>
-      <td>${c.vat || '—'}</td>
-      <td>${c.mobile || '—'}</td>
-      <td>${c.contact || '—'}</td>
+      <td>${c.name}</td><td>${c.country || '—'}</td><td>${c.firstRegistered || '—'}</td>
+      <td>${c.vat || '—'}</td><td>${c.mobile || '—'}</td><td>${c.contact || '—'}</td>
       <td>${statusBadge(c.status || 'Active')}</td>
       <td><button class="icon-btn" onclick='openEditClient(${JSON.stringify(c).replace(/'/g, "&#39;")})'><i class="ti ti-edit"></i></button></td>
     </tr>
   `).join('') || '<tr><td colspan="8" style="text-align:center;color:#94a3b8">No clients yet</td></tr>';
 
-  // Report datalist
   const dl = document.getElementById('clientReportSuggestions');
   if (dl) dl.innerHTML = clientsList.map(c => `<option value="${c.name}">`).join('');
 }
@@ -1271,14 +1244,13 @@ async function saveNewClient() {
   } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
 }
 
-function exportAllClientsExcel() { showToast('Excel export (extend with SheetJS)', 'info'); }
-function exportAllClientsPDF() { showToast('PDF export (extend with jsPDF)', 'info'); }
+function exportAllClientsExcel() { showToast('Excel export (extend)', 'info'); }
+function exportAllClientsPDF() { showToast('PDF export (extend)', 'info'); }
 function onReportClientInputChange() {}
 function generateClientReport() {}
 function printClientReport() { window.print(); }
 function exportSingleClientReportExcel() {}
 
-// ═══ Orders ═══
 function renderOrdersTable() {
   const tbody = document.getElementById('ordersTableBody');
   if (!tbody) return;
@@ -1304,7 +1276,6 @@ function renderOrdersTable() {
     </tr>`;
   }).join('') || '<tr><td colspan="9" style="text-align:center;color:#94a3b8">No orders yet</td></tr>';
 
-  // KPI counts
   const prod = filtered.filter(o => o.status === 'Foam Production' || o.status === 'In Production').length;
   const load = filtered.filter(o => o.status === 'Container Loading').length;
   const ship = filtered.filter(o => isShippedStatus(o.status)).length;
@@ -1362,7 +1333,6 @@ function fileToBase64(file) {
   });
 }
 
-// ✅ saveNewOrder — optimistic + protection
 async function saveNewOrder() {
   const isEditing = document.getElementById('addOrderModal').dataset.editing === '1';
   const ordNo = document.getElementById('noNumber').value.trim();
@@ -1427,16 +1397,15 @@ async function saveNewOrder() {
   }
 }
 
-// ✅ deleteOrder — double confirm + protection
 async function deleteOrder(ordNo) {
   const o = packingOrders.find(x => String(x.ordNo) === String(ordNo));
   if (!o) { showToast('Order not found', 'error'); return; }
   const isFresh = Number(o.progress) === 0;
   const msg = isFresh
-    ? `⚠️ This is a fresh order (progress=0).\n\nOrder: ${ordNo}\nClient: ${o.client}\n\nDelete?`
+    ? `⚠️ Fresh order (progress=0).\n\nOrder: ${ordNo}\nClient: ${o.client}\n\nDelete?`
     : `Delete order ${ordNo}?\n\nClient: ${o.client}\nStatus: ${o.status}`;
   if (!confirm(msg)) return;
-  if (isFresh && !confirm('⚠️ FINAL confirmation: file removed from Drive and row from Sheets. Sure?')) return;
+  if (isFresh && !confirm('⚠️ FINAL: file removed from Drive and row from Sheets. Sure?')) return;
   try {
     await api('remove', { table: 'Orders', key: ordNo });
     packingOrders = packingOrders.filter(x => String(x.ordNo) !== ordNo);
@@ -1448,7 +1417,6 @@ async function deleteOrder(ordNo) {
   }
 }
 
-// ═══ Production ═══
 function renderProductionTable() {
   const tbody = document.getElementById('productionTableBody');
   if (!tbody) return;
@@ -1469,7 +1437,6 @@ function renderProductionTable() {
   `).join('') || '<tr><td colspan="9" style="text-align:center;color:#94a3b8">No orders</td></tr>';
 }
 
-// ═══ Packing ═══
 function renderPackingTable() {
   const tbody = document.getElementById('packingTableBody');
   if (!tbody) return;
@@ -1500,9 +1467,8 @@ function renderPackingTable() {
   `).join('') || '<tr><td colspan="12" style="text-align:center;color:#94a3b8">No entries</td></tr>';
 }
 
-function onPackingFileChosen(inp) { showToast('Packing upload (extend as needed)', 'info'); }
+function onPackingFileChosen(inp) { showToast('Packing upload (extend)', 'info'); }
 
-// ═══ Tracking ═══
 function renderTracking() {
   const sel = document.getElementById('trkSelect');
   const body = document.getElementById('trkBody');
@@ -1553,7 +1519,6 @@ function renderTracking() {
   `;
 }
 
-// ═══ Quotation ═══
 function addQuoteRow() {
   const tbody = document.getElementById('qtRows');
   if (!tbody) return;
@@ -1568,6 +1533,7 @@ function addQuoteRow() {
   tbody.appendChild(tr);
   calcQuoteTotal();
 }
+
 function calcQuoteTotal() {
   let total = 0;
   document.querySelectorAll('#qtRows tr').forEach(tr => {
@@ -1579,6 +1545,7 @@ function calcQuoteTotal() {
   });
   document.getElementById('qtTotal').textContent = total.toFixed(2);
 }
+
 function printQuotation() {
   const client = document.getElementById('qtClient').value || '—';
   const date = document.getElementById('qtDate').value || new Date().toISOString().slice(0,10);
@@ -1595,27 +1562,32 @@ function printQuotation() {
     });
   });
   const html = `<!DOCTYPE html><html><head><title>Quotation - ${client}</title>
-  <style>body{font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto}
-  h1{color:#1d4ed8;font-size:22px}table{width:100%;border-collapse:collapse;margin-top:20px}
-  th{background:#1d4ed8;color:#fff;padding:8px;text-align:left;font-size:12px}
-  td{padding:8px;border-bottom:1px solid #ddd;font-size:12px}
-  .tot{margin-top:16px;text-align:right;font-size:16px;font-weight:800;color:#059669}
-  .header{display:flex;justify-content:space-between;margin-bottom:20px}
-  .info{font-size:12px;color:#475569}</style></head><body>
-  <div class="header"><div><h1>Foam Industries Co.</h1><div class="info">Price Quotation</div></div>
-  <div class="info">Date: ${date}<br>Valid: ${valid}</div></div>
-  <p><strong>Client:</strong> ${client}</p>
-  <table><thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead>
-  <tbody>${rows.map(r=>`<tr><td>${r.desc}</td><td>${r.dim}</td><td>${r.qty}</td><td>${r.price}</td><td>${r.amt}</td></tr>`).join('')}</tbody></table>
-  <div class="tot">Total: ${cur} ${document.getElementById('qtTotal').textContent}</div>
+  <style>
+    body{font-family:Arial,sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#0f172a}
+    h1{color:#1d4ed8;font-size:22px;margin-bottom:4px}
+    .sub{color:#64748b;font-size:12px;margin-bottom:20px}
+    table{width:100%;border-collapse:collapse;margin-top:20px}
+    th{background:#1d4ed8;color:#fff;padding:10px;text-align:left;font-size:12px}
+    td{padding:10px;border-bottom:1px solid #e2e8f0;font-size:12px}
+    .tot{margin-top:20px;text-align:right;font-size:18px;font-weight:800;color:#059669}
+    .header{display:flex;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #0A2240}
+    .info{font-size:12px;color:#475569;line-height:1.6}
+  </style></head><body>
+    <div class="header">
+      <div><h1>Foam Industries Co.</h1><div class="sub">Global Export Portal — Price Quotation</div></div>
+      <div class="info" style="text-align:right">Date: ${date}<br>Valid until: ${valid}</div>
+    </div>
+    <p style="font-size:13px"><strong>Client:</strong> ${client}</p>
+    <table><thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead>
+    <tbody>${rows.map(r => `<tr><td>${r.desc}</td><td>${r.dim}</td><td>${r.qty}</td><td>${r.price}</td><td>${r.amt}</td></tr>`).join('')}</tbody></table>
+    <div class="tot">Total: ${cur} ${document.getElementById('qtTotal').textContent}</div>
   </body></html>`;
   const w = window.open('', '_blank');
   w.document.write(html);
   w.document.close();
-  w.print();
+  setTimeout(() => w.print(), 500);
 }
 
-// ═══ Users ═══
 function renderUsersTable() {
   const tbody = document.getElementById('usersTableBody');
   if (!tbody) return;
@@ -1639,7 +1611,6 @@ function renderUsersTable() {
 function saveNewUser() { showToast('Add user (extend)', 'info'); }
 function saveAdminSettings() { showToast('Settings saved', 'success'); }
 
-// ═══ Messages ═══
 function renderMessagesFeed() {
   const badge = document.getElementById('msgNavBadge');
   const mbBadge = document.getElementById('mbMsgBadge');
@@ -1653,10 +1624,9 @@ function renderMessagesFeed() {
     return `<div class="msg-card"><div class="msg-left"><div class="msg-ico ${icoClass}"><i class="ti ${icoName}"></i></div><div style="min-width:0;flex:1"><div class="msg-title">${item.title || 'Activity'}</div><div class="msg-desc">${item.details || ''}</div><div class="msg-meta"><span><i class="ti ti-user"></i> <strong>${item.user || '—'}</strong></span><span><i class="ti ti-clock"></i> ${item.timestamp || '—'}</span></div></div></div></div>`;
   }).join('') || '<p style="text-align:center;color:#94a3b8;padding:20px">No messages</p>';
 }
-function triggerTestEmailAlert() { showToast('Test alert (extend)', 'info'); }
+function triggerTestEmailAlert() { showToast('Test alert', 'info'); }
 function sendSummaryEmailNow() { window.location.href = `mailto:${ADMIN_NOTIFY_EMAIL}?subject=Foam Portal Report`; }
 
-// ═══ Client self ═══
 let uploadTarget = 'new';
 function chooseFileSource() {
   if (confirm('Use camera or file?')) document.getElementById('camInput').click();
@@ -1695,7 +1665,6 @@ async function saveClientDetails() {
   } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
 }
 
-// ═══ Forgot Password ═══
 function openForgotModal(e) { if (e) e.preventDefault(); document.getElementById('forgotModal').classList.add('open'); document.getElementById('forgotStep1').style.display = 'block'; document.getElementById('forgotStep2').style.display = 'none'; }
 function closeForgotModal() { document.getElementById('forgotModal').classList.remove('open'); }
 async function submitForgotPassword() {
@@ -1714,7 +1683,6 @@ async function confirmForgotPassword() {
   catch (e) { showToast(e.message, 'error'); }
 }
 
-// ═══ Boot ═══
 window.addEventListener('DOMContentLoaded', async () => {
   if (sessionToken) {
     try {
@@ -1728,7 +1696,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   renderMessagesFeed();
 });
 
-// expose for inline handlers
 window.showAuthTab = showAuthTab;
 window.doLogin = doLogin;
 window.doSignup = doSignup;
