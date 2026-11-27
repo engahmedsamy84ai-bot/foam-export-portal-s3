@@ -3529,29 +3529,6 @@ function renderTracking() {
     </div>
   `;
 }
-  const stage = normalizeStage(o.status);
-  const pct = stagePercent(stage);
-  const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0;
-  body.innerHTML = `
-    <div style="margin:14px 0 6px;display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>${stage}</span><span>${pct}%</span></div>
-    <div style="height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden">
-      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#34d399,#38bdf8);border-radius:999px;transition:width .4s"></div>
-    </div>
-    <div class="no-row" style="flex-wrap:wrap;gap:12px;margin-top:10px">
-      <span>Foam weight: <strong>${foam.toLocaleString()} KG</strong></span>
-      <span>Plastic weight: <strong>${plas.toLocaleString()} KG</strong></span>
-      <span>Total weight: <strong>${(foam + plas).toLocaleString()} KG</strong></span>
-    </div>
-    <div class="no-row" style="flex-wrap:wrap;gap:12px">
-      <span>Order date: <strong>${fmtDate(o.reqDate) || '—'}</strong></span>
-      <span>Shipping date: <strong>${fmtDate(o.expDate) || '—'}</strong></span>
-      <span>Final delivery: <strong>${fmtDate(o.deliveryDate) || '—'}</strong></span>
-    </div>
-    <div style="margin-top:12px"><label style="font-size:11px;font-weight:700;color:#64748b">Message about this shipment</label>
-      <textarea class="fi" id="trkMsg" rows="3" style="width:100%;margin-top:4px" placeholder="Write your message"></textarea>
-      <div class="no-actions"><button class="btn-blue" type="button" onclick="sendTrackingMessage('${o.ordNo}')"><i class="ti ti-send"></i>Send</button></div>
-    </div>`;
-}
 
 async function sendTrackingMessage(ordNo) {
   const text = document.getElementById('trkMsg').value.trim();
