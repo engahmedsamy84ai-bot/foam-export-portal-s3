@@ -3537,26 +3537,37 @@ async function makeXlsxFromWorkbook(file) {
 
 // Reads the "Total" row of the Packing List sheet: Net Weight -> Foam KG, Plastic Weight -> Plastic KG
 function packingTotalsFromSheet(sh) {
-  const cellOf = (r, c) => (sh.cells[r + ',' + c] ? sh.cells[r + ',' + c].text : '');
+  const norm = t => String(t || '').toLowerCase().replace(/[^a-z]/g, '');
+  const num = v => { const x = parseFloat(String(v || '').replace(/,/g, '')); return isNaN(x) ? 0 : x; };
   const cols = {};
   Object.keys(sh.cells).forEach(k => {
     const [r, c] = k.split(',').map(Number);
-    const t = String(sh.cells[k].text || '').trim().toLowerCase();
-    if (t.startsWith('no of sheets') || t.startsWith('no. of sheets')) cols.sheets = { c: c, r: r };
-    else if (t.startsWith('no of rolls') || t.startsWith('no. of rolls')) cols.rolls = { c: c, r: r };
-    else if (t.startsWith('net weight')) cols.net = { c: c, r: r };
-    else if (t.startsWith('plastic weight')) cols.plastic = { c: c, r: r };
-    else if (t.startsWith('gross weight')) cols.gross = { c: c, r: r };
+    const t = norm(sh.cells[k].text);
+    if (!t) return;
+    if (t.includes('sheets') && !cols.sheets) cols.sheets = { c: c, r: r };
+    else if (t.includes('rolls') && !cols.rolls) cols.rolls = { c: c, r: r };
+    else if (t.includes('netweight') && !cols.net) cols.net = { c: c, r: r };
+    else if (t.includes('plasticweight') && !cols.plastic) cols.plastic = { c: c, r: r };
+    else if (t.includes('grossweight') && !cols.gross) cols.gross = { c: c, r: r };
   });
+  const headerRow = Math.max(0, ...Object.values(cols).map(x => x.r));
   let totalRow = null;
+  const packageRows = [];
   Object.keys(sh.cells).forEach(k => {
     const [r, c] = k.split(',').map(Number);
-    if (c === 1 && String(sh.cells[k].text || '').trim().toLowerCase() === 'total') totalRow = r;
+    if (c !== 1) return;
+    const t = String(sh.cells[k].text || '').trim();
+    if (t.toLowerCase() === 'total') totalRow = r;
+    else if (t !== '' && !isNaN(Number(t)) && r > headerRow) packageRows.push(r);
   });
-  if (!totalRow) return null;
-  const num = v => parseFloat(String(v || '0').replace(/,/g, '')) || 0;
-  const at = key => (cols[key] ? num(cellOf(totalRow, cols[key].c)) : null);
-  return { sheets: at('sheets'), rolls: at('rolls'), foamKg: at('net'), plasticKg: at('plastic'), grossKg: at('gross') };
+  const cellNum = (r, c) => num(sh.cells[r + ',' + c] ? sh.cells[r + ',' + c].text : '');
+  const val = key => {
+    if (!cols[key]) return null;
+    const fromTotal = totalRow ? cellNum(totalRow, cols[key].c) : 0;
+    if (fromTotal) return fromTotal;
+    return packageRows.reduce((sum, r) => sum + cellNum(r, cols[key].c), 0);
+  };
+  return { sheets: val('sheets'), rolls: val('rolls'), foamKg: val('net'), plasticKg: val('plastic'), grossKg: val('gross') };
 }
 
 async function onPackingFileChosen(input) {
@@ -3715,11 +3726,17 @@ async function downloadServerFile(ordNo, kind, asDownload) {
 async function reportPackingFile(ordNo) {
   const o = packingOrders.find(x => x.ordNo === ordNo);
   if (!o) return;
-  if (!o.packingPdfLink) {
-    showToast('No PDF yet for this order. Upload the workbook in Production first.', 'error');
-    return;
+  try {
+    if (!o.packingPdfLink) {
+      showToast('Making the PDF…', 'info');
+      const r = await api('makePackingPdf', { ordNo: ordNo });
+      o.packingPdfLink = r.pdfUrl;
+      o.packingPdfName = r.pdfName;
+    }
+    downloadServerFile(ordNo, 'pdf', false);
+  } catch (e) {
+    showToast('PDF failed: ' + e.message, 'error');
   }
-  downloadServerFile(ordNo, 'pdf', false);
 }
 
 function renderProductionTable() {
@@ -4934,21 +4951,24 @@ function snapshot(list, key) {
 }
 
 async function flushChanges() {
+  // all the changes go to the server in ONE request
+  const ops = [];
+  const nexts = {};
   for (const [table, cfg] of Object.entries(DIFF_TABLES)) {
     const list = cfg.get();
     const base = serverBaseline[table];
     const now = snapshot(list, cfg.key);
     for (const o of list) {
       const k = String(o[cfg.key]);
-      if (base.get(k) !== now.get(k)) {
-        await api('upsert', { table, record: o });
-      }
+      if (base.get(k) !== now.get(k)) ops.push({ op: 'upsert', table: table, record: o });
     }
     for (const k of base.keys()) {
-      if (!now.has(k)) await api('remove', { table, key: k });
+      if (!now.has(k)) ops.push({ op: 'remove', table: table, key: k });
     }
-    serverBaseline[table] = now;
+    nexts[table] = now;
   }
+  if (ops.length) await api('batchSave', { ops: ops });
+  Object.keys(nexts).forEach(t => { serverBaseline[t] = nexts[t]; });
 }
 
 async function pullFromServer() {
@@ -5020,7 +5040,7 @@ async function loadFromServer() {
   if (!pollHandle) {
     pollHandle = setInterval(() => {
       if (sessionToken && !saveTimer) queueSync(true, true);
-    }, 30000);
+    }, 60000);
   }
 }
 
