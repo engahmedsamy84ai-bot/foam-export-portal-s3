@@ -1705,8 +1705,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
       <div id="signupPane" style="display:none">
         <div class="ff"><label for="suCustomer">Customer Name</label><div class="iw"><i class="ico ti ti-building"></i><input class="fi" id="suCustomer" type="text" placeholder="Customer name"></div></div>
-        <div class="ff"><label for="suCountry">Country</label><div class="iw"><i class="ico ti ti-world"></i><input class="fi" id="suCountry" type="text" placeholder="Country"></div></div>
-        <div class="ff"><label for="suRegion">Continent</label><div class="iw"><i class="ico ti ti-map"></i><input class="fi" id="suRegion" type="text" placeholder="Continent"></div></div>
         <div class="ff">
           <label for="suUser">Client / Username</label>
           <div class="iw">
@@ -3670,8 +3668,8 @@ async function doSignup() {
   const pw = document.getElementById('suPass').value;
   const pw2 = document.getElementById('suPass2').value;
   const customerName = document.getElementById('suCustomer').value.trim();
-  const country = document.getElementById('suCountry').value.trim();
-  const region = document.getElementById('suRegion').value.trim();
+  const country = '';
+  const region = '';
   const vat = '';
   const contact = '';
   const address = '';
@@ -5103,6 +5101,10 @@ async function saveNewOrder() {
   const ordNo = document.getElementById('noNumber').value.trim();
   if (!ordNo) {
     showToast('Please enter the order number.', 'error');
+    return;
+  }
+  if (packingOrders.some(o => o.ordNo === ordNo)) {
+    showToast('Order number ' + ordNo + ' is already used. Choose another number.', 'error');
     return;
   }
   if (!pendingOrderFile) {
