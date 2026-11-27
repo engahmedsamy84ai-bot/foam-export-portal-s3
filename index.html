@@ -1102,7 +1102,6 @@ td:first-child{color:var(--ink);font-weight:700}
   color:#cbd5e1;
 }
 
-/* Dedicated Print / PDF Styling Strictly for the Active Client Report */
 @media print{
   body:not(.printing-all-clients){
     background:#ffffff !important;
@@ -1845,7 +1844,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </button>
       </div>
 
-      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong><br><span style="font-size:10px;opacity:.7">Build S3 · 2026-11-22</span></div>
+      <div class="nav-footer">Developed By : <strong>AhmeD SamY</strong><br><span style="font-size:10px;opacity:.7">Build S3 · Fast Sync</span></div>
     </div>
 
     <!-- CONTENT -->
@@ -2135,8 +2134,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
       </div>
 
-      <!-- ── PAGE 3: ORDERS ── -->
-      
+      <!-- ── QUOTATION ── -->
       <div class="page" id="page-quotation">
         <div class="page-header">
           <div>
@@ -2163,11 +2161,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
       </div>
 
+      <!-- ── PAGE 3: ORDERS ── -->
       <div class="page" id="page-orders">
         <div class="page-header">
           <div>
             <div class="page-title">Orders</div>
-            <div class="page-sub">Manage export purchase orders, production status, and dispatch approvals.</div>
+            <div class="page-sub">Manage export purchase orders, automatic stage status, and dispatch approvals.</div>
           </div>
           <div class="header-btn-group">
             <button class="btn-blue" data-write="orders" onclick="openAddOrderModal()"><i class="ti ti-plus"></i>New order</button>
@@ -2186,14 +2185,14 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <div class="kpi-unit">active factory lines</div>
           </div>
           <div class="kpi">
-            <div class="kpi-top"><span class="kpi-label">Ready to ship</span><div class="kpi-ico coral"><i class="ti ti-container"></i></div></div>
+            <div class="kpi-top"><span class="kpi-label">Container loading</span><div class="kpi-ico coral"><i class="ti ti-container"></i></div></div>
             <div class="kpi-val coral" id="ordReadyKpi">0</div>
-            <div class="kpi-unit">awaiting vessel</div>
+            <div class="kpi-unit">loading &amp; awaiting vessel</div>
           </div>
           <div class="kpi">
-            <div class="kpi-top"><span class="kpi-label">Shipped</span><div class="kpi-ico emerald"><i class="ti ti-circle-check"></i></div></div>
+            <div class="kpi-top"><span class="kpi-label">Shipped / Delivered</span><div class="kpi-ico emerald"><i class="ti ti-circle-check"></i></div></div>
             <div class="kpi-val emerald" id="ordShippedKpi">0</div>
-            <div class="kpi-unit">completed exports</div>
+            <div class="kpi-unit">sea freight &amp; delivered</div>
           </div>
         </div>
 
@@ -2206,9 +2205,11 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <i class="ti ti-filter"></i>
             <select id="ordersStatusFilter" onchange="renderOrdersTable()">
               <option value="ALL">All statuses</option>
-              <option value="In Production">In Production</option>
-              <option value="Ready to Ship">Ready to Ship</option>
-              <option value="Shipped">Shipped</option>
+              <option value="Order Confirmed">Order Confirmed</option>
+              <option value="Foam Production">Foam Production</option>
+              <option value="Container Loading">Container Loading</option>
+              <option value="Sea Freight">Sea Freight</option>
+              <option value="Delivered">Delivered</option>
             </select>
           </div>
         </div>
@@ -2216,7 +2217,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <span class="tbl-head-title">Export Purchase Orders</span>
-            <span class="badge bi">Auto-Email Audit Enabled</span>
+            <span class="badge bi">Auto Status from Production &amp; Packing List</span>
           </div>
           <div class="tbl-scroll">
             <table>
@@ -2245,7 +2246,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="page-header">
           <div>
             <div class="page-title">Production</div>
-            <div class="page-sub">Orders on the factory floor: progress and production stage.</div>
+            <div class="page-sub">Orders on the factory floor: progress and production status (45% Foam Production, 68% Container Loading).</div>
           </div>
         </div>
 
@@ -2272,7 +2273,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
                   <th>ORDER</th>
                   <th>Packing</th>
                   <th>Progress</th>
-                  <th>Stage</th>
+                  <th>UPDATE STATUS</th>
                 </tr>
               </thead>
               <tbody id="productionTableBody"></tbody>
@@ -2286,7 +2287,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="page-header">
           <div>
             <div class="page-title">Packing list</div>
-            <div class="page-sub">Track container dimensions, net Foam &amp; Plastic weights (KG), and shipment dispatch schedules.</div>
+            <div class="page-sub">Track container dimensions, net Foam &amp; Plastic weights (KG), and shipping status (88% Sea Freight, 100% Delivered).</div>
           </div>
           <div class="header-btn-group"></div>
         </div>
@@ -2347,6 +2348,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
                   <th>PLASTIC WEIGHT (KG)</th>
                   <th>GROSS WEIGHT (KG)</th>
                   <th>PACKING REPORT</th>
+                  <th>UPDATE STATUS</th>
                   <th>Progress</th>
                 </tr>
               </thead>
@@ -2684,8 +2686,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     <div class="form-grid">
       <div>
         <label>Client</label>
-        <select class="fi" id="noClient" style="padding-left:10px">
-        </select>
+        <select class="fi" id="noClient" style="padding-left:10px"></select>
       </div>
       <div><label>Order No.</label><input class="fi" id="noNumber" type="text" value="" placeholder="e.g. ORD-2026-069" style="color:var(--royal);font-weight:700"></div>
       <div><label>Request date</label><input class="fi" id="noReqDate" type="date"></div>
@@ -2731,7 +2732,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 </div>
 
 <script>
-console.log('Foam portal build S3 · 2026-11-22');
+console.log('Foam portal build S3 · Fast Sync & Stage Auto-Status');
 const ADMIN_NOTIFY_EMAIL = 'eng.ahmed.samy84.ai@gmail.com';
 let currentLoggedUser = '';
 let currentLoginTimestamp = '';
@@ -2781,9 +2782,11 @@ function updateInternetStatusLED() {
 window.addEventListener('online', () => {
   updateInternetStatusLED();
   showToast('Internet connection restored (Online).', 'success');
+  if (sessionToken) queueSync(true, true);
 });
 window.addEventListener('offline', () => {
   updateInternetStatusLED();
+  setSyncStatus('offline', 'Offline · working locally');
   showToast('Internet connection lost (Offline).', 'error');
 });
 updateInternetStatusLED();
@@ -2812,7 +2815,6 @@ function parseOrderDate(str) {
   return month < 0 ? null : { year: m[3], month: month };
 }
 
-// Totals of the visible orders for the chosen client, year and month (all clients when "ALL")
 function orderTotals(client, year, monthIdx) {
   let foam = 0, plas = 0, count = 0;
   getVisibleOrders().forEach(o => {
@@ -2859,7 +2861,6 @@ function buildMonthlyData() {
   return data;
 }
 
-// Client Self-Scoped Helpers (For Sign-up Client Accounts)
 function getVisibleClients() {
   if (!isClientSelfAccount) return clientsList;
   const target = (clientSelfName || currentLoggedUser || '').trim().toLowerCase();
@@ -2931,8 +2932,6 @@ function dispatchEmailNotification(type, user, title, details) {
     emailStatus: navigator.onLine ? `Sent to ${ADMIN_NOTIFY_EMAIL}` : 'Queued (Offline)'
   };
   emailAuditLogs.unshift(entry);
-  persistData();
-
   renderMessagesFeed();
 }
 
@@ -2986,6 +2985,7 @@ function triggerTestEmailAlert() {
     'Manual Test Email Alert Triggered',
     `User "${currentLoggedUser || 'admin'}" verified email notification routing to ${ADMIN_NOTIFY_EMAIL}.`
   );
+  persistData();
   showToast(`Notification dispatched to ${ADMIN_NOTIFY_EMAIL}`);
 }
 
@@ -2996,7 +2996,6 @@ function sendSummaryEmailNow() {
   window.location.href = `mailto:${ADMIN_NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
 }
 
-// Toast Helper
 function showToast(msg, type = 'success') {
   const wrap = document.getElementById('toastWrap');
   const el = document.createElement('div');
@@ -3008,7 +3007,7 @@ function showToast(msg, type = 'success') {
     el.style.opacity = '0';
     el.style.transform = 'translateY(-8px)';
     setTimeout(() => el.remove(), 250);
-  }, 3200);
+  }, 3000);
 }
 
 // Login & Password Toggle
@@ -3092,10 +3091,10 @@ async function enterPortal(loginRes) {
     `User Login: ${u}`,
     `User "${u}" signed into Foam Industries Global Export Portal at ${currentLoginTimestamp}.`
   );
-  showToast(`Welcome, ${u}! Login alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+  showToast(`Welcome, ${u}!`);
 }
 
-// ═══ SHIPMENT TRACKING / STAFF REQUESTS ═══
+// ═══ SHIPMENT TRACKING / STAGES & AUTO STATUS ═══
 function toggleRequest(e) {
   e.preventDefault();
   const box = document.getElementById('requestPane');
@@ -3127,15 +3126,61 @@ const STAGES = [
   { name: 'Sea Freight', pct: 88 },
   { name: 'Delivered', pct: 100 }
 ];
-const LEGACY_STAGE = { 'In Production': 'Foam Production', 'Ready to Ship': 'Container Loading', 'Shipped': 'Delivered' };
+const PRODUCTION_STAGES = [
+  { name: 'Foam Production', pct: 45 },
+  { name: 'Container Loading', pct: 68 }
+];
+const PACKING_STAGES = [
+  { name: 'Sea Freight', pct: 88 },
+  { name: 'Delivered', pct: 100 }
+];
+const LEGACY_STAGE = {
+  'In Production': 'Foam Production',
+  'Ready to Ship': 'Container Loading',
+  'Shipped': 'Sea Freight'
+};
+
 function normalizeStage(status) {
   const name = LEGACY_STAGE[status] || status;
   return STAGES.some(x => x.name === name) ? name : 'Order Confirmed';
 }
+
 function stagePercent(status) {
   const name = normalizeStage(status);
   return STAGES.find(x => x.name === name).pct;
 }
+
+// Automatically derives order status from Production and Packing List data
+function deriveAutoOrderStatus(order) {
+  const hasPackingFile = Boolean(order.packingLink || order.packingXlsxLink || order.packingPdfLink || order.packingName);
+  const hasPackingTotals = (Number(order.sheets) || 0) > 0 || (Number(order.rolls) || 0) > 0 || (Number(order.grossKg) || 0) > 0;
+  const currentNorm = normalizeStage(order.status);
+
+  if (order.deliveryDate && String(order.deliveryDate).trim() !== '') {
+    return 'Delivered';
+  }
+  if (currentNorm === 'Delivered' || currentNorm === 'Sea Freight') {
+    return currentNorm;
+  }
+  if (hasPackingFile || hasPackingTotals) {
+    return 'Container Loading';
+  }
+  if (currentNorm === 'Container Loading' || currentNorm === 'Foam Production') {
+    return currentNorm;
+  }
+  if ((Number(order.foamKg) || 0) > 0 || (Number(order.plasticKg) || 0) > 0) {
+    return 'Foam Production';
+  }
+  return 'Order Confirmed';
+}
+
+function syncOrderAutoStatus(order) {
+  const computed = deriveAutoOrderStatus(order);
+  order.status = computed;
+  order.progress = stagePercent(computed);
+  return computed;
+}
+
 function isShippedStatus(status) {
   return ['Sea Freight', 'Delivered', 'Shipped'].includes(normalizeStage(status));
 }
@@ -3152,13 +3197,13 @@ function renderTracking() {
     body.innerHTML = '<div class="no-hint">No shipments yet.</div>';
     return;
   }
-  const pct = stagePercent(o.status);
-  const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0;
   const stage = normalizeStage(o.status);
+  const pct = stagePercent(stage);
+  const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0;
   body.innerHTML = `
     <div style="margin:14px 0 6px;display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>${stage}</span><span>${pct}%</span></div>
     <div style="height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden">
-      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#34d399,#38bdf8);border-radius:999px;transition:width .6s"></div>
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#34d399,#38bdf8);border-radius:999px;transition:width .4s"></div>
     </div>
     <div class="no-row" style="flex-wrap:wrap;gap:12px;margin-top:10px">
       <span>Foam weight: <strong>${foam.toLocaleString()} KG</strong></span>
@@ -3257,7 +3302,6 @@ function downloadOrder(ordNo) {
   downloadServerFile(ordNo, 'order', true);
 }
 
-
 function triggerPackingUpload(ordNo) {
   pendingPackingOrd = ordNo;
   document.getElementById('packingFileInput').click();
@@ -3272,7 +3316,6 @@ function uint8ToBase64(bytes) {
   return btoa(bin);
 }
 
-// ---------- PDF of the "Packing List" sheet ----------
 function xmlDoc(text) { return new DOMParser().parseFromString(text, 'application/xml'); }
 function colNum(letters) { let n = 0; for (const ch of letters) n = n * 26 + (ch.charCodeAt(0) - 64); return n; }
 function splitRef(ref) { const m = /^([A-Z]+)(\d+)$/.exec(ref); return { c: colNum(m[1]), r: +m[2] }; }
@@ -3426,18 +3469,6 @@ async function readPackingSheet(file) {
   return { cells, maxR, maxC, rowHt, colW, merges, cfRules, styles, pictures, zip, sheetPath };
 }
 
-function cfMatches(rule, cells, r, c) {
-  const val = (col, row) => (cells[row + ',' + col] ? cells[row + ',' + col].text : '');
-  let f = rule.formula
-    .replace(/\$([A-Z]+)(\d+)/g, (m, col, row) => JSON.stringify(val(colNum(col), +row)))
-    .replace(/\b[A-Z]+\d+\b/g, '""');
-  f = f.replace(/<>/g, '!==').replace(/(?<![<>!=])=(?!=)/g, '===');
-  f = f.replace(/AND\(([^()]*)\)/g, (m, args) => '(' + args.split(',').join('&&') + ')');
-  f = f.replace(/ROWS\([^)]*\)/g, '1');
-  try { return !!(new Function('return (' + f + ');')()); } catch (e) { return false; }
-}
-
-// Builds a workbook with ONLY the "Packing List" sheet, values only (no AhmeD, no formulas, no macros)
 async function makePackingOnlyXlsx(file) {
   const zip = await JSZip.loadAsync(file);
   Object.keys(zip.files).filter(n => /vbaProject\.bin$|calcChain\.xml$/i.test(n)).forEach(n => zip.remove(n));
@@ -3453,9 +3484,7 @@ async function makePackingOnlyXlsx(file) {
   const dropEls = sheetEls.filter((x, i) => i !== pIdx);
   const dropPaths = dropEls.map(x => resolvePath('xl/workbook.xml', wbRels[x.getAttribute('r:id')].target));
 
-  // sheets: keep only Packing List
   dropEls.forEach(x => { wbXml = wbXml.replace(new RegExp('<sheet [^>]*r:id="' + x.getAttribute('r:id') + '"[^>]*/>'), ''); });
-  // defined names: drop the old ones, set the print area of Packing List
   wbXml = wbXml.replace(/<definedNames>[\s\S]*?<\/definedNames>/, '');
   let lastRow = 1, lastCol = 1;
   const sheetXml0 = await zip.file(keepPath).async('string');
@@ -3471,7 +3500,6 @@ async function makePackingOnlyXlsx(file) {
   wbXml = wbXml.replace(/<calcPr[^>]*\/>/, '');
   zip.file('xl/workbook.xml', wbXml);
 
-  // relationships and content types: remove the dropped sheets, calc chain and macros
   let rels = await zip.file('xl/_rels/workbook.xml.rels').async('string');
   dropEls.forEach(x => { rels = rels.replace(new RegExp('<Relationship [^>]*Id="' + x.getAttribute('r:id') + '"[^>]*/>'), ''); });
   rels = rels.replace(/<Relationship[^>]*(vbaProject|calcChain)[^>]*\/>/g, '');
@@ -3482,60 +3510,12 @@ async function makePackingOnlyXlsx(file) {
   dropPaths.forEach(pth => { ct = ct.replace(new RegExp('<Override[^>]*PartName="/?' + pth.replace(/[.]/g, '\\.') + '"[^>]*/>'), ''); zip.remove(pth); });
   zip.file('[Content_Types].xml', ct);
 
-  // the Packing List sheet: keep the values, remove every formula
   let sheetXml = sheetXml0.replace(/<f[^>]*\/>/g, '').replace(/<f[^>]*>[\s\S]*?<\/f>/g, '');
   zip.file(keepPath, sheetXml);
 
   return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
 }
 
-async function makeXlsxFromWorkbook(file) {
-  const zip = await JSZip.loadAsync(file);
-  Object.keys(zip.files).filter(n => /vbaProject\.bin$/i.test(n)).forEach(n => zip.remove(n));
-
-  let ct = await zip.file('[Content_Types].xml').async('string');
-  ct = ct.replace('application/vnd.ms-excel.sheet.macroEnabled.main+xml',
-                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml')
-         .replace(/<Override[^>]*vbaProject[^>]*\/>/g, '');
-  zip.file('[Content_Types].xml', ct);
-
-  let rels = await zip.file('xl/_rels/workbook.xml.rels').async('string');
-  rels = rels.replace(/<Relationship[^>]*vbaProject[^>]*\/>/g, '');
-  zip.file('xl/_rels/workbook.xml.rels', rels);
-
-  const wbDoc = xmlDoc(await zip.file('xl/workbook.xml').async('string'));
-  const sheets = Array.from(wbDoc.getElementsByTagName('sheet'));
-  const idx = sheets.findIndex(x => (x.getAttribute('name') || '').trim().toLowerCase() === 'packing list');
-  if (idx < 0) throw new Error('The file has no sheet named "Packing List".');
-  const rid = sheets[idx].getAttribute('r:id');
-  const wbRels = relsOf(xmlDoc(await zip.file('xl/_rels/workbook.xml.rels').async('string')));
-  const sheetPath = resolvePath('xl/workbook.xml', wbRels[rid].target);
-  const sheetDoc = xmlDoc(await zip.file(sheetPath).async('string'));
-
-  let lastRow = 1, lastCol = 1;
-  Array.from(sheetDoc.getElementsByTagName('c')).forEach(c => {
-    const hasValue = c.getElementsByTagName('v').length || c.getElementsByTagName('is').length || c.getElementsByTagName('f').length;
-    if (!hasValue) return;
-    const ref = splitRef(c.getAttribute('r'));
-    lastRow = Math.max(lastRow, ref.r);
-    lastCol = Math.max(lastCol, ref.c);
-  });
-  const colLetter = n => { let s2 = ''; while (n > 0) { const m2 = (n - 1) % 26; s2 = String.fromCharCode(65 + m2) + s2; n = Math.floor((n - 1) / 26); } return s2; };
-  const printArea = `'Packing List'!$A$1:$${colLetter(Math.min(lastCol, 26))}$${lastRow}`;
-
-  let wbXml = await zip.file('xl/workbook.xml').async('string');
-  wbXml = wbXml.replace(new RegExp(`<definedName name="_xlnm\\.Print_Area" localSheetId="${idx}"[^>]*>[^<]*<\\/definedName>`, 'g'), '');
-  const dn = `<definedName name="_xlnm.Print_Area" localSheetId="${idx}">${printArea.replace(/&/g, '&amp;')}</definedName>`;
-  if (wbXml.includes('<definedNames>')) {
-    wbXml = wbXml.replace('<definedNames>', () => '<definedNames>' + dn);
-  } else {
-    wbXml = wbXml.replace('</sheets>', () => '</sheets><definedNames>' + dn + '</definedNames>');
-  }
-  zip.file('xl/workbook.xml', wbXml);
-  return await zip.generateAsync({ type: 'base64', compression: 'DEFLATE' });
-}
-
-// Reads the "Total" row of the Packing List sheet: Net Weight -> Foam KG, Plastic Weight -> Plastic KG
 function packingTotalsFromSheet(sh) {
   const norm = t => String(t || '').toLowerCase().replace(/[^a-z]/g, '');
   const num = v => { const x = parseFloat(String(v || '').replace(/,/g, '')); return isNaN(x) ? 0 : x; };
@@ -3575,30 +3555,33 @@ async function onPackingFileChosen(input) {
   input.value = '';
   if (!f || !pendingPackingOrd) return;
   const ext = f.name.split('.').pop().toLowerCase();
-  if (false) {
-    showToast('Only .xlsx, .xlsm or .pdf files can be uploaded.', 'error');
-    pendingPackingOrd = null;
-    return;
-  }
   const ordNo = pendingPackingOrd;
   pendingPackingOrd = null;
 
+  setSyncStatus('saving', 'Uploading packing file…');
   if (ext === 'pdf') {
     showToast('Uploading PDF…', 'info');
     try {
       const pdfB64 = await blobToBase64(f);
       const pr = await api('uploadPackingPdf', { ordNo: ordNo, base64: pdfB64 });
       const o = packingOrders.find(x => x.ordNo === ordNo);
-      if (o) { o.packingPdfName = pr.pdfName; o.packingPdfLink = pr.url; }
-      renderOrdersTable(); renderProductionTable(); renderPackingTable();
-      showToast('PDF saved. The Report button will open this file.', 'success');
+      if (o) {
+        o.packingPdfName = pr.pdfName;
+        o.packingPdfLink = pr.url;
+        syncOrderAutoStatus(o);
+        if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(o));
+      }
+      refreshUI();
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+      showToast('PDF saved & status updated.', 'success');
     } catch (err) {
+      setSyncStatus('error', 'Upload failed: ' + err.message);
       showToast('Upload failed: ' + err.message, 'error');
     }
     return;
   }
 
-  showToast('Uploading and making the PDF automatically…', 'info');
+  showToast('Uploading packing file…', 'info');
   try {
     const base64 = await blobToBase64(f);
     const isSheet = ext === 'xlsm' || ext === 'xlsx';
@@ -3615,36 +3598,39 @@ async function onPackingFileChosen(input) {
       o.packingXlsxLink = res.xlsxUrl || '';
       if (res.foamKg != null) o.foamKg = res.foamKg;
       if (res.plasticKg != null) o.plasticKg = res.plasticKg;
+      if (totals) {
+        if (totals.sheets != null) o.sheets = totals.sheets;
+        if (totals.rolls != null) o.rolls = totals.rolls;
+        if (totals.grossKg != null) o.grossKg = totals.grossKg;
+      }
+      syncOrderAutoStatus(o);
+      if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(o));
     }
-    try { await queuedPull(); } catch (e) { /* keep the local copy */ }
-    renderOrdersTable(); renderProductionTable(); renderPackingTable();
-    if (res.pdfError) {
-      showToast('File saved, but the PDF could not be made: ' + res.pdfError, 'error');
-    } else {
-      showToast('File and PDF saved to Google Drive and Sheets.', 'success');
-    }
+    refreshUI();
+    setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+    showToast('Packing file saved & status updated.', 'success');
   } catch (e) {
+    setSyncStatus('error', 'Upload failed: ' + e.message);
     showToast('Upload failed: ' + e.message, 'error');
   }
 }
 
-// ═══ ORDERS: delete, export date, packing report, production ═══
 async function deleteOrder(ordNo) {
   const order = packingOrders.find(o => o.ordNo === ordNo);
   if (!order) return;
   if (!confirm(`Delete order ${ordNo} (${order.client})?\n\nIt is removed from the site and from Google Sheets. Its PDF is moved to Google Drive Trash.`)) return;
+  setSyncStatus('saving', 'Deleting order…');
   try {
     await api('remove', { table: 'Orders', key: ordNo });
   } catch (e) {
+    setSyncStatus('error', 'Delete failed: ' + e.message);
     showToast('Delete failed: ' + e.message, 'error');
     return;
   }
   packingOrders = packingOrders.filter(o => o.ordNo !== ordNo);
   serverBaseline.Orders.delete(String(ordNo));
-  renderOrdersTable();
-  renderPackingTable();
-  renderProductionTable();
-  updateDashboard();
+  refreshUI();
+  setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
   dispatchEmailNotification('action', currentLoggedUser, `Deleted Order: ${ordNo}`,
     `User "${currentLoggedUser}" deleted order ${ordNo} (${order.client}).`);
   showToast(`Order ${ordNo} deleted`);
@@ -3673,14 +3659,15 @@ function reportPackingXlsx(ordNo) {
   downloadServerFile(ordNo, 'xlsx', true);
 }
 
-
-// Helpers: saves go through the same queue, files are read by the server and sent to the page
 function queueSaveOrder(o) {
+  setSyncStatus('saving', 'Saving order…');
   syncChain = syncChain.then(async () => {
     try {
       await api('upsert', { table: 'Orders', record: o });
       if (serverBaseline.Orders) serverBaseline.Orders.set(String(o.ordNo), JSON.stringify(o));
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
     } catch (e) {
+      setSyncStatus('error', 'Save failed: ' + e.message);
       showToast('Order not saved: ' + e.message, 'error');
     }
   });
@@ -3691,6 +3678,7 @@ function queuedPull() {
     try {
       await flushChanges();
       await pullFromServer();
+      setSyncStatus('ok', 'Live · synced ' + new Date().toLocaleTimeString('en-GB'));
     } catch (e) {
       console.error(e);
       setSyncStatus('error', 'Sync failed: ' + e.message);
@@ -3747,7 +3735,13 @@ function renderProductionTable() {
     !q || o.ordNo.toLowerCase().includes(q) || o.client.toLowerCase().includes(q));
   const canWriteProd = hasPageWrite('production') || hasPageWrite('orders') || hasPageWrite('packing');
   const canFullProd = hasPageFull('production') || hasPageFull('orders') || hasPageFull('packing');
-  tbody.innerHTML = rows.map(o => `
+  tbody.innerHTML = rows.map(o => {
+    const curStage = normalizeStage(o.status);
+    const pct = stagePercent(curStage);
+    const extraStage = !PRODUCTION_STAGES.some(s => s.name === curStage)
+      ? `<option value="${curStage}" selected>${pct}% ${curStage}</option>`
+      : '';
+    return `
     <tr>
       <td class="ord-no">${o.ordNo}</td>
       <td>${o.client}</td>
@@ -3763,19 +3757,21 @@ function renderProductionTable() {
         ${canWriteProd ? `<button class="btn-outline" type="button" onclick="triggerPackingUpload('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px;margin-top:4px"><i class="ti ti-upload"></i>Upload</button>` : ''}
       </td>
       <td>
-        <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
-        <span style="font-size:11px;font-weight:700;margin-left:5px">${stagePercent(o.status)}%</span>
+        <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
+        <span style="font-size:11px;font-weight:700;margin-left:5px">${pct}%</span>
       </td>
       <td>
         <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canFullProd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
-          ${STAGES.map(x => `<option value="${x.name}" ${normalizeStage(o.status) === x.name ? 'selected' : ''}>${x.pct}% ${x.name}</option>`).join('')}
+          ${extraStage}
+          ${PRODUCTION_STAGES.map(x => `<option value="${x.name}" ${curStage === x.name ? 'selected' : ''}>${x.pct}% ${x.name}</option>`).join('')}
         </select>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
-// ═══ SIGNUP (Restricts to Orders + Own Client Data Only + Sends Email Alert) ═══
+// ═══ SIGNUP ═══
 function showAuthTab(tab) {
   const isNewUser = tab === 'newuser';
   const isClient = tab === 'signup';
@@ -3848,7 +3844,7 @@ async function doSignup() {
     `New Client Sign-Up: ${username}`,
     `New user "${username}" signed up via Sign Up with restricted access to Orders & own Client Data only. Mobile: ${mobile}, Email: ${email}.`
   );
-  showToast('Client account created. Notification sent to ' + ADMIN_NOTIFY_EMAIL, 'success');
+  showToast('Client account created.', 'success');
 }
 
 // ═══ EDIT CLIENT ═══
@@ -3910,7 +3906,7 @@ function saveEditClient() {
   showToast(newName !== oldName ? 'Client renamed to ' + newName : 'Client updated: ' + c.name, 'success');
 }
 
-// ═══ PERMISSIONS (Including Production & Messages) ═══
+// ═══ PERMISSIONS ═══
 const PERM_ROWS = [
   { key: 'clients', label: 'Clients data', icon: 'ti-users', letter: 'c' },
   { key: 'orders', label: 'Orders', icon: 'ti-file-invoice', letter: 'o' },
@@ -4030,7 +4026,6 @@ function applyPermissions(me) {
     document.querySelectorAll(`[data-write="${key}"]`).forEach(el => { el.style.display = ok ? '' : 'none'; });
   });
 
-  // Hide multi-client directory exports & client search box for self-registered clients
   const showAllClientTools = !isClientSelfAccount;
   ['btnExportAllClientsExcel', 'btnExportAllClientsPDF', 'allClientsPrintDoc', 'reportClientSearchBox', 'allClientsSecTitle'].forEach(id => {
     const el = document.getElementById(id);
@@ -4236,22 +4231,21 @@ function toggleSidebar() {
 
 function syncDriveNow() {
   const ico = document.getElementById('syncSpinIco');
-  ico.style.transition = 'transform 0.8s ease';
+  ico.style.transition = 'transform 0.6s ease';
   ico.style.transform = 'rotate(360deg)';
-  setTimeout(() => { ico.style.transform = 'rotate(0deg)'; }, 800);
+  setTimeout(() => { ico.style.transform = 'rotate(0deg)'; }, 600);
   if (!sessionToken) {
     showToast('Please log in first.', 'error');
     return;
   }
   queueSync(false, true);
-  showToast('Syncing with the server…', 'info');
+  showToast('Syncing with server…', 'info');
 }
 
 // ═══ INTERACTIVE DASHBOARD CHARTS & FILTERS ═══
 function updateDashboard() {
   MONTHLY_DATA = buildMonthlyData();
   const visClients = getVisibleClients();
-  const visOrders = getVisibleOrders();
   const client = document.getElementById('dashClientFilter').value;
   const year = document.getElementById('dashYearFilter').value;
   const monthIdx = document.getElementById('dashMonthFilter').value;
@@ -4271,18 +4265,14 @@ function updateDashboard() {
     dataset = MONTHLY_DATA[year][client] || MONTHLY_DATA[year]['ALL'];
   }
 
-  const tot = orderTotals(client, year, monthIdx);   // Orders = shipped orders (goes up when shipped, down when deleted)
-  const totalFoam = tot.foam;
-  const totalPlas = tot.plas;
-  const totalOrders = tot.orders;
-
+  const tot = orderTotals(client, year, monthIdx);
   const totalClients = client === 'ALL' ? visClients.length : 1;
 
   document.getElementById('kpiClients').textContent = totalClients;
   document.getElementById('kpiClientsUnit').textContent = client === 'ALL' ? 'active export accounts' : client;
-  document.getElementById('kpiFoam').textContent = totalFoam.toLocaleString();
-  document.getElementById('kpiPlastic').textContent = totalPlas.toLocaleString();
-  document.getElementById('kpiOrders').textContent = totalOrders;
+  document.getElementById('kpiFoam').textContent = tot.foam.toLocaleString();
+  document.getElementById('kpiPlastic').textContent = tot.plas.toLocaleString();
+  document.getElementById('kpiOrders').textContent = tot.orders;
   document.getElementById('kpiOrdersUnit').textContent = year === 'ALL' ? 'shipments (2025–2026)' : `shipments in ${year}`;
 
   document.getElementById('barChartTitle').textContent = `Monthly shipments — ${year === 'ALL' ? '2025–2026' : year} (Foam vs Plastic KG)`;
@@ -4311,7 +4301,6 @@ function updateDashboard() {
   const l1 = (eu / regSum) * circ;
   const l2 = (me / regSum) * circ;
   const l3 = (af / regSum) * circ;
-  const l4 = (ot / regSum) * circ;
 
   document.getElementById('donutArc1').setAttribute('stroke-dasharray', `${l1} ${circ}`);
   document.getElementById('donutArc1').setAttribute('stroke-dashoffset', `0`);
@@ -4319,7 +4308,7 @@ function updateDashboard() {
   document.getElementById('donutArc2').setAttribute('stroke-dashoffset', `${-l1}`);
   document.getElementById('donutArc3').setAttribute('stroke-dasharray', `${l3} ${circ}`);
   document.getElementById('donutArc3').setAttribute('stroke-dashoffset', `${-(l1 + l2)}`);
-  document.getElementById('donutArc4').setAttribute('stroke-dasharray', `${l4} ${circ}`);
+  document.getElementById('donutArc4').setAttribute('stroke-dasharray', `${(ot / regSum) * circ} ${circ}`);
   document.getElementById('donutArc4').setAttribute('stroke-dashoffset', `${-(l1 + l2 + l3)}`);
 
   document.getElementById('donutCenterNum').textContent = totalClients;
@@ -4341,7 +4330,7 @@ function updateDashboard() {
 
   const filteredClients = client === 'ALL' ? visClients : visClients.filter(c => c.name === client);
   document.getElementById('dashRecentClientsBody').innerHTML = filteredClients.map(c => {
-    const qty = year === '2025' ? c.qtyKg2025 : (year === 'ALL' ? (c.qtyKg2026 + c.qtyKg25) : c.qtyKg2026);
+    const qty = year === '2025' ? c.qtyKg2025 : (year === 'ALL' ? (c.qtyKg2026 + c.qtyKg2025) : c.qtyKg2026);
     return `
       <tr>
         <td>${c.name}</td>
@@ -4401,9 +4390,12 @@ function updatePackingTotals() {
   const latest = [...visOrders].sort((a, b) => num(b) - num(a))[0];
   const l = document.getElementById('pkLatestOrd');
   if (l) l.textContent = latest ? latest.ordNo : '—';
+  const packTitle = document.getElementById('packingTotalTitle');
+  if (packTitle) packTitle.textContent = `Orders — ${visOrders.length} total`;
 }
 
 function renderAllTables() {
+  packingOrders.forEach(o => syncOrderAutoStatus(o));
   renderTracking();
   renderProductionTable();
   fillClientSelects();
@@ -4471,6 +4463,7 @@ function renderAllTables() {
   }
 }
 
+// ORDERS PAGE: Update Status dropdown contains ONLY 15% Order Confirmed; Status auto-updates from Production & Packing List
 function renderOrdersTable() {
   const tbody = document.getElementById('ordersTableBody');
   if (!tbody) return;
@@ -4479,17 +4472,19 @@ function renderOrdersTable() {
   const st = document.getElementById('ordersStatusFilter')?.value || 'ALL';
 
   const filtered = visOrders.filter(o => {
-    const matchesStatus = st === 'ALL' || o.status === st;
+    const autoSt = syncOrderAutoStatus(o);
+    const matchesStatus = st === 'ALL' || autoSt === st;
     const matchesQuery = !q ||
       o.ordNo.toLowerCase().includes(q) ||
       o.client.toLowerCase().includes(q) ||
-      o.dest.toLowerCase().includes(q);
+      o.dest.toLowerCase().includes(q) ||
+      autoSt.toLowerCase().includes(q);
     return matchesStatus && matchesQuery;
   });
 
-  const prodCount = visOrders.filter(o => o.status === 'In Production').length;
-  const readyCount = visOrders.filter(o => o.status === 'Ready to Ship').length;
-  const shippedCount = visOrders.filter(o => o.status === 'Shipped').length;
+  const prodCount = visOrders.filter(o => normalizeStage(o.status) === 'Foam Production').length;
+  const readyCount = visOrders.filter(o => normalizeStage(o.status) === 'Container Loading').length;
+  const shippedCount = visOrders.filter(o => ['Sea Freight', 'Delivered'].includes(normalizeStage(o.status))).length;
 
   const totalKpi = document.getElementById('ordTotalKpi');
   const prodKpi = document.getElementById('ordProdKpi');
@@ -4502,7 +4497,9 @@ function renderOrdersTable() {
 
   const canFullOrd = hasPageFull('orders') || hasPageFull('packing');
   tbody.innerHTML = filtered.map(o => {
-    const badgeClass = o.status === 'Shipped' ? 'ba' : (o.status === 'Ready to Ship' ? 'bi' : 'bp');
+    const curStatus = syncOrderAutoStatus(o);
+    const pct = stagePercent(curStatus);
+    const badgeClass = (curStatus === 'Delivered' || curStatus === 'Sea Freight') ? 'ba' : (curStatus === 'Container Loading' ? 'bi' : 'bp');
     const totalWeight = (Number(o.foamKg) || 0) + (Number(o.plasticKg) || 0);
     return `
       <tr>
@@ -4513,12 +4510,10 @@ function renderOrdersTable() {
           ? `<input class="fi" type="date" value="${isoFromDisplay(o.expDate)}" style="padding:5px 8px;font-size:11.5px;width:150px" onchange="updateExportDate('${o.ordNo}', this.value)">`
           : o.expDate}</td>
         <td><strong>${totalWeight.toLocaleString()} KG</strong></td>
-        <td><span class="badge ${badgeClass}">${o.status}</span></td>
+        <td><span class="badge ${badgeClass}">${pct}% ${curStatus}</span></td>
         <td>
           <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canFullOrd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
-            <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
-            <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
-            <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+            <option value="Order Confirmed" ${curStatus === 'Order Confirmed' ? 'selected' : ''}>15% Order Confirmed</option>
           </select>
         </td>
         <td>${(hasPageWrite('orders') || hasPageWrite('packing')) ? `<button class="btn-outline" type="button" onclick="triggerReplaceFile('${o.ordNo}')" style="padding:5px 12px;font-size:11.5px"><i class="ti ti-upload"></i>Upload File</button>` : ''}</td>
@@ -4531,29 +4526,36 @@ function renderOrdersTable() {
 function updateOrderStatus(ordNo, newStatus) {
   const order = packingOrders.find(o => o.ordNo === ordNo);
   if (!order) return;
-  order.status = newStatus;
-  order.progress = stagePercent(newStatus);
+  const cleanStage = normalizeStage(newStatus);
+  order.status = cleanStage;
+  order.progress = stagePercent(cleanStage);
+  if (cleanStage === 'Order Confirmed') {
+    order.deliveryDate = '';
+  }
   persistData();
   renderOrdersTable();
   renderPackingTable();
   renderProductionTable();
+  renderTracking();
   updateDashboard();
   generateClientReport(false);
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
     `Updated Order Status: ${ordNo}`,
-    `User "${currentLoggedUser}" changed order ${ordNo} (${order.client}) status to "${newStatus}".`
+    `User "${currentLoggedUser}" changed order ${ordNo} (${order.client}) status to "${order.progress}% ${cleanStage}".`
   );
-  showToast(`Order ${ordNo} marked as ${newStatus}`);
+  showToast(`Order ${ordNo} → ${order.progress}% ${cleanStage}`);
 }
 
+// PACKING LIST PAGE: UPDATE STATUS before Progress with 88% Sea Freight and 100% Delivered
 function renderPackingTable() {
   const tbody = document.getElementById('packingTableBody');
   if (!tbody) return;
   const visOrders = getVisibleOrders();
   const q = (document.getElementById('packingSearchInput')?.value || '').trim().toLowerCase();
   const clientFilter = document.getElementById('packingClientFilter')?.value || 'ALL';
+  const canFullPack = hasPageFull('packing') || hasPageFull('orders');
 
   const filtered = visOrders.filter(o => {
     const matchesClient = clientFilter === 'ALL' || o.client === clientFilter;
@@ -4565,7 +4567,13 @@ function renderPackingTable() {
     return matchesClient && matchesQuery;
   });
 
-  tbody.innerHTML = filtered.map(o => `
+  tbody.innerHTML = filtered.map(o => {
+    const curStage = syncOrderAutoStatus(o);
+    const pct = stagePercent(curStage);
+    const extraPackStage = !PACKING_STAGES.some(s => s.name === curStage)
+      ? `<option value="${curStage}" selected>${pct}% ${curStage}</option>`
+      : '';
+    return `
     <tr>
       <td class="ord-no">${o.ordNo}</td>
       <td>${o.client}</td>
@@ -4578,11 +4586,18 @@ function renderPackingTable() {
       <td><strong>${Number(o.grossKg || 0).toLocaleString()}</strong></td>
       <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Packing.pdf</button> <button class="btn-outline" type="button" onclick="reportPackingXlsx('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-spreadsheet"></i>Packing.xlsx</button></td>
       <td>
-        <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
-        <span style="font-size:11px;font-weight:700;margin-left:5px">${stagePercent(o.status)}%</span>
+        <select class="fi" style="padding:4px 7px;font-size:10.5px;width:auto" ${canFullPack ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
+          ${extraPackStage}
+          ${PACKING_STAGES.map(x => `<option value="${x.name}" ${curStage === x.name ? 'selected' : ''}>${x.pct}% ${x.name}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
+        <span style="font-size:11px;font-weight:700;margin-left:5px">${pct}%</span>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 // Client Report Generator
@@ -4689,12 +4704,13 @@ function generateClientReport(logActivity = true) {
     tbody.innerHTML = clientOrders.map(o => {
       totalFoam += Number(o.foamKg) || 0;
       totalPlastic += Number(o.plasticKg) || 0;
+      const stg = syncOrderAutoStatus(o);
       return `
         <tr>
           <td class="doc-order">${o.ordNo}</td>
           <td>${fmtDate(o.reqDate)}</td>
           <td>${fmtDate(o.expDate)}</td>
-          <td><span class="size-b">${o.size}</span> · ${o.status}</td>
+          <td><span class="size-b">${o.size}</span> · ${stg}</td>
           <td><strong>${Number(o.foamKg).toLocaleString()}</strong></td>
           <td><strong>${Number(o.plasticKg).toLocaleString()}</strong></td>
         </tr>
@@ -4743,7 +4759,7 @@ function exportSingleClientReportExcel() {
           <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#1d4ed8">${o.ordNo}</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${fmtDate(o.reqDate)}</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${fmtDate(o.expDate)}</td>
-          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#0369a1;font-weight:600">${o.size} (${o.status})</td>
+          <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#0369a1;font-weight:600">${o.size} (${syncOrderAutoStatus(o)})</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(o.foamKg).toLocaleString()}</td>
           <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(o.plasticKg).toLocaleString()}</td>
         </tr>
@@ -4845,7 +4861,6 @@ function printClientReport() {
   window.print();
 }
 
-// Save New Client
 function saveNewClient() {
   const name = document.getElementById('ncName').value.trim();
   const country = document.getElementById('ncCountry').value.trim();
@@ -4884,7 +4899,7 @@ function saveNewClient() {
     `Added New Client: ${name}`,
     `User "${currentLoggedUser}" added client "${name}" (${country}). Address: ${address || 'N/A'}, Email: ${email || 'N/A'}.`
   );
-  showToast(`Client "${name}" saved & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+  showToast(`Client "${name}" saved`);
 }
 
 function deleteClient(idx) {
@@ -4901,14 +4916,15 @@ function deleteClient(idx) {
   showToast(`Removed ${removed.name} from clients list.`, 'info');
 }
 
-// ═══ BACKEND: Google Apps Script ═══
+// ═══ FAST & RELIABLE BACKEND SYNC ENGINE ═══
 const API_URL = 'https://script.google.com/macros/s/AKfycbzNQg1LFkM19dAhBixkhesF98qkv86m3jlPskGxlMoarNxeKIN83UHKHaIoP7sg82Wk/exec';
 let sessionToken = null;
 let sessionIsAdmin = false;
 let pendingOrderFile = null;
-let saveTimer = null;
 let syncChain = Promise.resolve();
 let pollHandle = null;
+let isSyncRunning = false;
+let hasPendingSync = false;
 let serverBaseline = { Clients: new Map(), Orders: new Map(), Audit: new Map() };
 
 const DIFF_TABLES = {
@@ -4923,7 +4939,11 @@ async function api(action, payload = {}, needsSession = true) {
   if (needsSession) body.token = sessionToken;
   let res;
   try {
-    res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(body) });
+    res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(body)
+    });
   } catch (e) {
     throw new Error('No connection to the server.');
   }
@@ -4951,7 +4971,6 @@ function snapshot(list, key) {
 }
 
 async function flushChanges() {
-  // all the changes go to the server in ONE request
   const ops = [];
   const nexts = {};
   for (const [table, cfg] of Object.entries(DIFF_TABLES)) {
@@ -4967,209 +4986,43 @@ async function flushChanges() {
     }
     nexts[table] = now;
   }
-  if (ops.length) await api('batchSave', { ops: ops });
+  if (ops.length) {
+    await api('batchSave', { ops: ops });
+  }
   Object.keys(nexts).forEach(t => { serverBaseline[t] = nexts[t]; });
 }
 
 async function pullFromServer() {
   const r = await api('getAll');
-  clientsList = r.data.Clients;
-  packingOrders = r.data.Orders;
-  systemUsers = r.data.Users;
-  WHATSAPP_NUMBER = r.whatsapp || '';
-  if (r.nextOrderNo !== undefined) { const el = document.getElementById('setNextOrder'); if (el && document.activeElement !== el) el.value = r.nextOrderNo; }
-  if (r.whatsapp !== undefined) { const wl = document.getElementById('setWhatsApp'); if (wl && document.activeElement !== wl) wl.value = r.whatsapp; }
-  renderNewOrderPage();
-  emailAuditLogs = r.data.Audit;
-  serverBaseline = {
-    Clients: snapshot(clientsList, 'name'),
-    Orders: snapshot(packingOrders, 'ordNo'),
-    Audit: snapshot(emailAuditLogs, 'id')
-  };
-}
-
-function refreshUI() {
-  renderAllTables();
-  updateDashboard();
-  renderMessagesFeed();
-}
-
-function queueSync(quiet = false, pullAfter = false) {
-  syncChain = syncChain.then(async () => {
-    try {
-      await flushChanges();
-      if (pullAfter) {
-        await queuedPull();
-        refreshUI();
-      }
-      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
-    } catch (err) {
-      console.error(err);
-      setSyncStatus('error', 'Sync failed: ' + err.message);
-      if (!quiet) showToast('Sync failed: ' + err.message, 'error');
-    }
+  clientsList = Array.isArray(r.data.Clients) ? r.data.Clients : [];
+  packingOrders = (Array.isArray(r.data.Orders) ? r.data.Orders : []).map(o => {
+    const copy = Object.assign({}, o);
+    syncOrderAutoStatus(copy);
+    return copy;
   });
-}
-
-function persistData() {
-  if (!sessionToken) {
-    setSyncStatus('offline', 'Not logged in: changes are not saved');
-    return;
+  if (Array.isArray(r.data.Users) && r.data.Users.length) {
+    systemUsers = r.data.Users;
   }
-  setSyncStatus('saving', 'Saving…');
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    saveTimer = null;
-    queueSync(false, false);
-  }, 400);
-}
-
-async function loadFromServer() {
-  setSyncStatus('saving', 'Loading data…');
-  try {
-    await queuedPull();
-    if (isClientSelfAccount) ensureClientSelfRecord(clientSelfName || currentLoggedUser);
-    refreshUI();
-    generateClientReport(false);
-    setSyncStatus('ok', 'Live · connected to server');
-  } catch (err) {
-    console.error(err);
-    setSyncStatus('error', 'Could not load data: ' + err.message);
-    showToast('Could not load data: ' + err.message, 'error');
+  if (Array.isArray(r.data.Audit)) {
+    emailAuditLogs = r.data.Audit;
   }
-  if (!pollHandle) {
-    pollHandle = setInterval(() => {
-      if (sessionToken && !saveTimer) queueSync(true, true);
-    }, 60000);
+  if (r.nextOrderNo) {
+    const noInput = document.getElementById('noNumber');
+    if (noInput) noInput.value = r.nextOrderNo;
   }
-}
-
-// ═══ ORDER FILES ═══
-function onOrderFileChosen(input) {
-  const f = input.files && input.files[0];
-  pendingOrderFile = f || null;
-  document.getElementById('noOrderFileName').textContent = f ? f.name : 'No file selected';
-}
-
-let WHATSAPP_NUMBER = '';
-let pendingReplaceOrd = null;
-
-function triggerReplaceFile(ordNo) {
-  pendingReplaceOrd = ordNo;
-  uploadTarget = 'replace';
-  chooseFileSource();
-}
-
-// Upload source: camera or a file
-let uploadTarget = 'new';
-function chooseFileSource() {
-  const old = document.getElementById('srcChooser');
-  if (old) old.remove();
-  const ov = document.createElement('div');
-  ov.id = 'srcChooser';
-  ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:9999';
-  ov.innerHTML = '<div style="background:#fff;border-radius:16px;padding:18px;width:260px;text-align:center;font-family:Inter,sans-serif;color:#0f172a">' +
-    '<div style="font-weight:800;margin-bottom:12px">Upload from</div>' +
-    '<button id="srcCam" class="btn-blue" type="button" style="width:100%;justify-content:center;margin-bottom:8px"><i class="ti ti-camera"></i>Camera</button>' +
-    '<button id="srcFile" class="btn-outline" type="button" style="width:100%;justify-content:center"><i class="ti ti-file"></i>File</button>' +
-    '<button id="srcCancel" type="button" style="margin-top:10px;background:none;border:none;color:#64748b;cursor:pointer">Cancel</button></div>';
-  document.body.appendChild(ov);
-  ov.querySelector('#srcCam').onclick = () => { ov.remove(); document.getElementById('camInput').click(); };
-  ov.querySelector('#srcFile').onclick = () => { ov.remove(); document.getElementById('anyFileInput').click(); };
-  ov.querySelector('#srcCancel').onclick = () => ov.remove();
-}
-
-function onUploadPicked(input) {
-  if (uploadTarget === 'replace') return onReplaceFileChosen(input);
-  return onNewOrderFileChosen(input);
-}
-
-async function onReplaceFileChosen(input) {
-  const f = input.files && input.files[0];
-  input.value = '';
-  const ordNo = pendingReplaceOrd;
-  pendingReplaceOrd = null;
-  if (!f || !ordNo) return;
-  showToast('Replacing the file of ' + ordNo + '…', 'info');
-  try {
-    const base64 = await blobToBase64(f);
-    const res = await api('replaceOrderFile', { ordNo: ordNo, name: f.name, base64: base64 });
-    const o = packingOrders.find(x => x.ordNo === ordNo);
-    if (o) {
-      o.orderFile = f.name;
-      o.driveLink = res.url;
-      if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(o));
-    }
-    renderOrdersTable();
-    renderProductionTable();
-    showToast('File replaced. Order ' + ordNo + ' keeps its number.', 'success');
-  } catch (e) {
-    showToast('Replace failed: ' + e.message, 'error');
+  if (sessionIsAdmin) {
+    const sc = document.getElementById('adminSettingsCard');
+    if (sc) sc.style.display = '';
+    const sn = document.getElementById('setNextOrder');
+    const sw = document.getElementById('setWhatsApp');
+    if (sn) sn.value = r.nextOrderNo || nextOrderNumber();
+    if (sw) sw.value = r.whatsapp || '';
+  } else {
+    const sc = document.getElementById('adminSettingsCard');
+    if (sc) sc.style.display = 'none';
   }
-}
-
-function renderNewOrderPage() {
-  const link = document.getElementById('noWhatsApp');
-  if (link) {
-    const num = String(WHATSAPP_NUMBER || '').replace(/\D/g, '');
-    link.href = num
-      ? 'https://wa.me/' + num + '?text=' + encodeURIComponent('Hello Foam Industries, I want to request a new order (' + (currentLoggedUser || '') + ').')
-      : '#';
-    link.style.opacity = num ? '1' : '.5';
-  }
-  const me = (typeof clientSelfName !== 'undefined' && clientSelfName) || currentLoggedUser;
-  const rec = clientsList.find(c => String(c.name || '').toLowerCase() === String(me || '').toLowerCase());
-  const set = (id, v) => { const el = document.getElementById(id); if (el && document.activeElement !== el) el.value = v || ''; };
-  set('ncdName', rec ? rec.name : me);
-  set('ncdCountry', rec && rec.country !== 'International' ? rec.country : '');
-  set('ncdRegion', rec && rec.region !== 'Other' ? rec.region : '');
-  set('ncdVat', rec && rec.vat !== 'N/A' ? rec.vat : '');
-  set('ncdMobile', rec ? rec.mobile : '');
-  set('ncdContact', rec ? rec.contact : '');
-  set('ncdEmail', rec ? rec.email : '');
-  set('ncdAddress', rec ? rec.address : '');
-}
-
-async function onNewOrderFileChosen(input) {
-  const f = input.files && input.files[0];
-  input.value = '';
-  if (!f) return;
-  showToast('Sending your order…', 'info');
-  try {
-    const base64 = await blobToBase64(f);
-    const res = await api('createClientOrder', { name: f.name, base64: base64 });
-    document.getElementById('noAutoNumber').textContent = res.ordNo;
-    const box = document.getElementById('noWaBox');
-    if (box) {
-      box.innerHTML = (res.clientWaLink ? '<a class="btn-outline no-wa" href="' + res.clientWaLink + '" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Send order number on WhatsApp</a>' : '') +
-        (res.companyWaLink ? '<a class="btn-outline no-wa" href="' + res.companyWaLink + '" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Send company details on WhatsApp</a>' : '');
-    }
-    showToast('Order ' + res.ordNo + ' received. Thank you!', 'success');
-    await queuedPull();
-    refreshUI();
-  } catch (e) {
-    showToast('Order failed: ' + e.message, 'error');
-  }
-}
-
-async function saveClientDetails() {
-  const rec = {
-    name: document.getElementById('ncdName').value.trim() || currentLoggedUser,
-    country: document.getElementById('ncdCountry').value.trim(),
-    region: document.getElementById('ncdRegion').value.trim(),
-    vat: document.getElementById('ncdVat').value.trim(),
-    mobile: document.getElementById('ncdMobile').value.trim(),
-    contact: document.getElementById('ncdContact').value.trim(),
-    email: document.getElementById('ncdEmail').value.trim(),
-    address: document.getElementById('ncdAddress').value.trim()
-  };
-  try {
-    await api('saveMyClient', { record: rec });
-    showToast('Client details saved.', 'success');
-    await queuedPull();
-    refreshUI();
-  } catch (e) {
-    showToast('Save failed: ' + e.message, 'error');
+  for (const [table, cfg] of Object.entries(DIFF_TABLES)) {
+    serverBaseline[table] = snapshot(cfg.get(), cfg.key);
   }
 }
 
@@ -5178,157 +5031,302 @@ async function saveAdminSettings() {
   const whatsapp = document.getElementById('setWhatsApp').value.trim();
   try {
     await api('saveSettings', { nextOrderNo: nextOrderNo, whatsapp: whatsapp });
-    WHATSAPP_NUMBER = whatsapp;
-    renderNewOrderPage();
-    showToast('Order settings saved.', 'success');
+    const noInput = document.getElementById('noNumber');
+    if (noInput && nextOrderNo) noInput.value = nextOrderNo;
+    showToast('Settings saved.', 'success');
   } catch (e) {
     showToast('Save failed: ' + e.message, 'error');
   }
 }
 
+function refreshUI() {
+  packingOrders.forEach(o => syncOrderAutoStatus(o));
+  updateDashboard();
+  renderAllTables();
+  generateClientReport(false);
+}
+
+// Fast queueSync that never leaves "Saving…" stuck and coalesces bursts cleanly
+function queueSync(skipPull = false, forcePull = false) {
+  hasPendingSync = true;
+  if (isSyncRunning) return syncChain;
+
+  isSyncRunning = true;
+  setSyncStatus('saving', 'Saving…');
+
+  syncChain = (async () => {
+    try {
+      while (hasPendingSync) {
+        hasPendingSync = false;
+        await flushChanges();
+        if (!skipPull || forcePull) {
+          await pullFromServer();
+        }
+      }
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+    } catch (e) {
+      console.error(e);
+      setSyncStatus('error', 'Sync error: ' + e.message);
+      showToast('Sync issue: ' + e.message, 'error');
+    } finally {
+      isSyncRunning = false;
+      refreshUI();
+    }
+  })();
+
+  return syncChain;
+}
+
+async function loadFromServer() {
+  setSyncStatus('saving', 'Loading from server…');
+  try {
+    await pullFromServer();
+    setSyncStatus('ok', 'Live · synced ' + new Date().toLocaleTimeString('en-GB'));
+  } catch (e) {
+    setSyncStatus('error', 'Load failed: ' + e.message);
+    showToast('Could not load data: ' + e.message, 'error');
+  }
+  refreshUI();
+  if (pollHandle) clearInterval(pollHandle);
+  pollHandle = setInterval(() => {
+    if (sessionToken && !isSyncRunning) {
+      queueSync(false, true);
+    }
+  }, 60000);
+}
+
+function persistData() {
+  if (!sessionToken) return;
+  return queueSync(true, false);
+}
+
 function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(String(r.result).split(',')[1]);
-    r.onerror = () => reject(new Error('Could not read the file.'));
-    r.readAsDataURL(blob);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const i = String(reader.result).indexOf(',');
+      resolve(i >= 0 ? String(reader.result).slice(i + 1) : String(reader.result));
+    };
+    reader.onerror = () => reject(new Error('Could not read the file.'));
+    reader.readAsDataURL(blob);
   });
 }
 
-async function uploadFileToDrive(file, ordNo) {
-  const base64 = await blobToBase64(file);
-  const res = await api('uploadFile', { name: file.name, base64: base64, ordNo: ordNo });
-  return res.url;
+function onOrderFileChosen(input) {
+  const f = input.files && input.files[0];
+  if (!f) {
+    pendingOrderFile = null;
+    document.getElementById('noOrderFileName').textContent = 'No file selected';
+    return;
+  }
+  pendingOrderFile = f;
+  document.getElementById('noOrderFileName').textContent = f.name;
 }
 
-async function buildOrderPdf(file, ordNo) {
-  const { PDFDocument } = PDFLib;
-  const out = await PDFDocument.create();
-  const bytes = await file.arrayBuffer();
-
-  if (file.type === 'application/pdf') {
-    const src = await PDFDocument.load(bytes);
-    const pages = await out.copyPages(src, src.getPageIndices());
-    pages.forEach(pg => out.addPage(pg));
-  } else if (file.type === 'image/png' || file.type === 'image/jpeg') {
-    const img = file.type === 'image/png' ? await out.embedPng(bytes) : await out.embedJpg(bytes);
-    const pageW = 595.28, pageH = 841.89, margin = 36;
-    const scale = Math.min((pageW - 2 * margin) / img.width, (pageH - 2 * margin) / img.height);
-    const w = img.width * scale, h = img.height * scale;
-    const page = out.addPage([pageW, pageH]);
-    page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
-  } else {
-    throw new Error('Only PDF, PNG or JPG files can be attached.');
-  }
-
-  out.setTitle(ordNo);
-  const pdfBytes = await out.save();
-  return new File([pdfBytes], `${ordNo}.pdf`, { type: 'application/pdf' });
-}
-
-// Save New Packing Order + Send Email Alert
-async function saveNewOrder() {
-  const client = isClientSelfAccount ? (clientSelfName || currentLoggedUser) : document.getElementById('noClient').value;
-  const ordNo = document.getElementById('noNumber').value.trim();
-  if (!ordNo) {
-    showToast('Please enter the order number.', 'error');
-    return;
-  }
-  if (packingOrders.some(o => o.ordNo === ordNo)) {
-    showToast('Order number ' + ordNo + ' is already used. Choose another number.', 'error');
-    return;
-  }
-  if (!pendingOrderFile) {
-    showToast('Please upload the order file.', 'error');
-    return;
-  }
-  let orderFile = null;
-  let driveLink = '';
-  try {
-    const ext = pendingOrderFile.name.includes('.') ? '.' + pendingOrderFile.name.split('.').pop().toLowerCase() : '';
-    if (['pdf', 'png', 'jpg', 'jpeg'].includes(ext.slice(1))) {
-      showToast('Creating order PDF…', 'info');
-      orderFile = await buildOrderPdf(pendingOrderFile, ordNo);
-    } else {
-      // any other format is saved as it is, with the order number as its name
-      orderFile = new File([pendingOrderFile], ordNo + ext, { type: pendingOrderFile.type || 'application/octet-stream' });
+function triggerReplaceFile(ordNo) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.onchange = async () => {
+    const f = input.files && input.files[0];
+    if (!f) return;
+    setSyncStatus('saving', 'Uploading order file…');
+    try {
+      const base64 = await blobToBase64(f);
+      const r = await api('replaceOrderFile', { ordNo: ordNo, name: f.name, base64: base64 });
+      const o = packingOrders.find(x => x.ordNo === ordNo);
+      if (o) {
+        o.orderFile = f.name;
+        o.driveLink = r.url;
+        if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(o));
+      }
+      renderOrdersTable();
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+      showToast('Order file replaced.', 'success');
+    } catch (e) {
+      setSyncStatus('error', 'Replace failed: ' + e.message);
+      showToast('Replace failed: ' + e.message, 'error');
     }
-    showToast('Uploading to Google Drive…', 'info');
-    driveLink = await uploadFileToDrive(orderFile, ordNo);
-  } catch (err) {
-    console.error(err);
-    showToast('Failed: ' + err.message, 'error');
-    return;
-  }
-  const foamKg = 0;
-  const plasticKg = 0;
-  const size = '—';
-  const reqDate = fmtDate(document.getElementById('noReqDate').value) || fmtDate(new Date().toISOString().slice(0, 10));
-  const expDate = fmtDate(document.getElementById('noExpDate').value) || '';
-  const foundClient = clientsList.find(c => c.name === client);
+  };
+  input.click();
+}
 
-  packingOrders.unshift({
+let uploadTarget = null;
+function chooseFileSource() {
+  const useCam = confirm('Take a photo with the camera?\n\nPress OK for Camera, or Cancel to choose a file.');
+  document.getElementById(useCam ? 'camInput' : 'anyFileInput').click();
+}
+
+async function onUploadPicked(input) {
+  const f = input.files && input.files[0];
+  input.value = '';
+  if (!f) return;
+  if (uploadTarget === 'new') {
+    await submitNewOrderFile(f);
+  } else if (uploadTarget) {
+    const ordNo = uploadTarget;
+    uploadTarget = null;
+    setSyncStatus('saving', 'Uploading order file…');
+    try {
+      const base64 = await blobToBase64(f);
+      const r = await api('replaceOrderFile', { ordNo: ordNo, name: f.name, base64: base64 });
+      const o = packingOrders.find(x => x.ordNo === ordNo);
+      if (o) {
+        o.orderFile = f.name;
+        o.driveLink = r.url;
+        if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(o));
+      }
+      renderOrdersTable();
+      setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+      showToast('Order file replaced.', 'success');
+    } catch (e) {
+      setSyncStatus('error', 'Replace failed: ' + e.message);
+      showToast('Replace failed: ' + e.message, 'error');
+    }
+  }
+}
+
+async function submitNewOrderFile(file) {
+  setSyncStatus('saving', 'Uploading order…');
+  try {
+    const base64 = await blobToBase64(file);
+    const r = await api('createClientOrder', { name: file.name, base64: base64 });
+    document.getElementById('noAutoNumber').textContent = r.ordNo;
+    const box = document.getElementById('noWaBox');
+    box.innerHTML = (r.clientWaLink ? `<a class="btn-outline no-wa" href="${r.clientWaLink}" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Send order details on WhatsApp</a>` : '') +
+      (r.companyWaLink ? `<a class="btn-outline" href="${r.companyWaLink}" target="_blank" rel="noopener"><i class="ti ti-building"></i>Send company details on WhatsApp</a>` : '');
+    await pullFromServer();
+    refreshUI();
+    setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+    showToast('Order ' + r.ordNo + ' created.', 'success');
+  } catch (e) {
+    setSyncStatus('error', 'Upload failed: ' + e.message);
+    showToast('Upload failed: ' + e.message, 'error');
+  }
+}
+
+async function saveClientDetails() {
+  const rec = {
+    country: document.getElementById('ncdCountry').value.trim(),
+    region: document.getElementById('ncdRegion').value.trim(),
+    vat: document.getElementById('ncdVat').value.trim(),
+    mobile: document.getElementById('ncdMobile').value.trim(),
+    contact: document.getElementById('ncdContact').value.trim(),
+    email: document.getElementById('ncdEmail').value.trim(),
+    address: document.getElementById('ncdAddress').value.trim()
+  };
+  setSyncStatus('saving', 'Saving details…');
+  try {
+    await api('saveMyClient', { record: rec });
+    await pullFromServer();
+    refreshUI();
+    setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+    showToast('Your details have been saved.', 'success');
+  } catch (e) {
+    setSyncStatus('error', 'Save failed: ' + e.message);
+    showToast('Save failed: ' + e.message, 'error');
+  }
+}
+
+async function saveNewOrder() {
+  const client = document.getElementById('noClient').value;
+  const ordNo = document.getElementById('noNumber').value.trim() || nextOrderNumber();
+  const reqDate = fmtDate(document.getElementById('noReqDate').value) || '24 Nov 2026';
+  const expDate = fmtDate(document.getElementById('noExpDate').value) || '05 Dec 2026';
+  const cObj = clientsList.find(c => c.name === client);
+  const fileObj = pendingOrderFile;
+  const fileName = fileObj ? fileObj.name : '';
+
+  const newOrd = {
     ordNo,
     client,
-    dest: foundClient ? foundClient.country : 'International Port',
+    dest: cObj ? cObj.country : 'Germany',
     reqDate,
     expDate,
-    foamKg,
-    plasticKg,
-    size,
-    orderFile: orderFile ? orderFile.name : '',
-    driveLink,
-    progress: 40,
-    status: 'In Production'
-  });
+    foamKg: 0,
+    plasticKg: 0,
+    size: "1×40' HC",
+    progress: 15,
+    status: 'Order Confirmed',
+    orderFile: fileName,
+    driveLink: ''
+  };
+  syncOrderAutoStatus(newOrd);
 
-  queueSaveOrder(packingOrders[0]);
-  document.getElementById('noNumber').value = nextOrderNumber();
-  document.getElementById('pkLatestOrd').textContent = ordNo;
-  document.getElementById('packingTotalTitle').textContent = `Orders — ${getVisibleOrders().length} total`;
+  packingOrders.unshift(newOrd);
+  if (cObj) cObj.lastOrder = 'Nov 2026';
+
   document.getElementById('addOrderModal').classList.remove('open');
   pendingOrderFile = null;
   document.getElementById('noOrderFile').value = '';
   document.getElementById('noOrderFileName').textContent = 'No file selected';
+
   updateDashboard();
-  renderOrdersTable();
-  renderPackingTable();
-  generateClientReport(false);
+  renderAllTables();
+
+  setSyncStatus('saving', 'Saving order…');
+  try {
+    if (fileObj) {
+      const base64 = await blobToBase64(fileObj);
+      const url = await api('uploadFile', { name: fileName, base64: base64, ordNo: ordNo });
+      newOrd.driveLink = url.url || '';
+    }
+    await api('upsert', { table: 'Orders', record: newOrd });
+    if (serverBaseline.Orders) serverBaseline.Orders.set(String(ordNo), JSON.stringify(newOrd));
+    const noInput = document.getElementById('noNumber');
+    if (noInput) noInput.value = nextOrderNumber();
+    setSyncStatus('ok', 'Live · saved ' + new Date().toLocaleTimeString('en-GB'));
+  } catch (e) {
+    setSyncStatus('error', 'Save failed: ' + e.message);
+    showToast('Order not saved: ' + e.message, 'error');
+    return;
+  }
+
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
-    `New Order Requested: ${ordNo}`,
-    `User "${currentLoggedUser}" requested new order ${ordNo} for client "${client}". Request Date: ${reqDate}, Export Date: ${expDate}. Order file: ${orderFile ? orderFile.name : 'none'}${driveLink ? ' (Drive: ' + driveLink + ')' : ''}.`
+    `Created New Order: ${ordNo}`,
+    `User "${currentLoggedUser}" created order ${ordNo} for client "${client}" (${newOrd.dest}). Status: ${newOrd.progress}% ${newOrd.status}${fileName ? `, File: ${fileName}` : ''}.`
   );
-  showToast(`Order ${ordNo} created & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+  showToast(`Order ${ordNo} created for ${client}`);
 }
 
-// Save New User
 async function saveNewUser() {
   const username = document.getElementById('nuUsername').value.trim();
+  const pw = document.getElementById('nuPass').value;
+  const pw2 = document.getElementById('nuPass2').value;
   if (!username) {
     showToast('Please enter a username.', 'error');
     return;
   }
-  const mobile = document.getElementById('nuMobile').value.trim() || '+20 100 000 0000';
-  const title = document.getElementById('nuTitle').value.trim() || 'Export Coordinator';
+  if (pw.length < 8) {
+    showToast('The password must be at least 8 characters.', 'error');
+    return;
+  }
+  if (pw !== pw2) {
+    showToast('The two passwords do not match.', 'error');
+    return;
+  }
   const perms = readPerms('n');
-
-  const password = document.getElementById('nuPass').value;
-  const password2 = document.getElementById('nuPass2').value;
-  if (!password || password !== password2) {
-    showToast('Passwords are empty or do not match.', 'error');
-    return;
-  }
-  const newUser = { username, mobile, title, dash: 'User', ...perms, email: document.getElementById('nuEmail').value.trim(), isDefault: false };
+  const rec = {
+    username,
+    mobile: document.getElementById('nuMobile').value.trim() || '+20 10 0000 0000',
+    title: document.getElementById('nuTitle').value.trim() || 'Export Coordinator',
+    email: document.getElementById('nuEmail').value.trim() || '',
+    clients: perms.clients,
+    orders: perms.orders,
+    production: perms.production,
+    packing: perms.packing,
+    messages: perms.messages,
+    users: perms.users,
+    isDefault: false
+  };
   try {
-    await api('saveUser', { record: newUser, password });
-  } catch (err) {
-    showToast('Could not save user: ' + err.message, 'error');
+    await api('saveUser', { record: rec, password: pw });
+  } catch (e) {
+    showToast('Could not save user: ' + e.message, 'error');
     return;
   }
-  systemUsers.push(newUser);
-  resetNewUserPerms();
+  systemUsers.push(rec);
   document.getElementById('addUserModal').classList.remove('open');
   ['nuUsername','nuMobile','nuTitle','nuEmail','nuPass','nuPass2'].forEach(id => document.getElementById(id).value = '');
   renderAllTables();
@@ -5336,70 +5334,46 @@ async function saveNewUser() {
     'action',
     currentLoggedUser,
     `Added Portal User: ${username}`,
-    `User "${currentLoggedUser}" created user account "${username}" (${title}) with permissions [Clients: ${newUser.clients}, Orders: ${newUser.orders}, Production: ${newUser.production}, Packing: ${newUser.packing}, Messages: ${newUser.messages}, Users: ${newUser.users}].`
+    `Admin "${currentLoggedUser}" added user "${username}" (${rec.title}).`
   );
-  showToast(`User "${username}" added & alert sent to ${ADMIN_NOTIFY_EMAIL}`);
+  showToast(`User "${username}" added`);
 }
 
-function deleteUser(idx) {
-  const removed = systemUsers[idx];
-  api('remove', { table: 'Users', key: removed.username })
-    .then(() => { systemUsers.splice(idx, 1); renderAllTables(); })
-    .catch(err => showToast('Could not delete user: ' + err.message, 'error'));
+async function deleteUser(idx) {
+  const target = systemUsers[idx];
+  if (!target) return;
+  try {
+    await api('remove', { table: 'Users', key: target.username });
+  } catch (e) {
+    showToast('Could not delete user: ' + e.message, 'error');
+    return;
+  }
+  const removed = systemUsers.splice(idx, 1)[0];
   renderAllTables();
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
     `Deleted Portal User: ${removed.username}`,
-    `User "${currentLoggedUser}" removed user account "${removed.username}".`
+    `Admin "${currentLoggedUser}" removed user "${removed.username}".`
   );
-  showToast(`User "${removed.username}" removed.`, 'info');
+  showToast(`User "${removed.username}" removed`, 'info');
 }
 
-// Styled All-Clients Master Report Export
-function buildAllClientsPrintView() {
-  const tbody = document.getElementById('allClientsPrintTbody');
-  const nowStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-  document.getElementById('allClientsReportDateBadge').textContent = `${clientsList.length} Clients · ${nowStr}`;
-  document.getElementById('allClientsCountStat').textContent = `${clientsList.length} Accounts`;
-  document.getElementById('allClientsTotalCount').textContent = String(clientsList.length);
-
-  let totalKg = 0;
-  tbody.innerHTML = clientsList.map(c => {
-    const kg = Number(c.qtyKg2026) || 0;
-    totalKg += kg;
-    return `
-      <tr>
-        <td class="doc-order">${c.name}</td>
-        <td>${c.country}</td>
-        <td><strong>${c.firstRegistered || '01 Jan 2024'}</strong></td>
-        <td>${c.vat}</td>
-        <td>${c.mobile}</td>
-        <td>${c.contact}</td>
-        <td><strong>${kg.toLocaleString()} KG</strong></td>
-        <td>${c.status}</td>
-      </tr>
-    `;
-  }).join('');
-
-  document.getElementById('allClientsTotalKg').textContent = `${totalKg.toLocaleString()} KG`;
-  return totalKg;
-}
-
+// Export All Clients Excel & PDF
 function exportAllClientsExcel() {
-  const totalKg = clientsList.reduce((sum, c) => sum + (Number(c.qtyKg2026) || 0), 0);
-  const nowStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const visClients = getVisibleClients();
+  const totalKg2026 = visClients.reduce((sum, c) => sum + (Number(c.qtyKg2026) || 0), 0);
 
-  const rowsHtml = clientsList.map((c, idx) => `
+  const clientRowsHtml = visClients.map((c, idx) => `
     <tr style="background:${idx % 2 === 1 ? '#f8fafc' : '#ffffff'}">
-      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#1d4ed8">${c.name}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#090d16">${c.name}</td>
       <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.country}</td>
-      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:#0369a1">${c.firstRegistered || '01 Jan 2024'}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#0369a1;font-weight:600">${c.firstRegistered || '01 Jan 2024'}</td>
       <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.vat}</td>
       <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.mobile}</td>
       <td style="padding:9px 12px;border:1px solid #cbd5e1;color:#090d16">${c.contact}</td>
-      <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#090d16">${Number(c.qtyKg2026 || 0).toLocaleString()} KG</td>
-      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:${c.status === 'Active' ? '#065f46' : '#92400e'}">${c.status}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#1d4ed8">${Number(c.qtyKg2026 || 0).toLocaleString()}</td>
+      <td style="padding:9px 12px;border:1px solid #cbd5e1;font-weight:700;color:${c.status === 'Active' ? '#059669' : '#d97706'}">${c.status}</td>
     </tr>
   `).join('');
 
@@ -5413,31 +5387,32 @@ function exportAllClientsExcel() {
       <table>
         <tr>
           <td colspan="6" style="background:#0A2240;color:#ffffff;padding:14px 16px;font-size:16px;font-weight:800;">
-            Foam Industries Co. — Global Export Portal (All Registered Clients Report)
+            Foam Industries Co. — Global Export Portal (Master All Clients Directory)
           </td>
           <td colspan="2" style="background:#1d4ed8;color:#ffffff;padding:14px 16px;font-size:12px;font-weight:700;text-align:right;">
-            Generated: ${nowStr} · ${clientsList.length} Clients
+            2026 Export Ledger
           </td>
         </tr>
+        <tr><td colspan="8" style="height:8px"></td></tr>
         <tr style="background:#0f172a;color:#ffffff;">
           <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Customer</th>
           <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Country</th>
-          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">First Registered Date</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">First Registered</th>
           <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">VAT No.</th>
           <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Mobile</th>
           <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Contact</th>
-          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:right;font-size:11px;">Export Qty 2026 (KG)</th>
+          <th style="padding:10px 12px;border:1px solid #0f172a;text-align:right;font-size:11px;">2026 Qty (KG)</th>
           <th style="padding:10px 12px;border:1px solid #0f172a;text-align:left;font-size:11px;">Status</th>
         </tr>
-        ${rowsHtml}
+        ${clientRowsHtml}
         <tr style="background:#e0f2fe;font-weight:800;">
           <td colspan="6" style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#090d16;">
-            Total Registered Clients: ${clientsList.length}
+            Total Registered Clients: ${visClients.length}
           </td>
-          <td style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#1d4ed8;font-size:13px;">
-            ${totalKg.toLocaleString()} KG
+          <td style="padding:10px 12px;border:1px solid #94a3b8;text-align:right;color:#059669;font-size:13px;">
+            ${totalKg2026.toLocaleString()} KG
           </td>
-          <td style="padding:10px 12px;border:1px solid #94a3b8;color:#059669;">All Included</td>
+          <td style="padding:10px 12px;border:1px solid #94a3b8;color:#090d16;">All Active</td>
         </tr>
         <tr>
           <td colspan="8" style="background:#0A2240;color:#cbd5e1;padding:9px 14px;font-size:10px;font-weight:600;">
@@ -5449,49 +5424,63 @@ function exportAllClientsExcel() {
     </html>
   `;
 
-  const filename = 'Foam_Industries_All_Clients_Report.xls';
   const blob = new Blob([xlsHtml], { type: 'application/vnd.ms-excel;charset=utf-8;' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = filename;
+  a.download = 'Foam_Industries_All_Clients_2026.xls';
   a.click();
 
   dispatchEmailNotification(
     'action',
     currentLoggedUser,
-    'Exported All Clients Excel Report',
-    `User "${currentLoggedUser}" exported full all-clients report (${clientsList.length} clients) including First Registered Date.`
+    'Exported Master Clients Excel',
+    `User "${currentLoggedUser}" exported the formatted master Excel report of all ${visClients.length} clients.`
   );
-  showToast(`Exported all ${clientsList.length} clients to Excel with First Registered Date`);
+  showToast('Exported formatted Master Clients Excel');
 }
 
 function exportAllClientsPDF() {
-  buildAllClientsPrintView();
+  const visClients = getVisibleClients();
+  const totalKg2026 = visClients.reduce((sum, c) => sum + (Number(c.qtyKg2026) || 0), 0);
+
+  document.getElementById('allClientsCountStat').textContent = String(visClients.length);
+  document.getElementById('allClientsTotalCount').textContent = String(visClients.length);
+  document.getElementById('allClientsTotalKg').textContent = `${totalKg2026.toLocaleString()} KG`;
+  document.getElementById('allClientsReportDateBadge').textContent = `All Clients (${visClients.length}) · 2026`;
+
+  document.getElementById('allClientsPrintTbody').innerHTML = visClients.map(c => `
+    <tr>
+      <td class="doc-order">${c.name}</td>
+      <td>${c.country}</td>
+      <td>${c.firstRegistered || '01 Jan 2024'}</td>
+      <td>${c.vat}</td>
+      <td>${c.mobile}</td>
+      <td>${c.contact}</td>
+      <td><strong>${Number(c.qtyKg2026 || 0).toLocaleString()}</strong></td>
+      <td>${c.status}</td>
+    </tr>
+  `).join('');
+
   document.body.classList.add('printing-all-clients');
-  dispatchEmailNotification(
-    'action',
-    currentLoggedUser,
-    'Exported All Clients PDF Report',
-    `User "${currentLoggedUser}" opened PDF print report for all ${clientsList.length} registered clients including First Registered Date.`
-  );
   window.print();
   setTimeout(() => {
     document.body.classList.remove('printing-all-clients');
-  }, 400);
+  }, 500);
+
+  dispatchEmailNotification(
+    'action',
+    currentLoggedUser,
+    'Exported Master Clients PDF',
+    `User "${currentLoggedUser}" printed/exported the master directory PDF of all ${visClients.length} clients.`
+  );
 }
 
-// Keyboard Enter for Login & Modal Backdrop Close
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') doLogin();
-});
-
-document.querySelectorAll('.modal').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
-});
-
+// Initial Render
+document.getElementById('qtDate').valueAsDate = new Date();
+addQuoteRow();
+updateDashboard();
 renderAllTables();
 generateClientReport(false);
-updateDashboard();
 </script>
 </body>
 </html>
