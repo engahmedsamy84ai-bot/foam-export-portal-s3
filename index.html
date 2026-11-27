@@ -1578,21 +1578,103 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   padding:12px 16px;
 }
 
-/* New Order page */
+/* New Order & Quotation page */
 .no-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.no-card{padding:16px 18px}
+.no-card{
+  padding:16px 18px;
+  background:var(--glass-card);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(15,23,42,0.06);
+  animation:glassFadeUp .35s ease;
+}
 .no-wide{grid-column:1 / -1}
 .no-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:13px}
-.no-row strong{color:#0ea5e9}
+.no-row strong{color:var(--royal)}
 .no-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
 .no-wa{background:#25d366 !important;color:#fff !important;border-color:#25d366 !important}
-.no-hint{font-size:11px;color:#94a3b8;margin-top:8px}
-.no-source{font-size:12.5px;line-height:1.7;color:#334155}
-.no-source a{color:#0ea5e9}
+.no-hint{font-size:11px;color:var(--ink-4);margin-top:8px}
+.no-source{font-size:12.5px;line-height:1.7;color:var(--ink-2)}
+.no-source a{color:var(--royal);font-weight:700;text-decoration:none}
 .no-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.no-form label{display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px}
+.no-form label{display:block;font-size:11px;font-weight:700;color:var(--ink-3);margin-bottom:4px}
 .no-wide-f{grid-column:1 / -1}
-@media (max-width:900px){.no-grid,.no-form{grid-template-columns:1fr}}
+
+/* Production & Export Line Banner (from 2.html, unified glass theme & animations) */
+.line-banner{
+  background:linear-gradient(125deg, rgba(10,34,64,0.90) 0%, rgba(29,78,216,0.84) 55%, rgba(2,132,199,0.82) 100%);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.45);
+  border-radius:16px;
+  padding:14px 18px;
+  margin-bottom:14px;
+  color:#ffffff;
+  box-shadow:0 12px 28px rgba(10,34,64,0.16);
+  animation:glassFadeUp .32s ease;
+}
+.line-banner-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.line-banner-title{
+  font-size:13.5px;
+  font-weight:800;
+  letter-spacing:.04em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#ffffff;
+}
+.line-pulse-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#34d399;
+  box-shadow:0 0 0 4px rgba(52,211,153,0.28), 0 0 12px #34d399;
+  animation:lineDotBeat 1.6s infinite;
+}
+@keyframes lineDotBeat{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.22);opacity:.72}
+}
+.line-stages-strip{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.line-stage-chip{
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.24);
+  border-radius:10px;
+  padding:7px 10px;
+  font-size:11px;
+  font-weight:700;
+  color:#f8fafc;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:transform .2s ease, background .2s ease;
+}
+.line-stage-chip:hover{
+  transform:translateY(-1px);
+  background:rgba(255,255,255,0.22);
+}
+.line-stage-chip i{font-size:14px;color:#7dd3fc;flex-shrink:0}
+@keyframes glassFadeUp{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@media (max-width:900px){
+  .no-grid,.no-form{grid-template-columns:1fr}
+  .line-stages-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 /* Packing list: compact text, same size on computer and mobile */
 #page-packing table th{font-size:9.5px !important;padding:6px 6px !important;letter-spacing:.02em}
 #page-packing table td{font-size:10px !important;padding:6px 6px !important}
@@ -1703,40 +1785,32 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       </div>
 
       <div id="signupPane" style="display:none">
-        <div class="ff"><label for="suCustomer">Customer Name</label><div class="iw"><i class="ico ti ti-building"></i><input class="fi" id="suCustomer" type="text" placeholder="Customer name"></div></div>
         <div class="ff">
-          <label for="suUser">Client / Username</label>
+          <label for="suUser">Username</label>
           <div class="iw">
             <i class="ico ti ti-user"></i>
-            <input class="fi" id="suUser" type="text" placeholder="Choose a client username">
+            <input class="fi" id="suUser" type="text" placeholder="Username">
           </div>
         </div>
         <div class="ff">
-          <label for="suMobile">Mobile</label>
-          <div class="iw">
-            <i class="ico ti ti-phone"></i>
-            <input class="fi" id="suMobile" type="text" placeholder="Mobile number">
-          </div>
-        </div>
-        <div class="ff">
-          <label for="suEmail">Email</label>
+          <label for="suEmail">Email Address</label>
           <div class="iw">
             <i class="ico ti ti-mail"></i>
-            <input class="fi" id="suEmail" type="email" placeholder="Email address">
+            <input class="fi" id="suEmail" type="email" placeholder="Email Address">
+          </div>
+        </div>
+        <div class="ff">
+          <label for="suMobile">Mobile Number</label>
+          <div class="iw">
+            <i class="ico ti ti-phone"></i>
+            <input class="fi" id="suMobile" type="text" placeholder="Mobile Number">
           </div>
         </div>
         <div class="ff">
           <label for="suPass">Password</label>
           <div class="iw">
             <i class="ico ti ti-lock"></i>
-            <input class="fi" id="suPass" type="password" placeholder="At least 8 characters">
-          </div>
-        </div>
-        <div class="ff">
-          <label for="suPass2">Confirm password</label>
-          <div class="iw">
-            <i class="ico ti ti-lock"></i>
-            <input class="fi" id="suPass2" type="password" placeholder="Repeat the password">
+            <input class="fi" id="suPass" type="password" placeholder="Password">
           </div>
         </div>
 
@@ -2136,6 +2210,21 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
       <!-- ── QUOTATION ── -->
       <div class="page" id="page-quotation">
+        <div class="line-banner">
+          <div class="line-banner-top">
+            <div class="line-banner-title">
+              <span class="line-pulse-dot"></span>
+              <span>FOAM INDUSTRIES PRODUCTION &amp; EXPORT LINE</span>
+            </div>
+            <span class="badge ba"><i class="ti ti-file-invoice"></i> Quotation Desk</span>
+          </div>
+          <div class="line-stages-strip">
+            <div class="line-stage-chip"><i class="ti ti-clipboard-check"></i><span>1. Spec &amp; Quote</span></div>
+            <div class="line-stage-chip"><i class="ti ti-settings-automation"></i><span>2. Foam Line</span></div>
+            <div class="line-stage-chip"><i class="ti ti-container"></i><span>3. Packing &amp; Load</span></div>
+            <div class="line-stage-chip"><i class="ti ti-ship"></i><span>4. Export Dispatch</span></div>
+          </div>
+        </div>
         <div class="page-header">
           <div>
             <div class="page-title">Quotation</div>
@@ -2387,6 +2476,21 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
       <!-- ── PAGE: SHIPMENT TRACKING (client accounts) ── -->
       <div class="page" id="page-tracking">
+        <div class="line-banner">
+          <div class="line-banner-top">
+            <div class="line-banner-title">
+              <span class="line-pulse-dot"></span>
+              <span>FOAM INDUSTRIES PRODUCTION &amp; EXPORT LINE</span>
+            </div>
+            <span class="badge bi"><i class="ti ti-truck"></i> Live Shipment Line</span>
+          </div>
+          <div class="line-stages-strip">
+            <div class="line-stage-chip"><i class="ti ti-settings-automation"></i><span>1. Foam Production</span></div>
+            <div class="line-stage-chip"><i class="ti ti-container"></i><span>2. Container Loading</span></div>
+            <div class="line-stage-chip"><i class="ti ti-ship"></i><span>3. Sea Freight</span></div>
+            <div class="line-stage-chip"><i class="ti ti-circle-check"></i><span>4. Delivered</span></div>
+          </div>
+        </div>
         <div class="page-header">
           <div>
             <div class="page-title">Shipment Tracking</div>
@@ -3059,7 +3163,6 @@ async function enterPortal(loginRes) {
   clientSelfName = loginRes.me.clientScope || matchedUser?.clientScope || u;
 
   applyPermissions(loginRes.me);
-  if (isClientSelfAccount) setTimeout(() => goPage('neworder'), 0);
   currentLoggedUser = u;
   currentLoginTimestamp = new Date().toLocaleString('en-GB', {
     day: '2-digit', month: 'short', year: 'numeric',
@@ -3082,7 +3185,7 @@ async function enterPortal(loginRes) {
     ensureClientSelfRecord(clientSelfName);
     refreshUI();
     generateClientReport(false);
-    goPage('clients');
+    goPage('quotation');
   }
 
   dispatchEmailNotification(
@@ -3787,17 +3890,16 @@ showAuthTab('login');
 
 async function doSignup() {
   const username = document.getElementById('suUser').value.trim();
-  const mobile = document.getElementById('suMobile').value.trim();
   const email = document.getElementById('suEmail').value.trim();
+  const mobile = document.getElementById('suMobile').value.trim();
   const pw = document.getElementById('suPass').value;
-  const pw2 = document.getElementById('suPass2').value;
-  const customerName = document.getElementById('suCustomer').value.trim();
+  const customerName = username;
   const country = '';
   const region = '';
   const vat = '';
   const contact = '';
   const address = '';
-  if (!customerName || !username || !mobile || !email || !pw) {
+  if (!username || !email || !mobile || !pw) {
     showToast('Please fill in all the fields.', 'error');
     return;
   }
@@ -3805,14 +3907,10 @@ async function doSignup() {
     showToast('The password must be at least 8 characters.', 'error');
     return;
   }
-  if (pw !== pw2) {
-    showToast('The two passwords do not match.', 'error');
-    return;
-  }
   const clientPerms = {
     dash: 'None',
-    clients: 'Write',
-    orders: 'Write',
+    clients: 'None',
+    orders: 'None',
     production: 'None',
     packing: 'None',
     messages: 'None',
@@ -3836,13 +3934,13 @@ async function doSignup() {
   ensureClientSelfRecord(username, email, mobile);
   refreshUI();
   generateClientReport(false);
-  goPage('neworder');
+  goPage('quotation');
 
   dispatchEmailNotification(
     'action',
     username,
     `New Client Sign-Up: ${username}`,
-    `New user "${username}" signed up via Sign Up with restricted access to Orders & own Client Data only. Mobile: ${mobile}, Email: ${email}.`
+    `New user "${username}" signed up via Sign Up. Mobile: ${mobile}, Email: ${email}.`
   );
   showToast('Client account created.', 'success');
 }
@@ -3922,7 +4020,7 @@ let myPerms = null;
 function hasPageRead(key) {
   if (!myPerms) return true;
   if (myPerms.admin) return true;
-  if (isClientSelfAccount && key !== 'clients' && key !== 'orders') return false;
+  if (isClientSelfAccount) return key === 'quotation' || key === 'tracking';
   const v = myPerms[key];
   return v === 'Read' || v === 'Write' || v === 'Full edit' || v === 'Admin';
 }
@@ -3930,7 +4028,7 @@ function hasPageRead(key) {
 function hasPageWrite(key) {
   if (!myPerms) return true;
   if (myPerms.admin) return true;
-  if (isClientSelfAccount && key !== 'clients' && key !== 'orders') return false;
+  if (isClientSelfAccount) return key === 'quotation' || key === 'tracking';
   const v = myPerms[key];
   return v === 'Write' || v === 'Full edit' || v === 'Admin';
 }
@@ -3938,7 +4036,7 @@ function hasPageWrite(key) {
 function hasPageFull(key) {
   if (!myPerms) return true;
   if (myPerms.admin) return true;
-  if (isClientSelfAccount && key !== 'clients' && key !== 'orders') return false;
+  if (isClientSelfAccount) return false;
   const v = myPerms[key];
   return v === 'Full edit' || v === 'Admin';
 }
@@ -3995,23 +4093,19 @@ async function savePermissions() {
 
 function applyPermissions(me) {
   myPerms = me;
+  const isClientPortal = isClientSelfAccount && !(myPerms && myPerms.admin);
   const pageVisible = {
-    dashboard: !isClientSelfAccount,
-    clients: hasPageRead('clients'),
-    orders: hasPageRead('orders'),
-    production: hasPageRead('production') || hasPageRead('orders') || hasPageRead('packing'),
-    packing: hasPageRead('packing'),
-    messages: hasPageRead('messages'),
-    users: hasPageRead('users'),
-    neworder: isClientSelfAccount && !(myPerms && myPerms.admin),
-    quotation: !isClientSelfAccount || !!(myPerms && myPerms.admin),
-    tracking: isClientSelfAccount && !(myPerms && myPerms.admin)
+    dashboard: !isClientPortal && hasPageRead('dashboard'),
+    clients: !isClientPortal && hasPageRead('clients'),
+    quotation: isClientPortal || !isClientSelfAccount || !!(myPerms && myPerms.admin),
+    orders: !isClientPortal && hasPageRead('orders'),
+    tracking: isClientPortal || !!(myPerms && myPerms.admin),
+    neworder: false,
+    production: !isClientPortal && (hasPageRead('production') || hasPageRead('orders') || hasPageRead('packing')),
+    packing: !isClientPortal && hasPageRead('packing'),
+    messages: !isClientPortal && hasPageRead('messages'),
+    users: !isClientPortal && hasPageRead('users')
   };
-  if (isClientSelfAccount && !(myPerms && myPerms.admin)) {
-    pageVisible.clients = false;
-    pageVisible.orders = false;
-    pageVisible.production = false;
-  }
   Object.entries(pageVisible).forEach(([page, show]) => {
     document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
   });
@@ -4040,7 +4134,7 @@ function applyPermissions(me) {
       : 'Manage international client accounts, first registration dates, order statements, and Excel/PDF exports.';
   }
 
-  goPage(isClientSelfAccount ? 'clients' : 'dashboard');
+  goPage(isClientPortal ? 'quotation' : 'dashboard');
 }
 
 function openAddOrderModal() {
