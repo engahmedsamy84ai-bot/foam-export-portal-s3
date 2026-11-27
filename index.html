@@ -1675,6 +1675,145 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   .no-grid,.no-form{grid-template-columns:1fr}
   .line-stages-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Dynamic Shipment Tracking Experience (matching index.html theme) */
+.trk-hero{
+  background:linear-gradient(125deg, rgba(10,34,64,0.92) 0%, rgba(29,78,216,0.86) 55%, rgba(2,132,199,0.84) 100%);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.48);
+  border-radius:18px;
+  padding:18px 20px;
+  color:#ffffff;
+  box-shadow:0 14px 34px rgba(10,34,64,0.18);
+  margin-bottom:14px;
+  animation:glassFadeUp .35s ease;
+}
+.trk-hero-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.trk-vessel-banner{
+  position:relative;
+  height:148px;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.32);
+  background:linear-gradient(135deg, #0A2240 0%, #0284c7 100%);
+  display:flex;
+  align-items:flex-end;
+  padding:14px 16px;
+}
+.trk-vessel-banner img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.42;
+  filter:saturate(1.15) contrast(1.05);
+}
+.trk-vessel-banner::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, rgba(10,34,64,0.82) 0%, rgba(10,34,64,0.38) 55%, rgba(10,34,64,0.68) 100%);
+}
+.trk-banner-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.trk-ship-anim{
+  position:relative;
+  height:48px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.24);
+  margin:14px 0 8px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+}
+.trk-ship-mover{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#ffffff;
+  color:var(--royal);
+  font-weight:800;
+  font-size:11.5px;
+  padding:5px 11px;
+  border-radius:999px;
+  box-shadow:0 6px 16px rgba(10,34,64,0.25);
+  transition:margin-left .55s cubic-bezier(0.22, 1, 0.36, 1);
+  animation:shipBob 2.2s ease-in-out infinite;
+}
+@keyframes shipBob{
+  0%,100%{transform:translateY(0px)}
+  50%{transform:translateY(-3px)}
+}
+.trk-stepper{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.trk-step{
+  background:rgba(255,255,255,0.88);
+  border:1px solid rgba(15,23,42,0.08);
+  border-radius:12px;
+  padding:10px;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.trk-step.done{
+  background:rgba(209,250,229,0.92);
+  border-color:rgba(5,150,105,0.35);
+}
+.trk-step.active{
+  background:#ffffff;
+  border-color:var(--royal);
+  box-shadow:0 8px 20px rgba(29,78,216,0.16);
+  transform:translateY(-2px);
+}
+.trk-step-num{
+  font-size:10px;
+  font-weight:800;
+  color:var(--ink-4);
+  text-transform:uppercase;
+}
+.trk-step-title{
+  font-size:11.5px;
+  font-weight:800;
+  color:var(--ink);
+  margin-top:2px;
+}
+.trk-step-pct{
+  font-size:11px;
+  font-weight:800;
+  color:var(--royal);
+  margin-top:3px;
+}
+.trk-grid-2{
+  display:grid;
+  grid-template-columns:1.25fr 1fr;
+  gap:14px;
+  margin-top:14px;
+}
+@media (max-width:900px){
+  .trk-stepper{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .trk-grid-2{grid-template-columns:1fr}
+}
 /* Packing list: compact text, same size on computer and mobile */
 #page-packing table th{font-size:9.5px !important;padding:6px 6px !important;letter-spacing:.02em}
 #page-packing table td{font-size:10px !important;padding:6px 6px !important}
@@ -1878,14 +2017,11 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="nav-item" data-page="clients" onclick="goPage('clients')">
           <div class="nav-item-left"><i class="ti ti-users"></i><span>Clients data</span></div>
         </div>
-        <div class="nav-item" data-page="quotation" onclick="goPage('quotation')">
-          <div class="nav-item-left"><i class="ti ti-file-invoice"></i><span>Quotation</span></div>
-        </div>
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
         </div>
-        <div class="nav-item" data-page="tracking" onclick="goPage('tracking')" style="display:none">
-          <div class="nav-item-left"><i class="ti ti-truck"></i><span>Shipment Tracking</span></div>
+        <div class="nav-item" data-page="quotation" onclick="goPage('quotation')">
+          <div class="nav-item-left"><i class="ti ti-file-invoice"></i><span>Quotation</span></div>
         </div>
         <div class="nav-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
           <div class="nav-item-left"><i class="ti ti-file-plus"></i><span>New Order</span></div>
@@ -1895,6 +2031,9 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
         <div class="nav-item" data-page="packing" onclick="goPage('packing')">
           <div class="nav-item-left"><i class="ti ti-clipboard-list"></i><span>Packing list</span></div>
+        </div>
+        <div class="nav-item" data-page="tracking" onclick="goPage('tracking')">
+          <div class="nav-item-left"><i class="ti ti-truck"></i><span>Shipment Tracking</span></div>
         </div>
         <div class="nav-item" data-page="messages" onclick="goPage('messages')">
           <div class="nav-item-left"><i class="ti ti-mail-bolt"></i><span>Messages</span></div>
@@ -2472,9 +2611,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         </div>
 
         <div id="messagesFeedContainer"></div>
-      </div>
-
-      <!-- ── PAGE: SHIPMENT TRACKING (client accounts) ── -->
+      <!-- ── PAGE: SHIPMENT TRACKING ── -->
       <div class="page" id="page-tracking">
         <div class="line-banner">
           <div class="line-banner-top">
@@ -2482,7 +2619,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
               <span class="line-pulse-dot"></span>
               <span>FOAM INDUSTRIES PRODUCTION &amp; EXPORT LINE</span>
             </div>
-            <span class="badge bi"><i class="ti ti-truck"></i> Live Shipment Line</span>
+            <span class="badge bi"><i class="ti ti-ship"></i> Live Export Radar</span>
           </div>
           <div class="line-stages-strip">
             <div class="line-stage-chip"><i class="ti ti-settings-automation"></i><span>1. Foam Production</span></div>
@@ -2494,14 +2631,16 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="page-header">
           <div>
             <div class="page-title">Shipment Tracking</div>
-            <div class="page-sub">Follow your shipment: production, loading, shipping and delivery.</div>
+            <div class="page-sub">Dynamic visual &amp; stage tracking across production, container loading, sea freight, and delivery.</div>
+          </div>
+          <div class="header-btn-group">
+            <div class="sel-wrap">
+              <i class="ti ti-ship"></i>
+              <select id="trkSelect" onchange="renderTracking()" style="min-width:210px"></select>
+            </div>
           </div>
         </div>
-        <div class="card no-card">
-          <div class="no-row"><span>Shipment</span>
-            <select class="fi" id="trkSelect" onchange="renderTracking()" style="max-width:260px"></select></div>
-          <div id="trkBody"></div>
-        </div>
+        <div id="trkBody"></div>
       </div>
 
       <!-- ── PAGE: NEW ORDER (client accounts) ── -->
@@ -2624,17 +2763,13 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       <i class="ti ti-users"></i>
       <span>Clients</span>
     </div>
-    <div class="mb-item" data-page="quotation" onclick="goPage('quotation')">
-      <i class="ti ti-file-invoice"></i>
-      <span>Quotation</span>
-    </div>
     <div class="mb-item" data-page="orders" onclick="goPage('orders')">
       <i class="ti ti-truck-delivery"></i>
       <span>Orders</span>
     </div>
-    <div class="mb-item" data-page="tracking" onclick="goPage('tracking')" style="display:none">
-      <i class="ti ti-truck"></i>
-      <span>Shipment Tracking</span>
+    <div class="mb-item" data-page="quotation" onclick="goPage('quotation')">
+      <i class="ti ti-file-invoice"></i>
+      <span>Quotation</span>
     </div>
     <div class="mb-item" data-page="neworder" onclick="goPage('neworder')" style="display:none">
       <i class="ti ti-file-plus"></i>
@@ -2647,6 +2782,10 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
     <div class="mb-item" data-page="packing" onclick="goPage('packing')">
       <i class="ti ti-clipboard-list"></i>
       <span>Packing</span>
+    </div>
+    <div class="mb-item" data-page="tracking" onclick="goPage('tracking')">
+      <i class="ti ti-truck"></i>
+      <span>Tracking</span>
     </div>
     <div class="mb-item" data-page="messages" onclick="goPage('messages')">
       <i class="ti ti-mail-bolt"></i>
@@ -3291,15 +3430,105 @@ function isShippedStatus(status) {
 function renderTracking() {
   const sel = document.getElementById('trkSelect');
   if (!sel) return;
+  const list = getVisibleOrders();
   const prev = sel.value;
-  sel.innerHTML = packingOrders.map(o => `<option value="${o.ordNo}">${o.ordNo}</option>`).join('');
-  if (prev && packingOrders.some(o => o.ordNo === prev)) sel.value = prev;
+  sel.innerHTML = list.map(o => `<option value="${o.ordNo}">${o.ordNo} — ${o.client}</option>`).join('');
+  if (prev && list.some(o => o.ordNo === prev)) sel.value = prev;
   const body = document.getElementById('trkBody');
-  const o = packingOrders.find(x => x.ordNo === sel.value);
+  const o = list.find(x => x.ordNo === sel.value) || list[0];
   if (!o) {
-    body.innerHTML = '<div class="no-hint">No shipments yet.</div>';
+    body.innerHTML = '<div class="card"><div class="no-hint">No shipments yet.</div></div>';
     return;
   }
+  const stage = normalizeStage(o.status);
+  const pct = stagePercent(stage);
+  const stageIdx = STAGES.findIndex(s => s.name === stage);
+  const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0, gross = Number(o.grossKg) || 0;
+  const shipMargin = Math.max(0, Math.min(72, Math.round((pct / 100) * 72)));
+
+  const stepperHtml = STAGES.map((st, idx) => {
+    const cls = idx < stageIdx ? 'done' : (idx === stageIdx ? 'active' : '');
+    return `
+      <div class="trk-step ${cls}">
+        <div class="trk-step-num">Stage 0${idx + 1}</div>
+        <div class="trk-step-title">${st.name}</div>
+        <div class="trk-step-pct">${st.pct}%</div>
+      </div>
+    `;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="trk-hero">
+      <div class="trk-vessel-banner">
+        <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1600&q=80"
+             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1600&q=80';"
+             alt="Export Container Vessel">
+        <div class="trk-banner-content">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#bae6fd;letter-spacing:.04em">SHIPMENT ORDER · ${o.ordNo}</div>
+            <div style="font-size:19px;font-weight:800;margin-top:2px">${o.client} → ${o.dest || 'Global Port'}</div>
+            <div style="font-size:11.5px;color:#e2e8f0;margin-top:3px">Container: <strong>${o.size || "1×40' HC"}</strong> · Current Stage: <strong>${stage}</strong></div>
+          </div>
+          <span class="badge ba" style="font-size:12px;padding:6px 12px"><i class="ti ti-radar"></i> ${pct}% Complete</span>
+        </div>
+      </div>
+
+      <div class="trk-ship-anim">
+        <div class="trk-ship-mover" style="margin-left:${shipMargin}%">
+          <i class="ti ti-ship"></i>
+          <span>${o.ordNo} · ${pct}%</span>
+        </div>
+      </div>
+
+      <div style="height:12px;background:rgba(255,255,255,0.22);border-radius:999px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#34d399,#38bdf8,#ffffff);border-radius:999px;transition:width .55s cubic-bezier(0.22, 1, 0.36, 1)"></div>
+      </div>
+    </div>
+
+    <div class="trk-stepper">${stepperHtml}</div>
+
+    <div class="kpi-row" style="margin-top:14px">
+      <div class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Foam Net Weight</span><div class="kpi-ico blue"><i class="ti ti-package"></i></div></div>
+        <div class="kpi-val blue">${foam.toLocaleString()} <span style="font-size:12px">KG</span></div>
+        <div class="kpi-unit">Exported foam load</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Plastic Weight</span><div class="kpi-ico cyan"><i class="ti ti-box"></i></div></div>
+        <div class="kpi-val">${plas.toLocaleString()} <span style="font-size:12px">KG</span></div>
+        <div class="kpi-unit">Wrapping &amp; plastic</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Total Net Weight</span><div class="kpi-ico coral"><i class="ti ti-scale"></i></div></div>
+        <div class="kpi-val coral">${(foam + plas).toLocaleString()} <span style="font-size:12px">KG</span></div>
+        <div class="kpi-unit">Foam + Plastic combined</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Gross Weight</span><div class="kpi-ico emerald"><i class="ti ti-container"></i></div></div>
+        <div class="kpi-val emerald">${gross.toLocaleString()} <span style="font-size:12px">KG</span></div>
+        <div class="kpi-unit">Packed container weight</div>
+      </div>
+    </div>
+
+    <div class="trk-grid-2">
+      <div class="card">
+        <div class="c-title"><span>Shipment Milestones &amp; Dates</span><span class="badge bi">${o.ordNo}</span></div>
+        <div class="no-row"><span>Order Date</span><strong>${fmtDate(o.reqDate) || '—'}</strong></div>
+        <div class="no-row"><span>Export / Shipping Date</span><strong>${fmtDate(o.expDate) || '—'}</strong></div>
+        <div class="no-row"><span>Final Delivery Date</span><strong>${fmtDate(o.deliveryDate) || 'In Transit / Pending'}</strong></div>
+        <div class="no-row"><span>Packing Report</span><strong>${o.packingPdfName || o.packingName || 'Pending'}</strong></div>
+      </div>
+
+      <div class="card">
+        <div class="c-title"><span>Message About This Shipment</span><i class="ti ti-message-circle" style="color:var(--royal)"></i></div>
+        <textarea class="fi" id="trkMsg" rows="3" style="width:100%" placeholder="Write a message about ${o.ordNo}…"></textarea>
+        <div class="no-actions">
+          <button class="btn-blue" type="button" onclick="sendTrackingMessage('${o.ordNo}')"><i class="ti ti-send"></i>Send Message</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
   const stage = normalizeStage(o.status);
   const pct = stagePercent(stage);
   const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0;
@@ -4099,7 +4328,7 @@ function applyPermissions(me) {
     clients: !isClientPortal && hasPageRead('clients'),
     quotation: isClientPortal || !isClientSelfAccount || !!(myPerms && myPerms.admin),
     orders: !isClientPortal && hasPageRead('orders'),
-    tracking: isClientPortal || !!(myPerms && myPerms.admin),
+    tracking: isClientPortal || hasPageRead('orders') || hasPageRead('packing') || hasPageRead('production') || !!(myPerms && myPerms.admin),
     neworder: false,
     production: !isClientPortal && (hasPageRead('production') || hasPageRead('orders') || hasPageRead('packing')),
     packing: !isClientPortal && hasPageRead('packing'),
