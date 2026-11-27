@@ -1805,6 +1805,9 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="nav-item" data-page="clients" onclick="goPage('clients')">
           <div class="nav-item-left"><i class="ti ti-users"></i><span>Clients data</span></div>
         </div>
+        <div class="nav-item" data-page="quotation" onclick="goPage('quotation')">
+          <div class="nav-item-left"><i class="ti ti-file-invoice"></i><span>Quotation</span></div>
+        </div>
         <div class="nav-item" data-page="orders" onclick="goPage('orders')">
           <div class="nav-item-left"><i class="ti ti-truck-delivery"></i><span>Orders</span></div>
         </div>
@@ -2134,6 +2137,32 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
       <!-- ── PAGE 3: ORDERS ── -->
       
+      <div class="page" id="page-quotation">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Quotation</div>
+            <div class="page-sub">Prepare a price quotation for a client, then print it.</div>
+          </div>
+        </div>
+        <div class="card no-card">
+          <div class="no-form">
+            <div><label>Client name</label><input class="fi" id="qtClient" type="text"></div>
+            <div><label>Quotation date</label><input class="fi" id="qtDate" type="date"></div>
+            <div><label>Currency</label><select class="fi" id="qtCur"><option>USD</option><option>EUR</option><option>EGP</option></select></div>
+            <div><label>Valid until</label><input class="fi" id="qtValid" type="date"></div>
+          </div>
+          <div class="tbl-wrap" style="margin-top:12px"><table>
+            <thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead>
+            <tbody id="qtRows"></tbody>
+          </table></div>
+          <div class="no-actions">
+            <button class="btn-outline" type="button" onclick="addQuoteRow()"><i class="ti ti-plus"></i>Add item</button>
+            <strong id="qtTotal" style="margin-left:auto">0.00</strong>
+          </div>
+          <div class="no-actions"><button class="btn-blue" type="button" onclick="printQuotation()"><i class="ti ti-printer"></i>Print quotation</button></div>
+        </div>
+      </div>
+
       <div class="page" id="page-orders">
         <div class="page-header">
           <div>
@@ -2489,6 +2518,10 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       <i class="ti ti-users"></i>
       <span>Clients</span>
     </div>
+    <div class="mb-item" data-page="quotation" onclick="goPage('quotation')">
+      <i class="ti ti-file-invoice"></i>
+      <span>Quotation</span>
+    </div>
     <div class="mb-item" data-page="orders" onclick="goPage('orders')">
       <i class="ti ti-truck-delivery"></i>
       <span>Orders</span>
@@ -2790,7 +2823,7 @@ function orderTotals(client, year, monthIdx) {
     if (monthIdx !== 'ALL' && d.month !== +monthIdx) return;
     foam += Number(o.foamKg) || 0;
     plas += Number(o.plasticKg) || 0;
-    if (o.status === 'Shipped') count += 1;
+    if (isShippedStatus(o.status)) count += 1;
   });
   return { foam: foam, plas: plas, orders: count };
 }
@@ -3087,7 +3120,25 @@ async function doRequestAccess() {
   }
 }
 
-const STAGE_PERCENT = { 'In Production': 33, 'Ready to Ship': 66, 'Shipped': 100 };
+const STAGES = [
+  { name: 'Order Confirmed', pct: 15 },
+  { name: 'Foam Production', pct: 45 },
+  { name: 'Container Loading', pct: 68 },
+  { name: 'Sea Freight', pct: 88 },
+  { name: 'Delivered', pct: 100 }
+];
+const LEGACY_STAGE = { 'In Production': 'Foam Production', 'Ready to Ship': 'Container Loading', 'Shipped': 'Delivered' };
+function normalizeStage(status) {
+  const name = LEGACY_STAGE[status] || status;
+  return STAGES.some(x => x.name === name) ? name : 'Order Confirmed';
+}
+function stagePercent(status) {
+  const name = normalizeStage(status);
+  return STAGES.find(x => x.name === name).pct;
+}
+function isShippedStatus(status) {
+  return ['Sea Freight', 'Delivered', 'Shipped'].includes(normalizeStage(status));
+}
 
 function renderTracking() {
   const sel = document.getElementById('trkSelect');
@@ -3101,9 +3152,9 @@ function renderTracking() {
     body.innerHTML = '<div class="no-hint">No shipments yet.</div>';
     return;
   }
-  const pct = STAGE_PERCENT[o.status] != null ? STAGE_PERCENT[o.status] : (Number(o.progress) || 0);
+  const pct = stagePercent(o.status);
   const foam = Number(o.foamKg) || 0, plas = Number(o.plasticKg) || 0;
-  const stage = o.status === 'Shipped' ? 'Shipped' : (o.status === 'Ready to Ship' ? 'Loading' : 'Production');
+  const stage = normalizeStage(o.status);
   body.innerHTML = `
     <div style="margin:14px 0 6px;display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>${stage}</span><span>${pct}%</span></div>
     <div style="height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden">
@@ -3135,6 +3186,47 @@ async function sendTrackingMessage(ordNo) {
   } catch (e) {
     showToast('Message failed: ' + e.message, 'error');
   }
+}
+
+// ═══ QUOTATION ═══
+function addQuoteRow() {
+  const tb = document.getElementById('qtRows');
+  const tr = document.createElement('tr');
+  tr.innerHTML = '<td><input class="fi" type="text" data-k="desc"></td>' +
+    '<td><input class="fi" type="text" data-k="dim" placeholder="30*30*30"></td>' +
+    '<td><input class="fi" type="number" min="0" data-k="qty" value="1" oninput="recalcQuote()"></td>' +
+    '<td><input class="fi" type="number" min="0" step="0.01" data-k="price" value="0" oninput="recalcQuote()"></td>' +
+    '<td class="qt-amount">0.00</td>';
+  tb.appendChild(tr);
+  recalcQuote();
+}
+
+function recalcQuote() {
+  let total = 0;
+  document.querySelectorAll('#qtRows tr').forEach(tr => {
+    const qty = parseFloat(tr.querySelector('[data-k="qty"]').value) || 0;
+    const price = parseFloat(tr.querySelector('[data-k="price"]').value) || 0;
+    const amount = qty * price;
+    tr.querySelector('.qt-amount').textContent = amount.toFixed(2);
+    total += amount;
+  });
+  document.getElementById('qtTotal').textContent = document.getElementById('qtCur').value + ' ' + total.toFixed(2);
+}
+
+function printQuotation() {
+  const rows = [...document.querySelectorAll('#qtRows tr')].map(tr => {
+    const v = k => tr.querySelector('[data-k="' + k + '"]').value;
+    return '<tr><td>' + v('desc') + '</td><td>' + v('dim') + '</td><td>' + v('qty') + '</td><td>' + v('price') + '</td><td>' + tr.querySelector('.qt-amount').textContent + '</td></tr>';
+  }).join('');
+  const w = window.open('', '_blank');
+  if (!w) { showToast('Allow pop-ups to print the quotation.', 'error'); return; }
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Quotation</title><style>body{font-family:Inter,Arial,sans-serif;padding:28px;color:#0f172a;font-size:12px}h1{color:#0b2545;font-size:20px}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{border:1px solid #334155;padding:6px;text-align:center}th{background:#dcfce7}</style></head><body>' +
+    '<h1>Foam Industries Co. - Quotation</h1>' +
+    '<div>Client: <b>' + document.getElementById('qtClient').value + '</b> &nbsp; Date: ' + document.getElementById('qtDate').value + ' &nbsp; Valid until: ' + document.getElementById('qtValid').value + '</div>' +
+    '<table><thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<h3 style="text-align:right">Total: ' + document.getElementById('qtTotal').textContent + '</h3>' +
+    '<script>window.onload=function(){window.print()}<\/script></body></html>');
+  w.document.close();
 }
 
 // ═══ DATES: day, month, year only (no time) ═══
@@ -3585,8 +3677,13 @@ function queueSaveOrder(o) {
 
 function queuedPull() {
   syncChain = syncChain.then(async () => {
-    await flushChanges();
-    await pullFromServer();
+    try {
+      await flushChanges();
+      await pullFromServer();
+    } catch (e) {
+      console.error(e);
+      setSyncStatus('error', 'Sync failed: ' + e.message);
+    }
   });
   return syncChain.then(() => refreshUI());
 }
@@ -3650,13 +3747,11 @@ function renderProductionTable() {
       </td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
-        <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
+        <span style="font-size:11px;font-weight:700;margin-left:5px">${stagePercent(o.status)}%</span>
       </td>
       <td>
         <select class="fi" style="padding:5px 8px;font-size:11.5px;width:auto" ${canFullProd ? '' : 'disabled'} onchange="updateOrderStatus('${o.ordNo}', this.value)">
-          <option value="In Production" ${o.status === 'In Production' ? 'selected' : ''}>In Production</option>
-          <option value="Ready to Ship" ${o.status === 'Ready to Ship' ? 'selected' : ''}>Ready to Ship</option>
-          <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+          ${STAGES.map(x => `<option value="${x.name}" ${normalizeStage(o.status) === x.name ? 'selected' : ''}>${x.pct}% ${x.name}</option>`).join('')}
         </select>
       </td>
     </tr>
@@ -3896,6 +3991,7 @@ function applyPermissions(me) {
     messages: hasPageRead('messages'),
     users: hasPageRead('users'),
     neworder: isClientSelfAccount && !(myPerms && myPerms.admin),
+    quotation: !isClientSelfAccount || !!(myPerms && myPerms.admin),
     tracking: isClientSelfAccount && !(myPerms && myPerms.admin)
   };
   if (isClientSelfAccount && !(myPerms && myPerms.admin)) {
@@ -4419,8 +4515,7 @@ function updateOrderStatus(ordNo, newStatus) {
   const order = packingOrders.find(o => o.ordNo === ordNo);
   if (!order) return;
   order.status = newStatus;
-  if (newStatus === 'Shipped') order.progress = 100;
-  else if (newStatus === 'Ready to Ship') order.progress = 95;
+  order.progress = stagePercent(newStatus);
   persistData();
   renderOrdersTable();
   renderPackingTable();
@@ -4467,7 +4562,7 @@ function renderPackingTable() {
       <td><button class="btn-outline" type="button" onclick="reportPackingFile('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-type-pdf"></i>Packing.pdf</button> <button class="btn-outline" type="button" onclick="reportPackingXlsx('${o.ordNo}')" style="padding:4px 10px;font-size:11.5px"><i class="ti ti-file-spreadsheet"></i>Packing.xlsx</button></td>
       <td>
         <div class="prog"><div class="prog-fill" style="width:${o.progress}%"></div></div>
-        <span style="font-size:11px;font-weight:700;margin-left:5px">${o.progress}%</span>
+        <span style="font-size:11px;font-weight:700;margin-left:5px">${stagePercent(o.status)}%</span>
       </td>
     </tr>
   `).join('');
