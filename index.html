@@ -2231,6 +2231,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       color: #ffffff; padding: 0.45rem 0.95rem;
       border-radius: 9px; text-decoration: none; font-size: 0.84rem;
     }
+/* Quotation: client list and saved quotations */
+.qt-client-list{position:absolute;left:0;right:0;top:100%;z-index:50;max-height:240px;overflow:auto;margin-top:4px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.6);border-radius:12px;box-shadow:0 12px 30px rgba(15,23,42,.18);display:none}
+.qt-client-item{padding:9px 12px;cursor:pointer;font-size:12.5px;color:#0f172a}
+.qt-client-item:hover{background:rgba(29,78,216,.12)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -2956,14 +2962,29 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div class="page-header">
           <div>
             <div class="page-title">Quotation</div>
-            <div class="page-sub">Prepare a price quotation for a client, then print it.</div>
+            <div class="page-sub">Choose a client, prepare the quotation, then print it or save it as PDF.</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <img id="qtLogoPreview" alt="" style="height:38px;display:none;border-radius:6px">
+            <input type="file" id="qtLogoInput" accept="image/*" style="display:none" onchange="uploadCompanyLogo(this)">
+            <button class="btn-outline" type="button" onclick="document.getElementById('qtLogoInput').click()"><i class="ti ti-photo"></i>Company logo</button>
           </div>
         </div>
         <div class="card">
           <div class="no-form">
-            <div><label>Client name</label><input class="fi" id="qtClient" type="text"></div>
+            <div style="position:relative">
+              <label>Client name</label>
+              <input class="fi" id="qtClient" type="text" autocomplete="off" placeholder="Search a client or open the list" oninput="filterQuoClients()" onfocus="filterQuoClients()">
+              <div id="qtClientList" class="qt-client-list"></div>
+            </div>
+            <div><label>Contact person</label><input class="fi" id="qtContact" type="text"></div>
+            <div><label>Mobile</label><input class="fi" id="qtMobile" type="text"></div>
+            <div><label>Email</label><input class="fi" id="qtEmail" type="text"></div>
+            <div><label>Country</label><input class="fi" id="qtCountry" type="text"></div>
+            <div><label>Region</label><input class="fi" id="qtRegion" type="text"></div>
+            <div><label>Address</label><input class="fi" id="qtAddress" type="text"></div>
             <div><label>Quotation date</label><input class="fi" id="qtDate" type="date"></div>
-            <div><label>Currency</label><select class="fi" id="qtCur"><option>USD</option><option>EUR</option><option>EGP</option></select></div>
+            <div><label>Currency</label><select class="fi" id="qtCur" onchange="recalcQuote()"><option>USD</option><option>EUR</option><option>EGP</option></select></div>
             <div><label>Valid until</label><input class="fi" id="qtValid" type="date"></div>
           </div>
           <div class="tbl-wrap" style="margin-top:12px"><table>
@@ -2974,12 +2995,22 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <button class="btn-outline" type="button" onclick="addQuoteRow()"><i class="ti ti-plus"></i>Add item</button>
             <strong id="qtTotal" style="margin-left:auto">0.00</strong>
           </div>
-          <div class="no-actions"><button class="btn-blue" type="button" onclick="printQuotation()"><i class="ti ti-printer"></i>Print quotation</button></div>
+          <div class="no-actions">
+            <button class="btn-blue" type="button" onclick="printQuotation()"><i class="ti ti-printer"></i>Print quotation</button>
+            <button class="btn-outline" type="button" onclick="saveQuotationPdf()" title="Save PDF to this computer and Google Drive"><i class="ti ti-download"></i>Save PDF</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="sec-title">Saved quotations</div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Quotation No.</th><th>Date</th><th>Client</th><th>Total</th><th>Actions</th></tr></thead>
+            <tbody id="qtSavedRows"><tr><td colspan="5">No saved quotations yet.</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- ── PAGE 3: ORDERS ── -->
-      <div class="page" id="page-orders">
+<div class="page" id="page-orders">
         <div class="page-header">
           <div>
             <div class="page-title">Orders</div>
@@ -4277,16 +4308,42 @@ async function sendTrackingMessage(ordNo) {
 }
 
 // ═══ QUOTATION ═══
-function addQuoteRow() {
+const COMPANY_INFO = {
+  name: 'Foam Industries Co.',
+  lines: ['11829 Badr City', 'Industrial Zone, 250 Feddan-144w', 'East Roubeky.', 'Cairo, Egypt.'],
+  contact: ['MOBILE : 002011133337111', 'Web Site : www.foamindustries-eg.com', 'Email : info@foamindustries-eg.com']
+};
+window.companyLogoDataUrl = '';
+let quoClientCache = [];
+
+function downloadPdfBase64(name, base64, mime) {
+  const bin = atob(base64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const url = URL.createObjectURL(new Blob([bytes], { type: mime || 'application/pdf' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+function addQuoteRow(desc, dim, qty, price) {
   const tb = document.getElementById('qtRows');
   const tr = document.createElement('tr');
-  tr.innerHTML = '<td><input class="fi" type="text" data-k="desc"></td>' +
-    '<td><input class="fi" type="text" data-k="dim" placeholder="30*30*30"></td>' +
-    '<td><input class="fi" type="number" min="0" data-k="qty" value="1" oninput="recalcQuote()"></td>' +
-    '<td><input class="fi" type="number" min="0" step="0.01" data-k="price" value="0" oninput="recalcQuote()"></td>' +
+  tr.innerHTML = '<td><input class="fi" type="text" data-k="desc" value="' + (desc || '') + '"></td>' +
+    '<td><input class="fi" type="text" data-k="dim" placeholder="30*30*30" value="' + (dim || '') + '"></td>' +
+    '<td><input class="fi" type="number" min="0" data-k="qty" value="' + (qty != null ? qty : 1) + '" oninput="recalcQuote()"></td>' +
+    '<td><input class="fi" type="number" min="0" step="0.01" data-k="price" value="' + (price != null ? price : 0) + '" oninput="recalcQuote()"></td>' +
     '<td class="qt-amount">0.00</td>';
   tb.appendChild(tr);
   recalcQuote();
+}
+
+function quoItems() {
+  return [...document.querySelectorAll('#qtRows tr')].map(tr => {
+    const v = k => tr.querySelector('[data-k="' + k + '"]').value;
+    const qty = parseFloat(v('qty')) || 0, price = parseFloat(v('price')) || 0;
+    return { desc: v('desc'), dim: v('dim'), qty: qty, price: price, amount: qty * price };
+  });
 }
 
 function recalcQuote() {
@@ -4294,28 +4351,170 @@ function recalcQuote() {
   document.querySelectorAll('#qtRows tr').forEach(tr => {
     const qty = parseFloat(tr.querySelector('[data-k="qty"]').value) || 0;
     const price = parseFloat(tr.querySelector('[data-k="price"]').value) || 0;
-    const amount = qty * price;
-    tr.querySelector('.qt-amount').textContent = amount.toFixed(2);
-    total += amount;
+    tr.querySelector('.qt-amount').textContent = (qty * price).toFixed(2);
+    total += qty * price;
   });
   document.getElementById('qtTotal').textContent = document.getElementById('qtCur').value + ' ' + total.toFixed(2);
+  return total;
+}
+
+function filterQuoClients() {
+  const q = document.getElementById('qtClient').value.trim().toLowerCase();
+  quoClientCache = (clientsList || []).filter(c => !q || String(c.name).toLowerCase().includes(q));
+  const box = document.getElementById('qtClientList');
+  if (!quoClientCache.length) { box.style.display = 'none'; return; }
+  box.innerHTML = quoClientCache.map((c, i) =>
+    '<div class="qt-client-item" onmousedown="selectQuoClient(' + i + ')">' + c.name + (c.country ? ' <small>· ' + c.country + '</small>' : '') + '</div>'
+  ).join('');
+  box.style.display = 'block';
+}
+
+function selectQuoClient(i) {
+  const c = quoClientCache[i];
+  if (!c) return;
+  document.getElementById('qtClient').value = c.name;
+  document.getElementById('qtContact').value = c.contact || '';
+  document.getElementById('qtMobile').value = c.mobile || '';
+  document.getElementById('qtEmail').value = c.email || '';
+  document.getElementById('qtCountry').value = c.country || '';
+  document.getElementById('qtRegion').value = c.region || '';
+  document.getElementById('qtAddress').value = c.address || '';
+  document.getElementById('qtClientList').style.display = 'none';
+}
+
+document.addEventListener('mousedown', e => {
+  if (!e.target.closest('#qtClient') && !e.target.closest('#qtClientList')) {
+    const box = document.getElementById('qtClientList');
+    if (box) box.style.display = 'none';
+  }
+});
+
+function quotationHtml(meta) {
+  const logo = window.companyLogoDataUrl ? '<img src="' + window.companyLogoDataUrl + '" style="height:70px">' : '';
+  const rows = meta.items.map(it =>
+    '<tr><td>' + it.desc + '</td><td>' + it.dim + '</td><td>' + it.qty + '</td><td>' + it.price.toFixed(2) + '</td><td>' + it.amount.toFixed(2) + '</td></tr>').join('');
+  return '<!doctype html><html><head><meta charset="utf-8"><title>' + meta.quoNo + '</title><style>' +
+    'body{font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:12px;margin:0;padding:28px}' +
+    '.top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1d4ed8;padding-bottom:12px}' +
+    '.co{font-size:11px;line-height:1.5;text-align:right}.co b{font-size:15px;color:#0b2545}' +
+    'h1{color:#1d4ed8;font-size:20px;margin:18px 0 6px}' +
+    '.grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin:10px 0;font-size:12px}' +
+    'table{width:100%;border-collapse:collapse;margin-top:10px}th,td{border:1px solid #334155;padding:6px;text-align:center}' +
+    'th{background:#1d4ed8;color:#fff}.total{text-align:right;font-size:14px;margin-top:10px}' +
+    '</style></head><body>' +
+    '<div class="top"><div>' + logo + '</div><div class="co"><b>' + COMPANY_INFO.name + '</b><br>' +
+    COMPANY_INFO.lines.join('<br>') + '<br>' + COMPANY_INFO.contact.join('<br>') + '</div></div>' +
+    '<h1>Quotation ' + meta.quoNo + '</h1>' +
+    '<div class="grid"><div>Client: <b>' + meta.client + '</b></div><div>Date: ' + meta.date + '</div>' +
+    '<div>Contact: ' + meta.contact + '</div><div>Valid until: ' + meta.valid + '</div>' +
+    '<div>Mobile: ' + meta.mobile + '</div><div>Currency: ' + meta.currency + '</div>' +
+    '<div>Email: ' + meta.email + '</div><div>Country / Region: ' + meta.country + ' ' + meta.region + '</div>' +
+    '<div>Address: ' + meta.address + '</div></div>' +
+    '<table><thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<div class="total"><b>Total: ' + meta.currency + ' ' + meta.total.toFixed(2) + '</b></div>' +
+    '</body></html>';
+}
+
+function currentQuoMeta(quoNo) {
+  const v = id => document.getElementById(id).value.trim();
+  const items = quoItems();
+  const total = items.reduce((s, x) => s + x.amount, 0);
+  return {
+    quoNo: quoNo || 'QUO (preview)',
+    client: v('qtClient'), contact: v('qtContact'), mobile: v('qtMobile'), email: v('qtEmail'),
+    country: v('qtCountry'), region: v('qtRegion'), address: v('qtAddress'),
+    date: v('qtDate'), valid: v('qtValid'), currency: v('qtCur'),
+    items: items, total: total
+  };
 }
 
 function printQuotation() {
-  const rows = [...document.querySelectorAll('#qtRows tr')].map(tr => {
-    const v = k => tr.querySelector('[data-k="' + k + '"]').value;
-    return '<tr><td>' + v('desc') + '</td><td>' + v('dim') + '</td><td>' + v('qty') + '</td><td>' + v('price') + '</td><td>' + tr.querySelector('.qt-amount').textContent + '</td></tr>';
-  }).join('');
   const w = window.open('', '_blank');
   if (!w) { showToast('Allow pop-ups to print the quotation.', 'error'); return; }
-  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Quotation</title><style>body{font-family:Inter,Arial,sans-serif;padding:28px;color:#0f172a;font-size:12px}h1{color:#0b2545;font-size:20px}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{border:1px solid #334155;padding:6px;text-align:center}th{background:#dcfce7}</style></head><body>' +
-    '<h1>Foam Industries Co. - Quotation</h1>' +
-    '<div>Client: <b>' + document.getElementById('qtClient').value + '</b> &nbsp; Date: ' + document.getElementById('qtDate').value + ' &nbsp; Valid until: ' + document.getElementById('qtValid').value + '</div>' +
-    '<table><thead><tr><th>Description</th><th>Dimensions</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
-    '<h3 style="text-align:right">Total: ' + document.getElementById('qtTotal').textContent + '</h3>' +
-    '<script>window.onload=function(){window.print()}<\/script></body></html>');
+  w.document.write(quotationHtml(currentQuoMeta()) + '<script>window.onload=function(){window.print()}<\/script>');
   w.document.close();
 }
+
+async function saveQuotationPdf() {
+  const meta = currentQuoMeta();
+  if (!meta.client) { showToast('Choose a client first.', 'error'); return; }
+  if (!meta.items.length) { showToast('Add at least one item.', 'error'); return; }
+  try {
+    showToast('Saving quotation…', 'info');
+    const res = await api('createQuotation', {
+      html: quotationHtml(meta), clientName: meta.client, quoDate: meta.date, validUntil: meta.valid,
+      currency: meta.currency, total: meta.total, items: meta.items
+    });
+    downloadPdfBase64(res.quoNo + '.pdf', res.base64, 'application/pdf');
+    showToast('Saved as ' + res.quoNo + ' (Google Drive and Sheets).', 'success');
+    await loadQuotations();
+  } catch (e) {
+    showToast('Could not save: ' + e.message, 'error');
+  }
+}
+
+async function loadQuotations() {
+  const tb = document.getElementById('qtSavedRows');
+  if (!tb) return;
+  try {
+    const r = await api('listQuotations', {});
+    const list = r.list || [];
+    tb.innerHTML = list.length ? list.map(q =>
+      '<tr><td>' + q.quoNo + '</td><td>' + (q.quoDate || '') + '</td><td>' + q.clientName + '</td>' +
+      '<td>' + q.currency + ' ' + Number(q.total || 0).toFixed(2) + '</td>' +
+      '<td><button class="btn-outline" type="button" onclick="downloadSavedQuotation(\'' + q.quoNo + '\')" title="Download PDF"><i class="ti ti-download"></i></button> ' +
+      '<button class="btn-outline" type="button" onclick="deleteSavedQuotation(\'' + q.quoNo + '\')" title="Delete" style="color:#e11d48"><i class="ti ti-trash"></i></button></td></tr>'
+    ).join('') : '<tr><td colspan="5">No saved quotations yet.</td></tr>';
+  } catch (e) {
+    tb.innerHTML = '<tr><td colspan="5">' + e.message + '</td></tr>';
+  }
+}
+
+async function downloadSavedQuotation(quoNo) {
+  try {
+    const r = await api('getQuotationPdf', { quoNo: quoNo });
+    downloadPdfBase64(r.name, r.base64, 'application/pdf');
+  } catch (e) { showToast('Download failed: ' + e.message, 'error'); }
+}
+
+async function deleteSavedQuotation(quoNo) {
+  if (!window.confirm('Delete ' + quoNo + ' from the sheet and Google Drive?')) return;
+  try {
+    await api('deleteQuotation', { quoNo: quoNo });
+    showToast(quoNo + ' deleted.', 'success');
+    await loadQuotations();
+  } catch (e) { showToast('Delete failed: ' + e.message, 'error'); }
+}
+
+async function uploadCompanyLogo(input) {
+  const f = input.files && input.files[0];
+  if (!f) return;
+  try {
+    const base64 = await blobToBase64(f);
+    await api('uploadLogo', { base64: base64, mime: f.type || 'image/png' });
+    await loadCompanyLogo();
+    showToast('Company logo saved.', 'success');
+  } catch (e) { showToast('Logo failed: ' + e.message, 'error'); }
+  input.value = '';
+}
+
+async function loadCompanyLogo() {
+  try {
+    const r = await api('getLogo', {});
+    if (r.base64) {
+      window.companyLogoDataUrl = 'data:' + r.mime + ';base64,' + r.base64;
+      const img = document.getElementById('qtLogoPreview');
+      if (img) { img.src = window.companyLogoDataUrl; img.style.display = ''; }
+    }
+  } catch (e) { /* no logo yet */ }
+}
+
+// open the quotation page: load its saved list and the logo
+const __goPageQuo = window.goPage;
+window.goPage = function (id) {
+  __goPageQuo(id);
+  if (id === 'quotation') { loadQuotations(); loadCompanyLogo(); }
+};
 
 // ═══ DATES: day, month, year only (no time) ═══
 const MON3 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
