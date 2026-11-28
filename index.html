@@ -1607,12 +1607,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 .nav-item[data-page="quotation"],.nav-item[data-page="tracking"],.mb-item[data-page="quotation"],.mb-item[data-page="tracking"]{
   background:rgba(255,255,255,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border:1px solid rgba(255,255,255,.35);border-radius:14px;box-shadow:0 8px 24px rgba(15,23,42,.10)}
-#page-quotation .card,#page-tracking .card{background:rgba(255,255,255,.55) !important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+#page-tracking .card{background:rgba(255,255,255,.55) !important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,.6) !important;border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.12)}
-#page-quotation .page-header,#page-tracking .page-header{background:rgba(255,255,255,.35) !important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+#page-tracking .page-header{background:rgba(255,255,255,.35) !important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border:1px solid rgba(255,255,255,.55);border-radius:16px;padding:12px 16px}
-#page-quotation .tbl-wrap,#page-tracking .tbl-wrap{background:rgba(255,255,255,.4) !important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5)}
-#page-quotation .fi,#page-tracking .fi{background:rgba(255,255,255,.6) !important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#page-tracking .tbl-wrap{background:rgba(255,255,255,.4) !important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5)}
+#page-tracking .fi{background:rgba(255,255,255,.6) !important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
 /* ===== Shipment Tracking (page styles, scoped) ===== */
 #page-tracking{
@@ -2828,7 +2828,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
               <div class="exporter-quick-links">
                 <a href="http://www.foamindustries-eg.com" target="_blank" rel="noopener">🌐 www.foamindustries-eg.com</a>
                 <a href="mailto:info@foamindustries-eg.com">✉️ info@foamindustries-eg.com</a>
-                <a href="https://wa.me/2011133337111" target="_blank" rel="noopener" style="color: #16a34a;">💬 WhatsApp: 002011133337111</a>
+                <a id="orCompanyWa" href="#" target="_blank" rel="noopener" style="color: #16a34a;">💬 WhatsApp: 002011133337111</a>
               </div>
             </div>
 
@@ -2959,7 +2959,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <div class="page-sub">Prepare a price quotation for a client, then print it.</div>
           </div>
         </div>
-        <div class="card no-card">
+        <div class="card">
           <div class="no-form">
             <div><label>Client name</label><input class="fi" id="qtClient" type="text"></div>
             <div><label>Quotation date</label><input class="fi" id="qtDate" type="date"></div>
@@ -3444,7 +3444,8 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
             <div class="page-title">User management</div>
             <div class="page-sub">Control team access roles and page-level permissions across the export portal.</div>
           </div>
-          <button class="btn-blue" data-write="users" onclick="resetNewUserPerms();document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
+          <button class="btn-outline" type="button" onclick="editCompanyWhatsApp()" title="WhatsApp number" style="margin-right:8px"><i class="ti ti-brand-whatsapp"></i>WhatsApp number</button>
+           <button class="btn-blue" data-write="users" onclick="resetNewUserPerms();document.getElementById('addUserModal').classList.add('open')"><i class="ti ti-user-plus"></i>Add user</button>
         </div>
 
         <div class="perm-legend">
@@ -5048,7 +5049,7 @@ function applyPermissions(me) {
     neworder: isClientSelfAccount && !(myPerms && myPerms.admin),
     quotation: !isClientSelfAccount || !!(myPerms && myPerms.admin),
     orderrequest: isClientSelfAccount && !(myPerms && myPerms.admin),
-    tracking: isClientSelfAccount && !(myPerms && myPerms.admin)
+    tracking: true
   };
   if (isClientSelfAccount && !(myPerms && myPerms.admin)) {
     pageVisible.clients = false;
@@ -6041,6 +6042,24 @@ async function flushChanges() {
   Object.keys(nexts).forEach(t => { serverBaseline[t] = nexts[t]; });
 }
 
+// WhatsApp number of the company (set from User management)
+async function editCompanyWhatsApp() {
+  const v = window.prompt('WhatsApp number of the company (with country code, e.g. 201xxxxxxxxx):', window.companyWhatsAppNumber || '');
+  if (v === null) return;
+  const clean = v.replace(/\D/g, '');
+  try {
+    await api('saveSettings', { whatsapp: clean });
+    window.companyWhatsAppNumber = clean;
+    showToast('WhatsApp number saved.', 'success');
+  } catch (e) {
+    showToast('Could not save: ' + e.message, 'error');
+  }
+}
+
+function companyWA() {
+  return String(window.companyWhatsAppNumber || '').replace(/\D/g, '');
+}
+
 async function pullFromServer() {
   const r = await api('getAll');
   clientsList = Array.isArray(r.data.Clients) ? r.data.Clients : [];
@@ -6055,6 +6074,7 @@ async function pullFromServer() {
   if (Array.isArray(r.data.Audit)) {
     emailAuditLogs = r.data.Audit;
   }
+  if (r.whatsapp !== undefined) window.companyWhatsAppNumber = String(r.whatsapp || '');
   if (r.nextOrderNo) {
     const noInput = document.getElementById('noNumber');
     if (noInput) noInput.value = r.nextOrderNo;
@@ -6874,7 +6894,9 @@ generateClientReport(false);
         `• Country: ${encodeURIComponent(country)}%0A` +
         `• Order File: ${encodeURIComponent(uploadedOrderFileName)}%0A` +
         `• Notes: ${encodeURIComponent(notes)}`;
-      window.open(`https://wa.me/2011133337111?text=${message}`, '_blank', 'noopener');
+      const num = companyWA();
+      if (!num) { showToast('Set the WhatsApp number in User management first.', 'error'); return; }
+      window.open(`https://wa.me/${num}?text=${message}`, '_blank', 'noopener');
     }
 
     // ==================== SUBMIT ORDER REQUEST (saved to Google Sheets and Drive) ====================
@@ -6888,6 +6910,8 @@ generateClientReport(false);
       set('clientCompany', cl.name || '');
       set('clientCountry', cl.country || '');
       set('clientCity', cl.region || '');
+      const wa = document.getElementById('orCompanyWa');
+      if (wa && companyWA()) wa.href = 'https://wa.me/' + companyWA();
     }
     window.prefillOrderRequest = prefillOrderRequest;
 
