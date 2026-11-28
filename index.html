@@ -5307,10 +5307,14 @@ function applyPermissions(me) {
 }
 
 function openAddOrderModal() {
-  fillClientSelects();
-  const noInput = document.getElementById('noNumber');
-  if (noInput) noInput.value = nextOrderNumber();
-  document.getElementById('addOrderModal').classList.add('open');
+  const modal = document.getElementById('addOrderModal');
+  if (!modal) { showToast('The New order form is missing from the page.', 'error'); return; }
+  try { fillClientSelects(); } catch (e) { console.error('New order: client list', e); }
+  try {
+    const noInput = document.getElementById('noNumber');
+    if (noInput) noInput.value = nextOrderNumber();
+  } catch (e) { console.error('New order: number', e); }
+  modal.classList.add('open');
 }
 
 // ═══ FINGERPRINT / FACE ID ═══
