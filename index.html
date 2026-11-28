@@ -1602,6 +1602,17 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   #page-packing table th{font-size:8.5px !important;padding:4px 4px !important}
   #page-packing table td{font-size:9px !important;padding:4px 4px !important}
 }
+
+/* Glass style: Quotation and Shipment Tracking */
+.nav-item[data-page="quotation"],.nav-item[data-page="tracking"],.mb-item[data-page="quotation"],.mb-item[data-page="tracking"]{
+  background:rgba(255,255,255,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.35);border-radius:14px;box-shadow:0 8px 24px rgba(15,23,42,.10)}
+#page-quotation .card,#page-tracking .card{background:rgba(255,255,255,.55) !important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.6) !important;border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.12)}
+#page-quotation .page-header,#page-tracking .page-header{background:rgba(255,255,255,.35) !important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.55);border-radius:16px;padding:12px 16px}
+#page-quotation .tbl-wrap,#page-tracking .tbl-wrap{background:rgba(255,255,255,.4) !important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5)}
+#page-quotation .fi,#page-tracking .fi{background:rgba(255,255,255,.6) !important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -1703,7 +1714,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
       </div>
 
       <div id="signupPane" style="display:none">
-        <div class="ff"><label for="suCustomer">Customer Name</label><div class="iw"><i class="ico ti ti-building"></i><input class="fi" id="suCustomer" type="text" placeholder="Customer name"></div></div>
         <div class="ff">
           <label for="suUser">Client / Username</label>
           <div class="iw">
@@ -3059,7 +3069,7 @@ async function enterPortal(loginRes) {
   clientSelfName = loginRes.me.clientScope || matchedUser?.clientScope || u;
 
   applyPermissions(loginRes.me);
-  if (isClientSelfAccount) setTimeout(() => goPage('neworder'), 0);
+  if (isClientSelfAccount) setTimeout(() => goPage('quotation'), 0);
   currentLoggedUser = u;
   currentLoginTimestamp = new Date().toLocaleString('en-GB', {
     day: '2-digit', month: 'short', year: 'numeric',
@@ -3791,13 +3801,13 @@ async function doSignup() {
   const email = document.getElementById('suEmail').value.trim();
   const pw = document.getElementById('suPass').value;
   const pw2 = document.getElementById('suPass2').value;
-  const customerName = document.getElementById('suCustomer').value.trim();
+  const customerName = username;   // the other details are completed later in the site
   const country = '';
   const region = '';
   const vat = '';
   const contact = '';
   const address = '';
-  if (!customerName || !username || !mobile || !email || !pw) {
+  if (!username || !mobile || !email || !pw) {
     showToast('Please fill in all the fields.', 'error');
     return;
   }
@@ -3836,7 +3846,7 @@ async function doSignup() {
   ensureClientSelfRecord(username, email, mobile);
   refreshUI();
   generateClientReport(false);
-  goPage('neworder');
+  goPage('quotation');
 
   dispatchEmailNotification(
     'action',
@@ -4011,6 +4021,11 @@ function applyPermissions(me) {
     pageVisible.clients = false;
     pageVisible.orders = false;
     pageVisible.production = false;
+  }
+  if (isClientSelfAccount && !(myPerms && myPerms.admin)) {
+    ['dashboard', 'clients', 'orders', 'production', 'packing', 'messages', 'users', 'neworder'].forEach(k => { pageVisible[k] = false; });
+    pageVisible.quotation = true;
+    pageVisible.tracking = true;
   }
   Object.entries(pageVisible).forEach(([page, show]) => {
     document.querySelectorAll(`[data-page="${page}"]`).forEach(el => { el.style.display = show ? '' : 'none'; });
@@ -5481,6 +5496,16 @@ addQuoteRow();
 updateDashboard();
 renderAllTables();
 generateClientReport(false);
+
+// Menu order: Quotation above Orders, Shipment Tracking below Packing list
+(function () {
+  document.querySelectorAll('[data-page="packing"]').forEach(p => {
+    document.querySelectorAll('[data-page="tracking"]').forEach(t => { if (p.parentNode === t.parentNode) p.after(t); });
+  });
+  document.querySelectorAll('[data-page="orders"]').forEach(o => {
+    document.querySelectorAll('[data-page="quotation"]').forEach(q => { if (o.parentNode === q.parentNode) o.before(q); });
+  });
+})();
 </script>
 </body>
 </html>
