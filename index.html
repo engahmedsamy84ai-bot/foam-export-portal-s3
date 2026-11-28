@@ -1993,6 +1993,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   background:linear-gradient(135deg, var(--royal), var(--cyan)) !important;
   border-color:transparent !important;color:#ffffff !important;box-shadow:0 8px 20px rgba(29,78,216,.28) !important}
 .mb-item.active[data-page="quotation"] i,.nav-item.active[data-page="quotation"] i{color:#ffffff !important}
+/* Shipment Tracking button: blue when open */
+.nav-item.active[data-page="tracking"],
+.mb-item.active[data-page="tracking"]{
+  background:linear-gradient(135deg, var(--royal), var(--cyan)) !important;
+  border-color:transparent !important;color:#ffffff !important;box-shadow:0 8px 20px rgba(29,78,216,.28) !important}
+.mb-item.active[data-page="tracking"] i,.nav-item.active[data-page="tracking"] i{color:#ffffff !important}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -6070,6 +6076,7 @@ generateClientReport(false);
       return {
         orderNo: o.ordNo,
         progress: stagePercent(o.status),
+        stage: normalizeStage(o.status),
         clientName: o.client || '—',
         destination: o.dest || '—',
         blNo: '—',
@@ -6114,7 +6121,7 @@ generateClientReport(false);
       document.getElementById('trkEta').textContent = order.eta;
       document.getElementById('trackingRefBadge').textContent = 'BL No: #' + order.blNo;
 
-      setCustomProgress(order.progress);
+      applyStage(order.stage);
     }
 
     // ==================== INTERACTIVE LASER PROGRESS BAR ====================
@@ -6277,6 +6284,44 @@ generateClientReport(false);
     applyProgressUI(0, 'Enter an order number to see its progress',
       { pct: 0, state: 'pending', badge: 'Waiting' }, { pct: 0, state: 'pending', badge: 'Waiting' }, { pct: 0, state: 'pending', badge: 'Waiting' }, true);
 
+    // ---- stage view (matches the site stages) ----
+    const STAGE_VIEW = {
+      'Order Confirmed':  { pct: 15,  title: 'Stage 0: Order Confirmed', prod: { pct: 15,  state: 'active',    badge: 'Order Confirmed' }, load: { pct: 0, state: 'pending', badge: 'Waiting' }, ship: { pct: 0, state: 'pending', badge: 'Scheduled' } },
+      'Foam Production':  { pct: 45,  title: 'Stage 1: Foam Production & Precision Cutting', prod: { pct: 45, state: 'active', badge: 'Foaming & Cutting...' }, load: { pct: 0, state: 'pending', badge: 'Waiting' }, ship: { pct: 0, state: 'pending', badge: 'Scheduled' } },
+      'Container Loading':{ pct: 68,  title: 'Stage 2: Foam Roll & Block Container Loading', prod: { pct: 100, state: 'completed', badge: 'Completed' }, load: { pct: 68, state: 'active', badge: 'Loading Container...' }, ship: { pct: 0, state: 'pending', badge: 'Scheduled' } },
+      'Sea Freight':      { pct: 88,  title: 'Stage 3: Vessel Departed — International Shipping', prod: { pct: 100, state: 'completed', badge: 'Completed' }, load: { pct: 100, state: 'completed', badge: 'Completed' }, ship: { pct: 88, state: 'active', badge: 'In Ocean Transit...' } },
+      'Delivered':        { pct: 100, title: 'Completed: Foam Shipment Delivered', prod: { pct: 100, state: 'completed', badge: 'Completed' }, load: { pct: 100, state: 'completed', badge: 'Completed' }, ship: { pct: 100, state: 'completed', badge: 'Delivered' } }
+    };
+    function applyStage(stage, immediate = false) {
+      const v = STAGE_VIEW[stage] || STAGE_VIEW['Order Confirmed'];
+      applyProgressUI(v.pct, v.title, v.prod, v.load, v.ship, immediate);
+    }
+
+    // ---- automatic update: the page reads the order again every 15 seconds ----
+    async function refreshTracking() {
+      if (!window.currentTrackOrd) return;
+      try {
+        const o = await findShipment(window.currentTrackOrd);
+        if (!o) return;
+        applyStage(o.stage);
+        document.getElementById('trkOrderNo').textContent = o.orderNo;
+        document.getElementById('trkClientName').textContent = o.clientName;
+        document.getElementById('trkDestination').textContent = o.destination;
+        document.getElementById('trkContainer').textContent = o.container;
+        document.getElementById('trkEta').textContent = o.eta;
+        document.getElementById('trkOrderFile').textContent = o.orderFile;
+      } catch (e) { /* keep the last view */ }
+    }
+    setInterval(() => {
+      const pg = document.getElementById('page-tracking');
+      if (pg && pg.classList.contains('active')) refreshTracking();
+    }, 15000);
+    const __goPageBase = window.goPage;
+    window.goPage = function (id) {
+      __goPageBase(id);
+      if (id === 'tracking') refreshTracking();
+    };
+    window.refreshTracking = refreshTracking;
 })();
 </script>
 </body>
