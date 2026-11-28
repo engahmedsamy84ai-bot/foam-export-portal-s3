@@ -1987,6 +1987,12 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 #page-tracking .detail-item{ background: var(--glass-sub); padding: 1.05rem 1.25rem; border-radius: 14px; border: 1px solid var(--glass-border); }
 #page-tracking .detail-label{ font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 0.3rem; }
 #page-tracking .detail-value{ font-size: 0.98rem; font-weight: 700; }
+/* Quotation button: blue when open (same blue as Print quotation) */
+.nav-item.active[data-page="quotation"],
+.mb-item.active[data-page="quotation"]{
+  background:linear-gradient(135deg, var(--royal), var(--cyan)) !important;
+  border-color:transparent !important;color:#ffffff !important;box-shadow:0 8px 20px rgba(29,78,216,.28) !important}
+.mb-item.active[data-page="quotation"] i,.nav-item.active[data-page="quotation"] i{color:#ffffff !important}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -2803,6 +2809,7 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
               </button>
             </div>
             <div class="order-search-hint">Enter the order number from your order.</div>
+            <button type="button" class="order-search-btn" style="margin-top:8px;width:auto;padding:6px 12px;border-radius:10px" onclick="if(currentTrackOrd) downloadServerFile(currentTrackOrd,\'order\',true)"><i class="ti ti-download"></i> Download order file</button>
             <div class="order-search-alert" id="orderSearchAlert"></div>
           </div>
         </div>
@@ -6054,9 +6061,12 @@ generateClientReport(false);
     const QUOTE_DRAFT_KEY = 'foam_industries_latest_quote';
 
     // ==================== IN-SITE "DATABASE" OF SHIPMENTS ====================
-    function findShipment(q) {
-      const o = packingOrders.find(x => String(x.ordNo).toUpperCase() === q);
+    window.currentTrackOrd = null;
+    async function findShipment(q) {
+      let o;
+      try { o = (await api('getShipment', { ordNo: q })).order; } catch (e) { return null; }
       if (!o) return null;
+      window.currentTrackOrd = o.ordNo;
       return {
         orderNo: o.ordNo,
         progress: stagePercent(o.status),
@@ -6070,7 +6080,7 @@ generateClientReport(false);
       };
     }
 
-    function searchOrder() {
+    async function searchOrder() {
       const input = document.getElementById('orderSearchInput');
       const alertBox = document.getElementById('orderSearchAlert');
       const q = input.value.trim().toUpperCase();
@@ -6082,7 +6092,7 @@ generateClientReport(false);
         return;
       }
 
-      const order = findShipment(q);
+      const order = await findShipment(q);
       if (!order) {
         alertBox.className = 'order-search-alert bad';
         alertBox.textContent = `❌ Order "${q}" was not found.`;
