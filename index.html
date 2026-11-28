@@ -1613,6 +1613,380 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
   border:1px solid rgba(255,255,255,.55);border-radius:16px;padding:12px 16px}
 #page-quotation .tbl-wrap,#page-tracking .tbl-wrap{background:rgba(255,255,255,.4) !important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5)}
 #page-quotation .fi,#page-tracking .fi{background:rgba(255,255,255,.6) !important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+/* ===== Shipment Tracking (page styles, scoped) ===== */
+#page-tracking{
+      --primary: #002855;
+      --primary-accent: #c8102e;
+      --sky: #0284c7;
+      --success: #10b981;
+      --laser: #00e5ff;
+      --laser-2: #22d3ee;
+
+      --bg-gradient: radial-gradient(circle at 15% 15%, #e0f2fe 0%, #f1f5f9 50%, #e2e8f0 100%);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-sub: rgba(255, 255, 255, 0.55);
+      --glass-border: rgba(15, 23, 42, 0.12);
+      --glass-shadow: 0 18px 40px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --input-bg: rgba(255, 255, 255, 0.85);
+      --stage-canvas: rgba(241, 245, 249, 0.85);
+      --orb-1: rgba(2, 132, 199, 0.22);
+      --orb-2: rgba(200, 16, 46, 0.15);
+      --orb-3: rgba(0, 40, 85, 0.16);
+      --radius: 20px;
+    }
+#page-tracking *{ margin: 0; padding: 0; box-sizing: border-box; }
+#page-tracking{
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+      background: var(--bg-gradient);
+      overflow-x: hidden;
+    }
+#page-tracking .ambient-bg{ position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+#page-tracking .orb{ position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; animation: orbFloat 18s ease-in-out infinite alternate; }
+#page-tracking .orb-1{ width: 460px; height: 460px; background: var(--orb-1); top: -100px; left: -80px; }
+#page-tracking .orb-2{ width: 420px; height: 420px; background: var(--orb-2); bottom: -120px; right: -60px; animation-delay: -6s; }
+#page-tracking .orb-3{ width: 340px; height: 340px; background: var(--orb-3); top: 42%; left: 45%; animation-delay: -10s; }
+@keyframes orbFloat{
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(30px, -22px, 0) scale(1.07); }
+    }
+#page-tracking .glass-panel{
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: var(--radius);
+    }
+#page-tracking .main-container{
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 2.5rem;
+    }
+#page-tracking .section-card{ padding: 1.65rem 1.85rem; display: flex; flex-direction: column; width: 100%; }
+#page-tracking .section-card-header{
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 0.9rem; margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--glass-border);
+      gap: 0.75rem; flex-wrap: wrap;
+    }
+#page-tracking .section-card-header h3{ font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 0.55rem; }
+#page-tracking .tag-badge{
+      font-size: 0.74rem; font-weight: 700;
+      padding: 0.28rem 0.75rem; border-radius: 999px;
+      background: rgba(2, 132, 199, 0.14);
+      border: 1px solid rgba(2, 132, 199, 0.3);
+      color: var(--primary);
+    }
+#page-tracking .page-title-bar{ margin-bottom: 1.15rem; }
+#page-tracking .page-title-bar h2{ font-size: 1.75rem; font-weight: 800; letter-spacing: -0.4px; }
+#page-tracking .page-title-bar p{ color: var(--text-muted); font-size: 0.95rem; margin-top: 0.15rem; }
+#page-tracking .tracking-hero{
+      padding: 1.85rem 2.1rem; margin-bottom: 1.35rem;
+      position: relative; overflow: hidden; width: 100%;
+    }
+#page-tracking .order-search-row{
+      display: flex; align-items: flex-end; gap: 0.75rem;
+      flex-wrap: wrap; margin-bottom: 1.25rem;
+    }
+#page-tracking .order-search-row .order-label{ font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.4rem; display: block; }
+#page-tracking .order-search-input-wrap{
+      position: relative; flex: 1; min-width: 220px;
+    }
+#page-tracking .order-search-input-wrap input{
+      width: 100%; padding: 0.85rem 3.2rem 0.85rem 1rem;
+      border: 1.5px solid var(--glass-border); border-radius: 12px;
+      font-family: inherit; font-size: 0.95rem; font-weight: 700;
+      color: var(--text-main); background: var(--input-bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+#page-tracking .order-search-input-wrap input:focus{
+      outline: none; border-color: var(--laser-2);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.22);
+    }
+#page-tracking .order-search-btn{
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 42px; height: 42px; border-radius: 10px;
+      background: linear-gradient(135deg, #002855, #0284c7);
+      color: #fff; border: none; cursor: pointer;
+      display: grid; place-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+#page-tracking .order-search-btn:hover{ transform: translateY(-50%) scale(1.06); box-shadow: 0 8px 18px rgba(2, 132, 199, 0.4); }
+#page-tracking .order-search-hint{
+      font-size: 0.78rem; color: var(--text-muted);
+      font-weight: 600; margin-top: 0.45rem;
+    }
+#page-tracking .order-search-hint b{ color: var(--sky); }
+#page-tracking .order-search-alert{
+      font-size: 0.82rem; font-weight: 700;
+      padding: 0.6rem 0.9rem; border-radius: 10px;
+      margin-top: 0.65rem; display: none;
+    }
+#page-tracking .order-search-alert.ok{ background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.38); }
+#page-tracking .order-search-alert.bad{ background: rgba(239, 68, 68, 0.15); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.38); }
+#page-tracking .overall-progress-header{
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 1.1rem; flex-wrap: wrap; gap: 0.75rem;
+    }
+#page-tracking .overall-percentage{
+      font-size: 2.75rem; font-weight: 800;
+      background: linear-gradient(135deg, #002855 0%, #0284c7 50%, #10b981 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1; font-variant-numeric: tabular-nums;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+#page-tracking .overall-percentage.pop{ transform: scale(1.12); }
+#page-tracking .interactive-progress-wrapper{
+      position: relative; padding-top: 3rem;
+      margin-bottom: 2.1rem; user-select: none;
+    }
+#page-tracking .progress-floating-badge{
+      position: absolute; top: 0; left: 68%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #001a3a, #00bcd4, #22d3ee);
+      background-size: 200% 200%;
+      animation: gradientFlow 4s ease infinite;
+      color: #ffffff; font-size: 0.85rem; font-weight: 800;
+      padding: 0.38rem 0.95rem; border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 229, 255, 0.42);
+      transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.2s ease;
+      pointer-events: none; white-space: nowrap;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+#page-tracking .progress-floating-badge .live-dot{
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #4ade80; box-shadow: 0 0 8px #4ade80;
+      animation: pulseDot 1.4s infinite;
+    }
+@keyframes pulseDot{
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+#page-tracking .progress-floating-badge::after{
+      content: ''; position: absolute; bottom: -6px; left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px 6px 0; border-style: solid;
+      border-color: #22d3ee transparent transparent;
+    }
+#page-tracking .main-progress-track{
+      width: 100%; height: 38px;
+      background: var(--glass-sub);
+      border: 2px solid var(--glass-border);
+      border-radius: 999px; position: relative; cursor: pointer;
+      box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.16), 0 6px 20px rgba(0, 229, 255, 0.12);
+      display: flex; align-items: center; padding: 3px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+#page-tracking .main-progress-track:hover,#page-tracking .main-progress-track.dragging{
+      border-color: var(--laser-2);
+      box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.16), 0 0 0 4px rgba(34, 211, 238, 0.22), 0 0 24px rgba(0, 229, 255, 0.5);
+    }
+#page-tracking .track-ticks{
+      position: absolute; inset: 0 18px;
+      display: flex; justify-content: space-between; align-items: center;
+      pointer-events: none; z-index: 1;
+    }
+#page-tracking .track-ticks i{ width: 2px; height: 10px; background: rgba(148, 163, 184, 0.35); border-radius: 2px; }
+#page-tracking .main-progress-fill{
+      height: 100%; width: 68%;
+      background: linear-gradient(90deg,
+        #001a3a 0%,
+        #0070c0 25%,
+        #00bcd4 50%,
+        #22d3ee 70%,
+        #7df9ff 100%);
+      background-size: 220% 100%;
+      border-radius: 999px; position: relative; z-index: 2;
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: gradientFlow 3.5s linear infinite, laserPulse 1.8s ease-in-out infinite;
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: 22px; overflow: visible;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.65), 0 0 40px rgba(0, 188, 212, 0.4), 0 4px 16px rgba(0, 188, 212, 0.5);
+    }
+@keyframes laserPulse{
+      0%, 100% { box-shadow: 0 0 16px rgba(0, 229, 255, 0.55), 0 0 36px rgba(0, 188, 212, 0.32), 0 4px 16px rgba(0, 188, 212, 0.45); }
+      50% { box-shadow: 0 0 26px rgba(125, 249, 255, 0.9), 0 0 60px rgba(34, 211, 238, 0.6), 0 4px 22px rgba(0, 188, 212, 0.6); }
+    }
+#page-tracking .fill-energy-stripes{
+      position: absolute; inset: 0; border-radius: 999px;
+      background-image: linear-gradient(45deg,
+        rgba(255, 255, 255, 0.22) 25%, transparent 25%, transparent 50%,
+        rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.22) 75%,
+        transparent 75%, transparent);
+      background-size: 28px 28px;
+      animation: moveStripes 1.2s linear infinite;
+      pointer-events: none;
+    }
+@keyframes moveStripes{
+      0% { background-position: 0 0; }
+      100% { background-position: 28px 0; }
+    }
+#page-tracking .laser-beam{
+      position: absolute; inset: 0; border-radius: 999px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.95) 50%,
+        rgba(255, 255, 255, 0) 60%,
+        transparent 100%);
+      background-size: 220px 100%;
+      background-repeat: no-repeat;
+      animation: laserSweep 2.2s linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+@keyframes laserSweep{
+      0% { background-position: -220px 0; }
+      100% { background-position: calc(100% + 220px) 0; }
+    }
+@keyframes gradientFlow{
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+#page-tracking .track-inner-label{
+      position: relative; z-index: 3; color: #ffffff;
+      font-size: 0.84rem; font-weight: 800; letter-spacing: 0.5px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+      pointer-events: none; font-variant-numeric: tabular-nums;
+    }
+#page-tracking .progress-drag-knob{
+      position: absolute; right: -16px; top: 50%;
+      transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #ffffff; border: 4px solid #22d3ee;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.9), 0 6px 18px rgba(0, 188, 212, 0.6);
+      cursor: grab; z-index: 4; display: grid; place-items: center;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s;
+    }
+#page-tracking .progress-drag-knob::before{
+      content: ''; width: 10px; height: 10px;
+      border-radius: 50%; background: #00bcd4;
+      box-shadow: 0 0 10px #00e5ff;
+    }
+#page-tracking .progress-drag-knob::after{
+      content: ''; position: absolute; inset: -8px;
+      border-radius: 50%; border: 2px solid rgba(0, 229, 255, 0.65);
+      animation: knobRipple 1.8s ease-out infinite;
+      pointer-events: none;
+    }
+@keyframes knobRipple{
+      0% { transform: scale(0.85); opacity: 0.9; }
+      100% { transform: scale(1.45); opacity: 0; }
+    }
+#page-tracking .main-progress-track:hover .progress-drag-knob,#page-tracking .main-progress-track.dragging .progress-drag-knob{
+      transform: translateY(-50%) scale(1.16);
+      border-color: #7df9ff;
+      cursor: grabbing;
+    }
+#page-tracking .progress-milestones{
+      display: flex; justify-content: space-between;
+      margin-top: 0.85rem; font-size: 0.78rem; font-weight: 700;
+      color: var(--text-muted); flex-wrap: wrap; gap: 0.45rem;
+    }
+#page-tracking .progress-milestones span{
+      cursor: pointer; padding: 0.28rem 0.7rem; border-radius: 10px;
+      background: var(--glass-sub); border: 1px solid var(--glass-border);
+      transition: all 0.2s ease;
+    }
+#page-tracking .progress-milestones span:hover,#page-tracking .progress-milestones span.active-step{
+      border-color: var(--laser-2);
+      background: rgba(34, 211, 238, 0.16);
+      color: var(--sky);
+      transform: translateY(-2px);
+    }
+#page-tracking .stages-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+@media (max-width: 880px){#page-tracking .stages-grid{ grid-template-columns: 1fr; }}
+#page-tracking .stage-card{
+      background: var(--glass-sub);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 18px; padding: 1.5rem;
+      position: relative; cursor: pointer;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+#page-tracking .stage-card:hover{ transform: translate3d(0, -4px, 0); border-color: var(--sky); }
+#page-tracking .stage-card.completed{ border-color: rgba(16, 185, 129, 0.55); background: rgba(16, 185, 129, 0.08); }
+#page-tracking .stage-card.active{
+      border-color: var(--laser-2);
+      background: rgba(34, 211, 238, 0.1);
+      box-shadow: 0 14px 30px -10px rgba(0, 229, 255, 0.35);
+      transform: translate3d(0, -4px, 0);
+    }
+#page-tracking .illustration-stage{
+      width: 100%; height: 130px; border-radius: 14px;
+      background: var(--stage-canvas); border: 1px solid var(--glass-border);
+      margin-bottom: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+@keyframes foamExpand{
+      0%, 100% { transform: scaleY(0.85); }
+      50% { transform: scaleY(1.06); }
+    }
+@keyframes foamCutter{
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(14px); }
+    }
+@keyframes forkliftMove{
+      0%, 100% { transform: translateX(-10px); }
+      50% { transform: translateX(14px); }
+    }
+@keyframes forkLiftLoad{
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+@keyframes shipSail{
+      0%, 100% { transform: translateY(0px) rotate(-1deg); }
+      50% { transform: translateY(-4px) rotate(1.2deg); }
+    }
+@keyframes waveMove{
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-24px); }
+    }
+#page-tracking .foam-block-rise{ transform-box: fill-box; transform-origin: bottom; animation: foamExpand 2.8s ease-in-out infinite; }
+#page-tracking .foam-blade{ animation: foamCutter 2s ease-in-out infinite; }
+#page-tracking .forklift-group{ animation: forkliftMove 3s ease-in-out infinite; }
+#page-tracking .forklift-pallet{ animation: forkLiftLoad 3s ease-in-out infinite; }
+#page-tracking .ship-body{ transform-box: fill-box; transform-origin: center; animation: shipSail 3s ease-in-out infinite; }
+#page-tracking .ocean-wave{ animation: waveMove 2s linear infinite; }
+#page-tracking .stage-header-row{
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 0.35rem;
+    }
+#page-tracking .stage-title{ font-size: 1.08rem; font-weight: 800; }
+#page-tracking .stage-percent{ font-size: 1.3rem; font-weight: 800; }
+#page-tracking .stage-card.completed .stage-percent{ color: var(--success); }
+#page-tracking .stage-card.active .stage-percent{ color: var(--sky); }
+#page-tracking .stage-card.pending .stage-percent{ color: var(--text-muted); }
+#page-tracking .stage-desc{ font-size: 0.84rem; color: var(--text-muted); margin-bottom: 1rem; }
+#page-tracking .mini-bar{
+      width: 100%; height: 10px;
+      background: rgba(148, 163, 184, 0.22);
+      border-radius: 999px; overflow: hidden;
+    }
+#page-tracking .mini-fill{ height: 100%; border-radius: 999px; transition: width 0.5s ease; }
+#page-tracking .stage-card.completed .mini-fill{ background: var(--success); }
+#page-tracking .stage-card.active .mini-fill{ background: var(--laser-2); }
+#page-tracking .stage-card.pending .mini-fill{ background: rgba(148, 163, 184, 0.4); }
+#page-tracking .stage-status-pill{
+      display: inline-block; margin-top: 0.85rem;
+      font-size: 0.75rem; font-weight: 700;
+      padding: 0.28rem 0.72rem; border-radius: 999px;
+    }
+#page-tracking .completed .stage-status-pill{ background: rgba(16, 185, 129, 0.16); color: #059669; }
+#page-tracking .active .stage-status-pill{ background: rgba(34, 211, 238, 0.18); color: #0284c7; }
+#page-tracking .pending .stage-status-pill{ background: rgba(148, 163, 184, 0.18); color: var(--text-muted); }
+#page-tracking .details-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+#page-tracking .detail-item{ background: var(--glass-sub); padding: 1.05rem 1.25rem; border-radius: 14px; border: 1px solid var(--glass-border); }
+#page-tracking .detail-label{ font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 0.3rem; }
+#page-tracking .detail-value{ font-size: 0.98rem; font-weight: 700; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -2395,19 +2769,187 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
         <div id="messagesFeedContainer"></div>
       </div>
 
-      <!-- ── PAGE: SHIPMENT TRACKING (client accounts) ── -->
+      <!-- ── PAGE: SHIPMENT TRACKING ── -->
       <div class="page" id="page-tracking">
-        <div class="page-header">
-          <div>
-            <div class="page-title">Shipment Tracking</div>
-            <div class="page-sub">Follow your shipment: production, loading, shipping and delivery.</div>
+<div id="pageTrackingInner">
+      <div class="page-title-bar">
+        <h2>Live Foam Shipment Tracking</h2>
+        <p>Interactive progress bar and animated foam factory logistics across Production, Loading, and Shipping.</p>
+      </div>
+
+      <div class="tracking-hero glass-panel">
+        <!-- Order No. Search -->
+        <div class="order-search-row">
+          <div style="flex: 1; min-width: 240px;">
+            <label class="order-label" for="orderSearchInput">Order No.</label>
+            <div class="order-search-input-wrap">
+              <input
+                type="text"
+                id="orderSearchInput"
+                placeholder="Enter Order No."
+                autocomplete="off"
+              />
+              <button
+                type="button"
+                class="order-search-btn"
+                onclick="searchOrder()"
+                title="Search order"
+                aria-label="Search order"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="order-search-hint">Enter the order number from your order.</div>
+            <div class="order-search-alert" id="orderSearchAlert"></div>
           </div>
         </div>
-        <div class="card no-card">
-          <div class="no-row"><span>Shipment</span>
-            <select class="fi" id="trkSelect" onchange="renderTracking()" style="max-width:260px"></select></div>
-          <div id="trkBody"></div>
+
+        <div class="overall-progress-header">
+          <div>
+            <h3 id="overallStatusTitle" style="font-size: 1.3rem; font-weight: 800; margin-top: 0.2rem;">Stage 2: Foam Roll & Block Container Loading</h3>
+          </div>
+          <div class="overall-percentage" id="overallPercentText">68%</div>
         </div>
+
+        <!-- INTERACTIVE LASER PROGRESS BAR -->
+        <div class="interactive-progress-wrapper">
+          <div class="progress-floating-badge" id="floatingBadge" style="left: 68%;">
+            <span class="live-dot"></span>
+            <span id="floatingBadgeText">68% Complete</span>
+          </div>
+          <div class="main-progress-track" id="interactiveTrack" title="Click or drag along the bar to adjust shipment progress">
+            <div class="track-ticks">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="main-progress-fill" id="overallProgressBar" style="width: 68%;">
+              <div class="fill-energy-stripes"></div>
+              <div class="laser-beam"></div>
+              <span class="track-inner-label" id="trackInnerLabel">68%</span>
+              <div class="progress-drag-knob"></div>
+            </div>
+          </div>
+          <div class="progress-milestones" id="milestoneRow">
+            <span data-target="15" onclick="setCustomProgress(15)">15% Order Confirmed</span>
+            <span data-target="45" onclick="setCustomProgress(45)">45% Foam Production</span>
+            <span data-target="68" class="active-step" onclick="setCustomProgress(68)">68% Container Loading</span>
+            <span data-target="88" onclick="setCustomProgress(88)">88% Sea Freight</span>
+            <span data-target="100" onclick="setCustomProgress(100)">100% Delivered</span>
+          </div>
+        </div>
+
+        <!-- 3 STAGE CARDS -->
+        <div class="stages-grid">
+          <div class="stage-card completed" id="cardProduction" onclick="setTrackingStage(1)">
+            <div class="illustration-stage">
+              <svg width="190" height="110" viewBox="0 0 190 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="16" y="88" width="158" height="8" rx="4" fill="#334155"/>
+                <circle cx="30" cy="92" r="3" fill="#38bdf8"/>
+                <circle cx="95" cy="92" r="3" fill="#38bdf8"/>
+                <circle cx="160" cy="92" r="3" fill="#38bdf8"/>
+                <rect class="foam-block-rise" x="28" y="44" width="64" height="42" rx="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+                <circle cx="44" cy="58" r="2" fill="#ca8a04" opacity="0.5"/>
+                <circle cx="62" cy="68" r="2.5" fill="#ca8a04" opacity="0.5"/>
+                <circle cx="76" cy="55" r="2" fill="#ca8a04" opacity="0.5"/>
+                <path d="M112 88V20H162V88" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round"/>
+                <g class="foam-blade">
+                  <line x1="114" y1="34" x2="160" y2="34" stroke="#c8102e" stroke-width="3"/>
+                  <rect x="120" y="52" width="34" height="34" rx="4" fill="#38bdf8" fill-opacity="0.85"/>
+                </g>
+              </svg>
+            </div>
+            <div class="stage-header-row">
+              <div class="stage-title">1. Foam Production</div>
+              <div class="stage-percent" id="pctProduction">100%</div>
+            </div>
+            <div class="stage-desc">Continuous polyurethane foaming, curing, and precision block/roll cutting.</div>
+            <div class="mini-bar"><div class="mini-fill" id="barProduction" style="width: 100%;"></div></div>
+            <span class="stage-status-pill" id="badgeProduction">Completed</span>
+          </div>
+
+          <div class="stage-card active" id="cardLoading" onclick="setTrackingStage(2)">
+            <div class="illustration-stage">
+              <svg width="200" height="110" viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="92" width="180" height="5" rx="2.5" fill="#475569"/>
+                <rect x="116" y="34" width="70" height="56" rx="4" fill="#002855" stroke="#38bdf8" stroke-width="2"/>
+                <circle cx="168" cy="78" r="8" fill="#facc15"/>
+                <circle cx="168" cy="61" r="8" fill="#38bdf8"/>
+                <circle cx="151" cy="78" r="8" fill="#34d399"/>
+                <circle cx="151" cy="61" r="8" fill="#fb923c"/>
+                <g class="forklift-group">
+                  <rect x="26" y="62" width="34" height="22" rx="4" fill="#c8102e"/>
+                  <path d="M34 62V44H52L58 62" stroke="#c8102e" stroke-width="3"/>
+                  <circle cx="34" cy="86" r="6" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+                  <circle cx="54" cy="86" r="6" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+                  <line x1="64" y1="36" x2="64" y2="86" stroke="#64748b" stroke-width="3.5"/>
+                  <g class="forklift-pallet">
+                    <path d="M64 72H94" stroke="#94a3b8" stroke-width="3"/>
+                    <rect x="68" y="48" width="26" height="22" rx="4" fill="#facc15" stroke="#ca8a04" stroke-width="1.8"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="stage-header-row">
+              <div class="stage-title">2. Foam Loading</div>
+              <div class="stage-percent" id="pctLoading">65%</div>
+            </div>
+            <div class="stage-desc">Forklift loading of wrapped foam rolls & blocks into 40' HC export container.</div>
+            <div class="mini-bar"><div class="mini-fill" id="barLoading" style="width: 65%;"></div></div>
+            <span class="stage-status-pill" id="badgeLoading">Loading Container...</span>
+          </div>
+
+          <div class="stage-card pending" id="cardShipping" onclick="setTrackingStage(3)">
+            <div class="illustration-stage">
+              <svg width="190" height="110" viewBox="0 0 190 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g class="ship-body">
+                  <rect x="52" y="42" width="20" height="15" rx="2" fill="#c8102e"/>
+                  <rect x="75" y="42" width="20" height="15" rx="2" fill="#0284c7"/>
+                  <rect x="98" y="42" width="20" height="15" rx="2" fill="#10b981"/>
+                  <rect x="64" y="27" width="20" height="15" rx="2" fill="#facc15"/>
+                  <rect x="122" y="30" width="15" height="27" rx="2" fill="#e2e8f0"/>
+                  <path d="M32 57H154L140 78H46L32 57Z" fill="#002855" stroke="#38bdf8" stroke-width="2"/>
+                </g>
+                <g class="ocean-wave">
+                  <path d="M12 85C26 78 40 92 54 85C68 78 82 92 96 85C110 78 124 92 138 85C152 78 166 92 180 85C194 78 208 92 222 85" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M12 95C26 88 40 102 54 95C68 88 82 102 96 95C110 88 124 102 138 95C152 88 166 102 180 95" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </div>
+            <div class="stage-header-row">
+              <div class="stage-title">3. Ocean Shipping</div>
+              <div class="stage-percent" id="pctShipping">0%</div>
+            </div>
+            <div class="stage-desc">Export departure from Egyptian port, live transit, and destination arrival.</div>
+            <div class="mini-bar"><div class="mini-fill" id="barShipping" style="width: 0%;"></div></div>
+            <span class="stage-status-pill" id="badgeShipping">Scheduled</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipment Details -->
+      <div class="section-card glass-panel">
+        <div class="section-card-header">
+          <h3>📦 Complete Shipment Details</h3>
+          <span class="tag-badge" id="trackingRefBadge">BL No: #FI-EG-2026-884</span>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-item"><div class="detail-label">Order No.</div><div class="detail-value" id="trkOrderNo">FI-1002</div></div>
+          <div class="detail-item"><div class="detail-label">Exporter</div><div class="detail-value">Foam Industries Co. (Badr City, Egypt)</div></div>
+          <div class="detail-item"><div class="detail-label">Consignee (Client)</div><div class="detail-value" id="trkClientName">—</div></div>
+          <div class="detail-item"><div class="detail-label">Destination Country / Port</div><div class="detail-value" id="trkDestination">Hamburg Port, Germany</div></div>
+          <div class="detail-item"><div class="detail-label">Bill of Lading (B/L No.)</div><div class="detail-value" id="trkBlNo">MAEU-948271045</div></div>
+          <div class="detail-item"><div class="detail-label">Container Number & Type</div><div class="detail-value" id="trkContainer">MSKU-4829104 (1 × 40' High Cube)</div></div>
+          <div class="detail-item"><div class="detail-label">Vessel / Voyage</div><div class="detail-value" id="trkVessel">MV OCEAN HORIZON / V.402E</div></div>
+          <div class="detail-item"><div class="detail-label">Cargo Description</div><div class="detail-value">Polyurethane Foam Blocks & Rolled Sheets</div></div>
+          <div class="detail-item"><div class="detail-label">Incoterms</div><div class="detail-value">CIF — Cost, Insurance & Freight</div></div>
+          <div class="detail-item"><div class="detail-label">Attached Order File</div><div class="detail-value" id="trkOrderFile">Foam_Order_2026.pdf</div></div>
+          <div class="detail-item"><div class="detail-label">Estimated Arrival (ETA)</div><div class="detail-value" id="trkEta" style="color: var(--sky);">December 18, 2026</div></div>
+        </div>
+      </div>
+    </div>
       </div>
 
       <!-- ── PAGE: NEW ORDER (client accounts) ── -->
@@ -5505,6 +6047,226 @@ generateClientReport(false);
   document.querySelectorAll('[data-page="orders"]').forEach(o => {
     document.querySelectorAll('[data-page="quotation"]').forEach(q => { if (o.parentNode === q.parentNode) o.before(q); });
   });
+})();
+
+(function () {
+
+    const QUOTE_DRAFT_KEY = 'foam_industries_latest_quote';
+
+    // ==================== IN-SITE "DATABASE" OF SHIPMENTS ====================
+    function findShipment(q) {
+      const o = packingOrders.find(x => String(x.ordNo).toUpperCase() === q);
+      if (!o) return null;
+      return {
+        orderNo: o.ordNo,
+        progress: stagePercent(o.status),
+        clientName: o.client || '—',
+        destination: o.dest || '—',
+        blNo: '—',
+        container: (Number(o.sheets) || 0) + ' sheets / ' + (Number(o.rolls) || 0) + ' rolls',
+        vessel: '—',
+        orderFile: o.orderFile || '—',
+        eta: fmtDate(o.deliveryDate) || fmtDate(o.expDate) || '—'
+      };
+    }
+
+    function searchOrder() {
+      const input = document.getElementById('orderSearchInput');
+      const alertBox = document.getElementById('orderSearchAlert');
+      const q = input.value.trim().toUpperCase();
+
+      if (!q) {
+        alertBox.className = 'order-search-alert bad';
+        alertBox.textContent = '⚠️ Please enter an Order No.';
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      const order = findShipment(q);
+      if (!order) {
+        alertBox.className = 'order-search-alert bad';
+        alertBox.textContent = `❌ Order "${q}" was not found.`;
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      alertBox.className = 'order-search-alert ok';
+      alertBox.textContent = `✅ Order "${order.orderNo}" loaded successfully.`;
+      alertBox.style.display = 'block';
+
+      document.getElementById('trkOrderNo').textContent = order.orderNo;
+      document.getElementById('trkClientName').textContent = order.clientName;
+      document.getElementById('trkDestination').textContent = order.destination;
+      document.getElementById('trkBlNo').textContent = order.blNo;
+      document.getElementById('trkContainer').textContent = order.container;
+      document.getElementById('trkVessel').textContent = order.vessel;
+      document.getElementById('trkOrderFile').textContent = order.orderFile;
+      document.getElementById('trkEta').textContent = order.eta;
+      document.getElementById('trackingRefBadge').textContent = 'BL No: #' + order.blNo;
+
+      setCustomProgress(order.progress);
+    }
+
+    // ==================== INTERACTIVE LASER PROGRESS BAR ====================
+    const interactiveTrack = document.getElementById('interactiveTrack');
+    if (interactiveTrack) interactiveTrack.style.pointerEvents = 'none';   // read-only: the progress comes from the order
+    let isDraggingBar = false;
+    let currentDisplayedPercent = 68;
+    let countAnimFrame = null;
+
+    function updateFromPointer(clientX) {
+      const rect = interactiveTrack.getBoundingClientRect();
+      const clickX = clientX - rect.left;
+      const percent = Math.max(5, Math.min(100, Math.round((clickX / rect.width) * 100)));
+      setCustomProgress(percent, true);
+    }
+
+    interactiveTrack.addEventListener('mousedown', (e) => {
+      isDraggingBar = true;
+      interactiveTrack.classList.add('dragging');
+      updateFromPointer(e.clientX);
+    });
+    window.addEventListener('mousemove', (e) => { if (isDraggingBar) updateFromPointer(e.clientX); });
+    window.addEventListener('mouseup', () => {
+      if (isDraggingBar) { isDraggingBar = false; interactiveTrack.classList.remove('dragging'); }
+    });
+    interactiveTrack.addEventListener('touchstart', (e) => {
+      interactiveTrack.classList.add('dragging');
+      if (e.touches[0]) updateFromPointer(e.touches[0].clientX);
+    }, { passive: true });
+    interactiveTrack.addEventListener('touchmove', (e) => {
+      if (e.touches[0]) updateFromPointer(e.touches[0].clientX);
+    }, { passive: true });
+    interactiveTrack.addEventListener('touchend', () => interactiveTrack.classList.remove('dragging'));
+
+    function animatePercentageCounter(targetPercent, immediate = false) {
+      const bigText = document.getElementById('overallPercentText');
+      const innerLabel = document.getElementById('trackInnerLabel');
+      const badgeText = document.getElementById('floatingBadgeText');
+      if (countAnimFrame) cancelAnimationFrame(countAnimFrame);
+      if (immediate) {
+        currentDisplayedPercent = targetPercent;
+        bigText.textContent = targetPercent + '%';
+        innerLabel.textContent = targetPercent + '%';
+        badgeText.textContent = targetPercent + '% Complete';
+        return;
+      }
+      bigText.classList.add('pop');
+      setTimeout(() => bigText.classList.remove('pop'), 260);
+      const startVal = currentDisplayedPercent;
+      const diff = targetPercent - startVal;
+      const duration = 380;
+      const startTime = performance.now();
+      function step(now) {
+        const elapsed = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - elapsed, 3);
+        const val = Math.round(startVal + diff * eased);
+        currentDisplayedPercent = val;
+        bigText.textContent = val + '%';
+        innerLabel.textContent = val + '%';
+        badgeText.textContent = val + '% Complete';
+        if (elapsed < 1) countAnimFrame = requestAnimationFrame(step);
+      }
+      countAnimFrame = requestAnimationFrame(step);
+    }
+
+    function setCustomProgress(percent, immediate = false) {
+      let prod = { pct: 0, state: 'pending', badge: 'Scheduled' };
+      let load = { pct: 0, state: 'pending', badge: 'Scheduled' };
+      let ship = { pct: 0, state: 'pending', badge: 'Scheduled' };
+      let title = '';
+
+      if (percent <= 35) {
+        const p = Math.min(100, Math.round((percent / 35) * 100));
+        prod = { pct: p, state: 'active', badge: 'Foaming & Cutting...' };
+        title = 'Stage 1: Foam Production & Precision Cutting';
+      } else if (percent <= 70) {
+        prod = { pct: 100, state: 'completed', badge: 'Completed' };
+        const l = Math.min(100, Math.round(((percent - 35) / 35) * 100));
+        load = { pct: l, state: 'active', badge: 'Loading Container...' };
+        title = 'Stage 2: Foam Roll & Block Container Loading';
+      } else if (percent < 100) {
+        prod = { pct: 100, state: 'completed', badge: 'Completed' };
+        load = { pct: 100, state: 'completed', badge: 'Completed' };
+        const s = Math.min(99, Math.round(((percent - 70) / 30) * 100));
+        ship = { pct: s, state: 'active', badge: 'In Ocean Transit...' };
+        title = 'Stage 3: Vessel Departed — International Shipping';
+      } else {
+        prod = { pct: 100, state: 'completed', badge: 'Completed' };
+        load = { pct: 100, state: 'completed', badge: 'Completed' };
+        ship = { pct: 100, state: 'completed', badge: 'Delivered' };
+        title = 'Completed: Foam Shipment Arrived at Destination Port';
+      }
+
+      applyProgressUI(percent, title, prod, load, ship, immediate);
+    }
+
+    function setTrackingStage(phase) {
+      const presets = {
+        1: { overall: 45, title: 'Stage 1: Foam Production & Precision Cutting', prod: { pct: 45, state: 'active', badge: 'Foaming & Cutting...' }, load: { pct: 0, state: 'pending', badge: 'Waiting' }, ship: { pct: 0, state: 'pending', badge: 'Scheduled' } },
+        2: { overall: 68, title: 'Stage 2: Foam Roll & Block Container Loading', prod: { pct: 100, state: 'completed', badge: 'Completed' }, load: { pct: 65, state: 'active', badge: 'Loading Container...' }, ship: { pct: 0, state: 'pending', badge: 'Scheduled' } },
+        3: { overall: 88, title: 'Stage 3: Vessel Departed — International Shipping', prod: { pct: 100, state: 'completed', badge: 'Completed' }, load: { pct: 100, state: 'completed', badge: 'Completed' }, ship: { pct: 64, state: 'active', badge: 'In Ocean Transit...' } },
+        4: { overall: 100, title: 'Completed: Foam Shipment Arrived at Destination Port', prod: { pct: 100, state: 'completed', badge: 'Completed' }, load: { pct: 100, state: 'completed', badge: 'Completed' }, ship: { pct: 100, state: 'completed', badge: 'Delivered' } }
+      };
+      const d = presets[phase];
+      applyProgressUI(d.overall, d.title, d.prod, d.load, d.ship, false);
+    }
+
+    function applyProgressUI(overall, title, prod, load, ship, immediate = false) {
+      const fillBar = document.getElementById('overallProgressBar');
+      const badge = document.getElementById('floatingBadge');
+      if (immediate) {
+        fillBar.style.transition = 'none';
+        badge.style.transition = 'none';
+      } else {
+        fillBar.style.transition = 'width 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+        badge.style.transition = 'left 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+      }
+      fillBar.style.width = overall + '%';
+      document.getElementById('overallStatusTitle').textContent = title;
+      badge.style.left = Math.min(93, Math.max(7, overall)) + '%';
+      animatePercentageCounter(overall, immediate);
+      document.querySelectorAll('#milestoneRow span').forEach(chip => {
+        const target = parseInt(chip.getAttribute('data-target'), 10);
+        chip.classList.toggle('active-step', Math.abs(target - overall) <= 8);
+      });
+      updateStageCard('Production', prod);
+      updateStageCard('Loading', load);
+      updateStageCard('Shipping', ship);
+    }
+
+    function updateStageCard(name, info) {
+      const card = document.getElementById('card' + name);
+      const pct = document.getElementById('pct' + name);
+      const bar = document.getElementById('bar' + name);
+      const badge = document.getElementById('badge' + name);
+      card.className = 'stage-card ' + info.state;
+      pct.textContent = info.pct + '%';
+      bar.style.width = info.pct + '%';
+      badge.textContent = info.badge;
+    }
+
+    document.getElementById('orderSearchInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); searchOrder(); }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      
+      try {
+        const draft = JSON.parse(localStorage.getItem(QUOTE_DRAFT_KEY) || 'null');
+        if (draft) {
+          if (draft.clientName) document.getElementById('trkClientName').textContent = draft.clientName;
+          if (draft.destination) document.getElementById('trkDestination').textContent = draft.destination;
+          if (draft.orderFile) document.getElementById('trkOrderFile').textContent = draft.orderFile;
+        }
+      } catch (err) {}
+    });
+  
+    window.searchOrder = searchOrder;
+    // empty view until an order is searched
+    applyProgressUI(0, 'Enter an order number to see its progress',
+      { pct: 0, state: 'pending', badge: 'Waiting' }, { pct: 0, state: 'pending', badge: 'Waiting' }, { pct: 0, state: 'pending', badge: 'Waiting' }, true);
+
 })();
 </script>
 </body>
