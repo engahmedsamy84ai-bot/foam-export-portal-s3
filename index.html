@@ -3635,30 +3635,6 @@ body,button,input,select,textarea{font-family:'Inter',system-ui,sans-serif}
 
 </div><!-- /appShell -->
 
-<!-- ═══ MODAL: Edit Client ═══ -->
-<div class="modal" id="editClientModal">
-  <div class="modal-box" style="max-width:560px">
-    <div class="modal-head">
-      <div class="modal-title"><i class="ti ti-edit"></i>Edit client · <span id="ecName"></span></div>
-      <button class="modal-close" onclick="closeEditClient()">×</button>
-    </div>
-    <div class="form-grid">
-      <div style="grid-column:1 / -1"><label>Client name</label><input class="fi" id="ecNameInput" type="text"></div>
-      <div><label>Country</label><input class="fi" id="ecCountry" type="text"></div>
-      <div><label>VAT No.</label><input class="fi" id="ecVat" type="text"></div>
-      <div><label>Mobile</label><input class="fi" id="ecMobile" type="text"></div>
-      <div><label>Contact person</label><input class="fi" id="ecContact" type="text"></div>
-      <div><label>Email</label><input class="fi" id="ecEmail" type="email"></div>
-      <div><label>Status</label>
-        <select class="fi" id="ecStatus"><option value="Active">Active</option><option value="Pending">Pending</option></select>
-      </div>
-      <div style="grid-column:1 / -1"><label>Address</label><input class="fi" id="ecAddress" type="text"></div>
-    </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
-      <button class="btn-outline" onclick="closeEditClient()">Cancel</button>
-      <button class="btn-blue" onclick="saveEditClient()"><i class="ti ti-check"></i>Save changes</button>
-    </div>
-  </div>
 </div>
 
 <!-- ═══ MODAL: Permissions ═══ -->
